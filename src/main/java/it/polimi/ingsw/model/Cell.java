@@ -14,16 +14,13 @@ public class Cell {
         this.yCoord = y;
         this.zCoord = z;
     }
-    
 
     public int getxCoord() {
         return xCoord;
     }
-
     public int getyCoord() {
         return yCoord;
     }
-
     public int getzCoord() {
         return zCoord;
     }
@@ -38,13 +35,14 @@ public class Cell {
 
     public Block addBlock(){
 
-
     }
 
     public Boolean moveWorkerInto(Worker w){
-        if(workerInCell==null) {workerInCell=w;}
-        else {return false;}
+        if(workerInCell==null) {
+            workerInCell=w;
+        }else {
+            return false;
+        }
         return true;
-
     }
 }

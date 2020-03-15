@@ -17,10 +17,18 @@ public class Board {
     }
 
     public Block blockInCell(int x, int y) {
-
+        if(blockInCell(x, y) != null){
+            return blockInCell(x, y);
+        }else{
+            return null;
+        }
     }
 
     public Worker workerInCell(int x, int y) {
-
+        if(workerInCell(x, y) != null){
+            return workerInCell(x, y);
+        }else{
+            return null;
+        }
     }
 }
