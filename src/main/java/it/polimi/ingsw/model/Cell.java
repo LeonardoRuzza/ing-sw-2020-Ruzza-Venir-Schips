@@ -25,9 +25,13 @@ public class Cell {
 
     public Block addBlock(){
 
+
     }
 
     public Boolean moveWorkerInto(Worker w){
+        if(workerInCell==null) {workerInCell=w;}
+        else {return false;}
+        return true;
 
     }
 }
