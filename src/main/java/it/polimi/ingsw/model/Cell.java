@@ -1,20 +1,33 @@
 package it.polimi.ingsw.model;
 
 public class Cell {
-
+    
     private int xCoord;
     private int yCoord;
     private int zCoord;
-    private Worker workerInCell;
-    private Block blockInCell;
+    private Worker workerInCell = null;
+    private Block blockInCell = null;
 
+    
     public Cell(int x, int y, int z){
         this.xCoord = x;
         this.yCoord = y;
         this.zCoord = z;
-        workerInCell = null;
-        blockInCell = null;
     }
+    
+
+    public int getxCoord() {
+        return xCoord;
+    }
+
+    public int getyCoord() {
+        return yCoord;
+    }
+
+    public int getzCoord() {
+        return zCoord;
+    }
+    
     public Worker getWorker(){
         return workerInCell;
     }
