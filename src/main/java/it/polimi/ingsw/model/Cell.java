@@ -34,7 +34,23 @@ public class Cell {
     }
 
     public Block addBlock(){
-
+        switch (this.zCoord) {
+            case 0:
+                this.blockInCell = Block.B1;
+                break;
+            case 1:
+                this.blockInCell = Block.B2;
+                break;
+            case 2:
+                this.blockInCell = Block.B3;
+                break;
+            case 3:
+                this.blockInCell = Block.DORSE;
+                break;
+            default:
+                break;
+        }
+        return this.blockInCell;
     }
 
     public Boolean moveWorkerInto(Worker w){
