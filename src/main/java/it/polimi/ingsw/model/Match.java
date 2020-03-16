@@ -14,7 +14,6 @@ public class Match {
         this.ID = ID;
         this.numberOfPlayers = numberOfPlayers;
     }
-
     public Player checkWin() {
 
     }

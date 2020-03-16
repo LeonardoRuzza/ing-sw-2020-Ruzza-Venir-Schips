@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.model.Card;
+
 /**
  * Hello world!
  *
