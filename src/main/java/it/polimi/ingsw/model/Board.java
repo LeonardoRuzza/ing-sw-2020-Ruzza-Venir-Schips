@@ -2,34 +2,58 @@ package it.polimi.ingsw.model;
 
 public class Board {
 
+    final int levelHeight = 4;
     final int boardSide = 5;
     private Cell[][][] cells;
 
 
     public Board() {
-       cells = new Cell[5][5][5];
-       for(int z = 0; z < 5; z++){
-           for(int y = 0; y < 5; y++){
-               for(int x = 0; x < 5; x++){
+       cells = new Cell[boardSide][boardSide][levelHeight];
+       for(int z = 0; z < levelHeight; z++){
+           for(int y = 0; y < boardSide; y++){
+               for(int x = 0; x < boardSide; x++){
                     cells[x][y][z] = new Cell(x, y, z);
                }
            }
        }
     }
 
-    public Block blockInCell(int x, int y) {   // Da modificare
-        if(blockInCell(x, y) != null){
-            return blockInCell(x, y);
-        }else{
-            return null;
+    public Block blockInCell(int x, int y) {
+        Block lastBlock = null;
+        for(int z = 0; z < levelHeight; z++){
+            switch (cells[x][y][z].getBlock()) {
+                case B1:
+                    lastBlock = Block.B1;
+                    break;
+                case B2:
+                    lastBlock = Block.B2;
+                    break;
+                case B3:
+                    lastBlock = Block.B3;
+                    break;
+                case DORSE:
+                    lastBlock = Block.DORSE;
+                    break;
+                default:
+                    break;
+            }
+            if (lastBlock == null){
+                break;
+            }
         }
+        return lastBlock;
     }
 
-    public Worker workerInCell(int x, int y) {  // Da modificare
-        if(workerInCell(x, y) != null){
-            return workerInCell(x, y);
-        }else{
-            return null;
+    public Worker workerInCell(int x, int y) {
+        Worker foundWorker = null;
+        for(int z = 0; z < levelHeight; z++) {
+            foundWorker = cells[x][y][z].getWorker();
+            if(foundWorker == null){
+                if(cells[x][y][z].getBlock() == null){
+                    break;
+                }
+            }
         }
+        return foundWorker;
     }
 }
