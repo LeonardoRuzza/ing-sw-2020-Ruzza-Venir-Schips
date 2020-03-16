@@ -54,11 +54,10 @@ public class Cell {
     }
 
     public Boolean moveWorkerInto(Worker w){
-        if(workerInCell==null) {
-            workerInCell=w;
-        }else {
-            return false;
+        if(w != null){
+            workerInCell = w;
+            return true;
         }
-        return true;
+        return false;
     }
 }
