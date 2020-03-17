@@ -7,7 +7,7 @@
 #folder
 *.target
 *.idea
-*.UML
+*.uml
 
 # Log file
 *.log
