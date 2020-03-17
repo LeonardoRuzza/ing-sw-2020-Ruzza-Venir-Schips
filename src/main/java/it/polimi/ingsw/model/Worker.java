@@ -1,9 +1,10 @@
 package it.polimi.ingsw.model;
 
 public class Worker {
+
     //private enum Gender{Male,Female};   creare enumerazioni gender e color
     //private enum Color{};
-    private Cell[] oldLocation;
+    private Cell oldLocation;
     private Cell cell;
 
     public Worker() {
@@ -11,9 +12,15 @@ public class Worker {
         oldLocation=null;
     }
 
-    void move(Cell cell) {
+    public Cell getOldLocation() {
+        return oldLocation;
+    }
+
+    Cell move(Cell newCell) {
         //mettere cell in oldLocation prima di aggiornala
-        this.cell = cell;
+        oldLocation = this.cell;
+        this.cell = newCell;
+        return oldLocation;
 
     }
 }

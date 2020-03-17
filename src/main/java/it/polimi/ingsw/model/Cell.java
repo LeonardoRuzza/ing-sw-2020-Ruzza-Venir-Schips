@@ -29,6 +29,10 @@ public class Cell {
         return workerInCell;
     }
 
+    private void setWorkerInCell() {
+        this.workerInCell = null;
+    }
+
     public Block getBlock(){
         return blockInCell;
     }
@@ -53,8 +57,9 @@ public class Cell {
         return this.blockInCell;
     }
 
-    public Boolean moveWorkerInto(Worker w){
-        if(w != null){
+    public Boolean moveWorkerInto(Worker w){    //  Oltre a spostare il worker nella nuova cella bisogna considerare
+        if(w != null){                          //  che la cella che occupava prima va liberata?
+            w.move(this).setWorkerInCell();
             workerInCell = w;
             return true;
         }

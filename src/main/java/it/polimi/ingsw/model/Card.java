@@ -6,8 +6,8 @@ public class Card {
     private enum activationPeriod{YOURMOVE, YOURBUILD, YOURTURN, FOETURN, ENDYOURTURN, STARTFOETURN, WINCOND;};
     final int cardNumb = 14;
     private int number;
-    static final String names[] = {"Apollo","Artemis","Athena","Atlas","Demeter","Hephaestus","Minotaur","Pan","Prometheus","Ares","Chronus","Hera","Hestia","Hypnus"};
-    static final String descriptions[] = {"Your Move: Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.",
+    static final String[] names = {"Apollo","Artemis","Athena","Atlas","Demeter","Hephaestus","Minotaur","Pan","Prometheus","Ares","Chronus","Hera","Hestia","Hypnus"};
+    static final String[] descriptions = {"Your Move: Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.",
             "Your Move: Your Worker may move one additional time, but not back to its initial space.",
             "Opponent’s Turn: If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.",
             "Your Build: Your Worker may build a dome at any level.",
@@ -21,24 +21,23 @@ public class Card {
             "Opponent’s Turn: An opponent cannot win by moving into a perimeter space.",
             "Your Build: Your Worker may build one additional time, but this cannot be on a perimeter space.",
             "Start of Opponent’s Turn: If one of your opponent’s Workers is higher than all of their others, it cannot move."};
-    static final activationPeriod actPeriods[] = {activationPeriod.YOURMOVE, activationPeriod.YOURMOVE, activationPeriod.FOETURN,
+    static final activationPeriod[] actPeriods = {activationPeriod.YOURMOVE, activationPeriod.YOURMOVE, activationPeriod.FOETURN,
             activationPeriod.YOURBUILD, activationPeriod.YOURBUILD, activationPeriod.YOURBUILD,
             activationPeriod.YOURMOVE, activationPeriod.WINCOND, activationPeriod.YOURTURN,
             activationPeriod.ENDYOURTURN, activationPeriod.WINCOND, activationPeriod.FOETURN,
             activationPeriod.YOURBUILD, activationPeriod.STARTFOETURN};
-    // Da valutare come gestire le varie carte, se con un Enum, o con uno switch multiplo all'interno della classe card
 
 
 
     public Card(int cardNum){
-        this.number = number;
+        this.number = cardNum;
     }
 
     public String getName(){
         return names[this.number];
     }
     public String getDesc(){
-        return names[this.number];
+        return descriptions[this.number];
     }
 
     /*public Card(){
