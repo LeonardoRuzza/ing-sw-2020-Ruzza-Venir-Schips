@@ -22,15 +22,23 @@ public class Match {
 
     }
 
-    Worker checkMove (int x, int y, Worker w) {
+    protected Worker checkMove (int x, int y, Worker w) { //controlli regole generali validi per tutti
 
     }
 
-    Block checkBuild (int x, int y, Worker w) {
+    protected Block checkBuild (int x, int y, Worker w) {
 
     }
+
 
     private Player nextPlayer(){
 
-    }*/
+    }
+
+    protected boolean forceMove(int x,int y, Worker w){   //controlli influenzati da limitazioni avversarie
+    }
+
+    protected boolean forceBuild(int x, int y, Worker w){
+    }
+    */
 }

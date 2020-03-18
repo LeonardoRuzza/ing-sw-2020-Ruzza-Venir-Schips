@@ -5,8 +5,10 @@ public class Player {
     private String nickname;
     private int number;
     private Card card;
+
     private Match match;
     private Worker[] workers;
+    private Worker selectedWorker;
 
 
     public Player(String nickname, int number) {
@@ -19,7 +21,7 @@ public class Player {
         return nickname;
     }
 
-    public void setNickname(String nickname) {
+    protected void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
@@ -27,8 +29,25 @@ public class Player {
         return number;
     }
 
-    public void setNumber(int number) {
+    protected void setNumber(int number) {
         this.number = number;
+    }
+
+    //per la GUI
+    protected void setSelectedWorker(Worker worker){ selectedWorker=worker;}
+
+    //per la CLI
+    protected void setSelectedWorker(Worker.Gender selectedGender){
+        switch (selectedGender){
+            case Male:
+                selectedWorker=workers[0];
+                break;
+            case Female:
+                selectedWorker=workers[1];
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -44,11 +63,11 @@ public class Player {
 
     }
 
-    public void selectWorkerToMove(int x, int y, Worker w){
+    public void SelectedWorkerMove(int x, int y, Worker w){
 
     }
 
-    public void selectWorkerToBuild(int x, int y, Worker w){
+    public void SelectedWorkerBuild(int x, int y, Worker w){
 
     }
 }
