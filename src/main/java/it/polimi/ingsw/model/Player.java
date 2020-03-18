@@ -69,7 +69,7 @@ public class Player {
     }
 
 
-    public void SelectedWorkerMove(int x, int y){           //probabilmente serve aggiungere un tipo di ritorno almeno boolean per confermare o meno lo spostamento
+    public void selectedWorkerMove(int x, int y){           //probabilmente serve aggiungere un tipo di ritorno almeno boolean per confermare o meno lo spostamento
         Worker tempWorker;
         tempWorker=match.checkMove(x,y,selectedWorker);
         if(tempWorker.equals(selectedWorker)){
@@ -77,7 +77,7 @@ public class Player {
         }
     }
 
-    public void SelectedWorkerBuild(int x, int y){          //probabilmente serve aggiungere un tipo di ritorno almeno boolean per confermare o meno la costruzione
+    public void selectedWorkerBuild(int x, int y){          //probabilmente serve aggiungere un tipo di ritorno almeno boolean per confermare o meno la costruzione
         Block tempBlock;
         tempBlock=match.checkBuild(x,y,selectedWorker);
         if(tempBlock != null){
