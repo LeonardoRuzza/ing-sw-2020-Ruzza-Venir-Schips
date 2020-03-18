@@ -57,6 +57,17 @@ public class Board {
         return foundWorker;
     }
 
+
+    public Cell getLastBusyCell(int x, int y){
+        int z = 0;
+        blockInCell(x,y);
+        return null;
+    }
+
+    public int[] getDistance(Cell c1, Cell c2){
+        return null;
+    }
+
  /* protected boolean forceMove(int x, int y, Worker worker){
 
     }
