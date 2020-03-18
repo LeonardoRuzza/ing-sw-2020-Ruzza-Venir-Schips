@@ -20,6 +20,7 @@ public class Worker {
         return oldLocation;
     }
     public Color getColor(){return color;}
+    public Cell getCell() { return cell;}
 
     Cell move(Cell newCell) {
         //mettere cell in oldLocation prima di aggiornala
@@ -28,4 +29,6 @@ public class Worker {
         return oldLocation;
 
     }
+
+
 }
