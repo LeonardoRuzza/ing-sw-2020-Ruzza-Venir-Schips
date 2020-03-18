@@ -5,6 +5,7 @@ public class Player {
     private String nickname;
     private int number;
     private Card card;
+    protected static Card[] deck;
 
 
     private Match match;
@@ -60,23 +61,29 @@ public class Player {
     }
 
 //Other Methods
-    private void selectDeck(){  // Chiamato dal costruttore del primo giocatore
-
+    private void addToDeck(int[] numbersOfCards){  // Chiamato quando tutti i giocatori hanno loggato la partita e sono stati creati. Prima dell'inizio della partita vera e propria in pratica
+        deck = new Card[match.getNumberOfPlayers];
+        for(int i=0; i< match.getNumberOfPlayers; i++){
+            deck[i] = new Card(numbersOfCards[i]);
+        }
     }
 
-    private void selectCard(){
 
+    public void SelectedWorkerMove(int x, int y){           //probabilmente serve aggiungere un tipo di ritorno almeno boolean per confermare o meno lo spostamento
+        Worker tempWorker;
+        tempWorker=match.checkMove(x,y,selectedWorker);
+        if(tempWorker.equals(selectedWorker)){
+            match.forceMove(x,y,selectedWorker);
+        }
     }
 
-    public void locateWorker(int x, int y, Worker w){
+    public void SelectedWorkerBuild(int x, int y){          //probabilmente serve aggiungere un tipo di ritorno almeno boolean per confermare o meno la costruzione
+        Block tempBlock;
+        tempBlock=match.checkBuild(x,y,selectedWorker);
+        if(tempBlock != null){
+            match.forceBuild(x,y,selectedWorker);
+        }
 
-    }
-
-    public void SelectedWorkerMove(int x, int y, Worker w){
-
-    }
-
-    public void SelectedWorkerBuild(int x, int y, Worker w){
 
     }
 }
