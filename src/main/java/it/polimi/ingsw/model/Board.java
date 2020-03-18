@@ -56,4 +56,12 @@ public class Board {
         }
         return foundWorker;
     }
+
+ /* protected boolean forceMove(int x, int y, Worker worker){
+
+    }
+
+    protected boolean forceBuild(int x, int y, Worker worker){
+
+    }*/
 }
