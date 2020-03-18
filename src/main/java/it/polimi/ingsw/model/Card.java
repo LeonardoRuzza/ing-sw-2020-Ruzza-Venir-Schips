@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 public class Card {
 
 
-    private enum activationPeriod{YOURMOVE, YOURBUILD, YOURTURN, FOETURN, ENDYOURTURN, STARTFOETURN, WINCOND;};
+    public enum activationPeriod{YOURMOVE, YOURBUILD, YOURTURN, FOETURN, ENDYOURTURN, STARTFOETURN, WINCOND;};
     final int cardNumb = 14;
     private int number;
     static final String[] names = {"Apollo","Artemis","Athena","Atlas","Demeter","Hephaestus","Minotaur","Pan","Prometheus","Ares","Chronus","Hera","Hestia","Hypnus"};
@@ -39,12 +39,7 @@ public class Card {
     public String getDesc(){
         return descriptions[this.number];
     }
+    public String getActivationPeriod(){ return actPeriods[this.number].toString(); }
 
-    /*public Card(){
-        for(int x=0; x<cardNumb; x++){
-            this.number = x;
-            System.out.println(number + "\n"+ names[x] + "\n" + descriptions[x] + "\n" +  actPeriods[x].toString() +"\n\n\n");
-        }
-    }*/
 
 }

@@ -6,6 +6,7 @@ public class Player {
     private int number;
     private Card card;
 
+
     private Match match;
     private Worker[] workers = new Worker[2];
     private Worker selectedWorker;
