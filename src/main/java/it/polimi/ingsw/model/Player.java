@@ -7,16 +7,24 @@ public class Player {
     private Card card;
 
     private Match match;
-    private Worker[] workers;
+    private Worker[] workers = new Worker[2];
     private Worker selectedWorker;
 
-
-    public Player(String nickname, int number) {
+//Builder
+    public Player(String nickname, int number, Match match) {
         this.nickname = nickname;
         this.number = number;
+        this.match = match;
     }
 
+    public Player(String nickname, int number, Card card, Match match, Worker.Color color){ //secondo costruttore che sarà utilizzato dalle sottoclassi per la loro medesima istanziazione.
+        this(nickname, number, match);
+        this.card = card;
+        workers[0] = new Worker(Worker.Gender.Male, color);
+        workers[1] = new Worker(Worker.Gender.Female, color);
+    }
 
+//Getter and Setter
     public String getNickname() {
         return nickname;
     }
@@ -50,7 +58,7 @@ public class Player {
         }
     }
 
-
+//Other Methods
     private void selectDeck(){  // Chiamato dal costruttore del primo giocatore
 
     }
