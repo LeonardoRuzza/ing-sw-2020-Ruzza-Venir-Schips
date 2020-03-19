@@ -2,15 +2,15 @@ package it.polimi.ingsw.model;
 
 public class Player {
 
-    private String nickname;
-    private int number;
-    private Card card;
+    protected String nickname;
+    protected int number;
+    protected Card card;
     protected static Card[] deck;
 
 
-    private Match match;
-    private Worker[] workers = new Worker[2];
-    private Worker selectedWorker;
+    protected Match match;
+    protected Worker[] workers = new Worker[2];
+    protected Worker selectedWorker;
 
 //Builder
     public Player(String nickname, int number, Match match) {
@@ -69,20 +69,24 @@ public class Player {
     }
 
 
-    public void selectedWorkerMove(int x, int y){           //probabilmente serve aggiungere un tipo di ritorno almeno boolean per confermare o meno lo spostamento
+    public boolean selectedWorkerMove(int x, int y){           //probabilmente serve aggiungere un tipo di ritorno almeno boolean per confermare o meno lo spostamento (analogo per la costruzione)
         Worker tempWorker;
         tempWorker=match.checkMove(x,y,selectedWorker);
         if(tempWorker.equals(selectedWorker)){
-            match.forceMove(x,y,selectedWorker);
+            if(match.forceMove(x,y,selectedWorker)){
+                return true;
+            }
         }
+        return false;
     }
 
-    public void selectedWorkerBuild(int x, int y){          //probabilmente serve aggiungere un tipo di ritorno almeno boolean per confermare o meno la costruzione
-        Block tempBlock;
-        tempBlock=match.checkBuild(x,y,selectedWorker);
-        if(tempBlock != null){
-            match.forceBuild(x,y,selectedWorker);
+    public boolean selectedWorkerBuild(int x, int y){
+        if(match.checkBuild(x,y,selectedWorker)){
+            if(match.forceBuild(x,y,selectedWorker)){
+                return true;
+            }
         }
+        return false;
 
 
     }

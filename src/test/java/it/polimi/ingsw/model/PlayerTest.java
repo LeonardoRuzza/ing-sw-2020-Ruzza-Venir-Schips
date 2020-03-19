@@ -41,4 +41,22 @@ public class PlayerTest {
         player1=null;
         player2=null;
     }
+
+    @Test
+    public void testAddToDeck() {
+    }
+
+    @Test
+    public void testSetSelectedWorker() {
+    }
+
+    @Test
+    public void testSelectedWorkerMove() {
+
+    }
+
+    @Test
+    public void testSelectedWorkerBuild() {
+
+    }
 }
