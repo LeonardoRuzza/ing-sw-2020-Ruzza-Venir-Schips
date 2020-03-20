@@ -26,7 +26,8 @@ public class Board {
     public Block blockInCell(int x, int y) {  // Ritorna il blocco più in alto costruito nella cella
         Block lastBlock = null;
         for(int z = 0; z < levelHeight; z++){
-            switch (cells[x][y][z].getBlock()) {
+            if (this.cells[x][y][z].getBlock() == null) {break;}
+            switch (this.cells[x][y][z].getBlock()) {
                 case B1:
                     lastBlock = Block.B1;
                     break;
@@ -42,8 +43,6 @@ public class Board {
                 default:
                     break;
             }
-            /*if (lastBlock == null)
-                break;*/
         }
         return lastBlock;
     }
