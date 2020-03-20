@@ -73,4 +73,13 @@ public class Cell {
         }
         return false;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        Cell c = (Cell) obj;
+        return this == c;
+    }
 }

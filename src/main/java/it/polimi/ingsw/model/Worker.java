@@ -34,5 +34,12 @@ public class Worker {
         return oldLocation;
     }
 
-
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        Worker w = (Worker) obj;
+        return this == w;
+    }
 }
