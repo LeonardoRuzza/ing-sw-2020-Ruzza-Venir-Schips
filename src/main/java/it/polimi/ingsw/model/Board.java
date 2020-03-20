@@ -96,8 +96,6 @@ public class Board {
         return c.addBlock();
     }
 
-
-
      public Cell getLastFreeCell(int x, int y){
         Cell busyCell = getLastBusyCell(x,y);
         return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord() + 1];
