@@ -7,7 +7,7 @@ import org.junit.Test;
 public class BoardTest {
 
     private Board board = new Board();
-    //private Worker w1 = new Worker(Worker.Gender.Male, Worker.Color.RED);
+    private Worker w1 = new Worker(Worker.Gender.Male, Worker.Color.RED);
 
     /*@BeforeClass
     public static void beforeClass() throws Exception {
@@ -51,20 +51,37 @@ public class BoardTest {
     @Test
     public void testBlockInCell() {
 
-        //Assert.assertNull(board.blockInCell(0,0));
+        Assert.assertNull(board.blockInCell(0,0)); // Controlla non ci sia nessun blocco
+
         board.cells[0][0][0].addBlock();                             // Costruisce blocco B1
         Assert.assertEquals(board.cells[0][0][0].getBlock(), Block.B1);
         Assert.assertEquals(board.blockInCell(0,0), Block.B1);
 
+        board.cells[0][0][1].addBlock();                           // Costruisce blocco B2
+        Assert.assertEquals(board.cells[0][0][1].getBlock(), Block.B2);
+        Assert.assertEquals(board.blockInCell(0,0), Block.B2);
 
-        /*board.cells[0][0][1].addBlock(); // Costruisce blocco B2
-        board.cells[0][0][2].addBlock(); // Costruisce blocco B3
-        board.cells[0][0][3].addBlock(); // Costruisce cupola*/
+        board.cells[0][0][2].addBlock();                            // Costruisce blocco B3
+        Assert.assertEquals(board.cells[0][0][2].getBlock(), Block.B3);
+        Assert.assertEquals(board.blockInCell(0,0), Block.B3);
+
+        board.cells[0][0][3].addBlock();                             // Costruisce cupola
+        Assert.assertEquals(board.cells[0][0][3].getBlock(), Block.DORSE);
+        Assert.assertEquals(board.blockInCell(0,0), Block.DORSE);
     }
 
     @Test
     public void testWorkerInCell() {
 
+        Assert.assertNull(board.workerInCell(0,0)); // Controlla non ci sia nessun worker
+
+        Assert.assertTrue(board.cells[0][0][0].moveWorkerInto(w1));
+        Assert.assertEquals(board.cells[0][0][0].getWorker(), w1);
+        Assert.assertEquals(board.workerInCell(0,0), w1);
+    }
+
+    @Test
+    public void testGetlastBusyCell() {
 
     }
 }
