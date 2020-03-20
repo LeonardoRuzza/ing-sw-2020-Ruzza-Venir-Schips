@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import org.junit.*;
 
-public class PlayerArtemis {
+public class PlayerArtemisTest {
     @BeforeClass
     public static void beforeClass() throws Exception {
 
