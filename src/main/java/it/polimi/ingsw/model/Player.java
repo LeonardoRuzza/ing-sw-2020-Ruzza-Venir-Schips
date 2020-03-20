@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Player {
 
     protected String nickname;
@@ -47,7 +49,7 @@ public class Player {
     protected void setSelectedWorker(Worker worker){ selectedWorker=worker;}
 
     //per la CLI
-    protected void setSelectedWorker(Worker.Gender selectedGender){
+    protected void setSelectedWorker(@NotNull Worker.Gender selectedGender){
         switch (selectedGender){
             case Male:
                 selectedWorker=workers[0];
@@ -69,7 +71,7 @@ public class Player {
     }
 
 
-    public boolean selectedWorkerMove(int x, int y){           //probabilmente serve aggiungere un tipo di ritorno almeno boolean per confermare o meno lo spostamento (analogo per la costruzione)
+    public boolean selectedWorkerMove(int x, int y){           //Memo: serve anche per allocare inizialmente i worker a inizio partita
         Worker tempWorker;
         tempWorker=match.checkMove(x,y,selectedWorker);
         if(tempWorker.equals(selectedWorker)){
