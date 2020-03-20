@@ -2,32 +2,36 @@ package it.polimi.ingsw.model;
 
 public class Worker {
 
-    public enum Gender{Male,Female};
-    public enum Color{BLACK,WHITE,RED,BLUE,GREEN,YELLOW};  //colori da valutare in seguito
-    private Gender gender;
-    private Color color;
-    private Cell oldLocation;
-    private Cell cell;
+    public enum Gender{Male,Female}
+    public enum Color{BLACK,WHITE,RED,BLUE,GREEN,YELLOW}  //colori da valutare in seguito
+    private final Gender gender;
+    private final Color color;
+    private Cell cell, oldLocation;
 
+
+// Builder
     public Worker(Gender gender,Color color) {
-        cell=null;
-        oldLocation=null;
-        this.gender=gender;
-        this.color=color;
+        cell = null;
+        oldLocation = null;
+        this.gender = gender;
+        this.color = color;
     }
 
+
+// Getter
     public Cell getOldLocation() {
         return oldLocation;
     }
+    public Gender getGender() { return gender; }
     public Color getColor(){return color;}
     public Cell getCell() { return cell;}
 
-    Cell move(Cell newCell) {
-        //mettere cell in oldLocation prima di aggiornala
+
+// Generic methods
+    protected Cell move(Cell newCell) {
         oldLocation = this.cell;
         this.cell = newCell;
         return oldLocation;
-
     }
 
 
