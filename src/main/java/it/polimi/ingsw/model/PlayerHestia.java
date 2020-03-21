@@ -34,6 +34,4 @@ public class PlayerHestia extends Player {
         }
         return false;
     }
-
-    }
 }

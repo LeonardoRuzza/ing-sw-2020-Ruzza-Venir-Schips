@@ -46,10 +46,10 @@ public class Player {
     }
 
     //per la GUI
-    protected void setSelectedWorker(Worker worker){ selectedWorker=worker;}
+    protected boolean setSelectedWorker(Worker worker){ selectedWorker=worker; return selectedWorker!= null;}
 
     //per la CLI
-    protected void setSelectedWorker(@NotNull Worker.Gender selectedGender){
+    protected boolean setSelectedWorker(@NotNull Worker.Gender selectedGender){
         switch (selectedGender){
             case Male:
                 selectedWorker=workers[0];
@@ -58,14 +58,16 @@ public class Player {
                 selectedWorker=workers[1];
                 break;
             default:
+                selectedWorker=null;
                 break;
         }
+        return selectedWorker != null;
     }
 
 //Other Methods
     private void addToDeck(int[] numbersOfCards){  // Chiamato quando tutti i giocatori hanno loggato la partita e sono stati creati. Prima dell'inizio della partita vera e propria in pratica
-        deck = new Card[match.getNumberOfPlayers];
-        for(int i=0; i< match.getNumberOfPlayers; i++){
+        deck = new Card[match.getNumberOfPlayers()];
+        for(int i=0; i< match.getNumberOfPlayers(); i++){
             deck[i] = new Card(numbersOfCards[i]);
         }
     }

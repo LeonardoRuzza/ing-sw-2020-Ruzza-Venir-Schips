@@ -20,7 +20,7 @@ public class PlayerHephaesthus extends Player {
             else return false;
         }
         else if(super.selectedWorkerBuild(x,y)){              //costruisco indipendentemente se è una cupola perchè in questo caso la checkBuild seguente ritorna false e allora applicherei la removeBlock
-            if(!(match.checkBuild(x,y))){
+            if(!(match.checkBuild(x,y,selectedWorker))){
                 match.removeBlock(x,y);
                 resetTurn();
                 return false;

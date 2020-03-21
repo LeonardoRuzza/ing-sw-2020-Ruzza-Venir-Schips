@@ -6,8 +6,7 @@ public class PlayerAtlas extends Player {
         super(nickname, number, card, match, color);
     }
 
-    @Override
+/*    @Override
     public boolean selectedWorkerBuild(int x, int y){
-
-    }
+    }*/
 }

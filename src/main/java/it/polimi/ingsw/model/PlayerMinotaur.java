@@ -18,7 +18,7 @@ public class PlayerMinotaur extends Player {
             xFinal=x-x0;
             yFinal=y-y0;
             if(match.checkBuild(x+xFinal, y+yFinal, tempWorker)){                                                           //ritorna true se non c'è sopra una cupola o un worker! Perfetto!
-                if(match.forceMove(x+xFinal, y+yFinal , tempWorker) && match.forceMove(x, y, selectedWorker)){return true;}
+                return match.forceMove(x + xFinal, y + yFinal, tempWorker) && match.forceMove(x, y, selectedWorker);
             }
         }
         return false;

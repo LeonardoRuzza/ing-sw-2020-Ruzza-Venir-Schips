@@ -12,7 +12,7 @@ public class PlayerApollo extends Player {
         if(!super.selectedWorkerMove(x, y)){
             tempWorker=match.checkMove(x,y,selectedWorker);
             if(!tempWorker.equals(selectedWorker) && tempWorker!=null){
-               if( match.forceMove(x, y, selectedWorker) && match.forceMove(selectedWorker.getOldLocation().getxCoord(), selectedWorker.getOldLocation().getyCoord(), tempWorker){ return true;}
+                return match.forceMove(x, y, selectedWorker) && match.forceMove(selectedWorker.getOldLocation().getxCoord(), selectedWorker.getOldLocation().getyCoord(), tempWorker);
             }
         }
         return false;

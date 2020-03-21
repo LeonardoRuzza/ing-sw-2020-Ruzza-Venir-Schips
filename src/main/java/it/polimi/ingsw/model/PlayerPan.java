@@ -13,9 +13,7 @@ public class PlayerPan extends Player {
         zFinal=selectedWorker.getCell().getzCoord();
         tempB=selectedWorker.getCell().getBlock();
         if(tempB == Block.B1){groundFinal++;}
-        if((zFinal+groundFinal)-zOld<=-2){                // testare se condizione corretta!
-            return true;
-        }
-        else return false;
+        // testare se condizione corretta!
+        return (zFinal + groundFinal) - zOld <= -2;
     }
 }

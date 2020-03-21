@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 public class Card {
 
 
-    public enum activationPeriod{YOURMOVE, YOURBUILD, YOURTURN, FOETURN, ENDYOURTURN, STARTFOETURN, WINCOND;};
+    public enum activationPeriod{YOURMOVE, YOURBUILD, YOURTURN, FOETURN, ENDYOURTURN, STARTFOETURN, SUPERWINCOND, LIMITWINCOND;};
     final int cardNumb = 14;
     private int number;
     static final String[] names = {"Apollo","Artemis","Athena","Atlas","Demeter","Hephaestus","Minotaur","Pan","Prometheus","Ares","Chronus","Hera","Hestia","Hypnus"};
@@ -23,8 +23,8 @@ public class Card {
             "Start of Opponent’s Turn: If one of your opponent’s Workers is higher than all of their others, it cannot move."};
     static final activationPeriod[] actPeriods = {activationPeriod.YOURMOVE, activationPeriod.YOURMOVE, activationPeriod.FOETURN,
             activationPeriod.YOURBUILD, activationPeriod.YOURBUILD, activationPeriod.YOURBUILD,
-            activationPeriod.YOURMOVE, activationPeriod.WINCOND, activationPeriod.YOURTURN,
-            activationPeriod.ENDYOURTURN, activationPeriod.WINCOND, activationPeriod.FOETURN,
+            activationPeriod.YOURMOVE, activationPeriod.SUPERWINCOND, activationPeriod.YOURTURN,
+            activationPeriod.ENDYOURTURN, activationPeriod.SUPERWINCOND, activationPeriod.LIMITWINCOND,
             activationPeriod.YOURBUILD, activationPeriod.STARTFOETURN};
 
 

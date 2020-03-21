@@ -13,7 +13,7 @@ public class PlayerAres extends Player {
         }
         else tempWorker=workers[0];
         if(match.checkBuild(x, y,tempWorker)){
-            match.removeBlock(x,y);               //serve implementare funzione remove block proprio come removeWorker
+            match.removeBlock(x,y);               //serve implementare funzione remove block void proprio come removeWorker
             return true;
         }
         return false;
