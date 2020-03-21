@@ -25,20 +25,40 @@ public class Match {
 
     public boolean checkWin(@NotNull Worker w) {
         if (w.getOldLocation() == null || w.getCell() == null){
-            return checkSuperWin(playingNow);
+            return checkSuperWin(false);
         }
-        if (w.getCell().getzCoord() == 3 && !(w.getCell().equals(w.getOldLocation())) && w.getOldLocation().getzCoord() != 3){
-            return checkSuperWin(playingNow);
+        if (w.getCell().getzCoord() == 2 && !(w.getCell().equals(w.getOldLocation())) && w.getOldLocation().getzCoord() != 2){
+            return checkLimitWin(true);
         }
-        return checkSuperWin(playingNow);
+        return checkSuperWin(false);
     }
 
-    public boolean checkSuperWin(Player p){
-        return false;
+    public boolean checkSuperWin(boolean standardWin){
+        boolean tempWin = false;
+        for(int x = 0; x < numberOfPlayers; x++) {
+            Player p = players[x];
+            if(p.card == null){
+                continue;
+            }
+            if (p.card.getActivationPeriod() == Card.activationPeriod.SUPERWINCOND) {
+                tempWin = p.checkSuperWin();
+            }
+        }
+        return standardWin|| tempWin;
     }
 
-    public boolean checkLimitWin(Player p){
-        return false;
+    public boolean checkLimitWin(boolean standardWin){
+        boolean tempWin = standardWin;
+        for(int x = 0; x < numberOfPlayers; x++) {
+            Player p = players[x];
+            if(p.card == null){
+                continue;
+            }
+            if (p.card.getActivationPeriod() == Card.activationPeriod.LIMITWINCOND) {
+                tempWin = p.checkLimitWin(playingNow);
+            }
+        }
+        return standardWin && tempWin;
     }
 
     //va fatta a inizio turno
@@ -48,7 +68,10 @@ public class Match {
                 continue;
             }
             for(int y = w.getCell().getyCoord()-1; y < w.getCell().getyCoord()+2; y++){
-                if(y > 4 || y < 0 || x == y){
+                if(y > 4 || y < 0){
+                    continue;
+                }
+                if(w.getCell().getxCoord() == x && w.getCell().getyCoord() == y){
                     continue;
                 }
                 if(board.getLastBusyCell(x, y).getBlock() != Block.DORSE){
@@ -70,7 +93,10 @@ public class Match {
                 continue;
             }
             for(int y = w.getCell().getyCoord()-1; y < w.getCell().getyCoord()+2; y++){
-                if(y > 4 || y < 0 || x == y){
+                if(y > 4 || y < 0){
+                    continue;
+                }
+                if(w.getCell().getxCoord() == x && w.getCell().getyCoord() == y){
                     continue;
                 }
                 if(board.getLastBusyCell(x, y).getBlock() != Block.DORSE){
@@ -136,7 +162,23 @@ public class Match {
 
     //imposto da vincoli esterni in caso di esito positivo x e y saranno gli stessi di checkmove e checkbuild
     protected boolean forceMove(int x,int y, Worker w){
-        return board.forceMove(board.getLastBusyCell(x, y), w);
+        if (forceMoveLimit(board.getLastBusyCell(x, y))) {
+            return board.forceMove(board.getLastBusyCell(x, y), w);
+        }
+        return false;
+    }
+
+    protected  boolean forceMoveLimit(Cell nextCell){
+        for(int x = 0; x < numberOfPlayers; x++) {
+            Player p = players[x];
+            if (p.card == null) {
+                continue;
+            }
+            if (p.card.getActivationPeriod() == Card.activationPeriod.FOETURN) {
+                return p.checkLimitMove(nextCell, playingNow);
+            }
+        }
+        return true;
     }
 
     protected boolean forceBuild(int x, int y, Worker w){
