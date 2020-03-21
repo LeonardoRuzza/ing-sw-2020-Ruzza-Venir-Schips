@@ -39,7 +39,7 @@ public class Card {
     public String getDesc(){
         return descriptions[this.number];
     }
-    public String getActivationPeriod(){ return actPeriods[this.number].toString(); }
+    public activationPeriod getActivationPeriod(){ return actPeriods[this.number]; }
 
 
 }
