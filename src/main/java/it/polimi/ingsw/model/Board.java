@@ -53,13 +53,12 @@ public class Board {
             foundWorker = cells[x][y][z].getWorker();
             if (foundWorker != null)
                 return foundWorker;
-            if(foundWorker == null){
+            else
                 if(cells[x][y][z].getBlock() == null){
                     break;
                 }
-            }
         }
-        return foundWorker;
+        return null;
     }
 
 
@@ -102,17 +101,23 @@ public class Board {
 
 //Generic Methods
     protected boolean forceMove(@NotNull Cell c, Worker w){
-        //Cell c = getLastFreeCell(x,y);
         return c.moveWorkerInto(w);
     }
 
     protected Block forceBuild(@NotNull Cell c /*,Worker w*/){
-        // Cell c = getLastFreeCell(x,y);
         return c.addBlock();
     }
 
-     public Cell getLastFreeCell(int x, int y){
-        Cell busyCell = getLastBusyCell(x,y);
-        return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord() + 1];
+
+     public Cell getFirstBuildableCell(int x, int y) {
+         Cell busyCell = getLastBusyCell(x, y);  // Ultima cella occupata in altezza, o da un worker o da un blocco
+
+         if (busyCell.getBlock() != null) {
+             if (busyCell.getzCoord() == 3)
+                 return null;
+             return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord() + 1];  // Se c'è un blocco ritorna la cella superiore
+         }
+         else
+             return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord()];       // Se non c'è un blocco ritorna cella stessa
     }
 }
