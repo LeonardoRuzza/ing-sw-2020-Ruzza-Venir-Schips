@@ -30,14 +30,15 @@ public class Cell {
     public Worker getWorker(){
         return workerInCell;
     }
-    public Block getBlock(){
-        return blockInCell;
-    }
+    public Block getBlock(){ return blockInCell; }
 
 
 // Setter
-    private void setWorkerInCell() {
+    protected void setWorkerNull() {
         this.workerInCell = null;
+    }
+    protected void setBlockNull() {
+        this.blockInCell = null;
     }
 
 
@@ -66,7 +67,7 @@ public class Cell {
         if(w != null){
             Cell c = w.move(this);    // In c salvo la oldLocation del Worker, sposto il worker nella nuova cella
             if (c != null) {
-                c.setWorkerInCell();   // Libero la cella precedentemente occupata dal worker
+                c.setWorkerNull();   // Libero la cella precedentemente occupata dal worker
             }
             workerInCell = w;   // Salvo riferimento a nuovo worker
             return true;

@@ -48,7 +48,7 @@ public class Board {
     }
 
     public Worker workerInCell(int x, int y) {  // Ritorna il worker presente sulla cella
-        Worker foundWorker = null;
+        Worker foundWorker;
         for(int z = 0; z < levelHeight; z++) {
             foundWorker = cells[x][y][z].getWorker();
             if (foundWorker != null)
@@ -85,6 +85,20 @@ public class Board {
         return null;
     }
 
+
+    public Cell getFirstBuildableCell(int x, int y) {
+        Cell busyCell = getLastBusyCell(x, y);  // Ultima cella occupata in altezza, o da un worker o da un blocco
+
+        if (busyCell.getBlock() != null) {
+            if (busyCell.getzCoord() == 3)
+                return null;
+            return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord() + 1];  // Se c'è un blocco ritorna la cella superiore
+        }
+        else
+            return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord()];       // Se non c'è un blocco ritorna cella stessa
+    }
+
+
     public int[] getDistance(Cell c1, Cell c2){  // Modulo per x,y, per z cell1 - cell2
         int[] temp = new int[3];
 
@@ -108,16 +122,21 @@ public class Board {
         return c.addBlock();
     }
 
+    protected void removeWorker(@NotNull Worker w) {
+        Cell c = w.getCell();
+        c.setWorkerNull();
+    }
 
-     public Cell getFirstBuildableCell(int x, int y) {
-         Cell busyCell = getLastBusyCell(x, y);  // Ultima cella occupata in altezza, o da un worker o da un blocco
-
-         if (busyCell.getBlock() != null) {
-             if (busyCell.getzCoord() == 3)
-                 return null;
-             return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord() + 1];  // Se c'è un blocco ritorna la cella superiore
-         }
-         else
-             return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord()];       // Se non c'è un blocco ritorna cella stessa
+    protected void removeBlock(int x, int y){
+        Block blockToRemove = blockInCell(x, y);           // Ottengo ultimo blocco costruito sulla cella e lo salvo in blockToRemove
+        if (blockToRemove == null)  // Se non ci sono blocchi da rimuovere non fa nulla
+            return;
+        for(int z = 0; z < levelHeight; z++){
+            Block tempBlock = cells[x][y][z].getBlock();   // Analizzo i blocchi a partire dal basso, appena trovo corrispondenza con blockToRemove lo rimuovo
+            if (tempBlock.equals(blockToRemove)) {
+                cells[x][y][z].setBlockNull();
+                return;
+            }
+        }
     }
 }
