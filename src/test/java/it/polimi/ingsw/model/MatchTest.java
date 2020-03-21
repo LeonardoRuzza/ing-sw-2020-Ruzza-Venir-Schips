@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+/*package it.polimi.ingsw.model;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -59,4 +59,4 @@ public class MatchTest {
 
     }
 
-}
+}*/
