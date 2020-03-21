@@ -6,7 +6,9 @@ public class PlayerChronus extends Player {
         super(nickname, number, card, match, color);
     }
 
-/*    protected boolean checkSuperWin(int towers){
+/*
+@Override
+public boolean checkSuperWin(int towers){
 
     }*/
 }

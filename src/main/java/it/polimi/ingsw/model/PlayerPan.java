@@ -6,7 +6,8 @@ public class PlayerPan extends Player {
         super(nickname, number, card, match, color);
     }
 
-    protected boolean checkSuperWin(){                    //attenzione bisogna che questa funzione non vega chiamata se la cella su cui si è spostato Pan è perimetrale e gioca Hera! sennò mettere qua una condizione in più
+    @Override
+    public boolean checkSuperWin(){                    //attenzione bisogna che questa funzione non vega chiamata se la cella su cui si è spostato Pan è perimetrale e gioca Hera! sennò mettere qua una condizione in più
         int zOld,zFinal,groundFinal=-1;
         Block tempB;
         zOld=selectedWorker.getOldLocation().getzCoord();

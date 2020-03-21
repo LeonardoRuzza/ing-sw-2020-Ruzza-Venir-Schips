@@ -6,7 +6,8 @@ public class PlayerAthena extends Player {
         super(nickname, number, card, match, color);
     }
 
-    protected boolean checkLimitMove(Cell nextCell, Player opponent){   //ritorna true se la mossa è fattibile sennò false se la limita
+    @Override
+    public boolean checkLimitMove(Cell nextCell, Player opponent){   //ritorna true se la mossa è fattibile sennò false se la limita
         if(selectedWorker==null){ return true; }
         int zOldAthena=this.selectedWorker.getOldLocation().getzCoord();  //il selectedWorker è unico per ogni player perciò non essendo sovrascritto rappresenta sicuramente quello del turno precedente
         int zNowAthena=this.selectedWorker.getCell().getzCoord();
