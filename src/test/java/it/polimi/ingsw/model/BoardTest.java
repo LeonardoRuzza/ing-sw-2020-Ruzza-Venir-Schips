@@ -8,6 +8,7 @@ public class BoardTest {
 
     private Board board = new Board();
     private Worker w1 = new Worker(Worker.Gender.Male, Worker.Color.RED);
+    private Worker w2 = new Worker(Worker.Gender.Female, Worker.Color.RED);
 
     /*@BeforeClass
     public static void beforeClass() throws Exception {
@@ -75,13 +76,64 @@ public class BoardTest {
 
         Assert.assertNull(board.workerInCell(0,0)); // Controlla non ci sia nessun worker
 
-        Assert.assertTrue(board.cells[0][0][0].moveWorkerInto(w1));
+        Assert.assertTrue(board.cells[0][0][0].moveWorkerInto(w1));   // Sposta in w1 nella cella[0][0][0]
         Assert.assertEquals(board.cells[0][0][0].getWorker(), w1);
         Assert.assertEquals(board.workerInCell(0,0), w1);
+
+
+        Assert.assertTrue(board.cells[3][3][0].moveWorkerInto(w1));          // Sposta in w1 nella cella[3][3][0]
+        Assert.assertEquals(board.cells[3][3][0].getWorker(), w1);           // Controllo sia andato a buon fine
+        Assert.assertEquals(w1.getOldLocation(),board.cells[0][0][0] );      // Controllo che w1 abbia come old location [0][0][0]
+        Assert.assertNull(board.cells[0][0][0].getWorker());                 // Controlla che nella vecchia cella non ci sia più il worker
+
+
+        Assert.assertEquals(board.cells[0][0][0].addBlock(), board.cells[0][0][0].getBlock());   // Aggiungo blocco B1 in [0][0]
+        Assert.assertEquals(board.cells[0][0][1].addBlock(), board.cells[0][0][1].getBlock());   // Aggiungo blocco B2 in [0][0]
+
+
+        Assert.assertTrue(board.cells[0][0][1].moveWorkerInto(w1));           // Sposta in w1 nella cella[0][0][1]
+        Assert.assertEquals(board.cells[0][0][1].getWorker(), w1);            // Controllo sia andato a buon fine
+        Assert.assertEquals(w1.getOldLocation(), board.cells[3][3][0]);       // Controllo che w1 abbia come old location [0][0][0]
+        Assert.assertNull(board.cells[3][3][0].getWorker());                  // Controlla che nella vecchia cella non ci sia più il worker
+        Assert.assertEquals(board.workerInCell(0,0), w1);               // Controlla che l'ultimo worker nella cella [0][0] sia w1
+
+
+
+        Assert.assertTrue(board.cells[4][4][0].moveWorkerInto(w1));                              // Sposta in w1 nella cella[4][4][0]
+        Assert.assertEquals(board.cells[4][4][0].getWorker(), w1);                              // Controllo sia andato a buon fine
+        Assert.assertEquals(board.cells[0][0][2].addBlock(), board.cells[0][0][2].getBlock());  // Aggiungo blocco B3 in [0][0]
+
+        Assert.assertTrue(board.cells[0][0][2].moveWorkerInto(w2));          // Sposta in w2 nella cella[0][0][2]
+        Assert.assertEquals(board.cells[0][0][2].getWorker(), w2);           // Controllo sia andato a buon fine
+        Assert.assertEquals(board.workerInCell(0,0), w2);               // Controlla che l'ultimo worker nella cella [0][0] sia w2
+        Assert.assertEquals(board.workerInCell(4,4), w1);               // Controlla che l'ultimo worker nella cella [4][4] sia w1
     }
 
     @Test
-    public void testGetlastBusyCell() {
+    public void testGetLastBusyCell() {
+
+        Assert.assertEquals(board.cells[0][0][0], board.getLastBusyCell(0,0));             // Controllo ultima cella occupata in altezza sia [0][0][0]
+        Assert.assertEquals(board.cells[0][0][0], board.getFirstBuildableCell(0,0));       // Controllo prima cella costruibile sia [0][0][0]
+
+
+        Assert.assertEquals(board.cells[0][0][0].addBlock(), board.cells[0][0][0].getBlock());   // Aggiungo blocco B1 in [0][0]
+        Assert.assertEquals(board.cells[0][0][0], board.getLastBusyCell(0,0));             // Controllo ultima cella occupata in altezza sia [0][0][0]
+        Assert.assertEquals(board.cells[0][0][1], board.getFirstBuildableCell(0,0));       // Controllo prima cella costruibile sia [0][0][1]
+
+        Assert.assertEquals(board.cells[0][0][1].addBlock(), board.cells[0][0][1].getBlock());   // Aggiungo blocco B2 in [0][0]
+        Assert.assertEquals(board.cells[0][0][1], board.getLastBusyCell(0,0));             // Controllo ultima cella occupata in altezza sia [0][0][1]
+        Assert.assertEquals(board.cells[0][0][2], board.getFirstBuildableCell(0,0));       // Controllo prima cella costruibile sia [0][0][2]
+
+        Assert.assertEquals(board.cells[0][0][2].addBlock(), board.cells[0][0][2].getBlock());   // Aggiungo blocco B3 in [0][0]
+        Assert.assertEquals(board.cells[0][0][2], board.getLastBusyCell(0,0));             // Controllo ultima cella occupata in altezza sia [0][0][2]
+        Assert.assertEquals(board.cells[0][0][3], board.getFirstBuildableCell(0,0));       // Controllo prima cella costruibile sia [0][0][3]
+
+        Assert.assertEquals(board.cells[0][0][3].addBlock(), board.cells[0][0][3].getBlock());   // Aggiungo blocco Cupola in [0][0]
+        Assert.assertEquals(board.cells[0][0][3], board.getLastBusyCell(0,0));             // Controllo ultima cella occupata in altezza sia [0][0][3]
+        Assert.assertNull(board.getFirstBuildableCell(0,0));
+
+
+
 
     }
 }
