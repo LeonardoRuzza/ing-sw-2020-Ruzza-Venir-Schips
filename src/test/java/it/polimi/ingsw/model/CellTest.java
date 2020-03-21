@@ -61,4 +61,24 @@ public class CellTest {
         Assert.assertEquals(w1.getOldLocation(), cell);               // Controlla che la old location di w1 sia cell
         Assert.assertNull(cell.getWorker());                          // Controlla che la vecchia cella occupata(cell) sia ora libera
     }
+
+    @Test
+    public void testRemoveBlock() {
+
+        c1.addBlock(); // Aggiungo dei blocchi
+        c2.addBlock();
+        c3.addBlock();
+
+        c3.setBlockNull(); // Rimuovo B3
+        Assert.assertEquals(c1.getBlock(), Block.B1);
+        Assert.assertEquals(c2.getBlock(), Block.B2);
+        Assert.assertNull(c3.getBlock());
+        Assert.assertNull(c4.getBlock());
+
+        c2.setBlockNull(); // Rimuovo B2
+        Assert.assertNull(c2.getBlock());
+
+        c1.setBlockNull(); // Rimuovo B1
+        Assert.assertNull(c1.getBlock());
+    }
 }
