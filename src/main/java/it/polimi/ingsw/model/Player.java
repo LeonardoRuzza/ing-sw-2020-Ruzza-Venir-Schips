@@ -94,4 +94,14 @@ public class Player {
 
 
     }
+
+    public boolean checkLimitWin(Player opponent){
+        return true;
+    }
+    public boolean checkSuperWin(){
+        return false;
+    }
+    public boolean checkLimitMove(Cell nextCell, Player opponent){
+        return true;
+    }
 }
