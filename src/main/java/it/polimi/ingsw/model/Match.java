@@ -142,4 +142,11 @@ public class Match {
     protected boolean forceBuild(int x, int y, Worker w){
         return ((board.forceBuild(board.getFirstBuildableCell(x, y))) != null);
     }
+
+    protected boolean removeBlock(int x, int y){
+        return false;
+    }
+    protected boolean removeWorker(Worker w){
+        return false;
+    }
 }
