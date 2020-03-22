@@ -15,6 +15,7 @@ public class Match {
     public Match(int ID, int numberOfPlayers) {  // Da valutare quali parametri passare, per creazione partita
         this.ID = ID;
         this.numberOfPlayers = numberOfPlayers;
+        players = new Player[numberOfPlayers];
         this.board = new Board();
     }
 

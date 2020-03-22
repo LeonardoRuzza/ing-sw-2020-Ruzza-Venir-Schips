@@ -76,6 +76,7 @@ public class Player {
     public boolean selectedWorkerMove(int x, int y){           //Memo: serve anche per allocare inizialmente i worker a inizio partita
         Worker tempWorker;
         tempWorker=match.checkMove(x,y,selectedWorker);
+        if (tempWorker == null) return false;
         if(tempWorker.equals(selectedWorker)){
             if(match.forceMove(x,y,selectedWorker)){
                 return true;
