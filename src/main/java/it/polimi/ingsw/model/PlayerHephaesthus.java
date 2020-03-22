@@ -38,7 +38,7 @@ public class PlayerHephaesthus extends Player {
                         return true;
                     }
                 }
-            }
+            }                   //nel caso salti il primo if ritorna poi false per farsi dare un'ltra casella adeguata
         }
         return false;
     }
