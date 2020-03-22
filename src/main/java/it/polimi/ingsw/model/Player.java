@@ -65,7 +65,7 @@ public class Player {
     }
 
 //Other Methods
-    private void addToDeck(int[] numbersOfCards){  // Chiamato quando tutti i giocatori hanno loggato la partita e sono stati creati. Prima dell'inizio della partita vera e propria in pratica
+    protected void addToDeck(int[] numbersOfCards){  // Chiamato quando tutti i giocatori hanno loggato la partita e sono stati creati. Prima dell'inizio della partita vera e propria in pratica
         deck = new Card[match.getNumberOfPlayers()];
         for(int i=0; i< match.getNumberOfPlayers(); i++){
             deck[i] = new Card(numbersOfCards[i]);

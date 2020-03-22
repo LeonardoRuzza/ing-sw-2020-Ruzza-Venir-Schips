@@ -31,19 +31,25 @@ public class PlayerTest {
 
     @Test
     public void testBuildersAndSetterAndGetter() {
-        System.out.println("Primo costruttore e modifica");
-        System.out.println("Nickname:"+player1.getNickname()+"\nNumero del player:"+player1.getNumber());
+        Assert.assertEquals("Errore1", "ruzzolino", player1.getNickname());
+        Assert.assertEquals("Errore2",1,player1.getNumber());
         player1.setNickname("Edoardo");
         player1.setNumber(2);
-        System.out.println("New nickname:"+player1.getNickname()+"\nNew numero del player:"+player1.getNumber());
-        System.out.println("Secondo costruttore");
-        System.out.println("Nickname:"+player2.getNickname()+"\nNumero del player:"+player2.getNumber()+"\nNome della carta:"+card.getName());
+        Assert.assertEquals("Errore3", "Edoardo", player1.getNickname());
+        Assert.assertEquals("Errore4",2 ,player1.getNumber());
+        Assert.assertEquals("Errore5", "valerio", player2.getNickname());
+        Assert.assertEquals("Errore6",2 ,player2.getNumber());
+        Assert.assertEquals("Errore7",card,player2.card);
+        Assert.assertEquals("Errore8",match,player2.match);
+        Assert.assertEquals("Errore9",Worker.Color.BLACK,player2.workers[0].getColor());
         player1=null;
         player2=null;
     }
 
     @Test
     public void testAddToDeck() {
+        int[] numberOfCards={3,11,8};
+        player1.addToDeck(numberOfCards);
     }
 
     @Test
