@@ -46,6 +46,12 @@ public class CellTest {
     }
 
     @Test
+    public void testAddDorse() {
+        c1.addDorse();
+        Assert.assertEquals(c1.getBlock(), Block.DORSE);
+    }
+
+    @Test
     public void testMoveWorkerInto() {
 
         // w1 si sposta in cell

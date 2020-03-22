@@ -117,9 +117,12 @@ public class Board {
     protected boolean forceMove(@NotNull Cell c, Worker w){
         return c.moveWorkerInto(w);
     }
-
     protected Block forceBuild(@NotNull Cell c /*,Worker w*/){
         return c.addBlock();
+    }
+    protected boolean forcebuildDorse(@NotNull Cell c){
+        c.addDorse();
+        return true;
     }
 
     protected void removeWorker(@NotNull Worker w) {

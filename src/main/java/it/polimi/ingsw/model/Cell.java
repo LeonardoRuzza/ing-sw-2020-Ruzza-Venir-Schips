@@ -43,6 +43,10 @@ public class Cell {
 
 
 // Generic Methods
+    protected void addDorse(){
+        this.blockInCell = Block.DORSE;
+    }
+
     public Block addBlock(){
         switch (this.zCoord) {
             case 0:
