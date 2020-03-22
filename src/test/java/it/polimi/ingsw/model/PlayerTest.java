@@ -4,9 +4,9 @@ import org.junit.*;
 
 public class PlayerTest {
 
-    private static Player player1,player2;
+    private static Player player1,player2, player3;
     private static Match match=new Match(1,3);
-    private static Card card=new Card(2);
+    private static Card card1, card2, card3;
 
     @Before
     public void setUp() throws Exception {
@@ -20,8 +20,12 @@ public class PlayerTest {
 
     @BeforeClass
     public static void beforeClass() throws Exception {
-        player1 =new Player("ruzzolino",1, match);
-        player2 = new Player("valerio", 2, card, match, Worker.Color.BLACK);
+        player1 = new Player("ruzzolino",1, card1 = new Card(1), match, Worker.Color.RED);
+        player2 = new Player("valerio", 2, card2  = new Card(5), match, Worker.Color.BLACK);
+        player3 = new Player("edo", 3, card3  = new Card(3), match, Worker.Color.WHITE);
+        match.players[0] = player1;
+        match.players[1] = player2;
+        match.players[2] = player3;
     }
 
     @AfterClass
@@ -39,7 +43,7 @@ public class PlayerTest {
         Assert.assertEquals("Errore4",2 ,player1.getNumber());
         Assert.assertEquals("Errore5", "valerio", player2.getNickname());
         Assert.assertEquals("Errore6",2 ,player2.getNumber());
-        Assert.assertEquals("Errore7",card,player2.card);
+        Assert.assertEquals("Errore7",card2,player2.card);
         Assert.assertEquals("Errore8",match,player2.match);
         Assert.assertEquals("Errore9",Worker.Color.BLACK,player2.workers[0].getColor());
         Assert.assertEquals("Errore10",Worker.Color.BLACK,player2.workers[1].getColor());
@@ -60,15 +64,49 @@ public class PlayerTest {
 
     @Test
     public void testSetSelectedWorker() {
+        Assert.assertTrue(player1.setSelectedWorker(Worker.Gender.Male));
     }
 
     @Test
     public void testSelectedWorkerMove() {
-
+        Assert.assertTrue(player1.setSelectedWorker(Worker.Gender.Male));
+        Assert.assertTrue(player1.selectedWorkerMove(1, 2));
+        Assert.assertTrue(player1.selectedWorkerMove(2, 2));
+        Assert.assertFalse(player1.selectedWorkerMove(4, 4));
     }
 
     @Test
     public void testSelectedWorkerBuild() {
+        Assert.assertTrue(player1.setSelectedWorker(Worker.Gender.Male));
+        Assert.assertTrue(player1.selectedWorkerMove(1, 2));
+        Assert.assertTrue(player1.selectedWorkerMove(2, 2));
+        Assert.assertTrue(player1.selectedWorkerBuild(1, 2));  // Costruito B1
 
+        Assert.assertTrue(player1.selectedWorkerMove(1, 2));
+    }
+
+    @Test
+    public void testLocate() {
+        Assert.assertTrue(player1.setSelectedWorker(Worker.Gender.Male));
+        Assert.assertTrue(player1.selectedWorkerMove(0, 0));
+        Assert.assertTrue(player1.setSelectedWorker(Worker.Gender.Female));
+        Assert.assertTrue(player1.selectedWorkerMove(0, 1));
+
+        Assert.assertTrue(player2.setSelectedWorker(Worker.Gender.Male));
+        Assert.assertTrue(player2.selectedWorkerMove(4, 4));
+        Assert.assertTrue(player2.setSelectedWorker(Worker.Gender.Female));
+        //Assert.assertFalse(player2.selectedWorkerMove(0, 0));
+        Assert.assertTrue(player2.selectedWorkerMove(4, 3));
+
+        Assert.assertTrue(player3.setSelectedWorker(Worker.Gender.Male));
+        Assert.assertTrue(player3.selectedWorkerMove(2, 2));
+        Assert.assertTrue(player3.setSelectedWorker(Worker.Gender.Female));
+        Assert.assertTrue(player3.selectedWorkerMove(2, 3));
+
+
+
+        Assert.assertTrue(player1.setSelectedWorker(Worker.Gender.Male));
+        Assert.assertTrue(player1.selectedWorkerMove(1, 1));
+        Assert.assertTrue(player1.selectedWorkerBuild(1, 2));  // Costruito B1
     }
 }
