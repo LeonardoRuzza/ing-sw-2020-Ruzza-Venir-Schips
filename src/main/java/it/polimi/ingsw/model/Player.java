@@ -95,7 +95,9 @@ public class Player {
 
 
     }
-
+    public boolean selectedWorkerBuildDorse(int x, int y){
+        return false;
+    }
     public boolean checkLimitWin(Player opponent){
         return true;
     }

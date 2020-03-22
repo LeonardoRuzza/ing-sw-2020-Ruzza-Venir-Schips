@@ -182,7 +182,7 @@ public class Match {
     }
 
     protected boolean forceBuildDorse(int x, int y, Worker w){
-        return false;
+        return (board.forcebuildDorse(board.getFirstBuildableCell(x,y)));
     }
 
     protected void removeBlock(int x, int y){
