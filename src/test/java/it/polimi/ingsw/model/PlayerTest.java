@@ -104,9 +104,56 @@ public class PlayerTest {
         Assert.assertTrue(player3.selectedWorkerMove(2, 3));
 
 
-
+   // Turno 1 -------------------------------------------------------------
         Assert.assertTrue(player1.setSelectedWorker(Worker.Gender.Male));
         Assert.assertTrue(player1.selectedWorkerMove(1, 1));
         Assert.assertTrue(player1.selectedWorkerBuild(1, 2));  // Costruito B1
+
+        Assert.assertTrue(player2.setSelectedWorker(Worker.Gender.Male));
+        Assert.assertTrue(player2.selectedWorkerMove(3, 4));
+        Assert.assertTrue(player2.selectedWorkerBuild(3, 3));  // Costruito B1
+
+
+        Assert.assertTrue(player3.setSelectedWorker(Worker.Gender.Female));
+        Assert.assertTrue(player3.selectedWorkerMove(1, 2));
+        Assert.assertTrue(player3.selectedWorkerBuild(0, 2));  // Costruito B1
+
+// Turno 2 ------------------------------------------------------------------------
+        Assert.assertTrue(player1.setSelectedWorker(Worker.Gender.Female));
+        Assert.assertTrue(player1.selectedWorkerMove(1, 0));
+        Assert.assertTrue(player1.selectedWorkerBuild(2, 1));  // Costruito B1
+
+        Assert.assertTrue(player2.setSelectedWorker(Worker.Gender.Female));
+        Assert.assertTrue(player2.selectedWorkerMove(4, 2));
+        Assert.assertTrue(player2.selectedWorkerBuild(3, 2));  // Costruito B1
+
+        Assert.assertTrue(player3.setSelectedWorker(Worker.Gender.Male));
+        Assert.assertTrue(player3.selectedWorkerMove(2, 1));
+        Assert.assertTrue(player3.selectedWorkerBuild(3, 2));  // Costruito B2
+
+ // Turno 3 ------------------------------------------------------------------------
+        Assert.assertTrue(player1.setSelectedWorker(Worker.Gender.Male));
+        Assert.assertTrue(player1.selectedWorkerMove(0, 2));
+        Assert.assertTrue(player1.selectedWorkerBuild(1, 3));  // Costruito B1
+
+        Assert.assertTrue(player2.setSelectedWorker(Worker.Gender.Male));
+        Assert.assertTrue(player2.selectedWorkerMove(3, 3));
+        Assert.assertTrue(player2.selectedWorkerBuild(2, 3));  // Costruito B1
+
+        Assert.assertTrue(player3.setSelectedWorker(Worker.Gender.Male));
+        Assert.assertTrue(player3.selectedWorkerMove(3, 2));
+        Assert.assertTrue(player3.selectedWorkerBuild(3, 1));  // Costruito B1
+
+ // Turno 4 ------------------------------------------------------------------------
+        Assert.assertTrue(player1.setSelectedWorker(Worker.Gender.Female));
+        Assert.assertTrue(player1.selectedWorkerMove(2, 0));
+        Assert.assertTrue(player1.selectedWorkerBuild(3, 1));  // Costruito B2
+
+        Assert.assertTrue(player2.setSelectedWorker(Worker.Gender.Female));
+        Assert.assertTrue(player2.selectedWorkerMove(4, 1));
+        Assert.assertTrue(player2.selectedWorkerBuild(3, 1));  // Costruito B3
+
+        Assert.assertTrue(player3.setSelectedWorker(Worker.Gender.Male));
+        Assert.assertTrue(player3.selectedWorkerMove(3, 1));
     }
 }
