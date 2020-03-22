@@ -6,7 +6,10 @@ public class PlayerAtlas extends Player {
         super(nickname, number, card, match, color);
     }
 
-/*    @Override
-    public boolean selectedWorkerBuild(int x, int y){
-    }*/
+    protected boolean selectedWorkerBuildDorse(int x, int y){
+        if(match.checkBuild(x, y, selectedWorker)){
+            return match.forceBuildDorse(x, y, selectedWorker);
+        }
+        return false;
+    }
 }

@@ -36,15 +36,10 @@ public class Match {
 
     public boolean checkSuperWin(boolean standardWin){
         boolean tempWin = false;
-        for(int x = 0; x < numberOfPlayers; x++) {
-            Player p = players[x];
-            if(p.card == null){
-                continue;
-            }
-            if (p.card.getActivationPeriod() == Card.activationPeriod.SUPERWINCOND) {
-                tempWin = p.checkSuperWin();
-            }
+        if(playingNow.card == null){
+            return false;
         }
+        tempWin = playingNow.checkSuperWin();
         return standardWin|| tempWin;
     }
 
@@ -186,10 +181,26 @@ public class Match {
         return ((board.forceBuild(board.getFirstBuildableCell(x, y))) != null);
     }
 
-    protected boolean removeBlock(int x, int y){
+    protected boolean forceBuildDorse(int x, int y, Worker w){
         return false;
     }
-    protected boolean removeWorker(Worker w){
-        return false;
+
+    protected void removeBlock(int x, int y){
+        board.removeBlock(x,y);
+    }
+    protected void removeWorker(Worker w){
+        board.removeWorker(w);
+    }
+
+    protected int towerCount(){
+        int counter = 0;
+        for(int x = 0; x < board.boardSide; x++){
+            for(int y = 0; y < board.boardSide; y++){
+                if (board.getLastBusyCell(x, y).getzCoord() == 3 && board.getLastBusyCell(x,y).getBlock() == Block.DORSE){
+                    counter++;
+                }
+            }
+        }
+        return counter;
     }
 }
