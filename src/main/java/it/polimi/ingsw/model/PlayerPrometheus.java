@@ -7,6 +7,7 @@ public class PlayerPrometheus extends Player {
         super(nickname, number, card, match, color);
     }
 
+    @Override
     protected void resetTurn(){   //reset esplicito per USO SOLO INTERNO a dispetto dei metodi simili nelle altre classi..il giocatore dovrà per forza muoversi per non perdere e quindi il reset prima o poi viene fatto
         justBuild=false;
     }

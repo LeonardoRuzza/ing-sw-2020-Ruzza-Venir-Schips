@@ -8,6 +8,7 @@ public class PlayerDemeter extends Player {
         super(nickname, number, card, match, color);
     }
 
+    @Override
     protected void resetTurn(){         //reset esplicito necessario nel caso venga eseguita una sola costruzione da Demeter
         firstBuild=true;
         firstX=-1;

@@ -7,6 +7,7 @@ public class PlayerHephaesthus extends Player {
         super(nickname, number, card, match, color);
     }
 
+    @Override
     protected void resetTurn(){         //reset esplicito necessario nel caso venga eseguita una sola costruzione da Hephaesthus
         firstBuild=true;
         x0=-1;

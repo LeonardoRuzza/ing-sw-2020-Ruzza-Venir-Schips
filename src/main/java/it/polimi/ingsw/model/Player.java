@@ -104,4 +104,5 @@ public class Player {
     public boolean checkLimitMove(Cell nextCell, Player opponent){
         return true;
     }
+    protected void resetTurn(){}
 }
