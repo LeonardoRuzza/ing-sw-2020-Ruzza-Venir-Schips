@@ -5,7 +5,7 @@ import org.junit.*;
 public class PlayerTest {
 
     private static Player player1,player2;
-    private static Match match=new Match(1,2);
+    private static Match match=new Match(1,3);
     private static Card card=new Card(2);
 
     @Before
@@ -42,6 +42,9 @@ public class PlayerTest {
         Assert.assertEquals("Errore7",card,player2.card);
         Assert.assertEquals("Errore8",match,player2.match);
         Assert.assertEquals("Errore9",Worker.Color.BLACK,player2.workers[0].getColor());
+        Assert.assertEquals("Errore10",Worker.Color.BLACK,player2.workers[1].getColor());
+        Assert.assertEquals("Errore11",Worker.Gender.Male,player2.workers[0].getGender());
+        Assert.assertEquals("Errore12",Worker.Gender.Female,player2.workers[1].getGender());
         player1=null;
         player2=null;
     }
@@ -50,6 +53,9 @@ public class PlayerTest {
     public void testAddToDeck() {
         int[] numberOfCards={3,11,8};
         player1.addToDeck(numberOfCards);
+        for(int i=0; i<numberOfCards.length ; i++){
+            Assert.assertEquals("Errore"+i, new Card(numberOfCards[i]).getName(), Player.deck[i].getName());
+        }
     }
 
     @Test
