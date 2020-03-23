@@ -16,7 +16,6 @@ public class PlayerApollo extends Player {
                 return match.forceMove(x, y, selectedWorker) && match.forceMove(selectedWorker.getOldLocation().getxCoord(), selectedWorker.getOldLocation().getyCoord(), tempWorker);
             }
         }
-        return false;
-
+        return true;  // Se ha fatto una mossa 'normale' ritorna false
     }
 }
