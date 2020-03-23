@@ -14,10 +14,10 @@ public class PlayerAresTest {
     @BeforeClass
     public static void beforeClass() throws Exception {
         match=new Match(1,2);
-        ares=new PlayerAres("ruzzolino",1,new Card(9),match, Worker.Color.BLACK);
-        player2Generic=new Player("edo",2,new Card(1),match,Worker.Color.WHITE);
-        match.players[0] = ares;
-        match.players[1] = player2Generic;
+        ares=new PlayerAres("ruzzolino",2,new Card(1),match, Worker.Color.BLACK);
+        player2Generic=new Player("edo",1,new Card(2),match,Worker.Color.WHITE);
+        match.players[1] = ares;
+        match.players[0] = player2Generic;
 
     }
 
@@ -61,7 +61,7 @@ public class PlayerAresTest {
         Assert.assertTrue(ares.selectedWorkerBuild(0,0));
 
         Assert.assertFalse(ares.notSelectedWorkerRemoveBlock(1,4));             //verifico che non rimuova una cupola
-
+        Assert.assertFalse(ares.notSelectedWorkerRemoveBlock(0,0));             //verifico non faccia rimuovere vicino al worker con cui si è mosso
 
 
 
