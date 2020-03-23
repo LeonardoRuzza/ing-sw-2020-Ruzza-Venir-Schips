@@ -26,13 +26,15 @@ public class PlayerDemeter extends Player {
             }
             else return false;
         }
-        else if(x!=firstX && y!=firstY){
-             if(super.selectedWorkerBuild(x,y)){
-                resetTurn();
-                return true;
-             }
-             else return false;
+        else{
+            if(x!=firstX || y!=firstY){
+                if(super.selectedWorkerBuild(x,y)){
+                    resetTurn();
+                    return true;
+                }
+                else return false;
+            }
+            return false;
         }
-        return false;
     }
 }
