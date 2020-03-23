@@ -108,7 +108,10 @@ public class Match {
     //\result == null ==> error
     //\result == playerWorker ==> done
     //\result == foeWorker ==> do something
-    protected Worker checkMove (int x, int y, Worker w) { //controlli regole generali validi per
+    protected Worker checkMove (int x, int y, Worker w) {
+        if(x < 0 || x > 4 || y < 0 || y > 4){
+            return null;
+        }
         Cell moveToCell = board.getLastBusyCell(x,y);
         if(moveToCell.getWorker() != null){
             return moveToCell.getWorker();
@@ -127,7 +130,10 @@ public class Match {
         return w;
     }
 
-    protected boolean checkBuild (int x, int y, @NotNull Worker w) {//ricordati che nel caso di costruzione andari una cella sopra a getlastbusycell
+    protected boolean checkBuild (int x, int y, @NotNull Worker w) {
+        if(x < 0 || x > 4 || y < 0 || y > 4){
+            return false;
+        }
         Cell buildToCell = board.getLastBusyCell(x, y);
         if(w.getCell().equals(buildToCell)){
             return false;
