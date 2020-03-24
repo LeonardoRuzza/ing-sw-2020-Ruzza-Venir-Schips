@@ -46,20 +46,29 @@ public class Player {
     }
 
     //per la GUI
-    protected boolean setSelectedWorker(Worker worker){ selectedWorker=worker; return selectedWorker!= null;}
+    protected boolean setSelectedWorker(Worker worker){
+        if(checkAllLimitSelection(worker)) {
+            selectedWorker = worker;
+        }
+        return selectedWorker!= null;
+    }
 
     //per la CLI
     protected boolean setSelectedWorker(@NotNull Worker.Gender selectedGender){
+        Worker tempWorker;
         switch (selectedGender){
             case Male:
-                selectedWorker=workers[0];
+                tempWorker=workers[0];
                 break;
             case Female:
-                selectedWorker=workers[1];
+                tempWorker=workers[1];
                 break;
             default:
-                selectedWorker=null;
+                tempWorker=null;
                 break;
+        }
+        if(checkAllLimitSelection(tempWorker)){
+            selectedWorker = tempWorker;
         }
         return selectedWorker != null;
     }
@@ -92,9 +101,23 @@ public class Player {
             }
         }
         return false;
-
-
     }
+
+    private boolean checkAllLimitSelection(Worker worker){
+        boolean selectionOk=true;
+        for(int x = 0; x < match.getNumberOfPlayers(); x++) {
+            Player p = match.players[x];
+            if (p.card == null) {
+                continue;
+            }
+            if (p.card.getActivationPeriod() == Card.activationPeriod.STARTFOETURN) {
+                selectionOk= selectionOk && p.checkLimitSelection(this, worker);
+            }
+        }
+        return selectionOk;
+    }
+
+
     public boolean selectedWorkerBuildDorse(int x, int y){
         return false;
     }
@@ -108,4 +131,5 @@ public class Player {
         return true;
     }
     protected void resetTurn(){}
+    public boolean checkLimitSelection(Player actualPlayer, Worker w){return true;}
 }

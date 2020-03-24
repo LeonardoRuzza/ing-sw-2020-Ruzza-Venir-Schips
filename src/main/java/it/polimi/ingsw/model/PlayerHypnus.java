@@ -7,52 +7,27 @@ public class PlayerHypnus extends Player {
     }
 
     @Override
-    protected boolean setSelectedWorker(Worker.Gender selectedGender){
-        Worker tempWorker=null;
-        switch (selectedGender){
-            case Male:
-                tempWorker=workers[0];
-                break;
-            case Female:
-                tempWorker=workers[1];
-                break;
-            default:
-                break;
-        }
-        if(isHigherWorker(tempWorker)){
-            selectedWorker=null;
-            return false;
-        }
-        else{
-            selectedWorker=tempWorker;
-            return true;
-        }
+    public boolean checkLimitSelection(Player opponent, Worker w){  //ritorna true se la selezione è fattibile sennò false se la limita
+        if(w.getCell() == null) {return true;}
+        return !isHigherWorker(opponent, w);
     }
 
-    @Override
-    protected boolean setSelectedWorker(Worker worker){
-        if(!isHigherWorker(worker)){
-            selectedWorker=worker;
-            return selectedWorker!=null;
-        }
-        else return false;
-    }
 
-    private boolean isHigherWorker(Worker w){
+    private boolean isHigherWorker(Player opponent, Worker w){
         int zW, zOtherW;
         zW=w.getCell().getzCoord();
         if(w.getCell().getBlock() != null){
             zW++;
         }
         if(w.getGender() == Worker.Gender.Male){
-            zOtherW=workers[1].getCell().getzCoord();
-            if(workers[1].getCell().getBlock() != null){
+            zOtherW=opponent.workers[1].getCell().getzCoord();
+            if(opponent.workers[1].getCell().getBlock() != null){
                 zOtherW++;
             }
         }
         else {
-            zOtherW=workers[0].getCell().getzCoord();
-            if(workers[0].getCell().getBlock() != null){
+            zOtherW=opponent.workers[0].getCell().getzCoord();
+            if(opponent.workers[0].getCell().getBlock() != null){
                 zOtherW++;
             }
         }
