@@ -39,7 +39,28 @@ public class PlayerHypnus extends Player {
     }
 
     private boolean isHigherWorker(Worker w){
-        int zMax=0;
+        int zW, zOtherW;
+        zW=w.getCell().getzCoord();
+        if(w.getCell().getBlock() != null){
+            zW++;
+        }
+        if(w.getGender() == Worker.Gender.Male){
+            zOtherW=workers[1].getCell().getzCoord();
+            if(workers[1].getCell().getBlock() != null){
+                zOtherW++;
+            }
+        }
+        else {
+            zOtherW=workers[0].getCell().getzCoord();
+            if(workers[0].getCell().getBlock() != null){
+                zOtherW++;
+            }
+        }
+        return zW>zOtherW;
+
+
+
+/*        int zMax=0;
         for(int i=0; i<match.players.length;i++){
             for(int k=0; i<match.players[i].workers.length; k++){
                 if(w != match.players[i].workers[k]){                         //controlla di non verificare sullo stesso worker ricevuto come parametro
@@ -49,6 +70,6 @@ public class PlayerHypnus extends Player {
                 }
             }
         }
-        return w.getCell().getzCoord()>zMax;
+        return w.getCell().getzCoord()>zMax;*/
     }
 }
