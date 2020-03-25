@@ -70,6 +70,8 @@ public class Player {
         if(checkAllLimitSelection(tempWorker)){
             selectedWorker = tempWorker;
         }
+        else
+            selectedWorker = null;
         return selectedWorker != null;
     }
 
@@ -132,4 +134,5 @@ public class Player {
     }
     protected void resetTurn(){}
     public boolean checkLimitSelection(Player actualPlayer, Worker w){return true;}
+    protected boolean notSelectedWorkerRemoveBlock(int x, int y){return false;}
 }

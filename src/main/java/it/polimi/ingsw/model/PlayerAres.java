@@ -6,7 +6,7 @@ public class PlayerAres extends Player {
         super(nickname, number, card, match, color);
     }
 
-    protected boolean notSelectedWorkerRemoveBlock(int x, int y){
+   @Override protected boolean notSelectedWorkerRemoveBlock(int x, int y){
         Worker tempWorker;
         if(selectedWorker.equals(workers[0])){
             tempWorker=workers[1];
