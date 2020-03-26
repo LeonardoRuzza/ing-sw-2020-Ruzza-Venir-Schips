@@ -39,7 +39,11 @@ public class Worker {
         if (obj == null) {
             return false;
         }
-        Worker w = (Worker) obj;
-        return this == w;
+        if (obj instanceof Worker) {
+            Worker w = (Worker) obj;
+            return this == w;
+        }
+        else
+            return false;
     }
 }

@@ -3,8 +3,8 @@ package it.polimi.ingsw.model;
 public class Card {
 
 
-    public enum activationPeriod{YOURMOVE, YOURBUILD, YOURTURN, FOETURN, ENDYOURTURN, STARTFOETURN, SUPERWINCOND, LIMITWINCOND;};
-    final int cardNumb = 14;
+    public enum activationPeriod{YOURMOVE, YOURBUILD, YOURTURN, FOETURN, ENDYOURTURN, STARTFOETURN, SUPERWINCOND, LIMITWINCOND}
+    //final int cardNumb = 14;
     private int number;
     static final String[] names = {"Apollo","Artemis","Athena","Atlas","Demeter","Hephaestus","Minotaur","Pan","Prometheus","Ares","Chronus","Hera","Hestia","Hypnus"};
     static final String[] descriptions = {"Your Move: Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.",

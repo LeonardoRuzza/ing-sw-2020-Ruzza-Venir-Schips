@@ -84,7 +84,11 @@ public class Cell {
         if (obj == null) {
             return false;
         }
-        Cell c = (Cell) obj;
-        return this == c;
+        if (obj instanceof Cell) {
+            Cell c = (Cell) obj;
+            return this == c;
+        }
+        else
+            return false;
     }
 }
