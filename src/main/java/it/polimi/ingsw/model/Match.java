@@ -7,6 +7,7 @@ public class Match {
     final int maxPlayer = 3;
     private int ID;
     private int numberOfPlayers;
+
     private enum stateOfMatch{};
     private Player playingNow;
     protected Player[] players;
@@ -23,6 +24,7 @@ public class Match {
     public int getNumberOfPlayers(){
         return numberOfPlayers;
     }
+    public Player getPlayingNow() { return playingNow; }
 
 
     public boolean checkWin(@NotNull Worker w) {
@@ -59,7 +61,7 @@ public class Match {
     }
 
     //va fatta a inizio turno
-    public Player checkLoserMove(@NotNull Worker w) {
+    public boolean checkLoserMove(@NotNull Worker w) {
         for(int x = w.getCell().getxCoord()-1; x < w.getCell().getxCoord()+2; x++){
             if(x > 4 || x < 0){
                 continue;
@@ -73,18 +75,18 @@ public class Match {
                 }
                 if(board.getLastBusyCell(x, y).getBlock() != Block.DORSE){
                     if(board.getDistance(w.getCell(), board.getLastBusyCell(x, y))[2] < 2){
-                        if((board.getLastBusyCell(x, y).getWorker()) == null){ // da modificare per carta speciale
-                            return null;
+                        if((board.getLastBusyCell(x, y).getWorker()) == null){
+                            return false;
                         }
                     }
                 }
             }
         }
-        return playingNow;
+        return true;
     }
 
     //va fatta sul turno dopo lo spostamento
-    public Player checkLoserBuild(@NotNull Worker w) {
+    public boolean checkLoserBuild(@NotNull Worker w) {
         for(int x = w.getCell().getxCoord()-1; x < w.getCell().getxCoord()+2; x++){
             if(x > 4 || x < 0){
                 continue;
@@ -98,12 +100,12 @@ public class Match {
                 }
                 if(board.getLastBusyCell(x, y).getBlock() != Block.DORSE){
                     if((board.getLastBusyCell(x, y).getWorker()) == null){ // da modificare per carta speciale
-                        return null;
+                        return false;
                     }
                 }
             }
         }
-        return playingNow;
+        return true;
     }
 
     //\result == null ==> error

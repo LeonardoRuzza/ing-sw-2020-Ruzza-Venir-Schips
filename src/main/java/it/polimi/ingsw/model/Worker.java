@@ -48,7 +48,7 @@ public class Worker implements Cloneable{
     }
 
     @Override
-    protected Worker clone() throws CloneNotSupportedException {
+    protected Worker clone() {
         return new Worker(this.gender, this.color);
     }
 }

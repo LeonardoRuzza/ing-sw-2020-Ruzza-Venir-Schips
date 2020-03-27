@@ -2,7 +2,9 @@ package it.polimi.ingsw.model;
 
 import org.jetbrains.annotations.NotNull;
 
-public class Board implements Cloneable {
+import java.io.Serializable;
+
+public class Board implements Cloneable, Serializable {
 
     final int levelHeight = 4;
     final int boardSide = 5;
@@ -144,7 +146,7 @@ public class Board implements Cloneable {
     }
 
     @Override
-    protected Board clone() throws CloneNotSupportedException {
+    protected Board clone() {
         final Board result = new Board();
         for(int z = 0; z < levelHeight; z++) {
             for (int y = 0; y < boardSide; y++) {

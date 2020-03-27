@@ -93,7 +93,7 @@ public class Cell implements Cloneable {
     }
 
     @Override
-    protected Cell clone() throws CloneNotSupportedException {
+    protected Cell clone() {
         Cell clonedCell = new Cell(xCoord, yCoord, zCoord);
         clonedCell.workerInCell = this.workerInCell.clone();
         clonedCell.blockInCell = this.blockInCell;

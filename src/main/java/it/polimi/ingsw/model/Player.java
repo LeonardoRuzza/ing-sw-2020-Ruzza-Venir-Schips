@@ -1,6 +1,4 @@
 package it.polimi.ingsw.model;
-
-import com.sun.crypto.provider.PBEWithMD5AndDESCipher;
 import org.jetbrains.annotations.NotNull;
 
 public class Player {
@@ -121,22 +119,43 @@ public class Player {
         return selectionOk;
     }
 
-    protected ChoiceResponseMessage manageTurn(PlayerChoiceMessage choice) throws CloneNotSupportedException {
+    protected ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
         switch(stateOfTurn){
             case 1:
-                setSelectedWorker(choice.getGender());
+                if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[0] : workers[1])){                         //se non può muovere il worker selezionato
+                    if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[1] : workers[0])){
+                        match.removeWorker(workers[0]);
+                        match.removeWorker(workers[1]);
+                        return new ChoiceResponseMessage(match.getBoard().clone(), this, "Hai perso");
+                    }
+                    stateOfTurn++;
+                    setSelectedWorker(gender == Worker.Gender.Male ? workers[1].getGender() : workers[0].getGender());
+                    return new ChoiceResponseMessage(match.getBoard().clone(), this, "Non era selezionabile il worker è stato scelto automaticamente l'altro");
+                }
+                setSelectedWorker(gender);
                 stateOfTurn++;
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, "");
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Hai selezionato bene");
             case 2:
-                selectedWorkerMove(choice.getX(),choice.getY());
+                selectedWorkerMove(x, y);
+                if(match.checkWin(selectedWorker)){
+                    stateOfTurn = 1;
+                    return new ChoiceResponseMessage(match.getBoard().clone(), this, "Hai vinto");
+                }
                 stateOfTurn++;
-               return new ChoiceResponseMessage(match.getBoard().clone(), this, "");
+               return new ChoiceResponseMessage(match.getBoard().clone(), this, "Ti sei mosso correttamente");
             case 3:
-                selectedWorkerBuild(choice.getX(),choice.getY());
+                if(match.checkLoserBuild(selectedWorker)){
+                    stateOfTurn = 1;
+                    match.removeWorker(workers[0]);
+                    match.removeWorker(workers[1]);
+                    return new ChoiceResponseMessage(match.getBoard().clone(), this, "Hai perso,non puoi costruire");
+                }
+                selectedWorkerBuild(x,y);
                 stateOfTurn++;
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, "");
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Costruzione eseguita");
             default:
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, "");
+                match.nextPlayer();
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Fine del tuo turno");
         }
     }
 
@@ -156,4 +175,17 @@ public class Player {
     protected void resetTurn(){}
     public boolean checkLimitSelection(Player actualPlayer, Worker w){return true;}
     protected boolean notSelectedWorkerRemoveBlock(int x, int y){return false;}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof Player) {
+            Player p = (Player) obj;
+            return this == p;
+        }
+        else
+            return false;
+    }
 }
