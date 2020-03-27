@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-public class Worker {
+public class Worker implements Cloneable{
 
     public enum Gender{Male,Female}
     public enum Color{BLACK,WHITE,RED,BLUE,GREEN,YELLOW}  //colori da valutare in seguito
@@ -45,5 +45,10 @@ public class Worker {
         }
         else
             return false;
+    }
+
+    @Override
+    protected Worker clone() throws CloneNotSupportedException {
+        return new Worker(this.gender, this.color);
     }
 }

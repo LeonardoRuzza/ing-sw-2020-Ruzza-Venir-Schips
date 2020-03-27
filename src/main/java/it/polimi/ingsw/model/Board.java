@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import org.jetbrains.annotations.NotNull;
 
-public class Board {
+public class Board implements Cloneable {
 
     final int levelHeight = 4;
     final int boardSide = 5;
@@ -22,7 +22,7 @@ public class Board {
     }
 
 
-// Observers
+    // Observers
     public Block blockInCell(int x, int y) {  // Ritorna il blocco più in alto costruito nella cella
         Block lastBlock = null;
         for(int z = 0; z < levelHeight; z++){
@@ -141,5 +141,18 @@ public class Board {
                 return;
             }
         }
+    }
+
+    @Override
+    protected Board clone() throws CloneNotSupportedException {
+        final Board result = new Board();
+        for(int z = 0; z < levelHeight; z++) {
+            for (int y = 0; y < boardSide; y++) {
+                for (int x = 0; x < boardSide; x++) {
+                    result.cells[x][y][z] = this.cells[x][y][z].clone();
+                }
+            }
+        }
+        return result;
     }
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-public class Cell {
+public class Cell implements Cloneable {
     
     private int xCoord;
     private int yCoord;
@@ -90,5 +90,13 @@ public class Cell {
         }
         else
             return false;
+    }
+
+    @Override
+    protected Cell clone() throws CloneNotSupportedException {
+        Cell clonedCell = new Cell(xCoord, yCoord, zCoord);
+        clonedCell.workerInCell = this.workerInCell.clone();
+        clonedCell.blockInCell = this.blockInCell;
+        return clonedCell;
     }
 }

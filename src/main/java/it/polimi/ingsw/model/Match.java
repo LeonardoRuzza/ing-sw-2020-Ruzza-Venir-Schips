@@ -19,6 +19,7 @@ public class Match {
         this.board = new Board();
     }
 
+    public Board getBoard() { return board; }
     public int getNumberOfPlayers(){
         return numberOfPlayers;
     }

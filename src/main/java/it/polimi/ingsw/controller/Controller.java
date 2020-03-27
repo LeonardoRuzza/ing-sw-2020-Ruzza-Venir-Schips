@@ -1,11 +1,13 @@
 package it.polimi.ingsw.controller;
+import it.polimi.ingsw.model.PlayerChoiceMessage;
+import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.model.Model;
 
-import java.util.Observable;
-import java.util.Observer;
 
-public class Controller implements Observer {
+
+public class Controller implements Observer<PlayerChoiceMessage> {
 
     private Model model;
     private View view;
@@ -17,7 +19,7 @@ public class Controller implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(PlayerChoiceMessage message) {
 
     }
 }

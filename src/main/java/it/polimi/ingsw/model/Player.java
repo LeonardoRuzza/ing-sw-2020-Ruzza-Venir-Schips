@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import com.sun.crypto.provider.PBEWithMD5AndDESCipher;
 import org.jetbrains.annotations.NotNull;
 
 public class Player {
@@ -8,6 +9,7 @@ public class Player {
     protected int number;
     protected Card card;
     protected static Card[] deck;
+    protected int stateOfTurn;
 
 
     protected Match match;
@@ -117,6 +119,25 @@ public class Player {
             }
         }
         return selectionOk;
+    }
+
+    protected ChoiceResponseMessage manageTurn(PlayerChoiceMessage choice) throws CloneNotSupportedException {
+        switch(stateOfTurn){
+            case 1:
+                setSelectedWorker(choice.getGender());
+                stateOfTurn++;
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, "");
+            case 2:
+                selectedWorkerMove(choice.getX(),choice.getY());
+                stateOfTurn++;
+               return new ChoiceResponseMessage(match.getBoard().clone(), this, "");
+            case 3:
+                selectedWorkerBuild(choice.getX(),choice.getY());
+                stateOfTurn++;
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, "");
+            default:
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, "");
+        }
     }
 
 

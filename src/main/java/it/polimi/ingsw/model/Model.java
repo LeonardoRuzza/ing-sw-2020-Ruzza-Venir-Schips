@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model;
 
-import java.util.Observable;
 
-public class Model extends Observable implements Cloneable {
+import it.polimi.ingsw.observer.Observable;
+
+public class Model extends Observable<ChoiceResponseMessage> implements Cloneable {
 
 }
