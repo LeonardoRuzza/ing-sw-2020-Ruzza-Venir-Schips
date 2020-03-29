@@ -6,6 +6,9 @@ import it.polimi.ingsw.observer.Observable;
 public class Model extends Observable<ChoiceResponseMessage>{
     private Match match;
 
+    public Match getMatch() {
+        return match;
+    }
 
     public boolean isPlayerTurn(Player player) {
         return match.getPlayingNow().equals(player);

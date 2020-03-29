@@ -6,7 +6,6 @@ public class Player {
     protected String nickname;
     protected int number;
     protected Card card;
-    protected static Card[] deck;
     protected int stateOfTurn;
 
 
@@ -14,15 +13,10 @@ public class Player {
     protected Worker[] workers = new Worker[2];
     protected Worker selectedWorker;
 
-//Builder
-    public Player(String nickname, int number, Match match) {
+    public Player(String nickname, int number, Card card, Match match, Worker.Color color){ //secondo costruttore che sarà utilizzato dalle sottoclassi per la loro medesima istanziazione.
         this.nickname = nickname;
         this.number = number;
         this.match = match;
-    }
-
-    public Player(String nickname, int number, Card card, Match match, Worker.Color color){ //secondo costruttore che sarà utilizzato dalle sottoclassi per la loro medesima istanziazione.
-        this(nickname, number, match);
         this.card = card;
         workers[0] = new Worker(Worker.Gender.Male, color);
         workers[1] = new Worker(Worker.Gender.Female, color);
@@ -74,15 +68,6 @@ public class Player {
             selectedWorker = null;
         return selectedWorker != null;
     }
-
-//Other Methods
-    protected void addToDeck(int[] numbersOfCards){  // Chiamato quando tutti i giocatori hanno loggato la partita e sono stati creati. Prima dell'inizio della partita vera e propria in pratica
-        deck = new Card[match.getNumberOfPlayers()];
-        for(int i=0; i< match.getNumberOfPlayers(); i++){
-            deck[i] = new Card(numbersOfCards[i]);
-        }
-    }
-
 
     public boolean selectedWorkerMove(int x, int y){           //Memo: serve anche per allocare inizialmente i worker a inizio partita
         Worker tempWorker;

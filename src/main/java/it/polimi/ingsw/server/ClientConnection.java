@@ -1,4 +1,13 @@
 package it.polimi.ingsw.server;
 
-public interface ClientConnection {
+import it.polimi.ingsw.observer.Observer;
+
+public interface ClientConnection{
+
+    void closeConnection();
+
+    void addObserver(Observer<String> observer);
+
+    void asyncSend(Object message);
+
 }
