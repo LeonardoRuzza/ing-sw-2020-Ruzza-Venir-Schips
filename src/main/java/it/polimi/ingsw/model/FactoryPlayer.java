@@ -1,6 +1,4 @@
-package it.polimi.ingsw.utils;
-
-import it.polimi.ingsw.model.*;
+package it.polimi.ingsw.model;
 
 public class FactoryPlayer {
     public static Player getPlayer(String nickname, int number, Match match, Worker.Color color, int cardNum){

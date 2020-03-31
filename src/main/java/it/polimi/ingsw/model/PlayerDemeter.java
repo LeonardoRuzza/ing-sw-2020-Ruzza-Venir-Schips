@@ -4,7 +4,7 @@ public class PlayerDemeter extends Player {
     private boolean firstBuild=true;
     private int firstX=-1, firstY=-1; //inferiscono valori diversi da x e y per forza (qui non è necesario ma alla fine di selectedWorker Move nell'ultimo if lo è
 
-    public PlayerDemeter(String nickname, int number, Card card, Match match, Worker.Color color) {
+    protected PlayerDemeter(String nickname, int number, Card card, Match match, Worker.Color color) {
         super(nickname, number, card, match, color);
     }
 

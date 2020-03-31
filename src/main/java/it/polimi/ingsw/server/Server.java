@@ -3,7 +3,6 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.utils.FactoryPlayer;
 import it.polimi.ingsw.view.RemoteView;
 import it.polimi.ingsw.view.View;
 

@@ -13,7 +13,7 @@ public class Player {
     protected Worker[] workers = new Worker[2];
     protected Worker selectedWorker;
 
-    public Player(String nickname, int number, Card card, Match match, Worker.Color color){ //secondo costruttore che sarà utilizzato dalle sottoclassi per la loro medesima istanziazione.
+    protected Player(String nickname, int number, Card card, Match match, Worker.Color color){ //secondo costruttore che sarà utilizzato dalle sottoclassi per la loro medesima istanziazione.
         this.nickname = nickname;
         this.number = number;
         this.match = match;

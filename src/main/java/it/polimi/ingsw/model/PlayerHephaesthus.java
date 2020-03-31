@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 public class PlayerHephaesthus extends Player {
     private boolean firstBuild=true;
     private int x0=-1, y0=-1;
-    public PlayerHephaesthus(String nickname, int number, Card card, Match match, Worker.Color color) {
+    protected PlayerHephaesthus(String nickname, int number, Card card, Match match, Worker.Color color) {
         super(nickname, number, card, match, color);
     }
 

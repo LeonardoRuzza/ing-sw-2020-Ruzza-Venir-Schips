@@ -4,7 +4,7 @@ public class PlayerHestia extends Player {
     private boolean firstBuild=true;
     private int firstX=-1, firstY=-1;
 
-    public PlayerHestia(String nickname, int number, Card card, Match match, Worker.Color color) {
+    protected PlayerHestia(String nickname, int number, Card card, Match match, Worker.Color color) {
         super(nickname, number, card, match, color);
     }
 

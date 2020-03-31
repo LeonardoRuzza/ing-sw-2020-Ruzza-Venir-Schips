@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 public class PlayerApollo extends Player {
 
-    public PlayerApollo(String nickname, int number, Card card, Match match, Worker.Color color) {
+    protected PlayerApollo(String nickname, int number, Card card, Match match, Worker.Color color) {
         super(nickname, number, card, match, color);
     }
 

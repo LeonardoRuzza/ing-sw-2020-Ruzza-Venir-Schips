@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 public class PlayerArtemis extends Player {
 
-    public PlayerArtemis(String nickname, int number, Card card, Match match, Worker.Color color) {
+    protected PlayerArtemis(String nickname, int number, Card card, Match match, Worker.Color color) {
         super(nickname, number, card, match, color);
     }
 

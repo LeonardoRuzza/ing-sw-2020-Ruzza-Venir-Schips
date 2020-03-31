@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 public class PlayerPrometheus extends Player {
     private boolean justBuild=false; // mi dice se ha costruito o meno prima di muoversi
 
-    public PlayerPrometheus(String nickname, int number, Card card, Match match, Worker.Color color) {
+    protected PlayerPrometheus(String nickname, int number, Card card, Match match, Worker.Color color) {
         super(nickname, number, card, match, color);
     }
 
