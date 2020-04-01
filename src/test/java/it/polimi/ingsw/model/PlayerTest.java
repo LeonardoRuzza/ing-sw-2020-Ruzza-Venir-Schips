@@ -53,15 +53,6 @@ public class PlayerTest {
         //player2=null;
     }
 
-    @Test
-    public void testAddToDeck() {
-        int[] numberOfCards={3,11,8};
-        player1.addToDeck(numberOfCards);
-        for(int i=0; i<numberOfCards.length ; i++){
-            Assert.assertEquals("Errore"+i, new Card(numberOfCards[i]).getName(), Player.deck[i].getName());
-        }
-    }
-
     /*
     @Test
     public void testSetSelectedWorker() {
