@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
-
+import it.polimi.ingsw.observer.Observable;
 import org.jetbrains.annotations.NotNull;
 
-public class Match {
+public class Match extends Observable<ChoiceResponseMessage> {
 
     final int maxPlayer = 3;
     private int ID;
@@ -211,5 +211,17 @@ public class Match {
             }
         }
         return counter;
+    }
+
+
+    public boolean firstAllocation(int x, int y, Worker.Gender gender){
+       playingNow.setSelectedWorker(gender);
+        return playingNow.selectedWorkerMove(x,y);
+    }
+
+    public void performPlay(int x, int y, Worker.Gender gender, String optional){
+        ChoiceResponseMessage resp = playingNow.manageTurn(x, y,gender, optional);
+        //controllo vittoria,reset partita
+        notify(resp);
     }
 }

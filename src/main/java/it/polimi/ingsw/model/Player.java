@@ -8,15 +8,18 @@ public class Player {
     protected Card card;
     protected int stateOfTurn;
 
-
     protected Match match;
     protected Worker[] workers = new Worker[2];
     protected Worker selectedWorker;
 
-    protected Player(String nickname, int number, Card card, Match match, Worker.Color color){ //secondo costruttore che sarà utilizzato dalle sottoclassi per la loro medesima istanziazione.
+    protected Player(String nickname, int number, Match match){
         this.nickname = nickname;
         this.number = number;
         this.match = match;
+    }
+
+    protected Player(String nickname, int number, Card card, Match match, Worker.Color color){ //secondo costruttore che sarà utilizzato dalle sottoclassi per la loro medesima istanziazione.
+        this(nickname, number, match);
         this.card = card;
         workers[0] = new Worker(Worker.Gender.Male, color);
         workers[1] = new Worker(Worker.Gender.Female, color);
