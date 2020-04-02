@@ -51,4 +51,40 @@ public class PlayerPrometheus extends Player {
             return false;
         }
     }
+
+    @Override
+    public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
+        ChoiceResponseMessage tempResponse;
+        switch(stateOfTurn){
+            case 1:
+                if(!optional.equals("BUILDBEFORE")){
+                    stateOfTurn++;
+                }
+                return manageStateSelection(x, y, gender);
+            case 2:
+                tempResponse = super.manageStateBuild(x, y);
+                if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
+                    stateOfTurn = 3;
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ ". Scegli dove muoverti");
+                    return tempResponse;
+                }
+                return tempResponse;
+            case 3:
+                tempResponse = manageStateMove(x, y);
+                if(tempResponse.getNextInstruction().equals("Ti sei mosso correttamente")){
+                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + ". Scegli dove crostruire");
+                }
+                return tempResponse;
+            case 4:
+                tempResponse = super.manageStateBuild(x, y);
+                if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " e il tuo turno è terminato");
+                    match.nextPlayer();
+                    return tempResponse;
+                }
+                return tempResponse;
+            default: return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+        }
+    }
+
 }
