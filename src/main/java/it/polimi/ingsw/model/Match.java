@@ -76,6 +76,9 @@ public class Match extends Observable<ChoiceResponseMessage> {
                 if(board.getLastBusyCell(x, y).getBlock() != Block.DORSE){
                     if(board.getDistance(w.getCell(), board.getLastBusyCell(x, y))[2] < 2){
                         if((board.getLastBusyCell(x, y).getWorker()) == null){
+                            if(!forceMoveLimit(board.getLastBusyCell(x, y))){
+                                continue;
+                            }
                             return false;
                         }
                     }
