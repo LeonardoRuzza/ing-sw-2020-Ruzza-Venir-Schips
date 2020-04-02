@@ -10,7 +10,7 @@ public class PlayerChoiceMessage {
     private final View view;
     private final String optional;
 
-    protected PlayerChoiceMessage(Player player, int x, int y, View view, String optional, Worker.Gender gender) {
+    public PlayerChoiceMessage(Player player, int x, int y, View view, String optional, Worker.Gender gender) {
         this.player = player;
         this.x = x;
         this.y = y;

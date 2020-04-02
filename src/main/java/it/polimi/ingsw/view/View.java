@@ -1,16 +1,31 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.ChoiceResponseMessage;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerChoiceMessage;
+import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.observer.Observer;
 
-import java.util.Observable;
-import java.util.Observer;
 
-public abstract class View extends Observable implements Observer {
+public abstract class View extends Observable<PlayerChoiceMessage> implements Observer<ChoiceResponseMessage> {
 
-    public View(){
+    private Player player;
+
+    protected View(Player player){
+        this.player = player;
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
+    public Player getPlayer() { return player;}
 
+    protected abstract void showMessage(Object message);
+
+    public void manageChoice(Player player, int x, int y,String optional, Worker.Gender gender){
+        System.out.println(x + " " + y);
+        notify(new PlayerChoiceMessage(player, x, y, this, optional, gender));
+    }
+
+    public void reportError(String message){
+        showMessage(message);
     }
 }
