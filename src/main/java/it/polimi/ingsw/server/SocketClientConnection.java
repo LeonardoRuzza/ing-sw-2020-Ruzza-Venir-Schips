@@ -15,13 +15,14 @@ public class SocketClientConnection extends Observable<String> implements Client
     private Server server;
 
     private boolean active = true;
+    private static final Object lock = new Object();
 
     public SocketClientConnection(Socket socket, Server server) {
         this.socket = socket;
         this.server = server;
     }
 
-    private synchronized boolean isActive(){
+    private synchronized boolean isActive() {
         return active;
     }
 
@@ -30,7 +31,7 @@ public class SocketClientConnection extends Observable<String> implements Client
             out.reset();
             out.writeObject(message);
             out.flush();
-        } catch(IOException e){
+        } catch (IOException e) {
             System.err.println(e.getMessage());
         }
 
@@ -48,14 +49,14 @@ public class SocketClientConnection extends Observable<String> implements Client
     }
 
     private void close() {
-        closeConnection();
+        closeConnection();                          // Chiude connessione per il client
         System.out.println("Deregistering client...");
-        server.deregisterConnection(this);
+        server.deregisterConnection(this);       // Deregistra il client dal server
         System.out.println("Done!");
     }
 
     @Override
-    public void asyncSend(final Object message){
+    public void asyncSend(final Object message) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -66,22 +67,50 @@ public class SocketClientConnection extends Observable<String> implements Client
 
     @Override
     public void run() {
+        int numberOfPlayers = -1;
         Scanner in;
         String name;
-        try{
+        try {
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
             send("Welcome!\nWhat is your name?");
             String read = in.nextLine();
             name = read;
-            server.lobby(this, name);
-            while(isActive()){
+            while(!server.addClient(this, name)){
+                send("\nPleaseChangeName");
+                read = in.nextLine();
+                name = read;
+            }
+            send("\nSearchingForExistingmatch");
+            synchronized (lock){
+                if(server.isFirstPlayer(this)){
+                    boolean temp = false;
+                    while (!temp) {
+                        send("\nCreatingNewGame");
+                        send("\nChoose number of players");
+                        read = in.nextLine();
+                        try {
+                            numberOfPlayers = (Integer.parseInt(read));
+                            if (numberOfPlayers == 2 || numberOfPlayers == 3)
+                               temp = true;
+                            else
+                                this.send("Inserire un numero corretto");
+                        } catch (NumberFormatException e) {
+                            this.send("Inserire un numero corretto");
+                        }
+                    }
+                }
+            }
+            server.manageLobby(numberOfPlayers);
+            this.send("Loading Match");
+            while (isActive()) {
                 read = in.nextLine();
                 notify(read);
             }
         } catch (IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
-        }finally{
+        } finally {
             close();
         }
     }
+}

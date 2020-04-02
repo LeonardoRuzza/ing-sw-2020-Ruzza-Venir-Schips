@@ -1,10 +1,12 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.view.RemoteView;
-import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.model.lobby.Lobby;
+import it.polimi.ingsw.utils.GameMessage;
+import it.polimi.ingsw.view.LobbyRemoteView;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -15,39 +17,45 @@ import java.util.concurrent.Executors;
 
 public class Server {
     private static final int PORT = 12345;
+    private int numberOfPlayers = 0;
     private ServerSocket serverSocket;
     private ExecutorService executor = Executors.newFixedThreadPool(128);
-    private Map<String, ClientConnection> waitingConnectionForTwo = new HashMap<>();
-    private Map<String, ClientConnection> waitingConnectionForThree = new HashMap<>();
+    private Map<String, ClientConnection> waitingConnection = new HashMap<>();
     private Map<ClientConnection, ClientConnection> playingConnectionForTwo = new HashMap<>();
     private Map<ClientConnection, Map<ClientConnection,ClientConnection>> playingConnectionForThree = new HashMap<>();
 
-    private int[] deckTwo = new int[2];
+    public Server() throws IOException {
+        this.serverSocket = new ServerSocket(PORT);
+    }
+
+    /*private int[] deckTwo = new int[2];
     private int[] deckThree = new int[3];
     private Worker.Color[] playerColorTwo = new Worker.Color[2];
     private Worker.Color[] playerColorThree = new Worker.Color[3];
-    private FactoryPlayer factoryClass = new FactoryPlayer();
+    public int[] getDeckTwo() { return deckTwo; }
+    public int[] getDeckThree() { return deckThree; }*/
 
-    public int[] getDeckTwo() {
-        return deckTwo;
-    }
-
-    public int[] getDeckThree() {
-        return deckThree;
-    }
-
-    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+    /*
+    public static <T, E> T getKeyByValue(@NotNull Map<T, E> map, E value) {
         for (Map.Entry<T, E> entry : map.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
                 return entry.getKey();
             }
         }
         return null;
-    }
+    }*/
 
-    //Deregister connection
+
     public synchronized void deregisterConnection(ClientConnection c) {
-        List<ClientConnection> clientConnections = new ArrayList<>(waitingConnectionForTwo.values());
+        Iterator<String> iterator = waitingConnection.keySet().iterator();
+        while(iterator.hasNext()){
+            if(waitingConnection.get(iterator.next())==c){
+                iterator.remove();
+                return;
+            }
+        }
+
+        List<ClientConnection> clientConnections = new ArrayList<>(playingConnectionForTwo.values());
         for(ClientConnection x: clientConnections){
             if(x.equals(c)){
                 ClientConnection opponent = playingConnectionForTwo.get(c);
@@ -56,77 +64,106 @@ public class Server {
                 }
                 playingConnectionForTwo.remove(c);
                 playingConnectionForTwo.remove(opponent);
-                Iterator<String> iterator = waitingConnectionForTwo.keySet().iterator();
-                while(iterator.hasNext()){
-                    if(waitingConnectionForTwo.get(iterator.next())==c){
-                        iterator.remove();
-                    }
-                }
                 return;
             }
         }
         List<ClientConnection> opponents = new ArrayList<>(playingConnectionForThree.get(c).keySet());
         ClientConnection opponent1 = opponents.get(0);
         ClientConnection opponent2 = opponents.get(1);
-        if(opponent1 != null){
-            opponent1.closeConnection();
-            if(opponent2 != null){
-                opponent2.closeConnection();
-            }
-        }else if(opponent2 != null){
-                opponent2.closeConnection();
-        }
         playingConnectionForThree.remove(c);
-        Iterator<String> iterator = waitingConnectionForThree.keySet().iterator();
-        while(iterator.hasNext()){
-            if(waitingConnectionForThree.get(iterator.next())==c){
-                iterator.remove();
-            }
-        }
-        return;
+        playingConnectionForThree.remove(opponent1);
+        playingConnectionForThree.remove(opponent2);
+
+        playingConnectionForTwo.put(opponent1, opponent2);
+        playingConnectionForTwo.put(opponent2, opponent1);
     }
 
-    //Wait for another player
-    public synchronized void lobby(ClientConnection c, String name, int playersNum, Worker.Color workerColor, int[] deck){
-        if(playersNum == 2){
-            if(waitingConnectionForTwo.isEmpty()){
-                waitingConnectionForTwo.put(name, c);
-                deckTwo = deck;
-                playerColorTwo[0] = workerColor;
-            }else{
-                waitingConnectionForTwo.put(name, c);
-                deckTwo = deck;
-                playerColorTwo[1] = workerColor;
-                List<String> keys = new ArrayList<>(waitingConnectionForTwo.keySet());
-                ClientConnection c1 = waitingConnectionForTwo.get(keys.get(0));
-                ClientConnection c2 = waitingConnectionForTwo.get(keys.get(1));
-                Model model = new Model();
-                Player player1 = FactoryPlayer.getPlayer(getKeyByValue(waitingConnectionForTwo, c1), 1, model.getMatch(), playerColorTwo[0], deckTwo[0]);
-                Player player2 = FactoryPlayer.getPlayer(getKeyByValue(waitingConnectionForTwo, c2), 2, model.getMatch(), playerColorTwo[1], deckTwo[1]);
-                //View player1View = new RemoteView();
-                //View player2View = new RemoteView();
+    public synchronized boolean addClient(ClientConnection c, String name){
+        if (waitingConnection.containsKey(name)){
+            return false;
+        }
+        waitingConnection.put(name, c);
+        return true;
+    }
 
-                Controller controller = new Controller(model);
-                model.addObserver(player1View);
-                model.addObserver(player2View);
-                player1View.addObserver(controller);
-                player2View.addObserver(controller);
-                playingConnectionForTwo.put(c1, c2);
-                playingConnectionForTwo.put(c2, c1);
-                waitingConnectionForTwo.clear();
 
-                c1.asyncSend(model.getBoardCopy());
-                c2.asyncSend(model.getBoardCopy());
-                if(model.isPlayerTurn(player1)){
-                    c1.asyncSend(gameMessage.moveMessage);
-                    c2.asyncSend(gameMessage.waitMessage);
-                } else {
-                    c2.asyncSend(gameMessage.moveMessage);
-                    c1.asyncSend(gameMessage.waitMessage);
-                }
+    public synchronized boolean isFirstPlayer(ClientConnection c){
+        List<String> keys = new ArrayList<>(waitingConnection.keySet());
+        return waitingConnection.get(keys.get(0)).equals(c);
+    }
+
+    public synchronized void manageLobby(int numberOfPlayers){
+        if (numberOfPlayers == 2 || numberOfPlayers == 3 || this.numberOfPlayers == 2 || this.numberOfPlayers == 3){
+            if (waitingConnection.size() >= numberOfPlayers) {
+                createGame(numberOfPlayers);
             }
-        }else{
-            if(waitingConnectionForThree.isEmpty()){
+            else {
+                this.numberOfPlayers = numberOfPlayers;
+            }
+        }
+    }
+
+
+
+    //Wait for another player
+    public void createGame(int numberOfPlayers){
+        if(numberOfPlayers == 2){
+            List<String> keys = new ArrayList<>(waitingConnection.keySet());
+            Lobby lobby = new Lobby(keys.get(0), keys.get(1));
+            ClientConnection c1 = waitingConnection.get(keys.get(0));
+            ClientConnection c2 = waitingConnection.get(keys.get(1));
+            Controller controller = new Controller(lobby);
+            LobbyRemoteView player1LobbyView = new LobbyRemoteView(c1, lobby.getLobbyPlayers().get(0));
+            LobbyRemoteView player2LobbyView = new LobbyRemoteView(c2, lobby.getLobbyPlayers().get(1));
+
+
+            lobby.addObserverLobby(player1LobbyView);
+            lobby.addObserverLobby(player2LobbyView);
+            player1LobbyView.addObserverLobby(controller);
+            player2LobbyView.addObserverLobby(controller);
+
+            playingConnectionForTwo.put(c1, c2);
+            playingConnectionForTwo.put(c2, c1);
+            waitingConnection.remove(keys.get(0));
+            waitingConnection.remove(keys.get(1));
+            c1.asyncSend(GameMessage.chooseColor);
+            c2.asyncSend(GameMessage.waitMessageForColor);
+        }
+        else{
+            List<String> keys = new ArrayList<>(waitingConnection.keySet());
+            Lobby lobby = new Lobby(keys.get(0), keys.get(1), keys.get(2));
+            ClientConnection c1 = waitingConnection.get(keys.get(0));
+            ClientConnection c2 = waitingConnection.get(keys.get(1));
+            ClientConnection c3 = waitingConnection.get(keys.get(2));
+            Controller controller = new Controller(lobby);
+            LobbyRemoteView player1LobbyView = new LobbyRemoteView(c1, lobby.getLobbyPlayers().get(0));
+            LobbyRemoteView player2LobbyView = new LobbyRemoteView(c2, lobby.getLobbyPlayers().get(1));
+            LobbyRemoteView player3LobbyView = new LobbyRemoteView(c3, lobby.getLobbyPlayers().get(2));
+
+            lobby.addObserverLobby(player1LobbyView);
+            lobby.addObserverLobby(player2LobbyView);
+            lobby.addObserverLobby(player3LobbyView);
+            player1LobbyView.addObserverLobby(controller);
+            player2LobbyView.addObserverLobby(controller);
+            player3LobbyView.addObserverLobby(controller);
+
+            Map<ClientConnection, ClientConnection> tmpMap = new HashMap<>();
+            tmpMap.put(c2,c3);
+            playingConnectionForThree.put(c1,tmpMap);
+            tmpMap.clear();
+            tmpMap.put(c1,c3);
+            playingConnectionForThree.put(c2, tmpMap);
+            tmpMap.clear();
+            tmpMap.put(c1,c2);
+            playingConnectionForThree.put(c3, tmpMap);
+            waitingConnection.remove(keys.get(0));
+            waitingConnection.remove(keys.get(1));
+            waitingConnection.remove(keys.get(2));
+            c1.asyncSend(GameMessage.waitMessageForColor);
+            c2.asyncSend(GameMessage.waitMessageForColor);
+            c3.asyncSend(GameMessage.waitMessageForColor);
+
+            /*if(waitingConnectionForThree.isEmpty()){
                 waitingConnectionForThree.put(name, c);
                 deckThree = deck;
                 playerColorThree[0] = workerColor;
@@ -137,59 +174,10 @@ public class Server {
                     playerColorThree[1] = workerColor;
                 }else{
                     playerColorThree[2] = workerColor;
-                }
-                if(waitingConnectionForThree.size() == 3){
-                    List<String> keys = new ArrayList<>(waitingConnectionForThree.keySet());
-                    ClientConnection c1 = waitingConnectionForThree.get(keys.get(0));
-                    ClientConnection c2 = waitingConnectionForThree.get(keys.get(1));
-                    ClientConnection c3 = waitingConnectionForThree.get(keys.get(2));
-                    Model model = new Model();
-                    Player player1 = FactoryPlayer.getPlayer(getKeyByValue(waitingConnectionForThree, c1), 1, model.getMatch(), playerColorThree[0], deckThree[0]);
-                    Player player2 = FactoryPlayer.getPlayer(getKeyByValue(waitingConnectionForThree, c2), 2, model.getMatch(), playerColorThree[1], deckThree[1]);
-                    Player player3 = FactoryPlayer.getPlayer(getKeyByValue(waitingConnectionForThree, c3), 3, model.getMatch(), playerColorThree[2], deckThree[2]);
-                    //View player1View = new RemoteView();
-                    //View player2View = new RemoteView();
-                    //View player3View = new RemoteView();
-
-                    Controller controller = new Controller(model);
-                    model.addObserver(player1View);
-                    model.addObserver(player2View);
-                    model.addObserver(player3View);
-                    player1View.addObserver(controller);
-                    player2View.addObserver(controller);
-                    player3View.addObserver(controller);
-                    Map<ClientConnection, ClientConnection> tmpMap = new HashMap<>();
-                    tmpMap.put(c2,c3);
-                    playingConnectionForThree.put(c1,tmpMap);
-                    tmpMap.clear();
-                    tmpMap.put(c1,c3);
-                    playingConnectionForThree.put(c2, tmpMap);
-                    tmpMap.clear();
-                    tmpMap.put(c1,c2);
-                    playingConnectionForThree.put(c3, tmpMap);
-                    waitingConnectionForThree.clear();
-
-                    c1.asyncSend(model.getBoardCopy());
-                    c2.asyncSend(model.getBoardCopy());
-                    c3.asyncSend(model.getBoardCopy());
-
-                    if(model.isPlayerTurn(player1)){
-                        c1.asyncSend(gameMessage.moveMessage);
-                        c2.asyncSend(gameMessage.waitMessage);
-                        c3.asyncSend(gameMessage.waitMessage);
-                    } else {
-                        c2.asyncSend(gameMessage.moveMessage);
-                        c1.asyncSend(gameMessage.waitMessage);
-                        c3.asyncSend(gameMessage.waitMessage);
-                    }
-                }
-            }
+                }*/
         }
     }
 
-    public Server() throws IOException {
-        this.serverSocket = new ServerSocket(PORT);
-    }
 
     public void run(){
         while(true){
