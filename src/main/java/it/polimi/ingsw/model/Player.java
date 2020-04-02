@@ -107,43 +107,80 @@ public class Player {
         return selectionOk;
     }
 
-    protected ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
+    public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
         switch(stateOfTurn){
             case 1:
-                if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[0] : workers[1])){                         //se non può muovere il worker selezionato
-                    if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[1] : workers[0])){
-                        match.removeWorker(workers[0]);
-                        match.removeWorker(workers[1]);
-                        return new ChoiceResponseMessage(match.getBoard().clone(), this, "Hai perso");
+                return manageStateSelection(x, y, gender);
+            case 2:
+                return manageStateMove(x, y);
+            case 3:
+                ChoiceResponseMessage tempResponse = manageStateBuild(x, y);
+                    if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
+                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " e il tuo turno è terminato");
+                        match.nextPlayer();
+                        return tempResponse;
                     }
-                    stateOfTurn++;
-                    setSelectedWorker(gender == Worker.Gender.Male ? workers[1].getGender() : workers[0].getGender());
-                    return new ChoiceResponseMessage(match.getBoard().clone(), this, "Non era selezionabile il worker è stato scelto automaticamente l'altro");
-                }
-                setSelectedWorker(gender);
+                    return tempResponse;
+            default: return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+        }
+    }
+
+    protected ChoiceResponseMessage manageStateSelection( int x, int y, Worker.Gender gender){ //i vari if else servono perchè nelle setSelectedWorker vengono verificati altri limiti rispetto alla checkLoserMove
+        if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[0] : workers[1])){                         //se non può muovere il worker selezionato
+            if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[1] : workers[0])){
+                match.removeWorker(workers[0]);
+                match.removeWorker(workers[1]);
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Hai perso");
+            }
+            if(setSelectedWorker(gender == Worker.Gender.Male ? workers[1].getGender() : workers[0].getGender())){
+                stateOfTurn++;
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Non era selezionabile il worker è stato scelto automaticamente l'altro");
+            }
+            else
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Hai perso, nessuno dei due worker è selezionabile!");
+        }
+        else {
+            if(setSelectedWorker(gender)){
                 stateOfTurn++;
                 return new ChoiceResponseMessage(match.getBoard().clone(), this, "Hai selezionato bene");
-            case 2:
-                selectedWorkerMove(x, y);
-                if(match.checkWin(selectedWorker)){
-                    stateOfTurn = 1;
-                    return new ChoiceResponseMessage(match.getBoard().clone(), this, "Hai vinto");
+            }
+            else {
+                if(setSelectedWorker(gender == Worker.Gender.Male ? workers[1].getGender() : workers[0].getGender())){
+                    stateOfTurn++;
+                    return new ChoiceResponseMessage(match.getBoard().clone(), this, "Non era selezionabile il worker è stato scelto automaticamente l'altro");
                 }
-                stateOfTurn++;
-               return new ChoiceResponseMessage(match.getBoard().clone(), this, "Ti sei mosso correttamente");
-            case 3:
-                if(match.checkLoserBuild(selectedWorker)){
-                    stateOfTurn = 1;
-                    match.removeWorker(workers[0]);
-                    match.removeWorker(workers[1]);
-                    return new ChoiceResponseMessage(match.getBoard().clone(), this, "Hai perso,non puoi costruire");
-                }
-                selectedWorkerBuild(x,y);
-                stateOfTurn++;
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Costruzione eseguita");
-            default:
-                match.nextPlayer();
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Fine del tuo turno");
+                else
+                    return new ChoiceResponseMessage(match.getBoard().clone(), this, "Hai perso, nessuno dei due worker è selezionabile!");
+            }
+        }
+    }
+    protected ChoiceResponseMessage manageStateMove(int x, int y){
+        if(selectedWorkerMove(x, y)) {
+            if (match.checkWin(selectedWorker)) {
+                stateOfTurn = 1;
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Hai vinto");
+            }
+            stateOfTurn++;
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, "Ti sei mosso correttamente");
+        }
+        else {
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, "Non è possibile eseguire lo spostamento richiesto, cambiare casella");
+        }
+    }
+
+    protected ChoiceResponseMessage manageStateBuild(int x, int y){
+        if(match.checkLoserBuild(selectedWorker)){
+            stateOfTurn = 1;
+            match.removeWorker(workers[0]);
+            match.removeWorker(workers[1]);
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, "Hai perso,non puoi costruire");
+        }
+        if(selectedWorkerBuild(x,y)) {
+            stateOfTurn = 1;
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, "Costruzione eseguita");
+        }
+        else {
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, "Non è possibile eseguire la costruzione, cambiare casella");
         }
     }
 

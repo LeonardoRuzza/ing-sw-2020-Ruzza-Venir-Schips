@@ -18,4 +18,7 @@ public class ChoiceResponseMessage {
     public Board getBoard() {
         return board;
     }
+    public String getNextInstruction() {
+        return nextInstruction;
+    }
 }
