@@ -6,7 +6,7 @@ public class Player {
     protected String nickname;
     protected int number;
     protected Card card;
-    protected int stateOfTurn;
+    protected int stateOfTurn = 1;
 
     protected Match match;
     protected Worker[] workers = new Worker[2];

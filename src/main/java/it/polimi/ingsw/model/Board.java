@@ -157,4 +157,35 @@ public class Board implements Cloneable, Serializable {
         }
         return result;
     }
+
+    protected void draw(){
+        boolean linePrint = true;
+        for(int y = 0; y < boardSide*2+1; y++){
+            int realY = y/2;
+            for(int x = 0; x < boardSide; x++){
+                int realX = x;
+                if(linePrint){
+                    if(x == 0){
+                        System.out.print(" ____");
+                    }else {
+                        System.out.print("____");
+                    }
+                }else{
+                    System.out.print("| ");
+                    if (getLastBusyCell(realX,realY).getBlock()!=null){
+                        System.out.print(getLastBusyCell(realX,realY).getzCoord()+1);
+                    }else{
+                        System.out.print(" ");
+                    }
+                    if(getLastBusyCell(realX,realY).getWorker()!=null){
+                        System.out.print("w"+" ");
+                    }else{
+                        System.out.print("  ");
+                    }
+                }
+            }
+            System.out.println("");
+            linePrint = !linePrint;
+        }
+    }
 }

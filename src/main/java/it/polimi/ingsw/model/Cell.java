@@ -95,7 +95,11 @@ public class Cell implements Cloneable {
     @Override
     protected Cell clone() {
         Cell clonedCell = new Cell(xCoord, yCoord, zCoord);
-        clonedCell.workerInCell = this.workerInCell.clone();
+        if(this.workerInCell != null){
+            clonedCell.workerInCell = this.workerInCell.clone();
+        }else{
+            clonedCell.workerInCell = null;
+        }
         clonedCell.blockInCell = this.blockInCell;
         return clonedCell;
     }

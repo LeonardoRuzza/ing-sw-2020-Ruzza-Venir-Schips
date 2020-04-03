@@ -63,6 +63,7 @@ public class PlayerHestia extends Player {
                     return tempResponse;
                 }else if(optional.equals("NO")){
                     stateOfTurn = 1;
+                    resetTurn();
                     match.nextPlayer();
                     return new ChoiceResponseMessage(match.getBoard().clone(), this, "Fine del tuo turno!");
                 }

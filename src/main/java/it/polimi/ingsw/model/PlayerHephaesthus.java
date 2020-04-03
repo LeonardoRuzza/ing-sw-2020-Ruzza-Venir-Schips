@@ -53,12 +53,13 @@ public class PlayerHephaesthus extends Player {
             case 2:
                 tempResponse = manageStateMove(x, y);
                 if(tempResponse.getNextInstruction().equals("Ti sei mosso correttamente")){
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + "Scegli dove crostruire e nel caso tu voglia costruire due volte scrivi BUILDTWOTIMES dopo la casella");
+                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + ". Scegli dove crostruire e nel caso tu voglia costruire due volte scrivi BUILDTWOTIMES dopo la casella");
                 }
                 return tempResponse;
             case 3:
                 if(!optional.equals("BUILDTWOTIMES")){
                     tempResponse = super.manageStateBuild(x, y);
+                    resetTurn();
                     if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
                         tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " e il tuo turno è terminato");
                         match.nextPlayer();

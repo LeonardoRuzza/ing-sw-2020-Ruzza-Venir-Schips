@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 public class PlayerHephaesthusTest {
 
@@ -11,8 +8,8 @@ public class PlayerHephaesthusTest {
     private static PlayerHephaesthus efesto;
     private static Player player2Generic;
 
-    @BeforeClass
-    public static void beforeClass() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         match=new Match(1,2);
         efesto=new PlayerHephaesthus("leo",2,new Card(5),match, Worker.Color.BLACK);
         player2Generic=new Player("edo",1,new Card(1),match,Worker.Color.WHITE);
@@ -57,10 +54,38 @@ public class PlayerHephaesthusTest {
         Assert.assertFalse(efesto.selectedWorkerBuild(0,0));   //prova a costruire troppo lontano
         Assert.assertTrue(efesto.selectedWorkerBuild(1,0));    //costruisce il primo blocco
         Assert.assertTrue(efesto.selectedWorkerBuild(1,0));    //costruisce il secondo blocco sulla stesa casella di prima
+    }
 
-
-
-
-
+    @Test
+    public void testManageTurnBuildOneTime() {
+        match.nextPlayer();
+        match.nextPlayer();
+        efesto.setSelectedWorker(efesto.workers[0]);
+        efesto.selectedWorkerMove(0,0);
+        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), "Hai selezionato bene");
+        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), "Ti sei mosso correttamente. Scegli dove crostruire e nel caso tu voglia costruire due volte scrivi BUILDTWOTIMES dopo la casella");
+        Assert.assertEquals("Errore Costruzione Singola worker", efesto.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(), "Costruzione eseguita e il tuo turno è terminato");
+    }
+    @Test
+    public void testManageTurnBuildTwoTimeSuccess() {
+        match.nextPlayer();
+        match.nextPlayer();
+        efesto.setSelectedWorker(efesto.workers[0]);
+        efesto.selectedWorkerMove(0,0);
+        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), "Hai selezionato bene");
+        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), "Ti sei mosso correttamente. Scegli dove crostruire e nel caso tu voglia costruire due volte scrivi BUILDTWOTIMES dopo la casella");
+        Assert.assertEquals("Errore Costruzione Singola worker", efesto.manageTurn(1,0, Worker.Gender.Male, "BUILDTWOTIMES").getNextInstruction(), "Costruzione eseguita e il tuo turno è terminato");
+    }
+    @Test
+    public void testManageTurnBuildTwoTimeFail() {
+        match.nextPlayer();
+        match.nextPlayer();
+        efesto.setSelectedWorker(efesto.workers[0]);
+        efesto.selectedWorkerMove(0,0);
+        match.forceBuild(1,0, efesto.workers[0]);
+        match.forceBuild(1,0, efesto.workers[0]);
+        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), "Hai selezionato bene");
+        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), "Ti sei mosso correttamente. Scegli dove crostruire e nel caso tu voglia costruire due volte scrivi BUILDTWOTIMES dopo la casella");
+        Assert.assertEquals("Errore Costruzione Singola worker", efesto.manageTurn(1,0, Worker.Gender.Male, "BUILDTWOTIMES").getNextInstruction(), "Non puoi costruire due volte qui. Fine del turno.");
     }
 }

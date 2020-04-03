@@ -189,7 +189,7 @@ public class MatchTest {
         location[0] = 0;
         location[1] = 0;
         Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        //Assert.assertTrue("Error Check Loser Move", match.checkLoserBuild(testWorkerOne).equals(testPlayer1));
+        Assert.assertTrue("Error Check Loser Move", match.checkLoserBuild(testWorkerOne));
     }
     @Test
     public void testMovementLocateMovement() {
