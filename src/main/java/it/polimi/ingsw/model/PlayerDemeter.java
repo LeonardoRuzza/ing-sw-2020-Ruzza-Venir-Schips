@@ -37,4 +37,39 @@ public class PlayerDemeter extends Player {
             return false;
         }
     }
+
+    @Override
+    public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
+        switch(stateOfTurn){
+            case 1:
+                return manageStateSelection(x, y, gender);
+            case 2:
+                return manageStateMove(x, y);
+            case 3:
+                ChoiceResponseMessage tempResponse = manageStateBuild(x, y);
+                if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
+                    stateOfTurn = 4;
+                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " scegli dove effettuare la seconda costruzione sennò scrivi NO");
+                }
+                return tempResponse;
+            case 4:
+                if(optional.equals("BUILDTWOTIMES")){
+                    tempResponse = manageStateBuild(x, y);
+                    if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
+                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " e il tuo turno è terminato");
+                        match.nextPlayer();
+                        return tempResponse;
+                    }
+                    return tempResponse;
+                }else if(optional.equals("NO")){
+                    stateOfTurn = 1;
+                    resetTurn();
+                    match.nextPlayer();
+                    return new ChoiceResponseMessage(match.getBoard().clone(), this, "Fine del tuo turno!");
+                }
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Fine del tuo turno!"); //questa riga è una specie di default se non vengono passati parametri corretti?
+
+            default: return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+        }
+    }
 }
