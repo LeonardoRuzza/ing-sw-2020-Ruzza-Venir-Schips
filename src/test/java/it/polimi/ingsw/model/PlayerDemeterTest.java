@@ -1,17 +1,14 @@
 package it.polimi.ingsw.model;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 public class PlayerDemeterTest {
     private  static Match match;
     private static PlayerDemeter demeter;
     private static Player player2Generic;
 
-    @BeforeClass
-    public static void beforeClass() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         match=new Match(1,2);
         demeter=new PlayerDemeter("leo",2,new Card(4),match, Worker.Color.BLACK);
         player2Generic=new Player("edo",1,new Card(1),match,Worker.Color.WHITE);
@@ -64,5 +61,40 @@ public class PlayerDemeterTest {
         Assert.assertTrue(demeter.selectedWorkerBuild(4,1));                //costruisce due volte verificando che la resetTurn abbia funzionanto bene
         Assert.assertTrue(demeter.selectedWorkerBuild(3,0));
 
+    }
+
+    @Test
+    public void testManageTurnBuildOneTime() {
+        match.nextPlayer();
+        match.nextPlayer();
+        demeter.setSelectedWorker(demeter.workers[0]);
+        demeter.selectedWorkerMove(0,0);
+        Assert.assertEquals("Errore Selezione worker", demeter.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", demeter.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement +  Player.turnMessageChooseCellBuild);
+        Assert.assertEquals("Errore Costruzione Singola worker", demeter.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkBuild +  Player.hestiaDemeterTurnMessageAskTwoBuild);
+        Assert.assertEquals("Errore Costruzione Termina Turno", demeter.manageTurn(1,0, Worker.Gender.Male, Player.turnMessageNO).getNextInstruction(),  Player.turnMessageTurnEnd);
+    }
+    @Test
+    public void testManageTurnBuildTwoTimeSuccess() {
+        match.nextPlayer();
+        match.nextPlayer();
+        demeter.setSelectedWorker(demeter.workers[0]);
+        demeter.selectedWorkerMove(0,0);
+        Assert.assertEquals("Errore Selezione worker", demeter.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", demeter.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement +  Player.turnMessageChooseCellBuild);
+        Assert.assertEquals("Errore Costruzione Singola worker", demeter.manageTurn(2,2, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkBuild + Player.hestiaDemeterTurnMessageAskTwoBuild);
+        Assert.assertEquals("Errore Costruzione Termina Turno", demeter.manageTurn(0,0, Worker.Gender.Male, Player.turnMessageBUILDTWOTIMES).getNextInstruction(), Player.turnMessageOkBuild+Player.turnMessageTurnEnd);
+    }
+    @Test
+    public void testManageTurnBuildTwoTimeFail() {
+        match.nextPlayer();
+        match.nextPlayer();
+        demeter.setSelectedWorker(demeter.workers[0]);
+        demeter.selectedWorkerMove(0,0);
+        Assert.assertEquals("Errore Selezione worker", demeter.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", demeter.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement +  Player.turnMessageChooseCellBuild);
+        Assert.assertEquals("Errore Costruzione Singola worker", demeter.manageTurn(2,2, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkBuild + Player.hestiaDemeterTurnMessageAskTwoBuild);
+        Assert.assertEquals("Errore Costruzione Termina Turno", demeter.manageTurn(2,2, Worker.Gender.Male, Player.turnMessageBUILDTWOTIMES).getNextInstruction(), Player.hestiaDemeterTurnMessageFailOptionalBuildWNewCell);
+        Assert.assertEquals("Errore Costruzione Termina Turno", demeter.manageTurn(2,2, Worker.Gender.Male, Player.turnMessageNO).getNextInstruction(), Player.turnMessageTurnEnd);
     }
 }

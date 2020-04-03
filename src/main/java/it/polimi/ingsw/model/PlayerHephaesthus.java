@@ -52,31 +52,33 @@ public class PlayerHephaesthus extends Player {
                 return manageStateSelection(x, y, gender);
             case 2:
                 tempResponse = manageStateMove(x, y);
-                if(tempResponse.getNextInstruction().equals("Ti sei mosso correttamente")){
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + ". Scegli dove crostruire e nel caso tu voglia costruire due volte scrivi BUILDTWOTIMES dopo la casella");
+                if(tempResponse.getNextInstruction().equals(Player.turnMessageOkMovement)){
+                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + hephaesthusTurnMessageAskBuild);
                 }
                 return tempResponse;
             case 3:
-                if(!optional.equals("BUILDTWOTIMES")){
+                if(!optional.equals(turnMessageBUILDTWOTIMES)){
                     tempResponse = super.manageStateBuild(x, y);
                     resetTurn();
-                    if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
-                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " e il tuo turno è terminato");
+                    if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
+                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ turnMessageTurnEnd);
+                        resetTurn();
                         match.nextPlayer();
                         return tempResponse;
                     }
                     return tempResponse;
                 }
                 tempResponse = super.manageStateBuild(x, y);
-                if(!tempResponse.getNextInstruction().equals("Costruzione eseguita")){
+                if(!tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
                     return tempResponse;
                 }
                 tempResponse = manageStateBuild(x, y);
-                if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " e il tuo turno è terminato");
+                if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ turnMessageTurnEnd);
                 }else{
                     tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction());
                 }
+                resetTurn();
                 match.nextPlayer();
                 return tempResponse;
             default: return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default
@@ -87,10 +89,10 @@ public class PlayerHephaesthus extends Player {
     protected ChoiceResponseMessage manageStateBuild(int x, int y){
         if(selectedWorkerBuild(x,y)) {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, "Costruzione eseguita");
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageOkBuild);
         }else {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, "Non puoi costruire due volte qui. Fine del turno.");
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, hephaesthusTurnMessageFailOptionalBuildWEnd);
         }
     }
 }

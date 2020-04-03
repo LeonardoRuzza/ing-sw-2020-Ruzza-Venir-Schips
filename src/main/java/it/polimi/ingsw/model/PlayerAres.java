@@ -30,26 +30,26 @@ public class PlayerAres extends Player {
                 return manageStateMove( x, y);
             case 3:
                 tempResponse = manageStateBuild(x, y);
-                if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
+                if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
                     stateOfTurn = 4; //sovrascrive quello che mette di default l'altro medoto maageStateBuild
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " selezione la casella dalla quale vuoi rimuovere un blocco vicino all'operaio che non hai spostato sennò scrivi NO"); //da valutare remoteview
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ aresTurnMessageAskRemoveBlok); //da valutare remoteview
                     return tempResponse;
                 }
                 return tempResponse;
             case 4:
-                if(optional.equals("NO")){
+                if(optional.equals(turnMessageNO)){
                     stateOfTurn = 1;
                     match.nextPlayer();
-                    return new ChoiceResponseMessage(match.getBoard().clone(), this, "Fine del tuo turno!");
+                    return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageTurnEnd);
                 }
                 if(notSelectedWorkerRemoveBlock(x, y)){
-                    tempResponse = new ChoiceResponseMessage(match.getBoard().clone(), this, "Il blocco è stato rimosso ed è finito il turno!");
+                    tempResponse = new ChoiceResponseMessage(match.getBoard().clone(), this, aresTurnMessageSuccessRemoveBlokWEnd);
                     match.nextPlayer();
                     stateOfTurn = 1;
                     return tempResponse;
                 }
                 stateOfTurn = 4;
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Il blocco NON è stato rimosso, inserire altri valori oppure scrivere NO per rinunciare alla rimozione del blocco");
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, aresTurnMessageFailRemoveBlokWNewCell);
 
             default:
                 return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default

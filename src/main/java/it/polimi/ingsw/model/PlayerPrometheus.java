@@ -55,30 +55,35 @@ public class PlayerPrometheus extends Player {
     @Override
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
         ChoiceResponseMessage tempResponse;
+        if(!optional.equals(TurnMessageBUILDBEFORE) && stateOfTurn == 2){
+            stateOfTurn++;
+        }
         switch(stateOfTurn){
             case 1:
-                if(!optional.equals("BUILDBEFORE")){
-                    stateOfTurn++;
+                tempResponse = manageStateSelection(x, y, gender);
+                if(tempResponse.getNextInstruction().equals(turnMessageOkWorkerSelection)) {
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + prometheusTurnMessageAskBuildBefore);
                 }
-                return manageStateSelection(x, y, gender);
+                return tempResponse;
             case 2:
-                tempResponse = super.manageStateBuild(x, y);
-                if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
+                tempResponse = manageStateBuild(x, y);
+                if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
                     stateOfTurn = 3;
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ ". Scegli dove muoverti");
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ turnMessageChooseCellMove);
                     return tempResponse;
                 }
                 return tempResponse;
             case 3:
                 tempResponse = manageStateMove(x, y);
-                if(tempResponse.getNextInstruction().equals("Ti sei mosso correttamente")){
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + ". Scegli dove crostruire");
+                if(tempResponse.getNextInstruction().equals(turnMessageOkMovement)){
+                    stateOfTurn = 4;
+                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + turnMessageChooseCellBuild);
                 }
                 return tempResponse;
             case 4:
-                tempResponse = super.manageStateBuild(x, y);
-                if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " e il tuo turno è terminato");
+                tempResponse = manageStateBuild(x, y);
+                if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ turnMessageTurnEnd);
                     match.nextPlayer();
                     return tempResponse;
                 }

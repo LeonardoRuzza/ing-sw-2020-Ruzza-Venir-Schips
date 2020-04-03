@@ -21,23 +21,23 @@ public class PlayerAtlas extends Player {
                 return manageStateSelection(x, y, gender);
             case 2:
                 tempResponse = manageStateMove(x, y);
-                if(tempResponse.getNextInstruction().equals("Ti sei mosso correttamente")){
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + "Scegli dove crostruire e nel caso tu voglia costruire la cupola aggiungi DORSE dopo la casella");
+                if(tempResponse.getNextInstruction().equals(turnMessageOkMovement)){
+                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + atlasTurnMessageAskBuildDorse);
                 }
                 return tempResponse;
             case 3:
-                if(optional.equals("DORSE")){
+                if(optional.equals(turnMessageDORSE)){
                         if(selectedWorkerBuildDorse(x,y)){
                             stateOfTurn = 1;
-                            tempResponse = new ChoiceResponseMessage(match.getBoard().clone(), this, "Costruzione della cupola eseguita correttamente, il tuo turno è finito");
+                            tempResponse = new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageOkBuild+turnMessageTurnEnd);
                             match.nextPlayer();
                             return tempResponse;
                         }
-                        else return new ChoiceResponseMessage(match.getBoard().clone(), this, "Costruzione della cupola NON eseguita, cambia casella oppure rinuncia all'opzione DORSE");
+                        else return new ChoiceResponseMessage(match.getBoard().clone(), this, atlasTurnMessageFailBuildDorse);
                 }
                 tempResponse = manageStateBuild(x, y);
-                if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " e il tuo turno è terminato");
+                if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ turnMessageTurnEnd);
                     match.nextPlayer();
                     return tempResponse;
                 }

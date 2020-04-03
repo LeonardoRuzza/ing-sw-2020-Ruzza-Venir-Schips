@@ -14,6 +14,7 @@ public class PlayerAtlasTest {
     private Worker testWorker;
     private int[] location = new int[]{0,1};
     private int[] build = new int[]{1,1};
+
     @Before
     public void setUp() throws Exception {
         testPlayer1 = new PlayerAtlas("player1", 1, cardAtlas, match, Worker.Color.BLACK);
@@ -33,5 +34,22 @@ public class PlayerAtlasTest {
         testPlayer1.selectedWorker = testWorker;
         Assert.assertTrue("Error Build Dorse", testPlayer1.selectedWorkerBuildDorse(0,1));
         Assert.assertEquals("No Dorse Builded", testWorker.getOldLocation().getBlock(), Block.DORSE);
+    }
+
+    @Test
+    public void testManageTurnBuildDorse() {
+        testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
+        testPlayer1.selectedWorkerMove(0,0);
+        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement + Player.atlasTurnMessageAskBuildDorse);
+        Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, Player.turnMessageDORSE).getNextInstruction(),  Player.turnMessageOkBuild +  Player.turnMessageTurnEnd);
+    }
+    @Test
+    public void testManageTurnBuildNormal() {
+        testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
+        testPlayer1.selectedWorkerMove(0,0);
+        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement + Player.atlasTurnMessageAskBuildDorse);
+        Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkBuild +  Player.turnMessageTurnEnd);
     }
 }

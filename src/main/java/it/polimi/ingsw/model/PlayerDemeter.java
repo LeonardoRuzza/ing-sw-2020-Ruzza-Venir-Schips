@@ -25,8 +25,7 @@ public class PlayerDemeter extends Player {
                 return true;
             }
             else return false;
-        }
-        else{
+        }else{
             if(x!=firstX || y!=firstY){
                 if(super.selectedWorkerBuild(x,y)){
                     resetTurn();
@@ -40,36 +39,51 @@ public class PlayerDemeter extends Player {
 
     @Override
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
+        ChoiceResponseMessage tempResponse;
         switch(stateOfTurn){
             case 1:
                 return manageStateSelection(x, y, gender);
             case 2:
-                return manageStateMove(x, y);
+                tempResponse = manageStateMove(x, y);
+                if(tempResponse.getNextInstruction().equals(turnMessageOkMovement)){
+                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + turnMessageChooseCellBuild);
+                }
+                return tempResponse;
             case 3:
-                ChoiceResponseMessage tempResponse = manageStateBuild(x, y);
-                if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
+                tempResponse = manageStateBuild(x, y);
+                if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
                     stateOfTurn = 4;
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " scegli dove effettuare la seconda costruzione sennò scrivi NO");
+                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ hestiaDemeterTurnMessageAskTwoBuild);
                 }
                 return tempResponse;
             case 4:
-                if(optional.equals("BUILDTWOTIMES")){
+                if(optional.equals(turnMessageBUILDTWOTIMES)){
                     tempResponse = manageStateBuild(x, y);
-                    if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
-                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " e il tuo turno è terminato");
+                    if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
+                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ turnMessageTurnEnd);
                         match.nextPlayer();
                         return tempResponse;
                     }
                     return tempResponse;
-                }else if(optional.equals("NO")){
-                    stateOfTurn = 1;
-                    resetTurn();
-                    match.nextPlayer();
-                    return new ChoiceResponseMessage(match.getBoard().clone(), this, "Fine del tuo turno!");
                 }
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Fine del tuo turno!"); //questa riga è una specie di default se non vengono passati parametri corretti?
-
+                stateOfTurn = 1;
+                resetTurn();
+                match.nextPlayer();
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageTurnEnd);
             default: return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+        }
+    }
+
+    @Override
+    protected ChoiceResponseMessage manageStateBuild(int x, int y){
+        if(match.checkLoserBuild(selectedWorker)){
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, hestiaDemeterTurnMessageFailOptionalBuildWEnd);
+        }
+        if(selectedWorkerBuild(x,y)) {
+            stateOfTurn = 1;
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageOkBuild);
+        }else {
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, hestiaDemeterTurnMessageFailOptionalBuildWNewCell);
         }
     }
 }

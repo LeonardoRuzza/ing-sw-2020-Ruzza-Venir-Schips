@@ -158,31 +158,60 @@ public class Board implements Cloneable, Serializable {
         return result;
     }
 
-    protected void draw(){
+    protected void draw(Player myPlayer){
         boolean linePrint = true;
         for(int y = 0; y < boardSide*2+1; y++){
             int realY = y/2;
+            if(y == 0){
+                System.out.print("    ");
+                for(int x = 0; x < boardSide; x++){
+                    System.out.print("  " + x + "   ");
+                }
+                System.out.println("");
+            }
             for(int x = 0; x < boardSide; x++){
+
                 int realX = x;
                 if(linePrint){
                     if(x == 0){
-                        System.out.print(" ____");
+                        System.out.print("    _____");
                     }else {
-                        System.out.print("____");
+                        System.out.print("_____");
                     }
                 }else{
-                    System.out.print("| ");
+                    if(x==0){
+                        System.out.print(" "+ realY +" | ");
+                    }else{
+                        System.out.print("| ");
+                    }
                     if (getLastBusyCell(realX,realY).getBlock()!=null){
-                        System.out.print(getLastBusyCell(realX,realY).getzCoord()+1);
+                        if(getLastBusyCell(realX,realY).getBlock() == Block.DORSE){
+                            System.out.print(Worker.Color.BLUE.getColorString() + "D" + Worker.Color.BLACK.getANSI_RESET());
+                        }else{
+                            System.out.print(getLastBusyCell(realX,realY).getzCoord()+1);
+                        }
                     }else{
                         System.out.print(" ");
                     }
-                    if(getLastBusyCell(realX,realY).getWorker()!=null){
-                        System.out.print("w"+" ");
+                    System.out.print(" ");
+                    Worker actW = getLastBusyCell(realX,realY).getWorker();
+                    if(actW!=null){
+                        if(actW.equals(myPlayer.workers[0])){
+                            System.out.print(actW.getColor().getColorString() + "M"+" " + Worker.Color.BLACK.getANSI_RESET());
+                        }else if(actW.equals(myPlayer.workers[1])){
+                            System.out.print(actW.getColor().getColorString() + "F"+" " + Worker.Color.BLACK.getANSI_RESET());
+                        }else{
+                            System.out.print(actW.getColor().getColorString() + "w"+" " + Worker.Color.BLACK.getANSI_RESET());
+                        }
                     }else{
                         System.out.print("  ");
                     }
                 }
+            }
+            if(!linePrint){
+                System.out.print("|");
+            }else{
+                System.out.print("____");
             }
             System.out.println("");
             linePrint = !linePrint;

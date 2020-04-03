@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 public class PlayerHestia extends Player {
+
     private boolean firstBuild=true;
     private int firstX=-1, firstY=-1;
 
@@ -32,6 +33,7 @@ public class PlayerHestia extends Player {
         return false;
     }
 
+
     @Override
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
         ChoiceResponseMessage tempResponse;
@@ -40,46 +42,48 @@ public class PlayerHestia extends Player {
                 return manageStateSelection(x, y, gender);
             case 2:
                 tempResponse = manageStateMove(x, y);
-                if(tempResponse.getNextInstruction().equals("Ti sei mosso correttamente")){
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + "Scegli dove crostruire e nel caso tu voglia costruire due volte scrivi BUILDTWOTIMES dopo la casella");
+                if(tempResponse.getNextInstruction().equals(turnMessageOkMovement)){
+                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + turnMessageChooseCellBuild);
                 }
                 return tempResponse;
             case 3:
                 tempResponse = super.manageStateBuild(x, y);
-                if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
+                if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
                     stateOfTurn = 4;
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " e il tuo turno è terminato");
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ hestiaDemeterTurnMessageAskTwoBuild);
                     return tempResponse;
                 }
                 return tempResponse;
             case 4:
-                if(optional.equals("BUILDTWOTIMES")){
+                if(optional.equals(turnMessageBUILDTWOTIMES)){
                     tempResponse = manageStateBuild(x, y);
-                    if(tempResponse.getNextInstruction().equals("Costruzione eseguita")){
-                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ " e il tuo turno è terminato");
+                    if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
+                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ turnMessageTurnEnd);
                         match.nextPlayer();
                         return tempResponse;
                     }
                     return tempResponse;
-                }else if(optional.equals("NO")){
+                }else if(optional.equals(turnMessageNO)){
                     stateOfTurn = 1;
                     resetTurn();
                     match.nextPlayer();
-                    return new ChoiceResponseMessage(match.getBoard().clone(), this, "Fine del tuo turno!");
+                    return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageTurnEnd);
                 }
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Fine del tuo turno!");
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageTurnEnd);
             default: return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default
         }
     }
 
     @Override
     protected ChoiceResponseMessage manageStateBuild(int x, int y){
+        if(match.checkLoserBuild(selectedWorker)){
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, hestiaDemeterTurnMessageFailOptionalBuildWEnd);
+        }
         if(selectedWorkerBuild(x,y)) {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, "Costruzione eseguita");
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageOkBuild);
         }else {
-            stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, "Non puoi costruire qui. Fine del turno.");
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, hestiaDemeterTurnMessageFailOptionalBuildWNewCell);
         }
     }
 

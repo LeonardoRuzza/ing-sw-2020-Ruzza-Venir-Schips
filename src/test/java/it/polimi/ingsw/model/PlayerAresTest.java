@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 public class PlayerAresTest {
     private  static Match match;
@@ -11,10 +8,10 @@ public class PlayerAresTest {
     private static Player player2Generic;
 
 
-    @BeforeClass
-    public static void beforeClass() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         match=new Match(1,2);
-        ares=new PlayerAres("ruzzolino",2,new Card(1),match, Worker.Color.BLACK);
+        ares=new PlayerAres("leo",2,new Card(1),match, Worker.Color.RED);
         player2Generic=new Player("edo",1,new Card(2),match,Worker.Color.WHITE);
         match.players[1] = ares;
         match.players[0] = player2Generic;
@@ -27,7 +24,6 @@ public class PlayerAresTest {
 
     @Test
     public void testNotSelectedWorkerRemoveBlock() {
-
         Assert.assertTrue(player2Generic.setSelectedWorker(Worker.Gender.Male));
         Assert.assertTrue(player2Generic.selectedWorkerMove(2,2));
         Assert.assertTrue(player2Generic.setSelectedWorker(Worker.Gender.Female));
@@ -62,12 +58,40 @@ public class PlayerAresTest {
 
         Assert.assertFalse(ares.notSelectedWorkerRemoveBlock(1,4));             //verifico che non rimuova una cupola
         Assert.assertFalse(ares.notSelectedWorkerRemoveBlock(0,0));             //verifico non faccia rimuovere vicino al worker con cui si è mosso
+    }
 
+    @Test
+    public void testManageTurnRemoveWithSuccess() {
+        match.nextPlayer();
+        match.nextPlayer();
+        ares.setSelectedWorker(ares.workers[0]);
+        ares.selectedWorkerMove(0,0);
+        ares.setSelectedWorker(ares.workers[1]);
+        ares.selectedWorkerMove(2,0);
+        ares.setSelectedWorker(ares.workers[0]);
+        Assert.assertEquals("Errore Selezione worker", ares.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", ares.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement);
+        Assert.assertEquals("Errore Costruzione Singola worker", ares.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkBuild +  Player.aresTurnMessageAskRemoveBlok);
+        Assert.assertEquals("Errore Costruzione Termina Turno", ares.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  Player.aresTurnMessageSuccessRemoveBlokWEnd);
+    }
 
-
-
-
-
-
+    @Test
+    public void testManageTurnNotRemoveDorse() {
+        match.nextPlayer();
+        match.nextPlayer();
+        ares.setSelectedWorker(ares.workers[0]);
+        ares.selectedWorkerMove(0,0);
+        ares.setSelectedWorker(ares.workers[1]);
+        ares.selectedWorkerMove(2,0);
+        ares.setSelectedWorker(ares.workers[0]);
+        match.forceBuild(1,0,ares.selectedWorker);
+        match.forceBuild(1,0,ares.selectedWorker);
+        match.forceBuild(1,0,ares.selectedWorker);
+        Assert.assertEquals("Errore Selezione worker", ares.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", ares.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement);
+        Assert.assertEquals("Errore Costruzione Singola worker", ares.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkBuild +  Player.aresTurnMessageAskRemoveBlok);
+        Assert.assertEquals("Errore Rimuovi Blocco", ares.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  Player.aresTurnMessageFailRemoveBlokWNewCell);
+        Assert.assertEquals("Errore Costruzione Termina Turno", ares.manageTurn(1,0, Worker.Gender.Male, Player.turnMessageNO).getNextInstruction(),  Player.turnMessageTurnEnd);
+        match.getBoard().draw(ares);
     }
 }

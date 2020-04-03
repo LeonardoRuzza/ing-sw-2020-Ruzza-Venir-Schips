@@ -43,4 +43,25 @@ public class PlayerPrometheusTest {
         Assert.assertTrue("Error Build Before Move", testPlayer1.selectedWorkerBuild(build[0],build[1]));
         Assert.assertFalse("Error First Locate", testPlayer1.selectedWorkerMove(location[0],location[1]));
     }
+
+    @Test
+    public void testManageTurnBuildOneTime() {
+        testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
+        testPlayer1.selectedWorkerMove(0,0);
+        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection + Player.prometheusTurnMessageAskBuildBefore);
+        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement +  Player.turnMessageChooseCellBuild);
+        Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkBuild +  Player.turnMessageTurnEnd);
+    }
+    @Test
+    public void testManageTurnBuildTwoTimeSuccess() {
+        match.nextPlayer();
+        match.nextPlayer();
+        testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
+        testPlayer1.selectedWorkerMove(0,0);
+        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection + Player.prometheusTurnMessageAskBuildBefore);
+        Assert.assertEquals("Errore Prima Costruzione worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, Player.TurnMessageBUILDBEFORE).getNextInstruction(),  Player.turnMessageOkBuild +  Player.turnMessageChooseCellMove);
+        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement +  Player.turnMessageChooseCellBuild);
+        Assert.assertEquals("Errore Prima Costruzione worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkBuild +  Player.turnMessageTurnEnd);
+    }
+
 }

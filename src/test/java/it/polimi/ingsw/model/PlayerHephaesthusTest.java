@@ -62,9 +62,9 @@ public class PlayerHephaesthusTest {
         match.nextPlayer();
         efesto.setSelectedWorker(efesto.workers[0]);
         efesto.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), "Hai selezionato bene");
-        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), "Ti sei mosso correttamente. Scegli dove crostruire e nel caso tu voglia costruire due volte scrivi BUILDTWOTIMES dopo la casella");
-        Assert.assertEquals("Errore Costruzione Singola worker", efesto.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(), "Costruzione eseguita e il tuo turno è terminato");
+        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkMovement+Player.hephaesthusTurnMessageAskBuild);
+        Assert.assertEquals("Errore Costruzione Singola worker", efesto.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkBuild + Player.turnMessageTurnEnd);
     }
     @Test
     public void testManageTurnBuildTwoTimeSuccess() {
@@ -72,9 +72,9 @@ public class PlayerHephaesthusTest {
         match.nextPlayer();
         efesto.setSelectedWorker(efesto.workers[0]);
         efesto.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), "Hai selezionato bene");
-        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), "Ti sei mosso correttamente. Scegli dove crostruire e nel caso tu voglia costruire due volte scrivi BUILDTWOTIMES dopo la casella");
-        Assert.assertEquals("Errore Costruzione Singola worker", efesto.manageTurn(1,0, Worker.Gender.Male, "BUILDTWOTIMES").getNextInstruction(), "Costruzione eseguita e il tuo turno è terminato");
+        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkMovement+Player.hephaesthusTurnMessageAskBuild);
+        Assert.assertEquals("Errore Costruzione Doppia worker", efesto.manageTurn(1,0, Worker.Gender.Male, "BUILDTWOTIMES").getNextInstruction(), Player.turnMessageOkBuild + Player.turnMessageTurnEnd);
     }
     @Test
     public void testManageTurnBuildTwoTimeFail() {
@@ -84,8 +84,8 @@ public class PlayerHephaesthusTest {
         efesto.selectedWorkerMove(0,0);
         match.forceBuild(1,0, efesto.workers[0]);
         match.forceBuild(1,0, efesto.workers[0]);
-        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), "Hai selezionato bene");
-        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), "Ti sei mosso correttamente. Scegli dove crostruire e nel caso tu voglia costruire due volte scrivi BUILDTWOTIMES dopo la casella");
-        Assert.assertEquals("Errore Costruzione Singola worker", efesto.manageTurn(1,0, Worker.Gender.Male, "BUILDTWOTIMES").getNextInstruction(), "Non puoi costruire due volte qui. Fine del turno.");
+        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkMovement+Player.hephaesthusTurnMessageAskBuild);
+        Assert.assertEquals("Errore Costruzione Doppia worker", efesto.manageTurn(1,0, Worker.Gender.Male, "BUILDTWOTIMES").getNextInstruction(), Player.hephaesthusTurnMessageFailOptionalBuildWEnd);
     }
 }
