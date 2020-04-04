@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.utils.GameMessage;
+
 public class PlayerHephaesthus extends Player {
     private boolean firstBuild=true;
     private int x0=-1, y0=-1;
@@ -52,16 +54,16 @@ public class PlayerHephaesthus extends Player {
                 return manageStateSelection(x, y, gender);
             case 2:
                 tempResponse = manageStateMove(x, y);
-                if(tempResponse.getNextInstruction().equals(Player.turnMessageOkMovement)){
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + hephaesthusTurnMessageAskBuild);
+                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkMovement)){
+                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.hephaesthusTurnMessageAskBuild);
                 }
                 return tempResponse;
             case 3:
-                if(!optional.equals(turnMessageBUILDTWOTIMES)){
+                if(!optional.equals(GameMessage.turnMessageBUILDTWOTIMES)){
                     tempResponse = super.manageStateBuild(x, y);
                     resetTurn();
-                    if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
-                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ turnMessageTurnEnd);
+                    if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
+                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                         resetTurn();
                         match.nextPlayer();
                         return tempResponse;
@@ -69,12 +71,12 @@ public class PlayerHephaesthus extends Player {
                     return tempResponse;
                 }
                 tempResponse = super.manageStateBuild(x, y);
-                if(!tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
+                if(!tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
                     return tempResponse;
                 }
                 tempResponse = manageStateBuild(x, y);
-                if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ turnMessageTurnEnd);
+                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                 }else{
                     tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction());
                 }
@@ -89,10 +91,10 @@ public class PlayerHephaesthus extends Player {
     protected ChoiceResponseMessage manageStateBuild(int x, int y){
         if(selectedWorkerBuild(x,y)) {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageOkBuild);
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageOkBuild);
         }else {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, hephaesthusTurnMessageFailOptionalBuildWEnd);
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.hephaesthusTurnMessageFailOptionalBuildWEnd);
         }
     }
 }

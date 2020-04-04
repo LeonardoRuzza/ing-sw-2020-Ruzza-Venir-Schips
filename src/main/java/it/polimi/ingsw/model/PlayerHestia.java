@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.utils.GameMessage;
+
 public class PlayerHestia extends Player {
 
     private boolean firstBuild=true;
@@ -42,34 +44,34 @@ public class PlayerHestia extends Player {
                 return manageStateSelection(x, y, gender);
             case 2:
                 tempResponse = manageStateMove(x, y);
-                if(tempResponse.getNextInstruction().equals(turnMessageOkMovement)){
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + turnMessageChooseCellBuild);
+                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkMovement)){
+                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.turnMessageChooseCellBuild);
                 }
                 return tempResponse;
             case 3:
                 tempResponse = super.manageStateBuild(x, y);
-                if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
+                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
                     stateOfTurn = 4;
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ hestiaDemeterTurnMessageAskTwoBuild);
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.hestiaDemeterTurnMessageAskTwoBuild);
                     return tempResponse;
                 }
                 return tempResponse;
             case 4:
-                if(optional.equals(turnMessageBUILDTWOTIMES)){
+                if(optional.equals(GameMessage.turnMessageBUILDTWOTIMES)){
                     tempResponse = manageStateBuild(x, y);
-                    if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
-                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ turnMessageTurnEnd);
+                    if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
+                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                         match.nextPlayer();
                         return tempResponse;
                     }
                     return tempResponse;
-                }else if(optional.equals(turnMessageNO)){
+                }else if(optional.equals(GameMessage.turnMessageNO)){
                     stateOfTurn = 1;
                     resetTurn();
                     match.nextPlayer();
-                    return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageTurnEnd);
+                    return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageTurnEnd);
                 }
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageTurnEnd);
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageTurnEnd);
             default: return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default
         }
     }
@@ -77,13 +79,13 @@ public class PlayerHestia extends Player {
     @Override
     protected ChoiceResponseMessage manageStateBuild(int x, int y){
         if(match.checkLoserBuild(selectedWorker)){
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, hestiaDemeterTurnMessageFailOptionalBuildWEnd);
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWEnd);
         }
         if(selectedWorkerBuild(x,y)) {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageOkBuild);
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageOkBuild);
         }else {
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, hestiaDemeterTurnMessageFailOptionalBuildWNewCell);
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWNewCell);
         }
     }
 

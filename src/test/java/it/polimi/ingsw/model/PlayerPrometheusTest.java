@@ -1,8 +1,11 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.utils.GameMessage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import static it.polimi.ingsw.utils.GameMessage.turnMessageBUILDBEFORE;
 
 public class PlayerPrometheusTest {
     final Card cardProm = new Card(8);
@@ -48,9 +51,9 @@ public class PlayerPrometheusTest {
     public void testManageTurnBuildOneTime() {
         testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
         testPlayer1.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection + Player.prometheusTurnMessageAskBuildBefore);
-        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement +  Player.turnMessageChooseCellBuild);
-        Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkBuild +  Player.turnMessageTurnEnd);
+        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.prometheusTurnMessageAskBuildBefore);
+        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement +  GameMessage.turnMessageChooseCellBuild);
+        Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
     }
     @Test
     public void testManageTurnBuildTwoTimeSuccess() {
@@ -58,10 +61,10 @@ public class PlayerPrometheusTest {
         match.nextPlayer();
         testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
         testPlayer1.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection + Player.prometheusTurnMessageAskBuildBefore);
-        Assert.assertEquals("Errore Prima Costruzione worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, Player.TurnMessageBUILDBEFORE).getNextInstruction(),  Player.turnMessageOkBuild +  Player.turnMessageChooseCellMove);
-        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement +  Player.turnMessageChooseCellBuild);
-        Assert.assertEquals("Errore Prima Costruzione worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkBuild +  Player.turnMessageTurnEnd);
+        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.prometheusTurnMessageAskBuildBefore);
+        Assert.assertEquals("Errore Prima Costruzione worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, GameMessage.turnMessageBUILDBEFORE).getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageChooseCellMove);
+        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement +  GameMessage.turnMessageChooseCellBuild);
+        Assert.assertEquals("Errore Prima Costruzione worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
     }
 
 }

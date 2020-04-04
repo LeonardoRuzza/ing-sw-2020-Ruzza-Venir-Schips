@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.utils.GameMessage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,16 +41,16 @@ public class PlayerAtlasTest {
     public void testManageTurnBuildDorse() {
         testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
         testPlayer1.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
-        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement + Player.atlasTurnMessageAskBuildDorse);
-        Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, Player.turnMessageDORSE).getNextInstruction(),  Player.turnMessageOkBuild +  Player.turnMessageTurnEnd);
+        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement + GameMessage.atlasTurnMessageAskBuildDorse);
+        Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, GameMessage.turnMessageDORSE).getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
     }
     @Test
     public void testManageTurnBuildNormal() {
         testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
         testPlayer1.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
-        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement + Player.atlasTurnMessageAskBuildDorse);
-        Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkBuild +  Player.turnMessageTurnEnd);
+        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement + GameMessage.atlasTurnMessageAskBuildDorse);
+        Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
     }
 }

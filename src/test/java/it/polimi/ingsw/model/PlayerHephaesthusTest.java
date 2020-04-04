@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.utils.GameMessage;
 import org.junit.*;
 
 public class PlayerHephaesthusTest {
@@ -62,9 +63,9 @@ public class PlayerHephaesthusTest {
         match.nextPlayer();
         efesto.setSelectedWorker(efesto.workers[0]);
         efesto.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
-        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkMovement+Player.hephaesthusTurnMessageAskBuild);
-        Assert.assertEquals("Errore Costruzione Singola worker", efesto.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkBuild + Player.turnMessageTurnEnd);
+        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkMovement+GameMessage.hephaesthusTurnMessageAskBuild);
+        Assert.assertEquals("Errore Costruzione Singola worker", efesto.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkBuild + GameMessage.turnMessageTurnEnd);
     }
     @Test
     public void testManageTurnBuildTwoTimeSuccess() {
@@ -72,9 +73,9 @@ public class PlayerHephaesthusTest {
         match.nextPlayer();
         efesto.setSelectedWorker(efesto.workers[0]);
         efesto.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
-        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkMovement+Player.hephaesthusTurnMessageAskBuild);
-        Assert.assertEquals("Errore Costruzione Doppia worker", efesto.manageTurn(1,0, Worker.Gender.Male, "BUILDTWOTIMES").getNextInstruction(), Player.turnMessageOkBuild + Player.turnMessageTurnEnd);
+        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkMovement+GameMessage.hephaesthusTurnMessageAskBuild);
+        Assert.assertEquals("Errore Costruzione Doppia worker", efesto.manageTurn(1,0, Worker.Gender.Male, GameMessage.turnMessageBUILDTWOTIMES).getNextInstruction(), GameMessage.turnMessageOkBuild + GameMessage.turnMessageTurnEnd);
     }
     @Test
     public void testManageTurnBuildTwoTimeFail() {
@@ -84,8 +85,8 @@ public class PlayerHephaesthusTest {
         efesto.selectedWorkerMove(0,0);
         match.forceBuild(1,0, efesto.workers[0]);
         match.forceBuild(1,0, efesto.workers[0]);
-        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
-        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkMovement+Player.hephaesthusTurnMessageAskBuild);
-        Assert.assertEquals("Errore Costruzione Doppia worker", efesto.manageTurn(1,0, Worker.Gender.Male, "BUILDTWOTIMES").getNextInstruction(), Player.hephaesthusTurnMessageFailOptionalBuildWEnd);
+        Assert.assertEquals("Errore Selezione worker", efesto.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", efesto.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkMovement+GameMessage.hephaesthusTurnMessageAskBuild);
+        Assert.assertEquals("Errore Costruzione Doppia worker", efesto.manageTurn(1,0, Worker.Gender.Male, GameMessage.turnMessageBUILDTWOTIMES).getNextInstruction(), GameMessage.hephaesthusTurnMessageFailOptionalBuildWEnd);
     }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.utils.GameMessage;
+
 public class PlayerPrometheus extends Player {
     private boolean justBuild=false; // mi dice se ha costruito o meno prima di muoversi
 
@@ -55,35 +57,35 @@ public class PlayerPrometheus extends Player {
     @Override
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
         ChoiceResponseMessage tempResponse;
-        if(!optional.equals(TurnMessageBUILDBEFORE) && stateOfTurn == 2){
+        if(!optional.equals(GameMessage.turnMessageBUILDBEFORE) && stateOfTurn == 2){
             stateOfTurn++;
         }
         switch(stateOfTurn){
             case 1:
                 tempResponse = manageStateSelection(x, y, gender);
-                if(tempResponse.getNextInstruction().equals(turnMessageOkWorkerSelection)) {
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + prometheusTurnMessageAskBuildBefore);
+                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkWorkerSelection)) {
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.prometheusTurnMessageAskBuildBefore);
                 }
                 return tempResponse;
             case 2:
                 tempResponse = manageStateBuild(x, y);
-                if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
+                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
                     stateOfTurn = 3;
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ turnMessageChooseCellMove);
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageChooseCellMove);
                     return tempResponse;
                 }
                 return tempResponse;
             case 3:
                 tempResponse = manageStateMove(x, y);
-                if(tempResponse.getNextInstruction().equals(turnMessageOkMovement)){
+                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkMovement)){
                     stateOfTurn = 4;
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + turnMessageChooseCellBuild);
+                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.turnMessageChooseCellBuild);
                 }
                 return tempResponse;
             case 4:
                 tempResponse = manageStateBuild(x, y);
-                if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ turnMessageTurnEnd);
+                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                     match.nextPlayer();
                     return tempResponse;
                 }

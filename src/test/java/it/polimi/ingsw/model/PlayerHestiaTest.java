@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.utils.GameMessage;
 import org.junit.*;
 
 public class PlayerHestiaTest {
@@ -64,10 +65,10 @@ public class PlayerHestiaTest {
         match.nextPlayer();
         hestia.setSelectedWorker(hestia.workers[0]);
         hestia.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", hestia.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
-        Assert.assertEquals("Errore Movimento worker", hestia.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement +  Player.turnMessageChooseCellBuild);
-        Assert.assertEquals("Errore Costruzione Singola worker", hestia.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkBuild +  Player.hestiaDemeterTurnMessageAskTwoBuild);
-        Assert.assertEquals("Errore Costruzione Termina Turno", hestia.manageTurn(1,0, Worker.Gender.Male, Player.turnMessageNO).getNextInstruction(),  Player.turnMessageTurnEnd);
+        Assert.assertEquals("Errore Selezione worker", hestia.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", hestia.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement +  GameMessage.turnMessageChooseCellBuild);
+        Assert.assertEquals("Errore Costruzione Singola worker", hestia.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.hestiaDemeterTurnMessageAskTwoBuild);
+        Assert.assertEquals("Errore Costruzione Termina Turno", hestia.manageTurn(1,0, Worker.Gender.Male, GameMessage.turnMessageNO).getNextInstruction(),  GameMessage.turnMessageTurnEnd);
     }
     @Test
     public void testManageTurnBuildTwoTimeSuccess() {
@@ -75,10 +76,10 @@ public class PlayerHestiaTest {
         match.nextPlayer();
         hestia.setSelectedWorker(hestia.workers[0]);
         hestia.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", hestia.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
-        Assert.assertEquals("Errore Movimento worker", hestia.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement +  Player.turnMessageChooseCellBuild);
-        Assert.assertEquals("Errore Costruzione Singola worker", hestia.manageTurn(2,2, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkBuild + Player.hestiaDemeterTurnMessageAskTwoBuild);
-        Assert.assertEquals("Errore Costruzione Termina Turno", hestia.manageTurn(2,2, Worker.Gender.Male, Player.turnMessageBUILDTWOTIMES).getNextInstruction(), Player.turnMessageOkBuild+Player.turnMessageTurnEnd);
+        Assert.assertEquals("Errore Selezione worker", hestia.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", hestia.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement +  GameMessage.turnMessageChooseCellBuild);
+        Assert.assertEquals("Errore Costruzione Singola worker", hestia.manageTurn(2,2, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkBuild + GameMessage.hestiaDemeterTurnMessageAskTwoBuild);
+        Assert.assertEquals("Errore Costruzione Termina Turno", hestia.manageTurn(2,2, Worker.Gender.Male, GameMessage.turnMessageBUILDTWOTIMES).getNextInstruction(), GameMessage.turnMessageOkBuild+GameMessage.turnMessageTurnEnd);
     }
     @Test
     public void testManageTurnBuildTwoTimeFail() {
@@ -86,10 +87,10 @@ public class PlayerHestiaTest {
         match.nextPlayer();
         hestia.setSelectedWorker(hestia.workers[0]);
         hestia.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", hestia.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
-        Assert.assertEquals("Errore Movimento worker", hestia.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement +  Player.turnMessageChooseCellBuild);
-        Assert.assertEquals("Errore Costruzione Singola worker", hestia.manageTurn(2,2, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkBuild + Player.hestiaDemeterTurnMessageAskTwoBuild);
-        Assert.assertEquals("Errore Costruzione Termina Turno", hestia.manageTurn(0,1, Worker.Gender.Male, Player.turnMessageBUILDTWOTIMES).getNextInstruction(), Player.hestiaDemeterTurnMessageFailOptionalBuildWNewCell);
-        Assert.assertEquals("Errore Costruzione Termina Turno", hestia.manageTurn(-1,-1, Worker.Gender.Male, Player.turnMessageNO).getNextInstruction(), Player.turnMessageTurnEnd);
+        Assert.assertEquals("Errore Selezione worker", hestia.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", hestia.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement +  GameMessage.turnMessageChooseCellBuild);
+        Assert.assertEquals("Errore Costruzione Singola worker", hestia.manageTurn(2,2, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkBuild + GameMessage.hestiaDemeterTurnMessageAskTwoBuild);
+        Assert.assertEquals("Errore Costruzione Termina Turno", hestia.manageTurn(0,1, Worker.Gender.Male, GameMessage.turnMessageBUILDTWOTIMES).getNextInstruction(), GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWNewCell);
+        Assert.assertEquals("Errore Costruzione Termina Turno", hestia.manageTurn(-1,-1, Worker.Gender.Male, GameMessage.turnMessageNO).getNextInstruction(), GameMessage.turnMessageTurnEnd);
     }
 }

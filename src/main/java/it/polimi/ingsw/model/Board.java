@@ -216,5 +216,6 @@ public class Board implements Cloneable, Serializable {
             System.out.println("");
             linePrint = !linePrint;
         }
+        System.out.println("");
     }
 }
