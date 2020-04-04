@@ -94,4 +94,24 @@ public class PlayerAresTest {
         Assert.assertEquals("Errore Costruzione Termina Turno", ares.manageTurn(1,0, Worker.Gender.Male, Player.turnMessageNO).getNextInstruction(),  Player.turnMessageTurnEnd);
         match.getBoard().draw(ares);
     }
+
+    @Test
+    public void testManageTurnNotWantRemove() {
+        match.nextPlayer();
+        match.nextPlayer();
+        ares.setSelectedWorker(ares.workers[0]);
+        ares.selectedWorkerMove(0,0);
+        ares.setSelectedWorker(ares.workers[1]);
+        ares.selectedWorkerMove(2,0);
+        ares.setSelectedWorker(ares.workers[0]);
+        match.forceBuild(1,0,ares.selectedWorker);
+        match.forceBuild(1,0,ares.selectedWorker);
+        match.forceBuild(1,0,ares.selectedWorker);
+        Assert.assertEquals("Errore Selezione worker", ares.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), Player.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Movimento worker", ares.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkMovement);
+        Assert.assertEquals("Errore Costruzione Singola worker", ares.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  Player.turnMessageOkBuild +  Player.aresTurnMessageAskRemoveBlok);
+        Assert.assertEquals("Errore Fine turno", ares.manageTurn(1,0, Worker.Gender.Male, Player.turnMessageNO).getNextInstruction(),  Player.turnMessageTurnEnd);
+        match.getBoard().draw(ares);
+    }
+
 }
