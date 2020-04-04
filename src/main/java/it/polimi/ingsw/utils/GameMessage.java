@@ -12,7 +12,7 @@ public class GameMessage {
     public static String turnMessageDORSE = "DORSE";
     public static String turnMessageBUILDTWOTIMES = "BUILDTWOTIMES";
     public static String turnMessageNO = "NO";
-    public static String TurnMessageBUILDBEFORE = "BUILDBEFORE";
+    public static String turnMessageBUILDBEFORE = "BUILDBEFORE";
     public static String turnMessageLose = "You Lose. ";
     public static String turnMessageWin = "You Win. ";
 
