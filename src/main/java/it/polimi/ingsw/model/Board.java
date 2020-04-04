@@ -158,7 +158,7 @@ public class Board implements Cloneable, Serializable {
         return result;
     }
 
-    protected void draw(Player myPlayer){
+    public void draw(Player myPlayer){
         boolean linePrint = true;
         for(int y = 0; y < boardSide*2+1; y++){
             int realY = y/2;
