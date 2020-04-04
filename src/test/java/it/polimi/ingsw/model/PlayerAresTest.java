@@ -64,7 +64,6 @@ public class PlayerAresTest {
     @Test
     public void testManageTurnRemoveWithSuccess() {
         match.nextPlayer();
-        match.nextPlayer();
         ares.setSelectedWorker(ares.workers[0]);
         ares.selectedWorkerMove(0,0);
         ares.setSelectedWorker(ares.workers[1]);
@@ -78,7 +77,6 @@ public class PlayerAresTest {
 
     @Test
     public void testManageTurnNotRemoveDorse() {
-        match.nextPlayer();
         match.nextPlayer();
         ares.setSelectedWorker(ares.workers[0]);
         ares.selectedWorkerMove(0,0);
@@ -97,7 +95,6 @@ public class PlayerAresTest {
 
     @Test
     public void testManageTurnNotWantRemove() {
-        match.nextPlayer();
         match.nextPlayer();
         ares.setSelectedWorker(ares.workers[0]);
         ares.selectedWorkerMove(0,0);
