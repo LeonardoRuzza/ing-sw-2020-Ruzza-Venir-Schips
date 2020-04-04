@@ -41,5 +41,11 @@ public class Card {
     }
     public activationPeriod getActivationPeriod(){ return actPeriods[this.number]; }
 
+    public static void drawAll(){
 
+    }
+
+    public void draw(){
+
+    }
 }

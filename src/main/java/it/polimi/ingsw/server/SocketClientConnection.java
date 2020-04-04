@@ -26,7 +26,8 @@ public class SocketClientConnection extends Observable<String> implements Client
         return active;
     }
 
-    private synchronized void send(Object message) {
+    @Override
+    public synchronized void send(Object message) {
         try {
             out.reset();
             out.writeObject(message);

@@ -1,17 +1,19 @@
 package it.polimi.ingsw.model.lobby;
-import it.polimi.ingsw.view.View;
+
+import it.polimi.ingsw.view.LobbyRemoteView;
+
 
 public class ViewToController {
 
     private String information;
     private LobbyPlayer lobbyPlayer;
-    private View LobbyRemoteView;
+    private LobbyRemoteView lobbyRemoteView;
 
 
-    public ViewToController(String information, LobbyPlayer lobbyPlayer, View lobbyRemoteView) {
+    public ViewToController(String information, LobbyPlayer lobbyPlayer, LobbyRemoteView lobbyRemoteView) {
         this.information = information;
         this.lobbyPlayer = lobbyPlayer;
-        this.LobbyRemoteView = lobbyRemoteView;
+        this.lobbyRemoteView = lobbyRemoteView;
     }
 
     public String getInformation() {
@@ -20,7 +22,7 @@ public class ViewToController {
     public LobbyPlayer getLobbyPlayer() {
         return lobbyPlayer;
     }
-    public View getLobbyRemoteView() {
-        return LobbyRemoteView;
+    public LobbyRemoteView getLobbyRemoteView() {
+        return lobbyRemoteView;
     }
 }

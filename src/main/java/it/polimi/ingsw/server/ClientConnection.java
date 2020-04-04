@@ -10,4 +10,5 @@ public interface ClientConnection{
 
     void asyncSend(Object message);
 
+    void send(Object message);
 }
