@@ -29,4 +29,15 @@ public class CardTest {
         }
         cards=null;
     }
+
+    @Test
+    public void testDrawAll(){
+        System.out.print(Card.drawAll());
+    }
+
+    @Test
+    public void testDraw(){
+        Card card=new Card(1);
+        System.out.print(card.draw());
+    }
 }
