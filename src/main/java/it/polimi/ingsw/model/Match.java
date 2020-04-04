@@ -8,7 +8,7 @@ public class Match extends Observable<ChoiceResponseMessage> {
     private int ID;
     private int numberOfPlayers;
 
-    private enum stateOfMatch{};
+    //private enum stateOfMatch{};
     private Player playingNow;
     protected Player[] players;
     private Board board;
@@ -165,6 +165,7 @@ public class Match extends Observable<ChoiceResponseMessage> {
                 }
             }
         }
+        board.setPlayingNow(playingNow);
         return playingNow;
     }
 

@@ -10,6 +10,8 @@ public class Board implements Cloneable, Serializable {
     final int boardSide = 5;
     protected Cell[][][] cells;
 
+    private Player playingNow;
+
 
 // Builder
     public Board() {
@@ -23,6 +25,9 @@ public class Board implements Cloneable, Serializable {
        }
     }
 
+    public void setPlayingNow(Player playingNow) {
+        this.playingNow = playingNow;
+    }
 
     // Observers
     public Block blockInCell(int x, int y) {  // Ritorna il blocco più in alto costruito nella cella
@@ -158,7 +163,7 @@ public class Board implements Cloneable, Serializable {
         return result;
     }
 
-    public void draw(Player myPlayer){
+    public void draw(){
         boolean linePrint = true;
         for(int y = 0; y < boardSide*2+1; y++){
             int realY = y/2;
@@ -196,9 +201,9 @@ public class Board implements Cloneable, Serializable {
                     System.out.print(" ");
                     Worker actW = getLastBusyCell(realX,realY).getWorker();
                     if(actW!=null){
-                        if(actW.equals(myPlayer.workers[0])){
+                        if(actW.equals(playingNow.workers[0])){
                             System.out.print(actW.getColor().getColorString() + "M"+" " + Worker.Color.BLACK.getANSI_RESET());
-                        }else if(actW.equals(myPlayer.workers[1])){
+                        }else if(actW.equals(playingNow.workers[1])){
                             System.out.print(actW.getColor().getColorString() + "F"+" " + Worker.Color.BLACK.getANSI_RESET());
                         }else{
                             System.out.print(actW.getColor().getColorString() + "w"+" " + Worker.Color.BLACK.getANSI_RESET());
