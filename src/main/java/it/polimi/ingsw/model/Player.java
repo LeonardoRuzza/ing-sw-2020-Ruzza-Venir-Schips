@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.utils.GameMessage;
 import org.jetbrains.annotations.NotNull;
+
 
 public class Player {
 
@@ -107,41 +109,6 @@ public class Player {
         return selectionOk;
     }
 
-
-    public static String turnMessageDORSE = "DORSE";
-    public static String turnMessageBUILDTWOTIMES = "BUILDTWOTIMES";
-    public static String turnMessageNO = "NO";
-    public static String TurnMessageBUILDBEFORE = "BUILDBEFORE";
-    public static String turnMessageLose = "You Lose. ";
-    public static String turnMessageWin = "You Win. ";
-
-    public static String turnMessageUnselectableWorkerSwitch = "Worker was not selectable, the other was chosen automatically. ";
-    public static String turnMessageLoserNoWorker = "You lost, neither worker is selectable! ";
-    public static String turnMessageOkWorkerSelection = "Worker successfully selected. ";
-    public static String turnMessageChooseCellMove = "Choose where to move. ";
-    public static String turnMessageOkMovement = "You moved correctly. ";
-    public static String turnMessageFailMovementChangeDestination = "It is not possible to perform the required move, change box. ";
-    public static String turnMessageChooseCellBuild = "Choose where to build. ";
-    public static String turnMessageOkBuild = "Construction completed. ";
-    public static String turnMessageFailBuildChangeDestination = "Construction cannot be performed, change box. ";
-    public static String turnMessageTurnEnd = "Your turn is over. ";
-
-    public static String aresTurnMessageAskRemoveBlok = "If you want to remove a block adjacent to the worker that you have not moved, write the coordinates otherwise write NO. ";
-    public static String aresTurnMessageSuccessRemoveBlokWEnd = "The block was successfully removed. Your turn is over. ";
-    public static String aresTurnMessageFailRemoveBlokWNewCell = "Unable to remove a block here, change position or cancel the option by writing NO. ";
-
-    public static String atlasTurnMessageAskBuildDorse = "Choose where to build and if you want to build a dome add DORSE after the box. ";
-    public static String atlasTurnMessageFailBuildDorse = "Impossible to build a dome here, change position or give up the DORSE option. ";
-
-    public static String prometheusTurnMessageAskBuildBefore = "Choose where to move or if you want to build before moving, write BUILDBEFORE after the box where you want to build. ";
-
-    public static String hephaesthusTurnMessageAskBuild = "Choose where to build and if you want to build twice write BUILDTWOTIMES after the box. ";
-    public static String hephaesthusTurnMessageFailOptionalBuildWEnd = "You can't build twice here. Your turn is over. ";
-
-    public static String hestiaDemeterTurnMessageAskTwoBuild = "If you want to build again, indicate the coordinates and write BUILDTWOTIMES otherwise write NO. ";
-    public static String hestiaDemeterTurnMessageFailOptionalBuildWEnd = "You can't build here twice. Your turn is over. ";
-    public static String hestiaDemeterTurnMessageFailOptionalBuildWNewCell = "You can't build here. Enter new coordinates or write NO. ";
-
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
         switch(stateOfTurn){
             case 1:
@@ -150,8 +117,8 @@ public class Player {
                 return manageStateMove(x, y);
             case 3:
                 ChoiceResponseMessage tempResponse = manageStateBuild(x, y);
-                    if(tempResponse.getNextInstruction().equals(turnMessageOkBuild)){
-                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ turnMessageTurnEnd);
+                    if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
+                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                         match.nextPlayer();
                         return tempResponse;
                     }
@@ -165,27 +132,27 @@ public class Player {
             if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[1] : workers[0])){
                 match.removeWorker(workers[0]);
                 match.removeWorker(workers[1]);
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageLose);
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageLose);
             }
             if(setSelectedWorker(gender == Worker.Gender.Male ? workers[1].getGender() : workers[0].getGender())){
                 stateOfTurn++;
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageUnselectableWorkerSwitch);
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageUnselectableWorkerSwitch);
             }
             else
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageLoserNoWorker);
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageLoserNoWorker);
         }
         else {
             if(setSelectedWorker(gender)){
                 stateOfTurn++;
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageOkWorkerSelection);
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageOkWorkerSelection);
             }
             else {
                 if(setSelectedWorker(gender == Worker.Gender.Male ? workers[1].getGender() : workers[0].getGender())){
                     stateOfTurn++;
-                    return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageUnselectableWorkerSwitch);
+                    return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageUnselectableWorkerSwitch);
                 }
                 else
-                    return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageLoserNoWorker);
+                    return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageLoserNoWorker);
             }
         }
     }
@@ -195,13 +162,13 @@ public class Player {
         if(selectedWorkerMove(x, y)) {
             if (match.checkWin(selectedWorker)) {
                 stateOfTurn = 1;
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageWin);
+                return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageWin);
             }
             stateOfTurn++;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageOkMovement);
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageOkMovement);
         }
         else {
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageFailMovementChangeDestination);
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageFailMovementChangeDestination);
         }
     }
 
@@ -211,14 +178,14 @@ public class Player {
             stateOfTurn = 1;
             match.removeWorker(workers[0]);
             match.removeWorker(workers[1]);
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageLose);
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageLose);
         }
         if(selectedWorkerBuild(x,y)) {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageOkBuild);
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageOkBuild);
         }
         else {
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, turnMessageFailBuildChangeDestination);
+            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageFailBuildChangeDestination);
         }
     }
 
