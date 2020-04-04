@@ -73,9 +73,9 @@ public class Server {
         playingConnectionForThree.remove(c);
         playingConnectionForThree.remove(opponent1);
         playingConnectionForThree.remove(opponent2);
-
-        playingConnectionForTwo.put(opponent1, opponent2);
-        playingConnectionForTwo.put(opponent2, opponent1);
+        if(opponent1 == null || opponent2 == null) return;
+        opponent1.closeConnection();
+        opponent2.closeConnection();
     }
 
     public synchronized boolean addClient(ClientConnection c, String name){

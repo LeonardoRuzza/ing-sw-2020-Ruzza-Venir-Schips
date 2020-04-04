@@ -106,6 +106,9 @@ public class SocketClientConnection extends Observable<String> implements Client
             this.send("Loading Match");
             while (isActive()) {
                 read = in.nextLine();
+                if (read.toUpperCase().equals("QUIT")){
+                    break;
+                }
                 notify(read);
             }
         } catch (IOException | NoSuchElementException e) {
