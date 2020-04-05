@@ -70,12 +70,56 @@ public class Server {
         List<ClientConnection> opponents = new ArrayList<>(playingConnectionForThree.get(c).keySet());
         ClientConnection opponent1 = opponents.get(0);
         ClientConnection opponent2 = opponents.get(1);
-        playingConnectionForThree.remove(c);
-        playingConnectionForThree.remove(opponent1);
-        playingConnectionForThree.remove(opponent2);
-        if(opponent1 == null || opponent2 == null) return;
-        opponent1.closeConnection();
-        opponent2.closeConnection();
+        if(c != null){
+            playingConnectionForThree.remove(c);
+        }
+        if(opponent1!=null){
+            playingConnectionForThree.remove(opponent1);
+            opponent1.closeConnection();
+        }
+        if(opponent2 != null){
+            playingConnectionForThree.remove(opponent2);
+            opponent2.closeConnection();
+        }
+    }
+
+    public synchronized void deregisterConnectionSingleClient(ClientConnection c) {
+        Iterator<String> iterator = waitingConnection.keySet().iterator();
+        while(iterator.hasNext()){
+            if(waitingConnection.get(iterator.next())==c){
+                iterator.remove();
+                return;
+            }
+        }
+
+        List<ClientConnection> clientConnections = new ArrayList<>(playingConnectionForTwo.values());
+        for(ClientConnection x: clientConnections){
+            if(x.equals(c)){
+                ClientConnection opponent = playingConnectionForTwo.get(c);
+                if(opponent != null) {
+                    opponent.closeConnection();
+                }
+                playingConnectionForTwo.remove(c);
+                playingConnectionForTwo.remove(opponent);
+                return;
+            }
+        }
+        List<ClientConnection> opponents = new ArrayList<>(playingConnectionForThree.get(c).keySet());
+        ClientConnection opponent1 = opponents.get(0);
+        ClientConnection opponent2 = opponents.get(1);
+
+        if(c != null){
+            playingConnectionForThree.remove(c);
+        }
+        if(opponent1 != null && opponent2 != null){
+            playingConnectionForThree.remove(opponent1);
+            playingConnectionForThree.remove(opponent2);
+            playingConnectionForTwo.put(opponent1, opponent2);
+            playingConnectionForTwo.put(opponent2, opponent1);
+        }else{
+            opponent1.closeConnection();
+            opponent2.closeConnection();
+        }
     }
 
     public synchronized boolean addClient(ClientConnection c, String name){

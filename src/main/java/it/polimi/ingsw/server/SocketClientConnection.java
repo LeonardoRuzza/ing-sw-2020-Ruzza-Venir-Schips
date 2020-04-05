@@ -49,10 +49,14 @@ public class SocketClientConnection extends Observable<String> implements Client
         active = false;
     }
 
-    private void close() {
+    public void close(Boolean singleClientClose) {
         closeConnection();                          // Chiude connessione per il client
         System.out.println("Deregistering client...");
-        server.deregisterConnection(this);       // Deregistra il client dal server
+        if (singleClientClose){
+            server.deregisterConnectionSingleClient(this);
+        }else{
+            server.deregisterConnection(this);
+        }
         System.out.println("Done!");
     }
 
@@ -114,7 +118,7 @@ public class SocketClientConnection extends Observable<String> implements Client
         } catch (IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         } finally {
-            close();
+            close(false);
         }
     }
 }
