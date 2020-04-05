@@ -31,9 +31,12 @@ public class GameMessage {
     public static String turnMessageBUILDTWOTIMES = "BUILDTWOTIMES";
     public static String turnMessageNO = "NO";
     public static String turnMessageBUILDBEFORE = "BUILDBEFORE";
+    public static String turnMessageFIRSTALLOCATION =  "FIRSTALLOCATION";
+
     public static String turnMessageLose = "You Lose. ";
     public static String turnMessageWin = "You Win. ";
 
+    public static String turnMessageSelectYourWorker = "Select a worker specifying Male or Female";
     public static String turnMessageUnselectableWorkerSwitch = "Worker was not selectable, the other was chosen automatically. ";
     public static String turnMessageLoserNoWorker = "You lost, neither worker is selectable! ";
     public static String turnMessageOkWorkerSelection = "Worker successfully selected. ";
