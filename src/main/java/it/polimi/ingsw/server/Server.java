@@ -203,7 +203,7 @@ public class Server {
             waitingConnection.remove(keys.get(0));
             waitingConnection.remove(keys.get(1));
             waitingConnection.remove(keys.get(2));
-            c1.asyncSend(GameMessage.waitMessageForColor);
+            c1.asyncSend(GameMessage.chooseColor);
             c2.asyncSend(GameMessage.waitMessageForColor);
             c3.asyncSend(GameMessage.waitMessageForColor);
 
