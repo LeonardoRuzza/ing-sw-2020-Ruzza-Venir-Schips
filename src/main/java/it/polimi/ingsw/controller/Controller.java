@@ -46,25 +46,31 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
 
     /////////////////    Lobby     ////////////////////////////////////////////////
     private synchronized void handleLobbyInput(ViewToController message){
-        // Controllo se è il turno del player che ha mandato il messaggio di Input
-        if (!lobby.isLobbyPlayerTurn(message.getLobbyPlayer())){
+        if (!lobby.isLobbyPlayerTurn(message.getLobbyPlayer())){          // Controllo se è il turno del player che ha mandato il messaggio di Input
             message.getLobbyRemoteView().reportError(GameMessage.wrongTurnMessage);
             return;
         }
-        if (lobby.getStateOfTurn().equals(StateOfTurn.COLOR)) {
-            if ((InputConversion.conversion(message.getInformation().toUpperCase())) == null) {
-                message.getLobbyRemoteView().reportError(GameMessage.wrongColorInput);
-                return;
-            }
-            if(!lobby.chooseColor(message.getInformation())){
-                message.getLobbyRemoteView().reportError(GameMessage.notAvailableColor);
-            }
-        }
-        else{
+        switch (lobby.getStateOfTurn()) {
+            case COLOR:
+                if ((InputConversion.colorConversion(message.getInformation().toUpperCase())) == null) {
+                    message.getLobbyRemoteView().reportError(GameMessage.wrongColorInput);
+                    return;
+                }
+                if (!lobby.chooseColor(message.getInformation())) {
+                    message.getLobbyRemoteView().reportError(GameMessage.notAvailableColor);
+                }
+            case CARD:
+                if(!lobby.chooseCard(message.getInformation())){
+                    message.getLobbyRemoteView().reportError(GameMessage.notAvailableCard);
+                    if (lobby.getStateOfTurn().equals(StateOfTurn.READYTOSTART)){
+                        //TODO crea partita normale
+                    }
+                }
 
-        }
-
+            }
     }
+
+    //private void createNormalGame
 
     @Override
     public void updateLobby(ViewToController message) { handleLobbyInput(message);}

@@ -6,12 +6,14 @@ public class GameMessage {
     public static String waitMessageForColor = "Wait for the other player's choose of color. ";
     public static String wrongColorInput = "Your input for color is not correct. ";
     public static String notAvailableColor = "The selected color has been already choosen. ";
+    public static String availableColors = "Available colors: ";
 
     public static String cardPhase = "";
-    public static String availableColors = "Available colors: ";
+    public static String notAvailableCard = "Card not available";
     public static String availableCards = "Available cards: ";
-    public static String playerMasterChoseCard2 = "Choose 2 card from the list";
-    public static String playerMasterChoseCard3 = "Choose 3 card from the list";
+    public static String playerMasterChoseCard2 = "Choose 2 card from the list; Insert one per time and then press Enter";
+    public static String playerMasterChoseCard3 = "Choose 3 card from the list; Insert one per time and then press Enter";
+    public static String playerMasterChoseAnotherCard = "OK! Choose another card. ";
     public static String waitMessageForCard = "Waiting the master player choose of cards. ";
 
     public static String player1is = "Player1 is: ";
@@ -19,6 +21,7 @@ public class GameMessage {
     public static String player3is = "Player3 is: ";
     public static String hisColor = "Chosen color: ";
     public static String hisCard = "Chosen card: ";
+    public static String startNormalGame = "Game is starting...";
 
 
 

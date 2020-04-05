@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.lobby.*;
 import it.polimi.ingsw.observer.ObservableLobby;
 import it.polimi.ingsw.observer.Observer;
@@ -28,10 +29,6 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                 notifyInputToController(message);
             else
                 clientConnection.asyncSend("Empty message!");
-            /*try{
-            }catch(IllegalArgumentException e){
-                clientConnection.asyncSend("Error!");
-            }*/
         }
     }
 
@@ -51,18 +48,66 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
     @Override
     public void updateLobby(LobbyToView message) {
         final Lobby lobby = message.getLobby();
-        String resultMsg = "";
+        String resultMsg;
 
-        if (lobby.getStateOfTurn().equals(StateOfTurn.COLOR)) {  // Fase di scelta dei colori
-            if (lobby.isLobbyPlayerTurn(lobbyPlayer)) { // Se è il turno del player
+        switch (lobby.getStateOfTurn()) {
+            case COLOR:  // Fase di scelta dei colori
+                if (lobby.isLobbyPlayerTurn(lobbyPlayer)) { // Se è il turno del player
+                    showMessageSync(GameMessage.availableColors);
+                    for (String s :lobby.getAvailableColors()) {
+                       resultMsg = s + ", ";
+                       showMessageSync(resultMsg);
+                    }
+                    showMessageSync(GameMessage.chooseColor);
+                }
+                else{  // Altrimenti se non è il suo turno
+                    showMessage(GameMessage.waitMessageForColor);
+                }
 
-            }
-            else{  // Altrimenti se non è il suo turno
+            case CARD:
+                if (lobby.getSwitchState()){  // Finita fase di scelta dei colori e inizia quella delle carte
+                    showMessageSync(GameMessage.cardPhase);
+                    showMessageSync(Card.drawAll());
+                    if (lobby.getLobbyPlayers().get(0).equals(lobbyPlayer)){
+                        if (lobby.getNumberOfLobbyPlayer() == 2)
+                            showMessageSync(GameMessage.playerMasterChoseCard2);  // Mex per il master player
+                        else
+                            showMessageSync(GameMessage.playerMasterChoseCard3);  // Mex per il master player
+                        }
+                    else
+                        showMessageSync(GameMessage.waitMessageForCard); // Mex per gli altri player
+                }
+                else{
+                    if (lobby.isDeckChosen()) {  // Se il deck è stato scelto
+                        if (lobby.isLobbyPlayerTurn(lobbyPlayer)){    // Stampa le carte disponibili rimanenti
+                            showMessageSync(GameMessage.availableCards);
+                            for (Card c :lobby.getChosenDeck()) {
+                                resultMsg = c.getName() + ", ";
+                                showMessageSync(resultMsg);
+                            }
+                        }
+                        else  // Altrimenti se non è il suo turno
+                            showMessageSync(GameMessage.waitMessageForCard);
+                    }
+                    else {  // Altrimenti chiedi al master player di inserire una nuova carta
+                        showMessage(GameMessage.playerMasterChoseAnotherCard);
+                    }
 
-            }
-        }
-        else{
+                }
+            case READYTOSTART:
+                LobbyPlayer l = lobby.getLobbyPlayers().get(0);
+                resultMsg = GameMessage.player1is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard() + "\n\n";
+                showMessageSync(resultMsg);
+                l = lobby.getLobbyPlayers().get(1);
+                resultMsg = GameMessage.player2is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard() + "\n\n";
+                showMessageSync(resultMsg);
+                if (lobby.getLobbyPlayers().size() == 3){
+                    l = lobby.getLobbyPlayers().get(3);
+                    resultMsg = GameMessage.player3is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard() + "\n\n";
+                    showMessageSync(resultMsg);
 
+                showMessageSync(GameMessage.startNormalGame);  // Notifica l'inizio della partita normale
+                }
         }
     }
 }

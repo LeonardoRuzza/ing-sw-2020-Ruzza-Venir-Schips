@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Worker;
 
 public class InputConversion {
 
-    public static Worker.Color conversion(String color) {
+    public static Worker.Color colorConversion(String color) {
         switch (color) {
             case "BLACK":
                 return Worker.Color.BLACK;
