@@ -33,6 +33,8 @@ public class GameMessage {
     public static String turnMessageBUILDBEFORE = "BUILDBEFORE";
     public static String turnMessageFIRSTALLOCATION =  "FIRSTALLOCATION";
 
+    public static String turnMessageErrorFIRSTALLOCATION = "Error locating your Worker";
+
     public static String turnMessageLose = "You Lose. ";
     public static String turnMessageWin = "You Win. ";
 
