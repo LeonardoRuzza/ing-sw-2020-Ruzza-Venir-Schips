@@ -9,8 +9,6 @@ public class GameMessage {
 
     public static final String wrongTurnMessage = "It is not your turn! ";
 
-    public static final String turnMessage
-
     public static final String turnMessageDORSE = "DORSE";  //Needs Coord
     public static final String turnMessageBUILDTWOTIMES = "BUILDTWOTIMES";
     public static final String turnMessageNO = "NO";
