@@ -64,14 +64,14 @@ public class PlayerPrometheus extends Player {
             case 1:
                 tempResponse = manageStateSelection(x, y, gender);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkWorkerSelection)) {
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.prometheusTurnMessageAskBuildBefore);
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.prometheusTurnMessageAskBuildBefore);
                 }
                 return tempResponse;
             case 2:
                 tempResponse = manageStateBuild(x, y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
                     stateOfTurn = 3;
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageChooseCellMove);
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageChooseCellMove);
                     return tempResponse;
                 }
                 return tempResponse;
@@ -79,18 +79,18 @@ public class PlayerPrometheus extends Player {
                 tempResponse = manageStateMove(x, y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkMovement)){
                     stateOfTurn = 4;
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.turnMessageChooseCellBuild);
+                    return new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.turnMessageChooseCellBuild);
                 }
                 return tempResponse;
             case 4:
                 tempResponse = manageStateBuild(x, y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                     match.nextPlayer();
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                     return tempResponse;
                 }
                 return tempResponse;
-            default: return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+            default: return new ChoiceResponseMessage(match.clone(), this, "Errore nello stato del turno!"); //da valutare questo default
         }
     }
 

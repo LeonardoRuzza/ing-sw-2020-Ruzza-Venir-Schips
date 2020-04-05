@@ -48,22 +48,22 @@ public class PlayerDemeter extends Player {
             case 2:
                 tempResponse = manageStateMove(x, y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkMovement)){
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.turnMessageChooseCellBuild);
+                    return new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.turnMessageChooseCellBuild);
                 }
                 return tempResponse;
             case 3:
                 tempResponse = manageStateBuild(x, y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
                     stateOfTurn = 4;
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.hestiaDemeterTurnMessageAskTwoBuild);
+                    return new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.hestiaDemeterTurnMessageAskTwoBuild);
                 }
                 return tempResponse;
             case 4:
                 if(optional.equals(GameMessage.turnMessageBUILDTWOTIMES)){
                     tempResponse = manageStateBuild(x, y);
                     if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
-                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                         match.nextPlayer();
+                        tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                         return tempResponse;
                     }
                     return tempResponse;
@@ -71,21 +71,21 @@ public class PlayerDemeter extends Player {
                 stateOfTurn = 1;
                 resetTurn();
                 match.nextPlayer();
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageTurnEnd);
-            default: return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+                return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageTurnEnd);
+            default: return new ChoiceResponseMessage(match.clone(), this, "Errore nello stato del turno!"); //da valutare questo default
         }
     }
 
     @Override
     protected ChoiceResponseMessage manageStateBuild(int x, int y){
         if(match.checkLoserBuild(selectedWorker)){
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWEnd);
+            return new ChoiceResponseMessage(match.clone(), this, GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWEnd);
         }
         if(selectedWorkerBuild(x,y)) {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageOkBuild);
+            return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageOkBuild);
         }else {
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWNewCell);
+            return new ChoiceResponseMessage(match.clone(), this, GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWNewCell);
         }
     }
 }

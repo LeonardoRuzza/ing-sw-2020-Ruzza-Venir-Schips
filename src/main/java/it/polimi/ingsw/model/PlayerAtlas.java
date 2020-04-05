@@ -24,27 +24,27 @@ public class PlayerAtlas extends Player {
             case 2:
                 tempResponse = manageStateMove(x, y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkMovement)){
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.atlasTurnMessageAskBuildDorse);
+                    return new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.atlasTurnMessageAskBuildDorse);
                 }
                 return tempResponse;
             case 3:
                 if(optional.equals(GameMessage.turnMessageDORSE)){
                         if(selectedWorkerBuildDorse(x,y)){
                             stateOfTurn = 1;
-                            tempResponse = new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageOkBuild+GameMessage.turnMessageTurnEnd);
                             match.nextPlayer();
+                            tempResponse = new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageOkBuild+GameMessage.turnMessageTurnEnd);
                             return tempResponse;
                         }
-                        else return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.atlasTurnMessageFailBuildDorse);
+                        else return new ChoiceResponseMessage(match.clone(), this, GameMessage.atlasTurnMessageFailBuildDorse);
                 }
                 tempResponse = manageStateBuild(x, y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                     match.nextPlayer();
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                     return tempResponse;
                 }
                 return tempResponse;
-            default: return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+            default: return new ChoiceResponseMessage(match.clone(), this, "Errore nello stato del turno!"); //da valutare questo default
         }
     }
 }

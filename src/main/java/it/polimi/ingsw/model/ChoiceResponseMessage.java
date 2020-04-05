@@ -2,12 +2,12 @@ package it.polimi.ingsw.model;
 
 public class ChoiceResponseMessage {
     private final Player player;
-    private final Board board;
+    private final Match match;
     private String nextInstruction;
 
-    ChoiceResponseMessage(Board board, Player player, String instruction) {
+    ChoiceResponseMessage(Match match, Player player, String instruction) {
         this.player = player;
-        this.board = board;
+        this.match = match;
         this.nextInstruction = instruction;
     }
 
@@ -15,8 +15,8 @@ public class ChoiceResponseMessage {
         return player;
     }
 
-    public Board getBoard() {
-        return board;
+    public Match getMatch() {
+        return match;
     }
     public String getNextInstruction() {
         return nextInstruction;

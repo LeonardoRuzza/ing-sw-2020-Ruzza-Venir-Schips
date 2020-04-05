@@ -133,7 +133,7 @@ public class MatchTest {
         location[0] = 0;
         location[1] = 0;
         Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        //Assert.assertTrue("Error Check Loser Move", match.checkLoserMove(testWorkerOne).equals(testPlayer1));
+        Assert.assertTrue("Error Check Loser Move", match.checkLoserMove(testWorkerOne));
     }
     @Test
     public void testCheckLoserBuild() {
@@ -234,5 +234,17 @@ public class MatchTest {
         Assert.assertTrue("Error nextPlayerAct2", match.nextPlayer().equals(player3));
         Assert.assertTrue("Error nextPlayerAct3", match.nextPlayer().equals(testPlayer1));
     }
-
+    @Test
+    public void testTowerCount() {
+        for(int x=0; x<match.getBoard().boardSide; x++){
+            for(int y=0; y<match.getBoard().boardSide; y++){
+                match.forceBuild(x,y,null);
+                match.forceBuild(x,y,null);
+                match.forceBuild(x,y,null);
+                match.forceBuild(x,y,null);
+            }
+        }
+        Assert.assertEquals(match.towerCount(), 5*5);
+        match.getBoard().draw();
+    }
 }

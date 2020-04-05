@@ -55,7 +55,7 @@ public class PlayerHephaesthus extends Player {
             case 2:
                 tempResponse = manageStateMove(x, y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkMovement)){
-                    return new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.hephaesthusTurnMessageAskBuild);
+                    return new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.hephaesthusTurnMessageAskBuild);
                 }
                 return tempResponse;
             case 3:
@@ -63,9 +63,9 @@ public class PlayerHephaesthus extends Player {
                     tempResponse = super.manageStateBuild(x, y);
                     resetTurn();
                     if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
-                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                         resetTurn();
                         match.nextPlayer();
+                        tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                         return tempResponse;
                     }
                     return tempResponse;
@@ -75,15 +75,15 @@ public class PlayerHephaesthus extends Player {
                     return tempResponse;
                 }
                 tempResponse = manageStateBuild(x, y);
-                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
-                }else{
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction());
-                }
                 resetTurn();
                 match.nextPlayer();
+                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
+                }else{
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction());
+                }
                 return tempResponse;
-            default: return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+            default: return new ChoiceResponseMessage(match.clone(), this, "Errore nello stato del turno!"); //da valutare questo default
         }
     }
 
@@ -91,10 +91,10 @@ public class PlayerHephaesthus extends Player {
     protected ChoiceResponseMessage manageStateBuild(int x, int y){
         if(selectedWorkerBuild(x,y)) {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageOkBuild);
+            return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageOkBuild);
         }else {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.hephaesthusTurnMessageFailOptionalBuildWEnd);
+            return new ChoiceResponseMessage(match.clone(), this, GameMessage.hephaesthusTurnMessageFailOptionalBuildWEnd);
         }
     }
 }

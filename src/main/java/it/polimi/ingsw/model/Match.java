@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.observer.Observable;
 import org.jetbrains.annotations.NotNull;
 
-public class Match extends Observable<ChoiceResponseMessage> {
+public class Match extends Observable<ChoiceResponseMessage> implements Cloneable {
 
     final int maxPlayer = 3;
     private int ID;
@@ -25,7 +25,9 @@ public class Match extends Observable<ChoiceResponseMessage> {
         return numberOfPlayers;
     }
     public Player getPlayingNow() { return playingNow; }
-
+    public Player[] getPlayers() {
+        return players;
+    }
 
     public boolean checkWin(@NotNull Worker w) {
         if (w.getOldLocation() == null || w.getCell() == null){
@@ -204,6 +206,34 @@ public class Match extends Observable<ChoiceResponseMessage> {
     protected void removeWorker(Worker w){
         board.removeWorker(w);
     }
+    protected void removePlayer(Player p){
+        if(numberOfPlayers == 3){
+            Player[] temp = new Player[numberOfPlayers-1];
+            nextPlayer();
+            int i = 0;
+            for (int x = 0; x < numberOfPlayers; x++){
+                if(players[x] != null){
+                    if(players[x].equals(p)){
+                        players[x] = null;
+                    }else{
+                        temp[i] = players[x];
+                        i++;
+                    }
+                }
+            }
+            numberOfPlayers = 2;
+        }else{
+            nextPlayer();
+            for (int x = 0; x < numberOfPlayers; x++){
+                if(players[x] != null){
+                    if(players[x].equals(p)){
+                        players[x] = null;
+                    }
+                }
+            }
+            numberOfPlayers = 1;
+        }
+    }
 
     protected int towerCount(){
         int counter = 0;
@@ -228,4 +258,18 @@ public class Match extends Observable<ChoiceResponseMessage> {
         //controllo vittoria,reset partita
         notify(resp);
     }
+
+    @Override
+    protected Match clone() {
+        final Match result = new Match(this.ID, this.numberOfPlayers);
+        result.playingNow = this.playingNow.clone();
+        for (int x = 0; x < numberOfPlayers; x++){
+            if(this.players[x] != null){
+                result.players[x] = this.players[x].clone();
+            }
+        }
+        result.board = this.getBoard().clone();
+        return result;
+    }
+
 }

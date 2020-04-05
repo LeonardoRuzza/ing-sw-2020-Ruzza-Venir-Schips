@@ -118,12 +118,12 @@ public class Player {
             case 3:
                 ChoiceResponseMessage tempResponse = manageStateBuild(x, y);
                     if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
-                        tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                         match.nextPlayer();
+                        tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                         return tempResponse;
                     }
                     return tempResponse;
-            default: return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+            default: return new ChoiceResponseMessage(match.clone(), this, "Errore nello stato del turno!"); //da valutare questo default
         }
     }
 
@@ -132,27 +132,32 @@ public class Player {
             if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[1] : workers[0])){
                 match.removeWorker(workers[0]);
                 match.removeWorker(workers[1]);
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageLose);
+                match.removePlayer(this);
+                return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageLose);
             }
             if(setSelectedWorker(gender == Worker.Gender.Male ? workers[1].getGender() : workers[0].getGender())){
                 stateOfTurn++;
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageUnselectableWorkerSwitch);
+                return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageUnselectableWorkerSwitch);
             }
             else
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageLoserNoWorker);
+                return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageLoserNoWorker);
         }
         else {
             if(setSelectedWorker(gender)){
                 stateOfTurn++;
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageOkWorkerSelection);
+                return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageOkWorkerSelection);
             }
             else {
                 if(setSelectedWorker(gender == Worker.Gender.Male ? workers[1].getGender() : workers[0].getGender())){
                     stateOfTurn++;
-                    return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageUnselectableWorkerSwitch);
+                    return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageUnselectableWorkerSwitch);
                 }
-                else
-                    return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageLoserNoWorker);
+                else{
+                    match.removeWorker(workers[0]);
+                    match.removeWorker(workers[1]);
+                    match.removePlayer(this);
+                    return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageLoserNoWorker);
+                }
             }
         }
     }
@@ -162,13 +167,13 @@ public class Player {
         if(selectedWorkerMove(x, y)) {
             if (match.checkWin(selectedWorker)) {
                 stateOfTurn = 1;
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageWin);
+                return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageWin);
             }
             stateOfTurn++;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageOkMovement);
+            return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageOkMovement);
         }
         else {
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageFailMovementChangeDestination);
+            return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageFailMovementChangeDestination);
         }
     }
 
@@ -178,14 +183,15 @@ public class Player {
             stateOfTurn = 1;
             match.removeWorker(workers[0]);
             match.removeWorker(workers[1]);
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageLose);
+            match.removePlayer(this);
+            return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageLose);
         }
         if(selectedWorkerBuild(x,y)) {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageOkBuild);
+            return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageOkBuild);
         }
         else {
-            return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageFailBuildChangeDestination);
+            return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageFailBuildChangeDestination);
         }
     }
 
@@ -205,6 +211,20 @@ public class Player {
     protected void resetTurn(){}
     public boolean checkLimitSelection(Player actualPlayer, Worker w){return true;}
     protected boolean notSelectedWorkerRemoveBlock(int x, int y){return false;}
+
+    @Override
+    protected Player clone() {
+        final Player result;
+        if (this.card == null || this.workers[0] == null || this.workers[1] == null){
+            result = new Player(this.getNickname(), this.getNumber(), null);
+        }else{
+            result = new Player(this.getNickname(), this.getNumber(), new Card(this.card.getNumber()), null, this.workers[0].getColor());
+            result.workers[0] = this.workers[0].clone();
+            result.workers[1] = this.workers[1].clone();
+        }
+        result.stateOfTurn = this.stateOfTurn;
+        return result;
+    }
 
     @Override
     public boolean equals(Object obj) {

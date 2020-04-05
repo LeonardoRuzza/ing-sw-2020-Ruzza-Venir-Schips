@@ -34,7 +34,7 @@ public class PlayerAres extends Player {
                 tempResponse = manageStateBuild(x, y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
                     stateOfTurn = 4; //sovrascrive quello che mette di default l'altro medoto maageStateBuild
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getBoard(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.aresTurnMessageAskRemoveBlok); //da valutare remoteview
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.aresTurnMessageAskRemoveBlok); //da valutare remoteview
                     return tempResponse;
                 }
                 return tempResponse;
@@ -42,19 +42,19 @@ public class PlayerAres extends Player {
                 if(optional.equals(GameMessage.turnMessageNO)){
                     stateOfTurn = 1;
                     match.nextPlayer();
-                    return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.turnMessageTurnEnd);
+                    return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageTurnEnd);
                 }
                 if(notSelectedWorkerRemoveBlock(x, y)){
-                    tempResponse = new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.aresTurnMessageSuccessRemoveBlokWEnd);
                     match.nextPlayer();
                     stateOfTurn = 1;
+                    tempResponse = new ChoiceResponseMessage(match.clone(), this, GameMessage.aresTurnMessageSuccessRemoveBlokWEnd);
                     return tempResponse;
                 }
                 stateOfTurn = 4;
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, GameMessage.aresTurnMessageFailRemoveBlokWNewCell);
+                return new ChoiceResponseMessage(match.clone(), this, GameMessage.aresTurnMessageFailRemoveBlokWNewCell);
 
             default:
-                return new ChoiceResponseMessage(match.getBoard().clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+                return new ChoiceResponseMessage(match.clone(), this, "Errore nello stato del turno!"); //da valutare questo default
         }
     }
 }
