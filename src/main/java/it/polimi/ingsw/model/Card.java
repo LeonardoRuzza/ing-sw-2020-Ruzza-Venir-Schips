@@ -37,6 +37,8 @@ public class Card {
     }
 
     //Getter
+    public static int getCardNumb() { return cardNumb; }
+    public int getNumber() { return number; }
     public String getName(){
         return names[this.number];
     }

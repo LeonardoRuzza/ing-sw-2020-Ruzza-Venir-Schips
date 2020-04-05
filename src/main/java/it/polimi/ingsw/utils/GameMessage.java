@@ -7,7 +7,25 @@ public class GameMessage {
     public static String wrongColorInput = "Your input for color is not correct. ";
     public static String notAvailableColor = "The selected color has been already choosen. ";
 
+    public static String cardPhase = "";
+    public static String availableColors = "Available colors: ";
+    public static String availableCards = "Available cards: ";
+    public static String playerMasterChoseCard2 = "Choose 2 card from the list";
+    public static String playerMasterChoseCard3 = "Choose 3 card from the list";
+    public static String waitMessageForCard = "Waiting the master player choose of cards. ";
 
+    public static String player1is = "Player1 is: ";
+    public static String player2is = "Player2 is: ";
+    public static String player3is = "Player3 is: ";
+    public static String hisColor = "Chosen color: ";
+    public static String hisCard = "Chosen card: ";
+
+
+
+
+
+
+    // Normal Game Message
     public static String wrongTurnMessage = "It is not your turn!";
     public static String turnMessageDORSE = "DORSE";
     public static String turnMessageBUILDTWOTIMES = "BUILDTWOTIMES";
