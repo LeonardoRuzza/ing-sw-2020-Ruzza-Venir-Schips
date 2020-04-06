@@ -80,7 +80,9 @@ public class RemoteView extends View {
 
     @Override
     public void update(ChoiceResponseMessage message) {
-        int counterActivePlayers=0;
+        int counterActivePlayers = 0;
+        String nicknameThisPlayer = getPlayer().getNickname();
+        String nicknamePlayerFromMessage = message.getPlayer().getNickname();
         Player[] players = message.getMatch().getPlayers();
         for (Player value : players) {
             if (value != null) {
@@ -89,10 +91,11 @@ public class RemoteView extends View {
         }
         showMessageSync(message.getMatch().getBoard());
         String resultMsg = "";
+
         boolean gameOverWin = message.getNextInstruction().equals(GameMessage.turnMessageWin);
         boolean gameOverDefeat = message.getNextInstruction().equals(GameMessage.turnMessageLose) || message.getNextInstruction().equals(GameMessage.turnMessageLoserNoWorker) ;
         if (gameOverWin) {
-            if (message.getPlayer() == getPlayer()) {
+            if (nicknameThisPlayer.equals(nicknamePlayerFromMessage)) {
                 resultMsg = GameMessage.turnMessageWin + "\n";
             } else {
                 resultMsg = GameMessage.turnMessageLose + "\n";
@@ -100,19 +103,19 @@ public class RemoteView extends View {
         }
         else {
             if (gameOverDefeat) {
-                if (message.getPlayer() == getPlayer()) {
+                if (nicknameThisPlayer.equals(nicknamePlayerFromMessage)) {
                     resultMsg = message.getNextInstruction() + "\n";
                 } else {
-                    resultMsg = message.getPlayer().getNickname()+ "lose. " + "\n";
+                    resultMsg = nicknamePlayerFromMessage+ "lose. " + "\n";
                     if(counterActivePlayers<=2) resultMsg += GameMessage.turnMessageWin + "\n";
                 }
             }
             else {
-                if(message.getPlayer() == getPlayer()){
+                if(nicknameThisPlayer.equals(nicknamePlayerFromMessage)){
                     resultMsg = message.getNextInstruction() + "\n";
                 }
                 else{
-                    if(message.getNextInstruction().equals(GameMessage.turnMessageTurnEnd) && message.getMatch().getPlayingNow().getNickname().equals(getPlayer().getNickname())) {
+                    if(message.getNextInstruction().equals(GameMessage.turnMessageTurnEnd) && message.getMatch().getPlayingNow().getNickname().equals(nicknameThisPlayer)) {
                         resultMsg = GameMessage.turnMessageSelectYourWorker + "\n";
                     }
                 }
@@ -120,10 +123,10 @@ public class RemoteView extends View {
         }
         showMessageSync(resultMsg);
 
-        if((gameOverWin && message.getPlayer() == getPlayer()) || (gameOverDefeat && counterActivePlayers<3 && message.getPlayer() != getPlayer())){
+        if((gameOverWin && nicknameThisPlayer.equals(nicknamePlayerFromMessage)) || (gameOverDefeat && counterActivePlayers<3 && nicknameThisPlayer.equals(nicknamePlayerFromMessage))){
             clientConnection.close(false);
         }
-        if(gameOverDefeat && message.getPlayer() == getPlayer() && counterActivePlayers==3) {
+        if(gameOverDefeat && nicknameThisPlayer.equals(nicknamePlayerFromMessage) && counterActivePlayers==3) {
             clientConnection.close(true);
         }
     }
