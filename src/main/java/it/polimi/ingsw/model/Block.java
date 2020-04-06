@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
-public enum Block {
+import java.io.Serializable;
+
+public enum Block implements Serializable {
     B1, B2, B3, DORSE;
 }

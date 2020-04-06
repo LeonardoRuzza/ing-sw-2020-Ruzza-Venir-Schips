@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-public class Cell implements Cloneable {
+import java.io.Serializable;
+
+public class Cell implements Cloneable, Serializable {
     
     private int xCoord;
     private int yCoord;

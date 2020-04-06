@@ -42,7 +42,6 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
                     choice.getView().reportError(GameMessage.turnMessageErrorFIRSTALLOCATION);
                 }
             }else {
-
                 match.performPlay(choice.getX(), choice.getY(), choice.getGender(), choice.getOptional());
             }
         }else
@@ -119,39 +118,7 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
 
             lobbyView3.getClientConnection().removeObserver(lobbyView3.getMessageReceiver());
         }
-        /*if (lobby.getLobbyPlayers().size() == 3){
-            LobbyPlayer l1 = lobby.getLobbyPlayers().get(0);
-            LobbyPlayer l2 = lobby.getLobbyPlayers().get(1);
-            LobbyPlayer l3 = lobby.getLobbyPlayers().get(2);
-            Player p1 = FactoryPlayer.getPlayer(l1.getNickname(), 1, match, l1.getColor(), l1.getCard().getNumber());
-            Player p2 = FactoryPlayer.getPlayer(l2.getNickname(), 2, match, l2.getColor(), l2.getCard().getNumber());
-            Player p3 = FactoryPlayer.getPlayer(l3.getNickname(), 3, match, l3.getColor(), l3.getCard().getNumber());
-            ClientConnection c1 = null;
-            ClientConnection c2 = null;
-            ClientConnection c3 = null;
-            RemoteView p1RemoteView = new RemoteView(c1, p1);
-            RemoteView p2RemoteView = new RemoteView(c2, p2);
-            RemoteView p3RemoteView = new RemoteView(c3, p3);
-            match.addObserver(p1RemoteView);
-            match.addObserver(p2RemoteView);
-            match.addObserver(p3RemoteView);
-            p1RemoteView.addObserver(controller);
-            p2RemoteView.addObserver(controller);
-            p3RemoteView.addObserver(controller);
-        }else{
-            LobbyPlayer l1 = lobby.getLobbyPlayers().get(0);
-            LobbyPlayer l2 = lobby.getLobbyPlayers().get(1);
-            Player p1 = FactoryPlayer.getPlayer(l1.getNickname(), 1, match, l1.getColor(), l1.getCard().getNumber());
-            Player p2 = FactoryPlayer.getPlayer(l2.getNickname(), 2, match, l2.getColor(), l2.getCard().getNumber());
-            ClientConnection c1 = null;
-            ClientConnection c2 = null;
-            RemoteView p1RemoteView = new RemoteView(c1, p1);
-            RemoteView p2RemoteView = new RemoteView(c2, p2);
-            match.addObserver(p1RemoteView);
-            match.addObserver(p2RemoteView);
-            p1RemoteView.addObserver(controller);
-            p2RemoteView.addObserver(controller);
-        }*/
+        match.initializeGame();
     }
 
     @Override

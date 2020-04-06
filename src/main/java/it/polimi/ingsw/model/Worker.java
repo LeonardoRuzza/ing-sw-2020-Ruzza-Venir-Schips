@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-public class Worker implements Cloneable{
+import java.io.Serializable;
+
+public class Worker implements Cloneable, Serializable {
 
     public enum Gender{Male,Female}
     public enum Color{BLACK("\u001B[30m"),WHITE("\u001B[37m"),RED("\u001B[31m"),BLUE("\u001B[34m"),GREEN("\u001B[32m"),YELLOW("\u001B[33m");

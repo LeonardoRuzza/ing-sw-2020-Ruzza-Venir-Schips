@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.utils.GameMessage;
 import org.jetbrains.annotations.NotNull;
 
 public class Match extends Observable<ChoiceResponseMessage> implements Cloneable {
@@ -20,6 +21,11 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         this.board = new Board();
     }
 
+    public void initializeGame(){
+        nextPlayer();
+        notify(new ChoiceResponseMessage(this.clone(), this.players[numberOfPlayers-1].clone(), GameMessage.turnMessageTurnEnd));
+    }
+
     public Board getBoard() { return board; }
     public int getNumberOfPlayers(){
         return numberOfPlayers;
@@ -33,6 +39,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         for(int x = 0; x<numberOfPlayers; x++){
             if(players[x] == null){
                 players[x] = p;
+                return;
             }
         }
     }
