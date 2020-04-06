@@ -90,7 +90,7 @@ public class PlayerPrometheus extends Player {
                     return tempResponse;
                 }
                 return tempResponse;
-            default: return new ChoiceResponseMessage(match.clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+            default: return new ChoiceResponseMessage(match.clone(), this.clone(), "Errore nello stato del turno!"); //da valutare questo default
         }
     }
 

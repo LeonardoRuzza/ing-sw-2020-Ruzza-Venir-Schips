@@ -42,19 +42,19 @@ public class PlayerAres extends Player {
                 if(optional.equals(GameMessage.turnMessageNO)){
                     stateOfTurn = 1;
                     match.nextPlayer();
-                    return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageTurnEnd);
+                    return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageTurnEnd);
                 }
                 if(notSelectedWorkerRemoveBlock(x, y)){
                     match.nextPlayer();
                     stateOfTurn = 1;
-                    tempResponse = new ChoiceResponseMessage(match.clone(), this, GameMessage.aresTurnMessageSuccessRemoveBlokWEnd);
+                    tempResponse = new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.aresTurnMessageSuccessRemoveBlokWEnd);
                     return tempResponse;
                 }
                 stateOfTurn = 4;
-                return new ChoiceResponseMessage(match.clone(), this, GameMessage.aresTurnMessageFailRemoveBlokWNewCell);
+                return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.aresTurnMessageFailRemoveBlokWNewCell);
 
             default:
-                return new ChoiceResponseMessage(match.clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+                return new ChoiceResponseMessage(match.clone(), this.clone(), "Errore nello stato del turno!"); //da valutare questo default
         }
     }
 }

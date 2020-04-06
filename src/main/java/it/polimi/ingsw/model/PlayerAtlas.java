@@ -32,10 +32,10 @@ public class PlayerAtlas extends Player {
                         if(selectedWorkerBuildDorse(x,y)){
                             stateOfTurn = 1;
                             match.nextPlayer();
-                            tempResponse = new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageOkBuild+GameMessage.turnMessageTurnEnd);
+                            tempResponse = new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageOkBuild+GameMessage.turnMessageTurnEnd);
                             return tempResponse;
                         }
-                        else return new ChoiceResponseMessage(match.clone(), this, GameMessage.atlasTurnMessageFailBuildDorse);
+                        else return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.atlasTurnMessageFailBuildDorse);
                 }
                 tempResponse = manageStateBuild(x, y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
@@ -44,7 +44,7 @@ public class PlayerAtlas extends Player {
                     return tempResponse;
                 }
                 return tempResponse;
-            default: return new ChoiceResponseMessage(match.clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+            default: return new ChoiceResponseMessage(match.clone(), this.clone(), "Errore nello stato del turno!"); //da valutare questo default
         }
     }
 }

@@ -32,19 +32,5 @@ public class PlayerHypnus extends Player {
             }
         }
         return zW>zOtherW;
-
-
-
-/*        int zMax=0;
-        for(int i=0; i<match.players.length;i++){
-            for(int k=0; i<match.players[i].workers.length; k++){
-                if(w != match.players[i].workers[k]){                         //controlla di non verificare sullo stesso worker ricevuto come parametro
-                    if(match.players[i].workers[k].getCell().getzCoord()>zMax){
-                        zMax=match.players[i].workers[k].getCell().getzCoord();
-                    }
-                }
-            }
-        }
-        return w.getCell().getzCoord()>zMax;*/
     }
 }
