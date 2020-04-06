@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
@@ -20,6 +21,7 @@ public class Server {
     private int numberOfPlayers = 0;
     private ServerSocket serverSocket;
     private ExecutorService executor = Executors.newFixedThreadPool(128);
+    private List<ClientConnection> registerOrder = new ArrayList<>();
     private Map<String, ClientConnection> waitingConnection = new HashMap<>();
     private Map<ClientConnection, ClientConnection> playingConnectionForTwo = new HashMap<>();
     private Map<ClientConnection, Map<ClientConnection,ClientConnection>> playingConnectionForThree = new HashMap<>();
@@ -35,7 +37,7 @@ public class Server {
     public int[] getDeckTwo() { return deckTwo; }
     public int[] getDeckThree() { return deckThree; }*/
 
-    /*
+
     public static <T, E> T getKeyByValue(@NotNull Map<T, E> map, E value) {
         for (Map.Entry<T, E> entry : map.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
@@ -43,11 +45,12 @@ public class Server {
             }
         }
         return null;
-    }*/
+    }
 
 
     public synchronized void deregisterConnection(ClientConnection c) {
         Iterator<String> iterator = waitingConnection.keySet().iterator();
+        registerOrder.remove(c);
         while(iterator.hasNext()){
             if(waitingConnection.get(iterator.next())==c){
                 iterator.remove();
@@ -67,9 +70,10 @@ public class Server {
                 return;
             }
         }
-        List<ClientConnection> opponents = new ArrayList<>(playingConnectionForThree.get(c).keySet());
-        ClientConnection opponent1 = opponents.get(0);
-        ClientConnection opponent2 = opponents.get(1);
+        Map<ClientConnection, ClientConnection> opponents = new HashMap<>(playingConnectionForThree.get(c));
+        ClientConnection[] temp =  opponents.values().toArray(new ClientConnection[0]);
+        ClientConnection opponent1 = temp[0];
+        ClientConnection opponent2 = getKeyByValue(opponents, opponent1);
         if(c != null){
             playingConnectionForThree.remove(c);
         }
@@ -104,45 +108,57 @@ public class Server {
                 return;
             }
         }
-        List<ClientConnection> opponents = new ArrayList<>(playingConnectionForThree.get(c).keySet());
-        ClientConnection opponent1 = opponents.get(0);
-        ClientConnection opponent2 = opponents.get(1);
-
+        Map<ClientConnection, ClientConnection> opponents = new HashMap<>(playingConnectionForThree.get(c));
+        ClientConnection[] temp =  opponents.values().toArray(new ClientConnection[0]);
+        ClientConnection opponent1 = temp[0];
+        ClientConnection opponent2 = getKeyByValue(opponents, opponent1);
         if(c != null){
             playingConnectionForThree.remove(c);
         }
-        if(opponent1 != null && opponent2 != null){
+        if(opponent1!= null && opponent2 != null){
             playingConnectionForThree.remove(opponent1);
             playingConnectionForThree.remove(opponent2);
             playingConnectionForTwo.put(opponent1, opponent2);
             playingConnectionForTwo.put(opponent2, opponent1);
-        }else{
-            opponent1.closeConnection();
+        }else if(opponent1 == null && opponent2 != null) {
             opponent2.closeConnection();
+        }else if(opponent1 != null && opponent2 == null){
+            opponent1.closeConnection();
         }
+
     }
 
     public synchronized boolean addClient(ClientConnection c, String name){
         if (waitingConnection.containsKey(name)){
             return false;
         }
+        registerOrder.add(c);
         waitingConnection.put(name, c);
         return true;
     }
 
 
     public synchronized boolean isFirstPlayer(ClientConnection c){
-        List<String> keys = new ArrayList<>(waitingConnection.keySet());
-        return waitingConnection.get(keys.get(0)).equals(c);
+        if(registerOrder.size() == 0){
+            return false;
+        }
+        return (registerOrder.get(0)).equals(c);
     }
 
     public synchronized void manageLobby(int numberOfPlayers){
-        if (numberOfPlayers == 2 || numberOfPlayers == 3 || this.numberOfPlayers == 2 || this.numberOfPlayers == 3){
+        if(numberOfPlayers == 2 || numberOfPlayers == 3){
             if (waitingConnection.size() >= numberOfPlayers) {
                 createGame(numberOfPlayers);
+            }else {
+                this.numberOfPlayers = numberOfPlayers;
+            }
+        }
+        if (this.numberOfPlayers == 2 || this.numberOfPlayers == 3){
+            if (waitingConnection.size() >= this.numberOfPlayers) {
+                createGame(this.numberOfPlayers);
             }
             else {
-                this.numberOfPlayers = numberOfPlayers;
+                this.numberOfPlayers = this.numberOfPlayers;
             }
         }
     }
@@ -152,14 +168,15 @@ public class Server {
     //Wait for another player
     public void createGame(int numberOfPlayers){
         if(numberOfPlayers == 2){
-            List<String> keys = new ArrayList<>(waitingConnection.keySet());
-            Lobby lobby = new Lobby(keys.get(0), keys.get(1));
-            ClientConnection c1 = waitingConnection.get(keys.get(0));
-            ClientConnection c2 = waitingConnection.get(keys.get(1));
+            ClientConnection c1 = registerOrder.get(0);
+            ClientConnection c2 = registerOrder.get(1);
+            String nameC1 = getKeyByValue(waitingConnection, c1);
+            String nameC2 = getKeyByValue(waitingConnection, c2);
+            Lobby lobby = new Lobby(nameC1, nameC2);
+
             Controller controller = new Controller(lobby);
             LobbyRemoteView player1LobbyView = new LobbyRemoteView(c1, lobby.getLobbyPlayers().get(0));
             LobbyRemoteView player2LobbyView = new LobbyRemoteView(c2, lobby.getLobbyPlayers().get(1));
-
 
             lobby.addObserverLobby(player1LobbyView);
             lobby.addObserverLobby(player2LobbyView);
@@ -168,17 +185,21 @@ public class Server {
 
             playingConnectionForTwo.put(c1, c2);
             playingConnectionForTwo.put(c2, c1);
-            waitingConnection.remove(keys.get(0));
-            waitingConnection.remove(keys.get(1));
+            waitingConnection.remove(nameC1);
+            waitingConnection.remove(nameC2);
+            registerOrder.remove(c2);
+            registerOrder.remove(c1);
             c1.asyncSend(GameMessage.chooseColor);
             c2.asyncSend(GameMessage.waitMessageForColor);
         }
         else{
-            List<String> keys = new ArrayList<>(waitingConnection.keySet());
-            Lobby lobby = new Lobby(keys.get(0), keys.get(1), keys.get(2));
-            ClientConnection c1 = waitingConnection.get(keys.get(0));
-            ClientConnection c2 = waitingConnection.get(keys.get(1));
-            ClientConnection c3 = waitingConnection.get(keys.get(2));
+            ClientConnection c1 = registerOrder.get(0);
+            ClientConnection c2 = registerOrder.get(1);
+            ClientConnection c3 = registerOrder.get(2);
+            String nameC1 = getKeyByValue(waitingConnection, c1);
+            String nameC2 = getKeyByValue(waitingConnection, c2);
+            String nameC3 = getKeyByValue(waitingConnection, c3);
+            Lobby lobby = new Lobby(nameC1, nameC2, nameC3);
             Controller controller = new Controller(lobby);
             LobbyRemoteView player1LobbyView = new LobbyRemoteView(c1, lobby.getLobbyPlayers().get(0));
             LobbyRemoteView player2LobbyView = new LobbyRemoteView(c2, lobby.getLobbyPlayers().get(1));
@@ -200,9 +221,12 @@ public class Server {
             tmpMap.clear();
             tmpMap.put(c1,c2);
             playingConnectionForThree.put(c3, tmpMap);
-            waitingConnection.remove(keys.get(0));
-            waitingConnection.remove(keys.get(1));
-            waitingConnection.remove(keys.get(2));
+            waitingConnection.remove(nameC1);
+            waitingConnection.remove(nameC2);
+            waitingConnection.remove(nameC3);
+            registerOrder.remove(c1);
+            registerOrder.remove(c2);
+            registerOrder.remove(c3);
             c1.asyncSend(GameMessage.chooseColor);
             c2.asyncSend(GameMessage.waitMessageForColor);
             c3.asyncSend(GameMessage.waitMessageForColor);

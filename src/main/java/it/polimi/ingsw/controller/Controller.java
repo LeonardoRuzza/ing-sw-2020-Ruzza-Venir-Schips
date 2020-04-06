@@ -59,6 +59,7 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
                 if (!lobby.chooseColor(message.getInformation())) {
                     message.getLobbyRemoteView().reportError(GameMessage.notAvailableColor);
                 }
+                break;
             case CARD:
                 if(!lobby.chooseCard(message.getInformation())){
                     message.getLobbyRemoteView().reportError(GameMessage.notAvailableCard);
@@ -66,7 +67,7 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
                         //TODO crea partita normale
                     }
                 }
-
+                break;
             }
     }
 

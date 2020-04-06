@@ -63,7 +63,7 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                 else{  // Altrimenti se non è il suo turno
                     showMessage(GameMessage.waitMessageForColor);
                 }
-
+                break;
             case CARD:
                 if (lobby.getSwitchState()){  // Finita fase di scelta dei colori e inizia quella delle carte
                     showMessageSync(GameMessage.cardPhase);
@@ -94,6 +94,7 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                     }
 
                 }
+                break;
             case READYTOSTART:
                 LobbyPlayer l = lobby.getLobbyPlayers().get(0);
                 resultMsg = GameMessage.player1is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard() + "\n\n";
@@ -108,6 +109,7 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
 
                 showMessageSync(GameMessage.startNormalGame);  // Notifica l'inizio della partita normale
                 }
+                break;
         }
     }
 }
