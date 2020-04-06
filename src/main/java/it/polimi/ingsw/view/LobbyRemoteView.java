@@ -103,7 +103,7 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                 resultMsg = GameMessage.player2is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard().getName() + "\n\n";
                 showMessageSync(resultMsg);
                 if (lobby.getLobbyPlayers().size() == 3){
-                    l = lobby.getLobbyPlayers().get(3);
+                    l = lobby.getLobbyPlayers().get(2);
                     resultMsg = GameMessage.player3is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard().getName() + "\n\n";
                     showMessageSync(resultMsg);
 
