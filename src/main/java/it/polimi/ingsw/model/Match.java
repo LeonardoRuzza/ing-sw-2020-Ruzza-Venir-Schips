@@ -29,6 +29,14 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         return players;
     }
 
+    public void addPlayer(Player p){
+        for(int x = 0; x<numberOfPlayers; x++){
+            if(players[x] == null){
+                players[x] = p;
+            }
+        }
+    }
+
     public boolean checkWin(@NotNull Worker w) {
         if (w.getOldLocation() == null || w.getCell() == null){
             return checkSuperWin(false);
