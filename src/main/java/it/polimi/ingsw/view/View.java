@@ -21,7 +21,7 @@ public abstract class View extends Observable<PlayerChoiceMessage> implements Ob
     protected abstract void showMessage(Object message);
 
     public void manageChoice(Player player, int x, int y,String optional, Worker.Gender gender){
-        System.out.println(x + " " + y);
+        System.out.println(x + " " + y+ "" + optional + "" + gender.toString());
         notify(new PlayerChoiceMessage(player, x, y, this, optional, gender));
     }
 

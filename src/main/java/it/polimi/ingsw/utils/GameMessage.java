@@ -1,5 +1,8 @@
 package it.polimi.ingsw.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameMessage {
     // Lobby message
     public static String chooseColor = "Choose your color. ";
@@ -68,4 +71,14 @@ public class GameMessage {
     public static String hestiaDemeterTurnMessageAskTwoBuild = "If you want to build again, indicate the coordinates and write BUILDTWOTIMES otherwise write NO. ";
     public static String hestiaDemeterTurnMessageFailOptionalBuildWEnd = "You can't build here twice. Your turn is over. ";
     public static String hestiaDemeterTurnMessageFailOptionalBuildWNewCell = "You can't build here. Enter new coordinates or write NO. ";
+
+    public static boolean isValidOptional(String optional){
+        List<String> availableOptional = new ArrayList<>();
+        availableOptional.add(turnMessageDORSE);
+        availableOptional.add(turnMessageBUILDTWOTIMES);
+        availableOptional.add(turnMessageNO);
+        availableOptional.add(turnMessageBUILDBEFORE);
+        availableOptional.add(turnMessageFIRSTALLOCATION);
+        return availableOptional.contains(optional);
+    }
 }

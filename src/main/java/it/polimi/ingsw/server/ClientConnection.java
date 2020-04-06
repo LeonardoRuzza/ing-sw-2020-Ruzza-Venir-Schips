@@ -6,6 +6,8 @@ public interface ClientConnection{
 
     void closeConnection();
 
+    void close(Boolean singleClientClose);
+
     void addObserver(Observer<String> observer);
 
     void asyncSend(Object message);

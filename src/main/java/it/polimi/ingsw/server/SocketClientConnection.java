@@ -49,6 +49,7 @@ public class SocketClientConnection extends Observable<String> implements Client
         active = false;
     }
 
+    @Override
     public void close(Boolean singleClientClose) {
         closeConnection();                          // Chiude connessione per il client
         System.out.println("Deregistering client...");
