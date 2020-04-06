@@ -71,21 +71,21 @@ public class PlayerDemeter extends Player {
                 stateOfTurn = 1;
                 resetTurn();
                 match.nextPlayer();
-                return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageTurnEnd);
-            default: return new ChoiceResponseMessage(match.clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+                return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageTurnEnd);
+            default: return new ChoiceResponseMessage(match.clone(), this.clone(), "Errore nello stato del turno!"); //da valutare questo default
         }
     }
 
     @Override
     protected ChoiceResponseMessage manageStateBuild(int x, int y){
         if(match.checkLoserBuild(selectedWorker)){
-            return new ChoiceResponseMessage(match.clone(), this, GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWEnd);
+            return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWEnd);
         }
         if(selectedWorkerBuild(x,y)) {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageOkBuild);
+            return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageOkBuild);
         }else {
-            return new ChoiceResponseMessage(match.clone(), this, GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWNewCell);
+            return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWNewCell);
         }
     }
 }
