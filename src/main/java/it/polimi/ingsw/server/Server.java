@@ -174,9 +174,9 @@ public class Server {
             String nameC2 = getKeyByValue(waitingConnection, c2);
             Lobby lobby = new Lobby(nameC1, nameC2);
 
-            Controller controller = new Controller(lobby);
             LobbyRemoteView player1LobbyView = new LobbyRemoteView(c1, lobby.getLobbyPlayers().get(0));
             LobbyRemoteView player2LobbyView = new LobbyRemoteView(c2, lobby.getLobbyPlayers().get(1));
+            Controller controller = new Controller(lobby, player1LobbyView, player2LobbyView, null);
 
             lobby.addObserverLobby(player1LobbyView);
             lobby.addObserverLobby(player2LobbyView);
@@ -200,10 +200,10 @@ public class Server {
             String nameC2 = getKeyByValue(waitingConnection, c2);
             String nameC3 = getKeyByValue(waitingConnection, c3);
             Lobby lobby = new Lobby(nameC1, nameC2, nameC3);
-            Controller controller = new Controller(lobby);
             LobbyRemoteView player1LobbyView = new LobbyRemoteView(c1, lobby.getLobbyPlayers().get(0));
             LobbyRemoteView player2LobbyView = new LobbyRemoteView(c2, lobby.getLobbyPlayers().get(1));
             LobbyRemoteView player3LobbyView = new LobbyRemoteView(c3, lobby.getLobbyPlayers().get(2));
+            Controller controller = new Controller(lobby, player1LobbyView, player2LobbyView, player3LobbyView);
 
             lobby.addObserverLobby(player1LobbyView);
             lobby.addObserverLobby(player2LobbyView);

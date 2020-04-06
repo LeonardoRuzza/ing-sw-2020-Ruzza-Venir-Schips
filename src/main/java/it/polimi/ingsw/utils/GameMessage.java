@@ -8,7 +8,7 @@ public class GameMessage {
     public static String chooseColor = "Choose your color. ";
     public static String waitMessageForColor = "Wait for the other player's choose of color. ";
     public static String wrongColorInput = "Your input for color is not correct. ";
-    public static String notAvailableColor = "The selected color has been already choosen. ";
+    public static String notAvailableColor = "The selected color has been already chosen. ";
     public static String availableColors = "Available colors: ";
 
     public static String cardPhase = "";

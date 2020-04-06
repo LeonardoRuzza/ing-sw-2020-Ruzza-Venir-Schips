@@ -1,5 +1,4 @@
 package it.polimi.ingsw.controller;
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.model.FactoryPlayer;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
@@ -21,14 +20,20 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
 
     private Match match;
     private Lobby lobby;
+    private LobbyRemoteView lobbyView1, lobbyView2, lobbyView3;
 
 
     public Controller(Match match){
         this.match = match;
     }
-    public Controller(Lobby lobby){
+
+    public Controller(Lobby lobby, LobbyRemoteView view1, LobbyRemoteView view2, LobbyRemoteView view3){
         this.lobby = lobby;
+        this.lobbyView1 = view1;
+        this.lobbyView2 = view2;
+        this.lobbyView3 = view3;
     }
+
 
     private synchronized void performMoveAndBuild(PlayerChoiceMessage choice){
         if (match.getPlayingNow().equals(choice.getPlayer())) {
@@ -72,10 +77,11 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
             case CARD:
                 if(!lobby.chooseCard(message.getInformation())){
                     message.getLobbyRemoteView().reportError(GameMessage.notAvailableCard);
-                    if (lobby.getStateOfTurn().equals(StateOfTurn.READYTOSTART)){
-
-                        //TODO crea partita normale
-                    }
+                    break;
+                }
+                if (lobby.getStateOfTurn().equals(StateOfTurn.READYTOSTART)){
+                    createNormalGame();
+                    //TODO crea partita normale
                 }
                 break;
             }
@@ -84,7 +90,36 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
     private void createNormalGame(){
         Match match = new Match(0, lobby.getLobbyPlayers().size());
         Controller controller = new Controller(match);
+        LobbyPlayer l1 = lobby.getLobbyPlayers().get(0);
+        LobbyPlayer l2 = lobby.getLobbyPlayers().get(1);
+        Player p1 = FactoryPlayer.getPlayer(l1.getNickname(), 1, match, l1.getColor(), l1.getCard().getNumber());
+        Player p2 = FactoryPlayer.getPlayer(l2.getNickname(), 2, match, l2.getColor(), l2.getCard().getNumber());
+        match.addPlayer(p1);
+        match.addPlayer(p2);
+        ClientConnection c1 = lobbyView1.getClientConnection();
+        ClientConnection c2 = lobbyView2.getClientConnection();
+        RemoteView p1RemoteView = new RemoteView(c1, p1);
+        RemoteView p2RemoteView = new RemoteView(c2, p2);
+        match.addObserver(p1RemoteView);
+        match.addObserver(p2RemoteView);
+        p1RemoteView.addObserver(controller);
+        p2RemoteView.addObserver(controller);
+
+        lobbyView1.getClientConnection().removeObserver(lobbyView1.getMessageReceiver());
+        lobbyView2.getClientConnection().removeObserver(lobbyView2.getMessageReceiver());
+
         if (lobby.getLobbyPlayers().size() == 3){
+            LobbyPlayer l3 = lobby.getLobbyPlayers().get(2);
+            Player p3 = FactoryPlayer.getPlayer(l3.getNickname(), 3, match, l3.getColor(), l3.getCard().getNumber());
+            match.addPlayer(p3);
+            ClientConnection c3 = lobbyView3.getClientConnection();
+            RemoteView p3RemoteView = new RemoteView(c3, p3);
+            match.addObserver(p3RemoteView);
+            p3RemoteView.addObserver(controller);
+
+            lobbyView3.getClientConnection().removeObserver(lobbyView3.getMessageReceiver());
+        }
+        /*if (lobby.getLobbyPlayers().size() == 3){
             LobbyPlayer l1 = lobby.getLobbyPlayers().get(0);
             LobbyPlayer l2 = lobby.getLobbyPlayers().get(1);
             LobbyPlayer l3 = lobby.getLobbyPlayers().get(2);
@@ -116,7 +151,7 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
             match.addObserver(p2RemoteView);
             p1RemoteView.addObserver(controller);
             p2RemoteView.addObserver(controller);
-        }
+        }*/
     }
 
     @Override

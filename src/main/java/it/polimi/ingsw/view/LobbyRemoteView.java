@@ -13,11 +13,12 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
 
     private ClientConnection clientConnection;
     private LobbyPlayer lobbyPlayer;
+    private MessageReceiver messageReceiver;
 
     public LobbyRemoteView(ClientConnection clientConnection, LobbyPlayer lobbyPlayer) {
         this.clientConnection = clientConnection;
         this.lobbyPlayer = lobbyPlayer;
-        clientConnection.addObserver(new MessageReceiver());
+        clientConnection.addObserver(messageReceiver = new MessageReceiver());
         // TODO Da aggiungere i riferimenti agli avversari...
     }
 
@@ -36,6 +37,8 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
         notifyLobby(new ViewToController(message, lobbyPlayer, this));
     }
 
+    public MessageReceiver getMessageReceiver() { return messageReceiver; }
+    public ClientConnection getClientConnection() { return clientConnection; }
     public void reportError(String message) {showMessage(message);}
     protected void showMessage(Object message) {
         clientConnection.asyncSend(message);
