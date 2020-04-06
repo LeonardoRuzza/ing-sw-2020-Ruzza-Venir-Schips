@@ -51,7 +51,7 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
                 lobbyActualPlayer = lobbyPlayers.get(0);
                 switchState = true;
             }
-            notifyLobby(new LobbyToView(this.clone(), lobbyActualPlayer));
+            notifyLobby(new LobbyToView(this.clone()));
             switchState = false;
             return true;
         }
@@ -59,25 +59,24 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
     }
 
     public boolean chooseCard(String chosenCard){
-        if (isDeckChosen = false){
+        if (!isDeckChosen){
             for (Card c: completeDeck) {
-                if (c.getName().equals(chosenCard)){
+                if (chosenCard.toUpperCase().equals(c.getName())){
                     completeDeck.remove(c);                        // Rimuovi la carta dal deck completo
                     updateChosenDeck(c, Insert.ADD);               // Aggiungi la carta a quelle selezionate
                     if (chosenDeck.size() == lobbyPlayers.size()) {
                         isDeckChosen = true;                       // Finita fase di scelta delle carte
                         nextLobbyPlayer();
                     }
-                    notifyLobby(new LobbyToView(this.clone(), lobbyActualPlayer));
+                    notifyLobby(new LobbyToView(this.clone()));
                     return true;
                 }
-                else
-                    return false;
             }
+            return false;
         }
         else
             for (Card c: chosenDeck){
-                if (c.getName().equals(chosenCard)){
+                if (chosenCard.toUpperCase().equals(c.getName())){
                     updateChosenDeck(c, Insert.REMOVE);
                     lobbyActualPlayer.card = c;
                     nextLobbyPlayer();
@@ -85,7 +84,7 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
                         lobbyActualPlayer.card = chosenDeck.get(0); // Assegna l'unica carta rimanente all'ultimo giocatore
                         stateOfTurn = StateOfTurn.READYTOSTART;
                     }
-                    notifyLobby(new LobbyToView(this.clone(), lobbyActualPlayer));
+                    notifyLobby(new LobbyToView(this.clone()));
                     return true;
                 }
             }
@@ -125,7 +124,7 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
     public boolean getSwitchState() { return switchState; }
     public void updateAvailableColors(Worker.Color c) { this.availableColors.remove(c); }
     public StateOfTurn getStateOfTurn() { return stateOfTurn; }
-    public boolean isLobbyPlayerTurn(LobbyPlayer lobbyPlayer){ return (lobbyActualPlayer.equals(lobbyPlayer)); }
+    public boolean isLobbyPlayerTurn(LobbyPlayer lobbyPlayer){ return (lobbyActualPlayer.getNickname().equals(lobbyPlayer.getNickname())); }
     public List<LobbyPlayer> getLobbyPlayers() { return lobbyPlayers; }
     public void addLobbyPlayer(LobbyPlayer lobbyPlayer) { this.lobbyPlayers.add(lobbyPlayer); }
 
@@ -134,9 +133,10 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
     public Lobby clone() {
         try {
             Lobby l = (Lobby) super.clone();
-            l.lobbyPlayers.addAll(this.lobbyPlayers);
+            // TODO modificare clone
+            //l.lobbyPlayers.addAll(this.lobbyPlayers);
             l.lobbyActualPlayer = lobbyActualPlayer.clone();
-            l.availableColors.addAll(this.availableColors);
+            //l.availableColors.addAll(this.availableColors);
             return l;
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();

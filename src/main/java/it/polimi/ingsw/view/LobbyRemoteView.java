@@ -75,7 +75,7 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                             showMessageSync(GameMessage.playerMasterChoseCard3);  // Mex per il master player
                         }
                     else
-                        showMessageSync(GameMessage.waitMessageForCard); // Mex per gli altri player
+                        showMessageSync(GameMessage.waitMasterChoseOfCard); // Mex per gli altri player
                 }
                 else{
                     if (lobby.isDeckChosen()) {  // Se il deck è stato scelto
@@ -97,14 +97,14 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                 break;
             case READYTOSTART:
                 LobbyPlayer l = lobby.getLobbyPlayers().get(0);
-                resultMsg = GameMessage.player1is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard() + "\n\n";
+                resultMsg = GameMessage.player1is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard().getName() + "\n\n";
                 showMessageSync(resultMsg);
                 l = lobby.getLobbyPlayers().get(1);
-                resultMsg = GameMessage.player2is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard() + "\n\n";
+                resultMsg = GameMessage.player2is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard().getName() + "\n\n";
                 showMessageSync(resultMsg);
                 if (lobby.getLobbyPlayers().size() == 3){
                     l = lobby.getLobbyPlayers().get(3);
-                    resultMsg = GameMessage.player3is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard() + "\n\n";
+                    resultMsg = GameMessage.player3is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard().getName() + "\n\n";
                     showMessageSync(resultMsg);
 
                 showMessageSync(GameMessage.startNormalGame);  // Notifica l'inizio della partita normale

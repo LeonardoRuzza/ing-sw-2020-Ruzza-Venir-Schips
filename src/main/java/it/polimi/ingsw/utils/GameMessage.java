@@ -17,7 +17,8 @@ public class GameMessage {
     public static String playerMasterChoseCard2 = "Choose 2 card from the list; Insert one per time and then press Enter";
     public static String playerMasterChoseCard3 = "Choose 3 card from the list; Insert one per time and then press Enter";
     public static String playerMasterChoseAnotherCard = "OK! Choose another card. ";
-    public static String waitMessageForCard = "Waiting the master player choose of cards. ";
+    public static String waitMessageForCard = "Another player is choosing a card...";
+    public static String waitMasterChoseOfCard = "Waiting the master player choose of deck ";
 
     public static String player1is = "Player1 is: ";
     public static String player2is = "Player2 is: ";
