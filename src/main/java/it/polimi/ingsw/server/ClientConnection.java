@@ -10,7 +10,10 @@ public interface ClientConnection{
 
     void addObserver(Observer<String> observer);
 
+    void removeObserver(Observer<String> observer);
+
     void asyncSend(Object message);
 
     void send(Object message);
+
 }

@@ -33,6 +33,7 @@ public class GameMessage {
 
 
     // Normal Game Message
+    public static String messageGAMESTARTING = "The game is starting... ";
     public static String wrongTurnMessage = "It is not your turn!";
     public static String turnMessageDORSE = "DORSE";
     public static String turnMessageBUILDTWOTIMES = "BUILDTWOTIMES";
