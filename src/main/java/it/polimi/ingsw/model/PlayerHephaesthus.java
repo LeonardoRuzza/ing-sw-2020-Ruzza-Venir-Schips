@@ -83,7 +83,7 @@ public class PlayerHephaesthus extends Player {
                     tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction());
                 }
                 return tempResponse;
-            default: return new ChoiceResponseMessage(match.clone(), this, "Errore nello stato del turno!"); //da valutare questo default
+            default: return new ChoiceResponseMessage(match.clone(), this.clone(), "Errore nello stato del turno!"); //da valutare questo default
         }
     }
 
@@ -91,10 +91,10 @@ public class PlayerHephaesthus extends Player {
     protected ChoiceResponseMessage manageStateBuild(int x, int y){
         if(selectedWorkerBuild(x,y)) {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.clone(), this, GameMessage.turnMessageOkBuild);
+            return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageOkBuild);
         }else {
             stateOfTurn = 1;
-            return new ChoiceResponseMessage(match.clone(), this, GameMessage.hephaesthusTurnMessageFailOptionalBuildWEnd);
+            return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.hephaesthusTurnMessageFailOptionalBuildWEnd);
         }
     }
 }
