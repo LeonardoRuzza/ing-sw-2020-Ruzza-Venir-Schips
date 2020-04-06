@@ -1,12 +1,25 @@
 package it.polimi.ingsw.model;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class MatchTest {
     final int numOfPlayers = 3;
     private Player testPlayer1;
+    Player player2;
+    Player player3;
     private Match match = new Match(1, numOfPlayers);
+
+
+    @Before
+    public void setUp(){
+        testPlayer1 = new Player("player1", 1, match);
+        player2 = new Player("player2", 2, match);
+        player3 = new Player("player3", 3, match);
+        match.players = new Player[]{testPlayer1, player2, player3};
+        match.nextPlayer();
+    }
 
     @Test
     public void testGetNumberOfPlayers(){
@@ -15,7 +28,6 @@ public class MatchTest {
 
     @Test
     public void testCheckWinFalse() {
-        testNextPlayer();
         testPlayer1.workers[0] = testWorkerOne;
         int[] location = new int[]{0,0};
         //testPosizionamento inizio partita
@@ -32,7 +44,6 @@ public class MatchTest {
 
     @Test
     public void testCheckWinTrue() {
-        testNextPlayer();
         testPlayer1.workers[0] = testWorkerOne;
         int[] location = new int[]{0,0};
         //testPosizionamento inizio partita
@@ -81,7 +92,6 @@ public class MatchTest {
 
     @Test
     public void testCheckLoserMove() {
-        testNextPlayer();
         testPlayer1.workers[0] = testWorkerOne;
         int[] location = new int[]{1,1};
         int[] build = new int[]{1,1};
@@ -137,7 +147,6 @@ public class MatchTest {
     }
     @Test
     public void testCheckLoserBuild() {
-        testNextPlayer();
         testPlayer1.workers[0] = testWorkerOne;
         int[] location = new int[]{1,1};
         int[] build = new int[]{1,1};
@@ -193,7 +202,6 @@ public class MatchTest {
     }
     @Test
     public void testMovementLocateMovement() {
-        testNextPlayer();
         int[] location = new int[]{0,0};
         //testPosizionamento inizio partita
         Assert.assertTrue("Error checkMove first locate", match.checkMove(location[0],location[1],testWorkerOne).equals(testWorkerOne));
@@ -225,15 +233,21 @@ public class MatchTest {
     }
     @Test
     public void testNextPlayer() {
-        testPlayer1 = new Player("player1", 1, match);
-        Player player2 = new Player("player2", 2, match);
-        Player player3 = new Player("player3", 3, match);
-        match.players = new Player[]{testPlayer1, player2, player3};
-        Assert.assertTrue("Error nextPlayerActNull", match.nextPlayer().equals(testPlayer1));
         Assert.assertTrue("Error nextPlayerAct1", match.nextPlayer().equals(player2));
         Assert.assertTrue("Error nextPlayerAct2", match.nextPlayer().equals(player3));
         Assert.assertTrue("Error nextPlayerAct3", match.nextPlayer().equals(testPlayer1));
     }
+
+    @Test
+    public void testRemovePlayer() {
+        match.removePlayer(testPlayer1);
+        Assert.assertTrue("Error numb of players:" + match.getNumberOfPlayers(), match.getNumberOfPlayers() == 2);
+        Assert.assertTrue("Error players:" + match.players[0]+match.players[1], match.players.length == 2);
+        match.removePlayer(player2);
+        Assert.assertTrue("Error numb of players:" + match.getNumberOfPlayers(), match.getNumberOfPlayers() == 1);
+        Assert.assertTrue("Error players:" + match.players[0], match.players.length == 1);
+    }
+
     @Test
     public void testTowerCount() {
         for(int x=0; x<match.getBoard().boardSide; x++){

@@ -222,16 +222,23 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
                 }
             }
             numberOfPlayers = 2;
+            this.players = temp;
+            return;
         }else{
+            Player[] temp = new Player[numberOfPlayers-1];
             nextPlayer();
             for (int x = 0; x < numberOfPlayers; x++){
                 if(players[x] != null){
                     if(players[x].equals(p)){
                         players[x] = null;
+                    }else{
+                        temp[0] = players[x];
                     }
                 }
             }
             numberOfPlayers = 1;
+            this.players = temp;
+            return;
         }
     }
 
