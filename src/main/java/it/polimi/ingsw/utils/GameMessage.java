@@ -41,11 +41,13 @@ public class GameMessage {
     public static String turnMessageBUILDBEFORE = "BUILDBEFORE";
     public static String turnMessageFIRSTALLOCATION =  "FIRSTALLOCATION";
 
-    public static String turnMessageErrorFIRSTALLOCATION = "Error locating your Worker";
+    public static String turnMessageErrorFIRSTALLOCATION = "Error locating your Worker. ";
 
     public static String turnMessageLose = "You Lose. ";
     public static String turnMessageWin = "You Win. ";
 
+    public static String turnMessageSelectFirstAllocation = "Please select worker to allocate. With syntax X,Y,GENDER,FIRSTALLOCATION. ";
+    public static String turnMessageWaitFirstAllocation = "Please allocation of other player. ";
     public static String turnMessageSelectYourWorker = "Select a worker specifying Male or Female";
     public static String turnMessageUnselectableWorkerSwitch = "Worker was not selectable, the other was chosen automatically. ";
     public static String turnMessageLoserNoWorker = "You lost, neither worker is selectable! ";
