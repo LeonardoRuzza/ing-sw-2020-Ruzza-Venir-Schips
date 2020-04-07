@@ -9,7 +9,6 @@ import it.polimi.ingsw.utils.GameMessage;
 
 public class RemoteView extends View {
     private ClientConnection clientConnection;
-    private Player player;
 
     public RemoteView(ClientConnection clientConnection, Player player) {
         super(player);
@@ -33,15 +32,14 @@ public class RemoteView extends View {
                 String[] inputs = message.split(",");
                 switch (inputs.length){
                     case 1:
-                        if(!(inputs[0].toUpperCase().equals("MALE"))){
-                            if(inputs[0].toUpperCase().equals("FEMALE")){
-                                gender = Worker.Gender.Female;
-                            }
-                            else{
-                                if(GameMessage.isValidOptional(inputs[0].toUpperCase())){
-                                    optional = inputs[0].toUpperCase();
-                                }
-                                else {
+                        if(inputs[0].toUpperCase().equals("FEMALE")){
+                            gender = Worker.Gender.Female;
+                        }
+                        else {
+                            if (GameMessage.isValidOptional(inputs[0].toUpperCase())) {
+                                optional = inputs[0].toUpperCase();
+                            } else {
+                                if (!(inputs[0].toUpperCase().equals("MALE"))) {
                                     clientConnection.asyncSend("Input invalid!");
                                     return;
                                 }
@@ -52,11 +50,38 @@ public class RemoteView extends View {
                         x=Integer.parseInt(inputs[0]);
                         y=Integer.parseInt(inputs[1]);
                         break;
-                    default:
+                    case 3:
                         x=Integer.parseInt(inputs[0]);
                         y=Integer.parseInt(inputs[1]);
-                        if(GameMessage.isValidOptional(inputs[2].toUpperCase())){
-                            optional = inputs[2].toUpperCase();
+                        if(inputs[2].toUpperCase().equals("FEMALE")){
+                            gender = Worker.Gender.Female;
+                        }
+                        else{
+                            if(GameMessage.isValidOptional(inputs[2].toUpperCase())){
+                                optional = inputs[2].toUpperCase();
+                            }
+                            else{
+                                if(!(inputs[2].toUpperCase().equals("MALE"))) {
+                                    clientConnection.asyncSend("Input invalid!");
+                                    return;
+                                }
+                            }
+                        }
+                        break;
+                    case 4:
+                        x=Integer.parseInt(inputs[0]);
+                        y=Integer.parseInt(inputs[1]);
+                        if(inputs[2].toUpperCase().equals("FEMALE")){
+                            gender = Worker.Gender.Female;
+                        }
+                        else{
+                            if(!(inputs[2].toUpperCase().equals("MALE"))) {
+                                clientConnection.asyncSend("Input invalid!");
+                                return;
+                            }
+                        }
+                        if(GameMessage.isValidOptional(inputs[3].toUpperCase())){
+                            optional = inputs[3].toUpperCase();
                         }
                         else {
                             clientConnection.asyncSend("Input invalid!");
@@ -64,7 +89,7 @@ public class RemoteView extends View {
                         }
                         break;
                 }
-                manageChoice(player, x, y, optional, gender);
+                manageChoice(getPlayer(), x, y, optional, gender);
             }catch(IllegalArgumentException e){
                 clientConnection.asyncSend("Input invalid!");
             }
@@ -89,11 +114,26 @@ public class RemoteView extends View {
                 counterActivePlayers++;
             }
         }
-        showMessageSync(message.getMatch().getBoard());
         String resultMsg = "";
 
         boolean gameOverWin = message.getNextInstruction().equals(GameMessage.turnMessageWin);
         boolean gameOverDefeat = message.getNextInstruction().equals(GameMessage.turnMessageLose) || message.getNextInstruction().equals(GameMessage.turnMessageLoserNoWorker) ;
+
+        if(message.getNextInstruction().equals(GameMessage.turnMessageFIRSTALLOCATION)){
+            if(nicknameThisPlayer.equals(nicknamePlayerFromMessage)){
+                showMessageSync(message.getMatch().getBoard());
+                resultMsg = GameMessage.turnMessageSelectFirstAllocation;
+                showMessageSync(resultMsg);
+                return;
+            }
+            else{
+                resultMsg = GameMessage.turnMessageWaitFirstAllocation;
+                showMessageSync(resultMsg);
+                return;
+            }
+        }
+
+        showMessageSync(message.getMatch().getBoard());
         if (gameOverWin) {
             if (nicknameThisPlayer.equals(nicknamePlayerFromMessage)) {
                 resultMsg = GameMessage.turnMessageWin + "\n";
