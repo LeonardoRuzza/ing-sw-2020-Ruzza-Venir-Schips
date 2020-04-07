@@ -2,8 +2,10 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.utils.GameMessage;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 
-public class Player {
+
+public class Player implements Serializable {
 
     protected String nickname;
     protected int number;

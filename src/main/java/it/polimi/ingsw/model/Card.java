@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable {
 
 
     public enum activationPeriod{YOURMOVE, YOURBUILD, YOURTURN, FOETURN, ENDYOURTURN, STARTFOETURN, SUPERWINCOND, LIMITWINCOND}

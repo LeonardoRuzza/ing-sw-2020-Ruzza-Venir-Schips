@@ -13,7 +13,7 @@ public class ObservableLobby<T> {
         }
     }
 
-    public void removeObserverLobby(Observer<T> observer){
+    public void removeObserverLobby(ObserverLobby<T> observer){
         synchronized (observers) {
             observers.remove(observer);
         }

@@ -280,17 +280,19 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
             return;
         }
         this.playingNow.stateOfTurn++;
-        if(this.playingNow.stateOfTurn == 3 && !this.playingNow.equals(players[2])){
+        if(this.playingNow.stateOfTurn == 3 && !this.playingNow.getNickname().equals(players[1].getNickname())){
             this.playingNow.stateOfTurn = 1;
             this.nextPlayer();
             notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageFIRSTALLOCATION));
             return;
-        }else if (this.playingNow.stateOfTurn == 3 && this.playingNow.equals(players[2])){
+        }else if (this.playingNow.stateOfTurn == 3 && this.playingNow.getNickname().equals(players[1].getNickname())){
             this.playingNow.stateOfTurn = 1;
             this.nextPlayer();
             notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageTurnEnd));
             return;
         }
+        notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageFIRSTALLOCATION));
+        return;
     }
 
     public boolean firstAllocation(int x, int y, Worker.Gender gender){

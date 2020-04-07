@@ -88,6 +88,10 @@ public class RemoteView extends View {
                             return;
                         }
                         break;
+                    default:
+                        clientConnection.asyncSend("Input invalid!");
+                        return;
+
                 }
                 manageChoice(getPlayer(), x, y, optional, gender);
             }catch(IllegalArgumentException e){
@@ -121,12 +125,13 @@ public class RemoteView extends View {
 
         if(message.getNextInstruction().equals(GameMessage.turnMessageFIRSTALLOCATION)){
             if(nicknameThisPlayer.equals(nicknamePlayerFromMessage)){
-                showMessageSync(message.getMatch().getBoard());
+
                 resultMsg = GameMessage.turnMessageSelectFirstAllocation;
             }
             else{
                 resultMsg = GameMessage.turnMessageWaitFirstAllocation;
             }
+            showMessageSync(message.getMatch().getBoard());
             showMessageSync(resultMsg);
             return;
         }
