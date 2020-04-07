@@ -123,14 +123,12 @@ public class RemoteView extends View {
             if(nicknameThisPlayer.equals(nicknamePlayerFromMessage)){
                 showMessageSync(message.getMatch().getBoard());
                 resultMsg = GameMessage.turnMessageSelectFirstAllocation;
-                showMessageSync(resultMsg);
-                return;
             }
             else{
                 resultMsg = GameMessage.turnMessageWaitFirstAllocation;
-                showMessageSync(resultMsg);
-                return;
             }
+            showMessageSync(resultMsg);
+            return;
         }
 
         showMessageSync(message.getMatch().getBoard());
