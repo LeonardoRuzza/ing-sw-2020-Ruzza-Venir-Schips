@@ -36,11 +36,9 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
 
 
     private synchronized void performMoveAndBuild(PlayerChoiceMessage choice){
-        if (match.getPlayingNow().equals(choice.getPlayer())) {
+        if (match.getPlayingNow().getNickname().equals(choice.getPlayer().getNickname())) {
             if (choice.getOptional().equals(GameMessage.turnMessageFIRSTALLOCATION)) {
-                if(!match.firstAllocation(choice.getX(), choice.getY(), choice.getGender())){
-                    choice.getView().reportError(GameMessage.turnMessageErrorFIRSTALLOCATION);
-                }
+                match.execFirstAllocation(choice.getX(), choice.getY(), choice.getGender());
             }else {
                 match.performPlay(choice.getX(), choice.getY(), choice.getGender(), choice.getOptional());
             }

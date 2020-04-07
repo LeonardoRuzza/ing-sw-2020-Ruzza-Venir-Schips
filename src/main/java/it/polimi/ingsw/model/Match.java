@@ -23,7 +23,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
 
     public void initializeGame(){
         nextPlayer();
-        notify(new ChoiceResponseMessage(this.clone(), this.players[numberOfPlayers-1].clone(), GameMessage.turnMessageTurnEnd));
+        notify(new ChoiceResponseMessage(this.clone(), this.playingNow.clone(), GameMessage.turnMessageFIRSTALLOCATION));
     }
 
     public Board getBoard() { return board; }
@@ -269,10 +269,32 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         return counter;
     }
 
+    public void execFirstAllocation(int x, int y, Worker.Gender gender){
+        this.playingNow.setSelectedWorker(gender);
+        if(this.playingNow.selectedWorker.getCell() != null){
+            notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageErrorFIRSTALLOCATION));
+            return;
+        }
+        if(!firstAllocation(x,y,gender)){
+            notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageErrorFIRSTALLOCATION));
+            return;
+        }
+        this.playingNow.stateOfTurn++;
+        if(this.playingNow.stateOfTurn == 3 && !this.playingNow.equals(players[2])){
+            this.playingNow.stateOfTurn = 1;
+            this.nextPlayer();
+            notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageFIRSTALLOCATION));
+            return;
+        }else if (this.playingNow.stateOfTurn == 3 && this.playingNow.equals(players[2])){
+            this.playingNow.stateOfTurn = 1;
+            this.nextPlayer();
+            notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageTurnEnd));
+            return;
+        }
+    }
 
     public boolean firstAllocation(int x, int y, Worker.Gender gender){
-       playingNow.setSelectedWorker(gender);
-        return playingNow.selectedWorkerMove(x,y);
+       return playingNow.selectedWorkerMove(x,y);
     }
 
     public void performPlay(int x, int y, Worker.Gender gender, String optional){
