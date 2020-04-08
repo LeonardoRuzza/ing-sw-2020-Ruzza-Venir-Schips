@@ -14,11 +14,21 @@ public class MatchTest {
 
     @Before
     public void setUp(){
-        testPlayer1 = new Player("player1", 1, match);
-        player2 = new Player("player2", 2, match);
-        player3 = new Player("player3", 3, match);
-        match.players = new Player[]{testPlayer1, player2, player3};
+        match = new Match(1, numOfPlayers);
+        testPlayer1 = new Player("player1", 1, new Card(7), match, Worker.Color.RED);
+        player2 = new PlayerAthena("player2", 2,  new Card(2),  match, Worker.Color.GREEN);
+        match.addPlayer(testPlayer1);
+        match.addPlayer(player2);
+        if(match.getNumberOfPlayers() == 3){
+            player3 = new Player("player3", 3,  new Card(11),  match, Worker.Color.YELLOW);
+            match.addPlayer(player3);
+        }
         match.nextPlayer();
+    }
+
+    @Test
+    public void testInitializeGame() {
+        match.initializeGame();
     }
 
     @Test
@@ -27,210 +37,129 @@ public class MatchTest {
     }
 
     @Test
-    public void testCheckWinFalse() {
-        testPlayer1.workers[0] = testWorkerOne;
-        int[] location = new int[]{0,0};
-        //testPosizionamento inizio partita
-        Assert.assertTrue("Error checkMove first locate", match.checkMove(location[0],location[1],testWorkerOne).equals(testWorkerOne));
-        //test spostamento prima casella
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        int[] build = new int[]{1,1};
-        //test checkCostruzione
-        Assert.assertTrue("Error checkBuild on locate", match.checkBuild(build[0],build[1],testWorkerOne));
-        //test costruzione
-        Assert.assertTrue("Error forceBuild on locate", match.forceBuild(build[0],build[1],testWorkerOne));
-        Assert.assertFalse("Error Check Win", match.checkWin(testPlayer1.workers[0]));
+    public void testAddPlayer(){
+        match.players = new Player[]{null, null, null};
+        match.addPlayer(testPlayer1);
+        Assert.assertTrue("Error add Player1", match.players[0].equals(testPlayer1));
+        match.addPlayer(player2);
+        Assert.assertTrue("Error add Player2", match.players[1].equals(player2));
+        if(match.getNumberOfPlayers() == 3){
+            match.addPlayer(player3);
+            Assert.assertTrue("Error add Player3", match.players[2].equals(player3));
+        }
+
     }
 
     @Test
-    public void testCheckWinTrue() {
-        testPlayer1.workers[0] = testWorkerOne;
-        int[] location = new int[]{0,0};
-        //testPosizionamento inizio partita
-        Assert.assertTrue("Error checkMove first locate", match.checkMove(location[0],location[1],testWorkerOne).equals(testWorkerOne));
-        //test spostamento prima casella
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        int[] build = new int[]{1,1};
-        //test checkCostruzione
-        Assert.assertTrue("Error checkBuild on locate", match.checkBuild(build[0],build[1],testWorkerOne));
-        //test costruzione
-        Assert.assertTrue("Error forceBuild on locate", match.forceBuild(build[0],build[1],testWorkerOne));
-        //movimento
-        location[0] = 1;
-        location[1] = 1;
-        Assert.assertTrue("Error checkMove first locate", match.checkMove(location[0],location[1],testWorkerOne).equals(testWorkerOne));
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        //costruzione
-        build[0] = 0;
-        build[1] = 0;
-        Assert.assertTrue("Error checkBuild on locate", match.checkBuild(build[0],build[1],testWorkerOne));
-        Assert.assertTrue("Error forceBuild on locate", match.forceBuild(build[0],build[1],testWorkerOne));
-        Assert.assertTrue("Error checkBuild on locate", match.checkBuild(build[0],build[1],testWorkerOne));
-        Assert.assertTrue("Error forceBuild on locate", match.forceBuild(build[0],build[1],testWorkerOne));
-        //movimento
-        location[0] = 0;
-        location[1] = 0;
-        Assert.assertTrue("Error checkMove first locate", match.checkMove(location[0],location[1],testWorkerOne).equals(testWorkerOne));
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        //costruzione
-        build[0] = 1;
-        build[1] = 1;
-        Assert.assertTrue("Error checkBuild on locate", match.checkBuild(build[0],build[1],testWorkerOne));
-        Assert.assertTrue("Error forceBuild on locate", match.forceBuild(build[0],build[1],testWorkerOne));
-        Assert.assertTrue("Error checkBuild on locate", match.checkBuild(build[0],build[1],testWorkerOne));
-        Assert.assertTrue("Error forceBuild on locate", match.forceBuild(build[0],build[1],testWorkerOne));
-        //movimento al 3 piano
-        location[0] = 1;
-        location[1] = 1;
-        Assert.assertTrue("Error checkMove first locate", match.checkMove(location[0],location[1],testWorkerOne).equals(testWorkerOne));
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-
-        Assert.assertTrue("Error Check Win", match.checkWin(testPlayer1.workers[0]));
+    public void testCheckWin(){
+        testPlayer1.setSelectedWorker(Worker.Gender.Male);
+        match.forceMove(0,0, testPlayer1.selectedWorker);
+        match.forceBuild(1,0,testPlayer1.selectedWorker);
+        match.forceMove(1,0, testPlayer1.selectedWorker);
+        Assert.assertFalse("Error Check Win False", match.checkWin(testPlayer1.selectedWorker));
+        match.forceBuild(0,0,testPlayer1.selectedWorker);
+        match.forceBuild(0,0,testPlayer1.selectedWorker);
+        match.forceBuild(0,0,testPlayer1.selectedWorker);
+        match.forceMove(0,0, testPlayer1.selectedWorker);
+        Assert.assertTrue("Error Check Win True", match.checkWin(testPlayer1.selectedWorker));
     }
 
-    final Worker testWorkerOne = new Worker(Worker.Gender.Male, Worker.Color.BLACK);
+    @Test
+    public void testCheckLoserMove(){
+        testPlayer1.setSelectedWorker(Worker.Gender.Male);
+        match.forceMove(0,0, testPlayer1.selectedWorker);
+        player2.setSelectedWorker(Worker.Gender.Male);
+        match.forceMove(0,1, player2.selectedWorker);
+        match.forceBuildDorse(1,1,player2.selectedWorker);
+        match.forceBuild(1,0,player2.selectedWorker);
+        match.forceBuild(1,0,player2.selectedWorker);
+        Assert.assertTrue("Error Player1 is loser for move", match.checkLoserMove(testPlayer1.selectedWorker));
+        match.removeBlock(1,0);
+        Assert.assertFalse("Error Player1 not loser for move", match.checkLoserMove(testPlayer1.selectedWorker));
+    }
 
     @Test
-    public void testCheckLoserMove() {
-        testPlayer1.workers[0] = testWorkerOne;
-        int[] location = new int[]{1,1};
-        int[] build = new int[]{1,1};
-        Assert.assertTrue("Error checkMove first locate", match.checkMove(location[0],location[1],testWorkerOne).equals(testWorkerOne));
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        int lastBuild = 0;
-        while(lastBuild != 4){
-            location[0] = 0;
-            location[1] = 0;
-            Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-            match.forceBuild(build[0],build[1], testWorkerOne);
-            lastBuild++;
-            location[0] = 1;
-            location[1] = 1;
-            Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        }
-        location[0] = 1;
-        location[1] = 0;
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        lastBuild = 0;
-        while(lastBuild != 4){
-            location[0] = 0;
-            location[1] = 0;
-            Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-            build[0] = 1;
-            build[1] = 0;
-            match.forceBuild(build[0],build[1], testWorkerOne);
-            lastBuild++;
-            location[0] = 1;
-            location[1] = 0;
-            Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        }
-        location[0] = 0;
-        location[1] = 1;
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        lastBuild = 0;
-        while(lastBuild != 4){
-            location[0] = 0;
-            location[1] = 0;
-            Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-            build[0] = 0;
-            build[1] = 1;
-            match.forceBuild(build[0],build[1], testWorkerOne);
-            lastBuild++;
-            location[0] = 0;
-            location[1] = 1;
-            Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        }
-        location[0] = 0;
-        location[1] = 0;
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        Assert.assertTrue("Error Check Loser Move", match.checkLoserMove(testWorkerOne));
+    public void testCheckLoserBuild(){
+        testPlayer1.setSelectedWorker(Worker.Gender.Male);
+        match.forceMove(0,0, testPlayer1.selectedWorker);
+        player2.setSelectedWorker(Worker.Gender.Male);
+        match.forceMove(0,1, player2.selectedWorker);
+        match.forceBuildDorse(1,1,player2.selectedWorker);
+        match.forceBuild(1,0,player2.selectedWorker);
+        match.forceBuild(1,0,player2.selectedWorker);
+        match.forceBuild(1,0,player2.selectedWorker);
+        match.forceBuild(1,0,player2.selectedWorker);
+        Assert.assertTrue("Error Player1 is loser for build Fail", match.checkLoserBuild(testPlayer1.selectedWorker));
+        match.removeBlock(1,0);
+        Assert.assertFalse("Error Player1 not loser for build Success", match.checkLoserBuild(testPlayer1.selectedWorker));
+    }
+
+    @Test
+    public void testCheckMove(){
+        testPlayer1.setSelectedWorker(Worker.Gender.Male);
+        match.forceMove(0,0, testPlayer1.selectedWorker);
+        player2.setSelectedWorker(Worker.Gender.Male);
+        match.forceMove(0,1, player2.selectedWorker);
+        Assert.assertTrue("Error checkMove on other worker", match.checkMove(0,1, testPlayer1.selectedWorker).equals(player2.selectedWorker));
+        Assert.assertNull("Error checkMove out of the board", match.checkMove(-1,3, testPlayer1.selectedWorker));
+        Assert.assertNull("Error checkMove worker move on same cell", match.checkMove(0,0, testPlayer1.selectedWorker));
+        match.forceBuild(1,0,testPlayer1.selectedWorker);
+        match.forceBuild(1,0,testPlayer1.selectedWorker);
+        Assert.assertNull("Error checkMove worker move too up", match.checkMove(1,0, testPlayer1.selectedWorker));
+        match.forceBuild(1,0,testPlayer1.selectedWorker);
+        match.forceBuild(1,0,testPlayer1.selectedWorker);
+        Assert.assertNull("Error checkMove worker move on dorse", match.checkMove(1,0, testPlayer1.selectedWorker));
+        Assert.assertTrue("Error checkMove Success", match.checkMove(1,1, testPlayer1.selectedWorker).equals(testPlayer1.selectedWorker));
+    }
+
+    @Test
+    public void testCheckBuild(){
+        testPlayer1.setSelectedWorker(Worker.Gender.Male);
+        match.forceMove(0,0, testPlayer1.selectedWorker);
+        player2.setSelectedWorker(Worker.Gender.Male);
+        match.forceMove(0,1, player2.selectedWorker);
+        Assert.assertFalse("Error checkBuild on other worker", match.checkBuild(0,1,testPlayer1.selectedWorker));
+        Assert.assertFalse("Error checkBuild out of the board", match.checkBuild(-1,3, testPlayer1.selectedWorker));
+        Assert.assertFalse("Error checkBuild worker move on same cell", match.checkBuild(0,0, testPlayer1.selectedWorker));
+        match.forceBuild(1,0,testPlayer1.selectedWorker);
+        match.forceBuild(1,0,testPlayer1.selectedWorker);
+        match.forceBuild(1,0,testPlayer1.selectedWorker);
+        match.forceBuild(1,0,testPlayer1.selectedWorker);
+        Assert.assertFalse("Error checkBuild worker move on dorse", match.checkBuild(1,0, testPlayer1.selectedWorker));
+        Assert.assertTrue("Error checkBuild Success", match.checkBuild(1,1, testPlayer1.selectedWorker));
+    }
+
+    @Test
+    public void testForceMoveAndForceMoveLimit(){
+        testPlayer1.setSelectedWorker(Worker.Gender.Male);
+        match.forceMove(0,0, testPlayer1.selectedWorker);
+        match.nextPlayer();
+        player2.setSelectedWorker(Worker.Gender.Male);
+        match.forceMove(0,1, player2.selectedWorker);
+        match.forceBuild(0,2, player2.selectedWorker);
+        Assert.assertTrue("Error Athen(P2) go up 1LV Success", match.getPlayingNow().selectedWorkerMove(0,2));
+        match.nextPlayer();
+        match.nextPlayer();
+        match.forceBuild(1,0, testPlayer1.selectedWorker);
+        Assert.assertFalse("Error Player1 try go up 1LV Fail", match.forceMove(1,0, testPlayer1.selectedWorker));
+        Assert.assertTrue("Error Player1 try to move Success", match.forceMove(1,1, testPlayer1.selectedWorker));
+    }
+
+    @Test
+    public void testForceBuild (){
+        match.nextPlayer();
+        player2.setSelectedWorker(Worker.Gender.Male);
+        match.forceMove(0,1, player2.selectedWorker);
+        Assert.assertTrue("Error Player2 try to build Success", match.forceBuild(0,2, player2.selectedWorker));
     }
     @Test
-    public void testCheckLoserBuild() {
-        testPlayer1.workers[0] = testWorkerOne;
-        int[] location = new int[]{1,1};
-        int[] build = new int[]{1,1};
-        Assert.assertTrue("Error checkMove first locate", match.checkMove(location[0],location[1],testWorkerOne).equals(testWorkerOne));
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        int lastBuild = 0;
-        while(lastBuild != 4){
-            location[0] = 0;
-            location[1] = 0;
-            Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-            match.forceBuild(build[0],build[1], testWorkerOne);
-            lastBuild++;
-            location[0] = 1;
-            location[1] = 1;
-            Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        }
-        location[0] = 1;
-        location[1] = 0;
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        lastBuild = 0;
-        while(lastBuild != 4){
-            location[0] = 0;
-            location[1] = 0;
-            Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-            build[0] = 1;
-            build[1] = 0;
-            match.forceBuild(build[0],build[1], testWorkerOne);
-            lastBuild++;
-            location[0] = 1;
-            location[1] = 0;
-            Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        }
-        location[0] = 0;
-        location[1] = 1;
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        lastBuild = 0;
-        while(lastBuild != 4){
-            location[0] = 0;
-            location[1] = 0;
-            Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-            build[0] = 0;
-            build[1] = 1;
-            match.forceBuild(build[0],build[1], testWorkerOne);
-            lastBuild++;
-            location[0] = 0;
-            location[1] = 1;
-            Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        }
-        location[0] = 0;
-        location[1] = 0;
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        Assert.assertTrue("Error Check Loser Move", match.checkLoserBuild(testWorkerOne));
+    public void testForceBuildDorse (){
+        match.nextPlayer();
+        player2.setSelectedWorker(Worker.Gender.Male);
+        match.forceMove(0,1, player2.selectedWorker);
+        Assert.assertTrue("Error Player2 try to build Success", match.forceBuildDorse(0,2, player2.selectedWorker));
     }
-    @Test
-    public void testMovementLocateMovement() {
-        int[] location = new int[]{0,0};
-        //testPosizionamento inizio partita
-        Assert.assertTrue("Error checkMove first locate", match.checkMove(location[0],location[1],testWorkerOne).equals(testWorkerOne));
-        //test spostamento prima casella
-        Assert.assertTrue("Error forceMove first locate", match.forceMove(location[0],location[1],testWorkerOne));
-        location[0] = 1;
-        location[1] = 0;
-        //test Movimento
-        Assert.assertTrue("Error checkMove locate", match.checkMove(location[0],location[1],testWorkerOne).equals(testWorkerOne));
-        //test spostamento nuova casella
-        Assert.assertTrue("Error forceMove locate", match.forceMove(location[0],location[1],testWorkerOne));
-    }
-    @Test
-    public void testBuildMoveOnBuild(){
-        testMovementLocateMovement();
-        int[] build = new int[]{1,1};
-        //test checkCostruzione
-        Assert.assertTrue("Error checkBuild on locate", match.checkBuild(build[0],build[1],testWorkerOne));
-        //test costruzione
-        Assert.assertTrue("Error forceBuild on locate", match.forceBuild(build[0],build[1],testWorkerOne));
-        int[] location = new int[]{1,1};
-        location[0] = 1;
-        location[1] = 1;
-        //test Movimento
-        Assert.assertTrue("Error checkMove locate", match.checkMove(location[0],location[1],testWorkerOne).equals(testWorkerOne));
-        //test spostamento nuova casella
-        Assert.assertTrue("Error forceMove locate", match.forceMove(location[0],location[1],testWorkerOne));
-        Assert.assertEquals(testWorkerOne.getCell().getBlock(), Block.B1);
-    }
+
     @Test
     public void testNextPlayer() {
         Assert.assertTrue("Error nextPlayerAct1", match.nextPlayer().equals(player2));
@@ -239,13 +168,16 @@ public class MatchTest {
     }
 
     @Test
-    public void testRemovePlayer() {
-        match.removePlayer(testPlayer1);
-        Assert.assertTrue("Error numb of players:" + match.getNumberOfPlayers(), match.getNumberOfPlayers() == 2);
-        Assert.assertTrue("Error players:" + match.players[0]+match.players[1], match.players.length == 2);
-        match.removePlayer(player2);
-        Assert.assertTrue("Error numb of players:" + match.getNumberOfPlayers(), match.getNumberOfPlayers() == 1);
-        Assert.assertTrue("Error players:" + match.players[0], match.players.length == 1);
+    public void removePlayer(){
+        match.removePlayer(match.players[0]);
+        if(numOfPlayers == 3){
+            match.removePlayer(match.players[0]);
+            Assert.assertTrue("Error remove Player", match.players[0].equals(player3));
+        }else{
+            match.removePlayer(match.players[0]);
+            Assert.assertTrue("Error remove Player", match.players[0].equals(player2));
+        }
+
     }
 
     @Test
@@ -260,5 +192,23 @@ public class MatchTest {
         }
         Assert.assertEquals(match.towerCount(), 5*5);
         match.getBoard().draw(player2); //manda player 2 solo perchè è necessario mandare un player come parametro
+    }
+
+    @Test
+    public void testFirstAllocation() {
+        testPlayer1.setSelectedWorker(Worker.Gender.Male);
+        Assert.assertTrue("Error First allocation worker", match.firstAllocation(3,3,testPlayer1.selectedWorker.getGender()));
+    }
+
+    @Test
+    public void testExecFirstAllocation() {
+        match.execFirstAllocation(0,0, Worker.Gender.Male);
+        match.execFirstAllocation(0,0, Worker.Gender.Male);
+        match.execFirstAllocation(0,0, Worker.Gender.Female);
+        match.execFirstAllocation(0,1, Worker.Gender.Female);
+        match.execFirstAllocation(1,0, Worker.Gender.Male);
+        match.execFirstAllocation(1,1, Worker.Gender.Female);
+        match.execFirstAllocation(2,0, Worker.Gender.Male);
+        match.execFirstAllocation(2,1, Worker.Gender.Female);
     }
 }

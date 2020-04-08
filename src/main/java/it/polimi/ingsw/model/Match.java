@@ -91,7 +91,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
                     continue;
                 }
                 if(board.getLastBusyCell(x, y).getBlock() != Block.DORSE){
-                    if(board.getDistance(w.getCell(), board.getLastBusyCell(x, y))[2] < 2){
+                    if(board.getDistance(board.getFirstBuildableCell(x, y),board.getFirstBuildableCell(w.getCell().getxCoord(),w.getCell().getyCoord()))[2] < 2){
                         if((board.getLastBusyCell(x, y).getWorker()) == null){
                             if(!forceMoveLimit(board.getLastBusyCell(x, y))){
                                 continue;
@@ -136,7 +136,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
             return null;
         }
         Cell moveToCell = board.getLastBusyCell(x,y);
-        if(moveToCell.getWorker() != null){
+        if(moveToCell.getWorker() != null && !moveToCell.getWorker().equals(w)){
             return moveToCell.getWorker();
         }else if (moveToCell.getBlock() == Block.DORSE){
             return null;
@@ -145,7 +145,8 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
             if(w.getCell().equals(moveToCell)){
                 return null;
             }
-            int[] distance = board.getDistance(w.getCell(), moveToCell);
+            moveToCell = board.getFirstBuildableCell(x,y);
+            int[] distance = board.getDistance(moveToCell, board.getFirstBuildableCell(w.getCell().getxCoord(),w.getCell().getyCoord()));
             if(distance[0] > 1 || distance[1] > 1 || distance[2] > 1){
                 return null;
             }
@@ -166,7 +167,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         }else if (buildToCell.getBlock() == Block.DORSE){
             return false;
         }
-        int[] distance = board.getDistance(w.getCell(), buildToCell);
+        int[] distance = board.getDistance(buildToCell, w.getCell());
         //cambiare zeta
         return distance[0] <= 1 && distance[1] <= 1;
     }
@@ -195,16 +196,17 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
     }
 
     protected  boolean forceMoveLimit(Cell nextCell){
+        boolean returnLimit = true;
         for(int x = 0; x < numberOfPlayers; x++) {
             Player p = players[x];
             if (p.card == null) {
                 continue;
             }
-            if (p.card.getActivationPeriod() == Card.activationPeriod.FOETURN) {
-                return p.checkLimitMove(nextCell, playingNow);
+            if (p.card.getActivationPeriod() == Card.activationPeriod.FOETURN && p != playingNow) {
+                returnLimit = returnLimit && p.checkLimitMove(nextCell, playingNow);
             }
         }
-        return true;
+        return returnLimit;
     }
 
     protected boolean forceBuild(int x, int y, Worker w){
@@ -280,15 +282,25 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
             return;
         }
         this.playingNow.stateOfTurn++;
-        if(this.playingNow.stateOfTurn == 3 && !this.playingNow.getNickname().equals(players[1].getNickname())){
+        if(this.playingNow.stateOfTurn == 3 && this.playingNow.getNickname().equals(players[0].getNickname())){
             this.playingNow.stateOfTurn = 1;
             this.nextPlayer();
             notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageFIRSTALLOCATION));
             return;
-        }else if (this.playingNow.stateOfTurn == 3 && this.playingNow.getNickname().equals(players[1].getNickname())){
+        }else if (this.playingNow.stateOfTurn == 3 && this.playingNow.getNickname().equals(players[1].getNickname()) && numberOfPlayers == 2){
             this.playingNow.stateOfTurn = 1;
             this.nextPlayer();
-            notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageTurnEnd));
+            notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageFIRSTALLOCATIONEnded));
+            return;
+        }else if (this.playingNow.stateOfTurn == 3 && this.playingNow.getNickname().equals(players[1].getNickname()) && numberOfPlayers == 3){
+            this.playingNow.stateOfTurn = 1;
+            this.nextPlayer();
+            notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageFIRSTALLOCATION));
+            return;
+        }else if (this.playingNow.stateOfTurn == 3 && this.playingNow.getNickname().equals(players[2].getNickname()) && numberOfPlayers == 3){
+            this.playingNow.stateOfTurn = 1;
+            this.nextPlayer();
+            notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageFIRSTALLOCATIONEnded));
             return;
         }
         notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageFIRSTALLOCATION));
