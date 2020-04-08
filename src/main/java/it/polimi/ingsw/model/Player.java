@@ -112,13 +112,24 @@ public class Player implements Serializable {
     }
 
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
+        ChoiceResponseMessage tempResponse;
         switch(stateOfTurn){
             case 1:
-                return manageStateSelection(x, y, gender);
+                tempResponse = manageStateSelection(x, y, gender);
+                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkWorkerSelection)){
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.turnMessageChooseCellMove);
+                    return tempResponse;
+                }
+                return tempResponse;
             case 2:
-                return manageStateMove(x, y);
+                tempResponse = manageStateMove(x, y);
+                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkMovement)){
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.turnMessageChooseCellBuild);
+                    return tempResponse;
+                }
+                return tempResponse;
             case 3:
-                ChoiceResponseMessage tempResponse = manageStateBuild(x, y);
+                tempResponse = manageStateBuild(x, y);
                     if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
                         match.nextPlayer();
                         tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
@@ -215,7 +226,7 @@ public class Player implements Serializable {
     protected boolean notSelectedWorkerRemoveBlock(int x, int y){return false;}
 
     @Override
-    protected Player clone() {
+    public Player clone() {
         final Player result;
         if (this.card == null || this.workers[0] == null || this.workers[1] == null){
             result = new Player(this.getNickname(), this.getNumber(), null);

@@ -27,9 +27,19 @@ public class PlayerAres extends Player {
         ChoiceResponseMessage tempResponse;
         switch(stateOfTurn){
             case 1:
-                return manageStateSelection(x, y, gender);
+                tempResponse = manageStateSelection(x, y, gender);
+                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkWorkerSelection)){
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.turnMessageChooseCellMove);
+                    return tempResponse;
+                }
+                return tempResponse;
             case 2:
-                return manageStateMove( x, y);
+                tempResponse = manageStateMove(x, y);
+                if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkMovement)){
+                    tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.turnMessageChooseCellBuild);
+                    return tempResponse;
+                }
+                return tempResponse;
             case 3:
                 tempResponse = manageStateBuild(x, y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){

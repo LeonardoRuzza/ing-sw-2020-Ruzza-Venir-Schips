@@ -69,8 +69,8 @@ public class PlayerAresTest {
         ares.setSelectedWorker(ares.workers[1]);
         ares.selectedWorkerMove(2,0);
         ares.setSelectedWorker(ares.workers[0]);
-        Assert.assertEquals("Errore Selezione worker", ares.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
-        Assert.assertEquals("Errore Movimento worker", ares.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement);
+        Assert.assertEquals("Errore Selezione worker", ares.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.turnMessageChooseCellMove);
+        Assert.assertEquals("Errore Movimento worker", ares.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement + GameMessage.turnMessageChooseCellBuild);
         Assert.assertEquals("Errore Costruzione Singola worker", ares.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.aresTurnMessageAskRemoveBlok);
         Assert.assertEquals("Errore Costruzione Termina Turno", ares.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.aresTurnMessageSuccessRemoveBlokWEnd);
     }
@@ -86,8 +86,8 @@ public class PlayerAresTest {
         match.forceBuild(1,0,ares.selectedWorker);
         match.forceBuild(1,0,ares.selectedWorker);
         match.forceBuild(1,0,ares.selectedWorker);
-        Assert.assertEquals("Errore Selezione worker", ares.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
-        Assert.assertEquals("Errore Movimento worker", ares.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement);
+        Assert.assertEquals("Errore Selezione worker", ares.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.turnMessageChooseCellMove);
+        Assert.assertEquals("Errore Movimento worker", ares.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement + GameMessage.turnMessageChooseCellBuild);
         Assert.assertEquals("Errore Costruzione Singola worker", ares.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.aresTurnMessageAskRemoveBlok);
         Assert.assertEquals("Errore Rimuovi Blocco", ares.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.aresTurnMessageFailRemoveBlokWNewCell);
         Assert.assertEquals("Errore Costruzione Termina Turno", ares.manageTurn(1,0, Worker.Gender.Male, GameMessage.turnMessageNO).getNextInstruction(),  GameMessage.turnMessageTurnEnd);
@@ -104,8 +104,8 @@ public class PlayerAresTest {
         match.forceBuild(1,0,ares.selectedWorker);
         match.forceBuild(1,0,ares.selectedWorker);
         match.forceBuild(1,0,ares.selectedWorker);
-        Assert.assertEquals("Errore Selezione worker", ares.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
-        Assert.assertEquals("Errore Movimento worker", ares.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement);
+        Assert.assertEquals("Errore Selezione worker", ares.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.turnMessageChooseCellMove);
+        Assert.assertEquals("Errore Movimento worker", ares.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement + GameMessage.turnMessageChooseCellBuild);
         Assert.assertEquals("Errore Costruzione Singola worker", ares.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.aresTurnMessageAskRemoveBlok);
         Assert.assertEquals("Errore Fine turno", ares.manageTurn(1,0, Worker.Gender.Male, GameMessage.turnMessageNO).getNextInstruction(),  GameMessage.turnMessageTurnEnd);
     }

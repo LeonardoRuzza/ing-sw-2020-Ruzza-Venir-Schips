@@ -41,7 +41,7 @@ public class PlayerAtlasTest {
     public void testManageTurnBuildDorse() {
         testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
         testPlayer1.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.turnMessageChooseCellMove);
         Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement + GameMessage.atlasTurnMessageAskBuildDorse);
         Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, GameMessage.turnMessageDORSE).getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
     }
@@ -49,7 +49,7 @@ public class PlayerAtlasTest {
     public void testManageTurnBuildNormal() {
         testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
         testPlayer1.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
+        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.turnMessageChooseCellMove);
         Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement + GameMessage.atlasTurnMessageAskBuildDorse);
         Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
     }
