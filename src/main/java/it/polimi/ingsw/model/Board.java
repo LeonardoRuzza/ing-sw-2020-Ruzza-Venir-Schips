@@ -164,7 +164,7 @@ public class Board implements Cloneable, Serializable {
         return result;
     }
 
-    public void draw(){
+    public void draw(Player myPlayer){
         boolean linePrint = true;
         for(int y = 0; y < boardSide*2+1; y++){
             int realY = y/2;
@@ -202,9 +202,9 @@ public class Board implements Cloneable, Serializable {
                     System.out.print(" ");
                     Worker actW = getLastBusyCell(realX,realY).getWorker();
                     if(actW!=null){
-                        if(actW.getGender() == playingNow.workers[0].getGender() && actW.getColor() == playingNow.workers[0].getColor()){
+                        if(actW.getGender() == myPlayer.workers[0].getGender() && actW.getColor() == myPlayer.workers[0].getColor()){
                             System.out.print(actW.getColor().getColorString() + "M"+" " + Worker.Color.BLACK.getANSI_RESET());
-                        }else if(actW.getGender() == playingNow.workers[1].getGender() && actW.getColor() == playingNow.workers[1].getColor()){
+                        }else if(actW.getGender() == myPlayer.workers[1].getGender() && actW.getColor() == myPlayer.workers[1].getColor()){
                             System.out.print(actW.getColor().getColorString() + "F"+" " + Worker.Color.BLACK.getANSI_RESET());
                         }else{
                             System.out.print(actW.getColor().getColorString() + "w"+" " + Worker.Color.BLACK.getANSI_RESET());

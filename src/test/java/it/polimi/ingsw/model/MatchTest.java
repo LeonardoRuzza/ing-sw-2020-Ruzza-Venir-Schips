@@ -259,6 +259,6 @@ public class MatchTest {
             }
         }
         Assert.assertEquals(match.towerCount(), 5*5);
-        match.getBoard().draw();
+        match.getBoard().draw(player2); //manda player 2 solo perchè è necessario mandare un player come parametro
     }
 }

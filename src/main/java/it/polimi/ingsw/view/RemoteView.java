@@ -14,6 +14,7 @@ public class RemoteView extends View {
         super(player);
         this.clientConnection = clientConnection;
         clientConnection.addObserver(new RemoteView.MessageReceiver());
+        clientConnection.asyncSend(getPlayer().clone());
     }
 
     private class MessageReceiver implements Observer<String> {

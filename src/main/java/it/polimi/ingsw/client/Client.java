@@ -1,6 +1,9 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerHera;
+import it.polimi.ingsw.model.PlayerHestia;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,6 +16,7 @@ public class Client {
 
     private String ip;
     private int port;
+    private Player player;
 
     public Client(String ip, int port){
         this.ip = ip;
@@ -39,13 +43,16 @@ public class Client {
                         if(inputObject instanceof String){
                             System.out.println((String)inputObject);
                         } else if (inputObject instanceof Board){
-                            ((Board)inputObject).draw();
-                        } else {
+                            ((Board)inputObject).draw(player);
+                        } else if (inputObject instanceof Player){
+                            player=((Player)inputObject);
+                        }else {
                             throw new IllegalArgumentException();
                         }
                     }
                 } catch (Exception e){
                     setActive(false);
+                    e.printStackTrace();
                 }
             }
         });
