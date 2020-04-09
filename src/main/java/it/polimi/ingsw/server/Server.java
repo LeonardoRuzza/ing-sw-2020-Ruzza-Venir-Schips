@@ -189,8 +189,8 @@ public class Server {
             waitingConnection.remove(nameC2);
             registerOrder.remove(c2);
             registerOrder.remove(c1);
-            c1.asyncSend(GameMessage.chooseColor);
-            c2.asyncSend(GameMessage.waitMessageForColor);
+            c1.asyncSend(GameMessage.chooseColorBegin);
+            c2.asyncSend(GameMessage.waitMessageForColorBegin);
         }
         else{
             ClientConnection c1 = registerOrder.get(0);
@@ -227,9 +227,9 @@ public class Server {
             registerOrder.remove(c1);
             registerOrder.remove(c2);
             registerOrder.remove(c3);
-            c1.asyncSend(GameMessage.chooseColor);
-            c2.asyncSend(GameMessage.waitMessageForColor);
-            c3.asyncSend(GameMessage.waitMessageForColor);
+            c1.asyncSend(GameMessage.chooseColorBegin);
+            c2.asyncSend(GameMessage.waitMessageForColorBegin);
+            c3.asyncSend(GameMessage.waitMessageForColorBegin);
 
             /*if(waitingConnectionForThree.isEmpty()){
                 waitingConnectionForThree.put(name, c);

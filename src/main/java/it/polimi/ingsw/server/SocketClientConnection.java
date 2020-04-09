@@ -83,17 +83,18 @@ public class SocketClientConnection extends Observable<String> implements Client
             String read = in.nextLine();
             name = read;
             while(!server.addClient(this, name)){
-                send("\nPleaseChangeName");
+                send("\nThis name is already taken. Please change name.");
                 read = in.nextLine();
                 name = read;
             }
-            send("\nSearchingForExistingmatch");
+            send("\nLooking for existing match...");
             synchronized (lock){
                 if(server.isFirstPlayer(this)){
                     boolean temp = false;
                     while (!temp) {
-                        send("\nCreatingNewGame");
-                        send("\nChoose number of players");
+                        send("\nNo existing match found.");
+                        send("\nCreating new game...");
+                        send("\n\nYou are the Master Player. Choose number of players for this game");
                         read = in.nextLine();
                         try {
                             numberOfPlayers = (Integer.parseInt(read));
@@ -108,7 +109,7 @@ public class SocketClientConnection extends Observable<String> implements Client
                 }
             }
             server.manageLobby(numberOfPlayers);
-            this.send("Loading Match");
+            this.send("\nWaiting for other players...\n");
             while (isActive()) {
                 read = in.nextLine();
                 if (read.toUpperCase().equals("QUIT")){
