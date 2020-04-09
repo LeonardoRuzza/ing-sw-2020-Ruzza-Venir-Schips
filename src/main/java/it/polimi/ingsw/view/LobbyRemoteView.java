@@ -58,7 +58,7 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                 if (lobby.isLobbyPlayerTurn(lobbyPlayer)) { // Se è il turno del player
                     showMessageSync(GameMessage.availableColors);
                     for (String s :lobby.getAvailableColors()) {
-                       resultMsg = s + ", ";
+                       resultMsg = s;
                        showMessageSync(resultMsg);
                     }
                     showMessageSync(GameMessage.chooseColor);
@@ -71,7 +71,7 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                 if (lobby.getSwitchState()){  // Finita fase di scelta dei colori e inizia quella delle carte
                     showMessageSync(GameMessage.cardPhase);
                     showMessageSync(Card.drawAll());
-                    if (lobby.getLobbyPlayers().get(0).equals(lobbyPlayer)){
+                    if (lobby.getLobbyPlayers().get(0).getNickname().equals(lobbyPlayer.getNickname())){
                         if (lobby.getNumberOfLobbyPlayer() == 2)
                             showMessageSync(GameMessage.playerMasterChoseCard2);  // Mex per il master player
                         else
@@ -85,7 +85,7 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                         if (lobby.isLobbyPlayerTurn(lobbyPlayer)){    // Stampa le carte disponibili rimanenti
                             showMessageSync(GameMessage.availableCards);
                             for (Card c :lobby.getChosenDeck()) {
-                                resultMsg = c.getName() + ", ";
+                                resultMsg = c.getName();
                                 showMessageSync(resultMsg);
                             }
                         }
@@ -93,7 +93,9 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                             showMessageSync(GameMessage.waitMessageForCard);
                     }
                     else {  // Altrimenti chiedi al master player di inserire una nuova carta
-                        showMessage(GameMessage.playerMasterChoseAnotherCard);
+                        if (lobby.isLobbyPlayerTurn(lobbyPlayer)) {
+                            showMessage(GameMessage.playerMasterChoseAnotherCard);
+                        }
                     }
 
                 }
@@ -110,8 +112,8 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                     resultMsg = GameMessage.player3is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard().getName() + "\n\n";
                     showMessageSync(resultMsg);
 
-                showMessageSync(GameMessage.startNormalGame);  // Notifica l'inizio della partita normale
                 }
+                showMessageSync(GameMessage.startNormalGame);  // Notifica l'inizio della partita normale
                 break;
         }
     }

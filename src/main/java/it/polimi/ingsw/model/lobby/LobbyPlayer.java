@@ -12,6 +12,8 @@ public class LobbyPlayer implements Cloneable{
 
     public LobbyPlayer(String nickname) {
         this.nickname = nickname;
+        this.color = null;
+        this.card = null;
     }
 
     public String getNickname() { return nickname; }
@@ -20,6 +22,15 @@ public class LobbyPlayer implements Cloneable{
 
     @Override
     public LobbyPlayer clone() throws CloneNotSupportedException {
-        return (LobbyPlayer) super.clone();
+        //return (LobbyPlayer) super.clone();
+
+        LobbyPlayer temp = new LobbyPlayer(this.nickname);
+        temp.color = this.color;
+        if (card != null) {
+            temp.card = new Card(this.card.getNumber());
+        } else {
+            temp.card = null;
+        }
+        return temp;
     }
 }
