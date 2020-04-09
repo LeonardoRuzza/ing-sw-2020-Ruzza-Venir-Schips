@@ -98,6 +98,23 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
                             }
                             return false;
                         }
+                        else{
+                            if(playingNow.card.getActivationPeriod() == Card.activationPeriod.YOURMOVE){
+                                Player playingNowCopy = playingNow.clone();
+                                playingNowCopy.match = this.clone();
+                                if(w.getGender() == Worker.Gender.Male){
+                                    playingNowCopy.workers[0] = playingNowCopy.match.checkMove(w.getCell().getxCoord(),w.getCell().getyCoord(),playingNowCopy.workers[0]);
+                                    playingNowCopy.selectedWorker = playingNowCopy.workers[0];
+                                }
+                                else {
+                                    playingNowCopy.workers[1]= playingNowCopy.match.checkMove(w.getCell().getxCoord(),w.getCell().getyCoord(),playingNowCopy.workers[1]);
+                                    playingNowCopy.selectedWorker = playingNowCopy.workers[1];
+                                }
+                                if(playingNowCopy.selectedWorkerMove(x, y)){
+                                    return false;
+                                }
+                            }
+                        }
                     }
                 }
             }

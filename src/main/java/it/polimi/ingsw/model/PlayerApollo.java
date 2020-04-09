@@ -11,7 +11,7 @@ public class PlayerApollo extends Player {
         Worker tempWorker;
         if(!super.selectedWorkerMove(x, y)){
             tempWorker=match.checkMove(x,y,selectedWorker);
-            if (tempWorker == null) return false;
+            if (tempWorker == null || selectedWorker.getCell() == null) return false; //la seconda condizione per locate iniziale
             if(!tempWorker.equals(selectedWorker)){
                 return match.forceMove(x, y, selectedWorker) && match.forceMove(selectedWorker.getOldLocation().getxCoord(), selectedWorker.getOldLocation().getyCoord(), tempWorker);
             }

@@ -231,7 +231,7 @@ public class Player implements Serializable {
         if (this.card == null || this.workers[0] == null || this.workers[1] == null){
             result = new Player(this.getNickname(), this.getNumber(), null);
         }else{
-            result = new Player(this.getNickname(), this.getNumber(), new Card(this.card.getNumber()), null, this.workers[0].getColor());
+            result = FactoryPlayer.getPlayer(this.getNickname(), this.getNumber(), null, this.workers[0].getColor(), this.card.getNumber());
             result.workers[0] = this.workers[0].clone();
             result.workers[1] = this.workers[1].clone();
         }

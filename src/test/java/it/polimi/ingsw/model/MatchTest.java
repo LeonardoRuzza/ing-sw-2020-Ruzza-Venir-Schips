@@ -15,7 +15,7 @@ public class MatchTest {
     @Before
     public void setUp(){
         match = new Match(1, numOfPlayers);
-        testPlayer1 = new Player("player1", 1, new Card(7), match, Worker.Color.RED);
+        testPlayer1 = new PlayerApollo("player1", 1, new Card(0), match, Worker.Color.RED);
         player2 = new PlayerAthena("player2", 2,  new Card(2),  match, Worker.Color.GREEN);
         match.addPlayer(testPlayer1);
         match.addPlayer(player2);
@@ -73,7 +73,7 @@ public class MatchTest {
         match.forceBuildDorse(1,1,player2.selectedWorker);
         match.forceBuild(1,0,player2.selectedWorker);
         match.forceBuild(1,0,player2.selectedWorker);
-        Assert.assertTrue("Error Player1 is loser for move", match.checkLoserMove(testPlayer1.selectedWorker));
+        Assert.assertFalse("Error Player1 is loser for move", match.checkLoserMove(testPlayer1.selectedWorker));
         match.removeBlock(1,0);
         Assert.assertFalse("Error Player1 not loser for move", match.checkLoserMove(testPlayer1.selectedWorker));
     }

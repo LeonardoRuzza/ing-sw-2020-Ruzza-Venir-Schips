@@ -32,7 +32,7 @@ public class FactoryPlayer {
             case 13:
                 return new PlayerHypnus(nickname,number,new Card(cardNum),match,color);
             default:
-                return null;
+                return new Player(nickname,number,null,match,color);
         }
     }
 }

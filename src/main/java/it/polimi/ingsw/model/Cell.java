@@ -99,6 +99,10 @@ public class Cell implements Cloneable, Serializable {
         Cell clonedCell = new Cell(xCoord, yCoord, zCoord);
         if(this.workerInCell != null){
             clonedCell.workerInCell = this.workerInCell.clone();
+            if(this.workerInCell.getOldLocation() != null) {
+                clonedCell.workerInCell.move(new Cell(this.workerInCell.getOldLocation().getxCoord(), this.workerInCell.getOldLocation().getyCoord(), this.workerInCell.getOldLocation().getzCoord()));
+            }
+            clonedCell.workerInCell.move(clonedCell);
         }else{
             clonedCell.workerInCell = null;
         }
