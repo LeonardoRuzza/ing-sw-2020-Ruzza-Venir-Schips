@@ -155,8 +155,16 @@ public class RemoteView extends View {
                 }
             }
             else {
+                if(message.getNextInstruction().equals(GameMessage.turnMessageFIRSTALLOCATIONEnded)){
+                    if(nicknameThisPlayer.equals(nicknamePlayerFromMessage)) {
+                        resultMsg = GameMessage.turnMessageSelectYourWorker;
+                    }
+                    else{
+                        resultMsg = message.getNextInstruction() + "Wait your turn.";
+                    }
+                }
                 if(nicknameThisPlayer.equals(nicknamePlayerFromMessage)){
-                    resultMsg = message.getNextInstruction() + "\n";
+                    resultMsg = message.getNextInstruction() + "\n"+ resultMsg;
                 }
                 else{
                     if(message.getNextInstruction().equals(GameMessage.turnMessageTurnEnd) && message.getMatch().getPlayingNow().getNickname().equals(nicknameThisPlayer)) {
