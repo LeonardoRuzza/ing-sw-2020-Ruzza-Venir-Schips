@@ -13,7 +13,13 @@ public class PlayerApollo extends Player {
             tempWorker=match.checkMove(x,y,selectedWorker);
             if (tempWorker == null || selectedWorker.getCell() == null) return false; //la seconda condizione per locate iniziale
             if(!tempWorker.equals(selectedWorker)){
-                return match.forceMove(x, y, selectedWorker) && match.forceMove(selectedWorker.getOldLocation().getxCoord(), selectedWorker.getOldLocation().getyCoord(), tempWorker);
+                int xOld = selectedWorker.getCell().getxCoord();
+                int yOld = selectedWorker.getCell().getyCoord();
+                boolean retValue1 = match.forceMove(x, y, selectedWorker) && match.forceMove(xOld, yOld, tempWorker);
+                if(retValue1){
+                    match.getBoard().cells[x][y][selectedWorker.getCell().getzCoord()].setWorkerInCell(selectedWorker);
+                }
+                return retValue1;
             }
         }
         return true;

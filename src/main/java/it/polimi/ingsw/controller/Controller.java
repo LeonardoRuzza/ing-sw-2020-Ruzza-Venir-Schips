@@ -78,7 +78,6 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
                 }
                 if (lobby.getStateOfTurn().equals(StateOfTurn.READYTOSTART)){
                     createNormalGame();
-                    //TODO crea partita normale
                 }
                 break;
             }

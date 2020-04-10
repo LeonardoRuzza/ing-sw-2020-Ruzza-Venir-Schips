@@ -5,13 +5,15 @@ import java.util.List;
 
 public class GameMessage {
     // Lobby message
+    public static String chooseColorBegin = "Opponent(s) found.\n\nChoose your color. ";
+    public static String waitMessageForColorBegin = "Opponent(s) found\n\nWait for another player's choose of color. ";
     public static String chooseColor = "Choose your color. ";
-    public static String waitMessageForColor = "Wait for the other player's choose of color. ";
+    public static String waitMessageForColor = "Wait for another player's choose of color. ";
     public static String wrongColorInput = "Your input for color is not correct. ";
     public static String notAvailableColor = "The selected color has been already chosen. ";
     public static String availableColors = "Available colors: ";
 
-    public static String cardPhase = "";
+    public static String cardPhase = "\n\nList of existing cards:";
     public static String notAvailableCard = "Card not available";
     public static String availableCards = "Available cards: ";
     public static String playerMasterChoseCard2 = "Choose 2 card from the list; Insert one per time and then press Enter";
@@ -20,7 +22,7 @@ public class GameMessage {
     public static String waitMessageForCard = "Another player is choosing a card...";
     public static String waitMasterChoseOfCard = "Waiting the master player choose of deck ";
 
-    public static String player1is = "Player1 is: ";
+    public static String player1is = "\n\nPlayer1 is: ";
     public static String player2is = "Player2 is: ";
     public static String player3is = "Player3 is: ";
     public static String hisColor = "Chosen color: ";

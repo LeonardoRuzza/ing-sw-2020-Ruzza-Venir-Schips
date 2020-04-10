@@ -36,6 +36,9 @@ public class Cell implements Cloneable, Serializable {
 
 
 // Setter
+    protected void setWorkerInCell(Worker workerInCell) {
+        this.workerInCell = workerInCell;
+    }
     protected void setWorkerNull() {
         this.workerInCell = null;
     }

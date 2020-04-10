@@ -132,11 +132,29 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
     @Override
     public Lobby clone() {
         try {
-            Lobby l = (Lobby) super.clone();
+            final Lobby l;
+            if (getNumberOfLobbyPlayer() == 2) {
+                l = new Lobby(this.lobbyPlayers.get(0).getNickname(), this.lobbyPlayers.get(1).getNickname());
+                l.lobbyPlayers.set(0, this.lobbyPlayers.get(0).clone());
+                l.lobbyPlayers.set(1, this.lobbyPlayers.get(1).clone());
+            } else {
+                l = new Lobby(this.lobbyPlayers.get(0).getNickname(), this.lobbyPlayers.get(1).getNickname(), this.lobbyPlayers.get(2).getNickname());
+                l.lobbyPlayers.set(0, this.lobbyPlayers.get(0).clone());
+                l.lobbyPlayers.set(1, this.lobbyPlayers.get(1).clone());
+                l.lobbyPlayers.set(2, this.lobbyPlayers.get(2).clone());
+            }
+            l.lobbyActualPlayer = this.lobbyActualPlayer.clone();
+            l.switchState = this.switchState;
+            l.isDeckChosen = this.isDeckChosen;
+            l.stateOfTurn = this.stateOfTurn;
+            l.chosenDeck.addAll(this.chosenDeck);
+            l.availableColors.clear();
+            l.availableColors.addAll(this.availableColors);
+
             // TODO modificare clone
-            //l.lobbyPlayers.addAll(this.lobbyPlayers);
-            l.lobbyActualPlayer = lobbyActualPlayer.clone();
-            //l.availableColors.addAll(this.availableColors);
+            /*final Lobby l = (Lobby) super.clone();
+            l.lobbyActualPlayer = lobbyActualPlayer.clone();*/
+
             return l;
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
