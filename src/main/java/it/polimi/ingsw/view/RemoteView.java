@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
+import it.polimi.ingsw.utils.ClosingConnectionParameter;
 import it.polimi.ingsw.utils.GameMessage;
 
 public class RemoteView extends View {
@@ -176,10 +177,10 @@ public class RemoteView extends View {
         showMessageSync(resultMsg);
 
         if((gameOverWin && nicknameThisPlayer.equals(nicknamePlayerFromMessage)) || (gameOverDefeat && counterActivePlayers<3 && nicknameThisPlayer.equals(nicknamePlayerFromMessage))){
-            clientConnection.close(false);
+            clientConnection.close(ClosingConnectionParameter.FORWIN);
         }
         if(gameOverDefeat && nicknameThisPlayer.equals(nicknamePlayerFromMessage) && counterActivePlayers==3) {
-            clientConnection.close(true);
+            clientConnection.close(ClosingConnectionParameter.FORLOSE);
         }
     }
 }

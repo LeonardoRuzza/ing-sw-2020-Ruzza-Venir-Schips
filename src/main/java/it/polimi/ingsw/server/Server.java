@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.lobby.Lobby;
+import it.polimi.ingsw.utils.ClosingConnectionParameter;
 import it.polimi.ingsw.utils.GameMessage;
 import it.polimi.ingsw.view.LobbyRemoteView;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +49,7 @@ public class Server {
     }
 
 
-    public synchronized void deregisterConnection(ClientConnection c) {
+    public synchronized void deregisterConnection(ClientConnection c, ClosingConnectionParameter closingParameter) {
         Iterator<String> iterator = waitingConnection.keySet().iterator();
         registerOrder.remove(c);
         while(iterator.hasNext()){
@@ -63,6 +64,8 @@ public class Server {
             if(x.equals(c)){
                 ClientConnection opponent = playingConnectionForTwo.get(c);
                 if(opponent != null) {
+                    if(closingParameter == ClosingConnectionParameter.FORWIN) opponent.send(GameMessage.turnMessageLose);
+                    else opponent.send("Someone else quit the game. Closing your connection too.");
                     opponent.closeConnection();
                 }
                 playingConnectionForTwo.remove(c);
@@ -78,10 +81,14 @@ public class Server {
             playingConnectionForThree.remove(c);
         }
         if(opponent1!=null){
+            if(closingParameter == ClosingConnectionParameter.FORWIN) opponent1.send(GameMessage.turnMessageLose);
+            else opponent1.send("Someone else quit the game. Closing your connection too.");
             playingConnectionForThree.remove(opponent1);
             opponent1.closeConnection();
         }
         if(opponent2 != null){
+            if(closingParameter == ClosingConnectionParameter.FORWIN) opponent2.send(GameMessage.turnMessageLose);
+            else opponent2.send("Someone else quit the game. Closing your connection too.");
             playingConnectionForThree.remove(opponent2);
             opponent2.closeConnection();
         }
@@ -120,9 +127,9 @@ public class Server {
             playingConnectionForThree.remove(opponent2);
             playingConnectionForTwo.put(opponent1, opponent2);
             playingConnectionForTwo.put(opponent2, opponent1);
-        }else if(opponent1 == null && opponent2 != null) {
+        }else if(opponent1 == null && opponent2 != null) {      //questo ramo else non viene mai raggiunto perchè questo metodo è invocato solo quando ci sono ancora altri due giocatori attivi
             opponent2.closeConnection();
-        }else if(opponent1 != null && opponent2 == null){
+        }else if(opponent1 != null){
             opponent1.closeConnection();
         }
 

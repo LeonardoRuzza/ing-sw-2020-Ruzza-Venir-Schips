@@ -8,6 +8,7 @@ public class PlayerHypnus extends Player {
 
     @Override
     public boolean checkLimitSelection(Player opponent, Worker w){  //ritorna true se la selezione è fattibile sennò false se la limita
+        if(opponent.equals(this)) return true;
         if(w.getCell() == null) {return true;}
         return !isHigherWorker(opponent, w);
     }
