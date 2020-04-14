@@ -122,6 +122,7 @@ public class SocketClientConnection extends Observable<String> implements Client
         } catch (IOException | NoSuchElementException e) {
             if(isActive()){
                 System.err.println("Error!" + e.getMessage());
+                close(ClosingConnectionParameter.FORQUIT);
             }
         } finally {
             if(isActive()) closeConnection();
