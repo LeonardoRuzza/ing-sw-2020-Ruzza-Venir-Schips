@@ -10,10 +10,10 @@ import java.util.List;
 
 public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
 
-    private StateOfTurn stateOfTurn = StateOfTurn.COLOR; // Fase 1 = scelta dei colori
+    protected StateOfTurn stateOfTurn = StateOfTurn.COLOR; // Fase 1 = scelta dei colori
     private boolean switchState = false;
     private boolean isDeckChosen = false;
-    private enum Insert {ADD,REMOVE}
+    protected enum Insert {ADD,REMOVE}
 
     private List<Card> chosenDeck = new ArrayList<>();
     private List<Card> completeDeck = new ArrayList<>();
@@ -91,7 +91,7 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
             return false;
     }
 
-    public void updateChosenDeck(Card chosenCard, Insert insert){
+    protected void updateChosenDeck(Card chosenCard, Insert insert){
         if (insert == Insert.ADD) {
             chosenDeck.add(chosenCard);
         }
@@ -100,7 +100,7 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
         }
     }
 
-    private void nextLobbyPlayer(){
+    protected void nextLobbyPlayer(){
         if (lobbyActualPlayer.equals(lobbyPlayers.get(lobbyPlayers.size() - 1))){ // Se l'actualPlayer è l'ultimo della lista il nuovo actual player è il primo della lista
             lobbyActualPlayer = lobbyPlayers.get(0);
         }
@@ -110,7 +110,7 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
     }
 
 
-    public List<String> getAvailableColors() {  // Ritorna lista con i colori rimanenti disponibili
+    public List<String> getAvailableColors() {  // Ritorna lista <di stringhe> con i colori rimanenti disponibili
         List<String> temp = new ArrayList<>();
         for (Worker.Color c: availableColors)
             temp.add(c.toString());
@@ -122,11 +122,11 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
     public boolean isDeckChosen() { return isDeckChosen; }
     public int getNumberOfLobbyPlayer() { return numberOfLobbyPlayer; }
     public boolean getSwitchState() { return switchState; }
-    public void updateAvailableColors(Worker.Color c) { this.availableColors.remove(c); }
+    private void updateAvailableColors(Worker.Color c) { this.availableColors.remove(c); }
     public StateOfTurn getStateOfTurn() { return stateOfTurn; }
     public boolean isLobbyPlayerTurn(LobbyPlayer lobbyPlayer){ return (lobbyActualPlayer.getNickname().equals(lobbyPlayer.getNickname())); }
     public List<LobbyPlayer> getLobbyPlayers() { return lobbyPlayers; }
-    public void addLobbyPlayer(LobbyPlayer lobbyPlayer) { this.lobbyPlayers.add(lobbyPlayer); }
+    private void addLobbyPlayer(LobbyPlayer lobbyPlayer) { this.lobbyPlayers.add(lobbyPlayer); }
 
 
     @Override
@@ -151,11 +151,11 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
             l.availableColors.clear();
             l.availableColors.addAll(this.availableColors);
 
-            // TODO modificare clone
             /*final Lobby l = (Lobby) super.clone();
             l.lobbyActualPlayer = lobbyActualPlayer.clone();*/
 
             return l;
+
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             return null;
