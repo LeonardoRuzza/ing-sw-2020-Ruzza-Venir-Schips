@@ -218,14 +218,13 @@ public class Server {
             player1LobbyView.addObserverLobby(controller);
             player2LobbyView.addObserverLobby(controller);
             player3LobbyView.addObserverLobby(controller);
-
             Map<ClientConnection, ClientConnection> tmpMap = new HashMap<>();
             tmpMap.put(c2,c3);
             playingConnectionForThree.put(c1,tmpMap);
-            tmpMap.clear();
+            tmpMap = new HashMap<>();
             tmpMap.put(c1,c3);
             playingConnectionForThree.put(c2, tmpMap);
-            tmpMap.clear();
+            tmpMap = new HashMap<>();
             tmpMap.put(c1,c2);
             playingConnectionForThree.put(c3, tmpMap);
             waitingConnection.remove(nameC1);
@@ -237,19 +236,6 @@ public class Server {
             c1.asyncSend(GameMessage.chooseColorBegin);
             c2.asyncSend(GameMessage.waitMessageForColorBegin);
             c3.asyncSend(GameMessage.waitMessageForColorBegin);
-
-            /*if(waitingConnectionForThree.isEmpty()){
-                waitingConnectionForThree.put(name, c);
-                deckThree = deck;
-                playerColorThree[0] = workerColor;
-            }else{
-                waitingConnectionForThree.put(name, c);
-                deckThree = deck;
-                if(playerColorThree[1] == null){
-                    playerColorThree[1] = workerColor;
-                }else{
-                    playerColorThree[2] = workerColor;
-                }*/
         }
     }
 
