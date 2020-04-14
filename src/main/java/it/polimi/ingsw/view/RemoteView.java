@@ -167,7 +167,7 @@ public class RemoteView extends View {
                     resultMsg = message.getNextInstruction() + "\n"+ resultMsg;
                 }
                 else{
-                    if(message.getNextInstruction().equals(GameMessage.turnMessageTurnEnd) && message.getMatch().getPlayingNow().getNickname().equals(nicknameThisPlayer)) {
+                    if(message.getNextInstruction().contains(GameMessage.turnMessageTurnEnd) && message.getMatch().getPlayingNow().getNickname().equals(nicknameThisPlayer)) {
                         resultMsg = GameMessage.turnMessageSelectYourWorker + "\n";
                     }
                 }

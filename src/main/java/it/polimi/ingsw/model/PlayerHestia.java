@@ -66,7 +66,7 @@ public class PlayerHestia extends Player {
                     tempResponse = manageStateBuild(x, y);
                     if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
                         match.nextPlayer();
-                        tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
+                        tempResponse = new ChoiceResponseMessage(match.clone(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                         return tempResponse;
                     }
                     return tempResponse;

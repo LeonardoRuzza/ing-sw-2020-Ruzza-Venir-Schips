@@ -65,7 +65,7 @@ public class GameMessage {
     public static String turnMessageTurnEnd = "Your turn is over. ";
 
     public static String aresTurnMessageAskRemoveBlok = "If you want to remove a block adjacent to the worker that you have not moved, write the coordinates otherwise write NO. ";
-    public static String aresTurnMessageSuccessRemoveBlokWEnd = "The block was successfully removed. Your turn is over. ";
+    public static String aresTurnMessageSuccessRemoveBlokWEnd = "The block was successfully removed. "+ turnMessageTurnEnd;
     public static String aresTurnMessageFailRemoveBlokWNewCell = "Unable to remove a block here, change position or cancel the option by writing NO. ";
 
     public static String atlasTurnMessageAskBuildDorse = "Choose where to build and if you want to build a dome add DORSE after the box. ";
@@ -74,10 +74,10 @@ public class GameMessage {
     public static String prometheusTurnMessageAskBuildBefore = "Choose where to move or if you want to build before moving, write BUILDBEFORE after the box where you want to build. ";
 
     public static String hephaesthusTurnMessageAskBuild = "Choose where to build and if you want to build twice write BUILDTWOTIMES after the box. ";
-    public static String hephaesthusTurnMessageFailOptionalBuildWEnd = "You can't build twice here. Your turn is over. ";
+    public static String hephaesthusTurnMessageFailOptionalBuildWEnd = "You can't build twice here. " + turnMessageTurnEnd;
 
     public static String hestiaDemeterTurnMessageAskTwoBuild = "If you want to build again, indicate the coordinates and write BUILDTWOTIMES otherwise write NO. ";
-    public static String hestiaDemeterTurnMessageFailOptionalBuildWEnd = "You can't build here twice. Your turn is over. ";
+    public static String hestiaDemeterTurnMessageFailOptionalBuildWEnd = "You can't build here twice. " + turnMessageTurnEnd;
     public static String hestiaDemeterTurnMessageFailOptionalBuildWNewCell = "You can't build here. Enter new coordinates or write NO. ";
 
     public static boolean isValidOptional(String optional){

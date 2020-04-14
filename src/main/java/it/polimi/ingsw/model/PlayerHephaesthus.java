@@ -70,7 +70,7 @@ public class PlayerHephaesthus extends Player {
                     if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
                         resetTurn();
                         match.nextPlayer();
-                        tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
+                        tempResponse = new ChoiceResponseMessage(match.clone(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                         return tempResponse;
                     }
                     return tempResponse;
@@ -83,9 +83,9 @@ public class PlayerHephaesthus extends Player {
                 resetTurn();
                 match.nextPlayer();
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
+                    tempResponse = new ChoiceResponseMessage(match.clone(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
                 }else{
-                    tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction());
+                    tempResponse = new ChoiceResponseMessage(match.clone(), tempResponse.getPlayer(), tempResponse.getNextInstruction());
                 }
                 return tempResponse;
             default: return new ChoiceResponseMessage(match.clone(), this.clone(), "Errore nello stato del turno!"); //da valutare questo default
