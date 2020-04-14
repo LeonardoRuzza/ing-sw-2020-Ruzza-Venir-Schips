@@ -53,10 +53,10 @@ public class GameMessage {
     public static String turnMessageAlreadyLocatedWorkerFirstAllocation = "You have already located this worker please select the other one. ";
     public static String turnMessageFIRSTALLOCATIONEnded = "Workers of all players have been allocated. ";
     public static String turnMessageSelectYourWorker = "Select a worker specifying Male or Female";
-    public static String turnMessageUnselectableWorkerSwitch = "Worker was not selectable, the other was chosen automatically. ";
     public static String turnMessageLoserNoWorker = "You lost, neither worker is selectable! ";
     public static String turnMessageOkWorkerSelection = "Worker successfully selected. ";
     public static String turnMessageChooseCellMove = "Choose where to move. ";
+    public static String turnMessageUnselectableWorkerSwitch = "Worker was not selectable, the other was chosen automatically. " + turnMessageChooseCellMove;
     public static String turnMessageOkMovement = "You moved correctly. ";
     public static String turnMessageFailMovementChangeDestination = "It is not possible to perform the required move, change box. ";
     public static String turnMessageChooseCellBuild = "Choose where to build. ";

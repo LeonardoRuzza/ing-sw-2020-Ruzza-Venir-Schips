@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.utils.ClosingConnectionParameter;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -50,13 +51,13 @@ public class SocketClientConnection extends Observable<String> implements Client
     }
 
     @Override
-    public void close(Boolean singleClientClose) {
+    public void close(ClosingConnectionParameter closingParameter) {
         closeConnection();                          // Chiude connessione per il client
-        System.out.println("Deregistering client...");
-        if (singleClientClose){
+        System.out.println("Deregistering 1 or more clients...");
+        if (closingParameter == ClosingConnectionParameter.FORLOSE){
             server.deregisterConnectionSingleClient(this);
         }else{
-            server.deregisterConnection(this);
+            server.deregisterConnection(this, closingParameter);
         }
         System.out.println("Done!");
     }
@@ -113,14 +114,17 @@ public class SocketClientConnection extends Observable<String> implements Client
             while (isActive()) {
                 read = in.nextLine();
                 if (read.toUpperCase().equals("QUIT")){
+                    close(ClosingConnectionParameter.FORQUIT);
                     break;
                 }
                 notify(read);
             }
         } catch (IOException | NoSuchElementException e) {
-            System.err.println("Error!" + e.getMessage());
+            if(isActive()){
+                System.err.println("Error!" + e.getMessage());
+            }
         } finally {
-            close(false);
+            if(isActive()) closeConnection();
         }
     }
 }
