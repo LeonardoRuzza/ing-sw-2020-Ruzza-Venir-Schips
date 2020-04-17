@@ -20,7 +20,7 @@ public class PlayerAtlas extends Player {
         ChoiceResponseMessage tempResponse;
         switch(stateOfTurn){
             case 1:
-                tempResponse = manageStateSelection(x, y, gender);
+                tempResponse = manageStateSelection(gender);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkWorkerSelection)){
                     tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.turnMessageChooseCellMove);
                     return tempResponse;

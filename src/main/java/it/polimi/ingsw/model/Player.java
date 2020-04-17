@@ -115,7 +115,7 @@ public class Player implements Serializable {
         ChoiceResponseMessage tempResponse;
         switch(stateOfTurn){
             case 1:
-                tempResponse = manageStateSelection(x, y, gender);
+                tempResponse = manageStateSelection(gender);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkWorkerSelection)){
                     tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.turnMessageChooseCellMove);
                     return tempResponse;
@@ -140,7 +140,7 @@ public class Player implements Serializable {
         }
     }
 
-    protected ChoiceResponseMessage manageStateSelection( int x, int y, Worker.Gender gender){ //i vari if else servono perchè nelle setSelectedWorker vengono verificati altri limiti rispetto alla checkLoserMove
+    protected ChoiceResponseMessage manageStateSelection(Worker.Gender gender){ //i vari if else servono perchè nelle setSelectedWorker vengono verificati altri limiti rispetto alla checkLoserMove
         if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[0] : workers[1])){                         //se non può muovere il worker selezionato
             if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[1] : workers[0])){
                 match.removeWorker(workers[0]);
@@ -161,7 +161,7 @@ public class Player implements Serializable {
                 return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageOkWorkerSelection);
             }
             else {
-                if(setSelectedWorker(gender == Worker.Gender.Male ? workers[1].getGender() : workers[0].getGender())){
+                if(!match.checkLoserMove(gender == Worker.Gender.Male ? workers[1] : workers[0]) && setSelectedWorker(gender == Worker.Gender.Male ? workers[1].getGender() : workers[0].getGender())){ //aggiunta prima condizione per verificare possa spostarsi una volta selezionato
                     stateOfTurn++;
                     return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageUnselectableWorkerSwitch);
                 }

@@ -227,6 +227,160 @@ public class PlayerTest {
 
     @Test
     public void testManageStateBuild(){
+        player1.setSelectedWorker(Worker.Gender.Male);
+        player1.selectedWorkerMove(1,0);
+        player1.setSelectedWorker(Worker.Gender.Female);
+        player1.selectedWorkerMove(2,1);
 
+        player2.setSelectedWorker(Worker.Gender.Male);
+        player2.selectedWorkerMove(2,0);
+        player2.setSelectedWorker(Worker.Gender.Female);
+        player2.selectedWorkerMove(0,1);
+
+        player3.setSelectedWorker(Worker.Gender.Male);
+        player3.selectedWorkerMove(0,0);
+        player3.setSelectedWorker(Worker.Gender.Female);
+        player3.selectedWorkerMove(1,2);
+
+        match.nextPlayer();
+        player1.setSelectedWorker(Worker.Gender.Male);
+        Assert.assertEquals(player1.manageStateBuild(1, 1).getNextInstruction(), GameMessage.turnMessageOkBuild);
+        Assert.assertEquals(player1.manageStateBuild(2, 1).getNextInstruction(), GameMessage.turnMessageFailBuildChangeDestination);
+
+        player3.setSelectedWorker(Worker.Gender.Female);
+        player3.match.forceMove(1,1,player3.selectedWorker);
+        Assert.assertEquals(player1.manageStateBuild(1, 1).getNextInstruction(), GameMessage.turnMessageLose);
+    }
+
+    @Test
+    public void testManageStateselection1(){
+        player1.setSelectedWorker(Worker.Gender.Male);
+        player1.selectedWorkerMove(1,0);
+        player1.setSelectedWorker(Worker.Gender.Female);
+        player1.selectedWorkerMove(0,0);
+
+        player2.setSelectedWorker(Worker.Gender.Male);
+        player2.selectedWorkerMove(2,0);
+        player2.setSelectedWorker(Worker.Gender.Female);
+        player2.selectedWorkerMove(0,1);
+
+        player3.setSelectedWorker(Worker.Gender.Male);
+        player3.selectedWorkerMove(2,1);
+        player3.setSelectedWorker(Worker.Gender.Female);
+        player3.selectedWorkerMove(1,2);
+
+        match.nextPlayer();
+        Assert.assertEquals(player1.manageStateSelection(Worker.Gender.Male).getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
+
+        player3.setSelectedWorker(Worker.Gender.Female);
+        player3.match.forceMove(1,1,player3.selectedWorker);
+        Assert.assertEquals(player1.manageStateSelection(Worker.Gender.Male).getNextInstruction(), GameMessage.turnMessageLose);
+    }
+
+    @Test
+    public void testManageStateselection2(){
+        player3 = new PlayerHypnus(player3.nickname,player3.number,new Card(13),player3.match,player3.workers[0].getColor());
+        match.players[2] = player3;
+        player1.setSelectedWorker(Worker.Gender.Male);
+        player1.selectedWorkerMove(1,0);
+        player1.setSelectedWorker(Worker.Gender.Female);
+        player1.selectedWorkerMove(2,1);
+
+        player2.setSelectedWorker(Worker.Gender.Male);
+        player2.selectedWorkerMove(2,0);
+        player2.setSelectedWorker(Worker.Gender.Female);
+        player2.selectedWorkerMove(0,1);
+
+        player3.setSelectedWorker(Worker.Gender.Male);
+        player3.selectedWorkerMove(0,0);
+        player3.setSelectedWorker(Worker.Gender.Female);
+        player3.selectedWorkerMove(1,2);
+
+        match.nextPlayer();
+
+        player3.setSelectedWorker(Worker.Gender.Female);
+        player3.match.forceMove(1,1,player3.selectedWorker);
+        Assert.assertEquals(player1.manageStateSelection(Worker.Gender.Male).getNextInstruction(), GameMessage.turnMessageUnselectableWorkerSwitch);
+
+        player3.match.forceMove(1,2,player3.selectedWorker);
+        player1.match.forceBuild(3,1,player1.selectedWorker);
+        player1.match.forceMove(3,1,player1.selectedWorker);
+        Assert.assertEquals(player1.manageStateSelection(Worker.Gender.Female).getNextInstruction(), GameMessage.turnMessageUnselectableWorkerSwitch);
+
+        player3.match.forceMove(1,1,player3.selectedWorker);
+        player3.match.forceBuild(2,1,player3.selectedWorker);
+        player3.match.forceBuild(2,1,player3.selectedWorker);
+        Assert.assertEquals(player1.manageStateSelection(Worker.Gender.Male).getNextInstruction(), GameMessage.turnMessageLoserNoWorker);
+    }
+
+    @Test
+    public void testManageStateselection3(){
+        player3 = new PlayerHypnus(player3.nickname,player3.number,new Card(13),player3.match,player3.workers[0].getColor());
+        match.players[2] = player3;
+        //Simulating the first allocation
+        player1.setSelectedWorker(Worker.Gender.Male);
+        player1.selectedWorkerMove(1,0);
+        player1.setSelectedWorker(Worker.Gender.Female);
+        player1.selectedWorkerMove(2,1);
+
+        player2.setSelectedWorker(Worker.Gender.Male);
+        player2.selectedWorkerMove(2,0);
+        player2.setSelectedWorker(Worker.Gender.Female);
+        player2.selectedWorkerMove(0,1);
+
+        player3.setSelectedWorker(Worker.Gender.Male);
+        player3.selectedWorkerMove(0,0);
+        player3.setSelectedWorker(Worker.Gender.Female);
+        player3.selectedWorkerMove(1,2);
+
+        match.nextPlayer();
+
+        player3.setSelectedWorker(Worker.Gender.Female);
+        player3.match.forceMove(1,1,player3.selectedWorker);
+        player1.setSelectedWorker(Worker.Gender.Female);
+        player1.match.forceMove(3,1,player1.selectedWorker);
+        player1.match.forceBuild(2,1,player1.selectedWorker);
+        player1.match.forceMove(2,1,player1.selectedWorker);
+        Assert.assertEquals(player1.manageStateSelection(Worker.Gender.Female).getNextInstruction(), GameMessage.turnMessageLoserNoWorker);
+    }
+
+    @Test
+    public void testManageTurn(){
+        //Simulating the first allocation
+        player1.setSelectedWorker(Worker.Gender.Male);
+        player1.selectedWorkerMove(1,0);
+        player1.setSelectedWorker(Worker.Gender.Female);
+        player1.selectedWorkerMove(0,0);
+
+        player2.setSelectedWorker(Worker.Gender.Male);
+        player2.selectedWorkerMove(2,0);
+        player2.setSelectedWorker(Worker.Gender.Female);
+        player2.selectedWorkerMove(2,1);
+
+        player3.setSelectedWorker(Worker.Gender.Male);
+        player3.selectedWorkerMove(0,1);
+        player3.setSelectedWorker(Worker.Gender.Female);
+        player3.selectedWorkerMove(1,2);
+
+        match.nextPlayer();
+        //Correct selection
+        Assert.assertEquals(player1.manageTurn(-1,-1, Worker.Gender.Male,"").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.turnMessageChooseCellMove);
+        //Lose selection
+        player3.match.forceMove(1,1,player3.selectedWorker);
+        player1.stateOfTurn = 1;
+        Assert.assertEquals(player1.manageTurn(-1,-1, Worker.Gender.Male,"").getNextInstruction(), GameMessage.turnMessageLose);
+        //All Correct (selection,move,build)
+        Assert.assertEquals(match.getPlayingNow(),player2);
+        Assert.assertEquals(player2.manageTurn(-1,-1, Worker.Gender.Female,"").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.turnMessageChooseCellMove);
+        Assert.assertEquals(player2.manageTurn(2,2, Worker.Gender.Female,"").getNextInstruction(),GameMessage.turnMessageOkMovement + GameMessage.turnMessageChooseCellBuild);
+        Assert.assertEquals(player2.manageTurn(3,2, Worker.Gender.Female,"").getNextInstruction(),GameMessage.turnMessageOkBuild + GameMessage.turnMessageTurnEnd);
+        //Uncorrect Move and uncorrect build
+        Assert.assertEquals(match.getPlayingNow(),player3);
+        Assert.assertEquals(player3.manageTurn(-1,-1, Worker.Gender.Female,"").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.turnMessageChooseCellMove);
+        Assert.assertEquals(player3.manageTurn(2,2, Worker.Gender.Female,"").getNextInstruction(),GameMessage.turnMessageFailMovementChangeDestination);
+        Assert.assertEquals(player3.manageTurn(1,2, Worker.Gender.Female,"").getNextInstruction(),GameMessage.turnMessageOkMovement + GameMessage.turnMessageChooseCellBuild);
+        Assert.assertEquals(player3.manageTurn(1,4, Worker.Gender.Female,"").getNextInstruction(),GameMessage.turnMessageFailBuildChangeDestination);
+        Assert.assertEquals(player3.manageTurn(1,3, Worker.Gender.Female,"").getNextInstruction(),GameMessage.turnMessageOkBuild + GameMessage.turnMessageTurnEnd);
+        Assert.assertEquals(match.getPlayingNow(),player2);
     }
 }
