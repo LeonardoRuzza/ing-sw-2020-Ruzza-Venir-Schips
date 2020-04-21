@@ -177,6 +177,10 @@ public class Server {
         if(numberOfPlayers == 2){
             ClientConnection c1 = registerOrder.get(0);
             ClientConnection c2 = registerOrder.get(1);
+            ClientConnection cNext = null;
+            if(registerOrder.size() > 2){
+                cNext = registerOrder.get(2);
+            }
             String nameC1 = getKeyByValue(waitingConnection, c1);
             String nameC2 = getKeyByValue(waitingConnection, c2);
             Lobby lobby = new Lobby(nameC1, nameC2);
@@ -198,11 +202,21 @@ public class Server {
             registerOrder.remove(c1);
             c1.asyncSend(GameMessage.chooseColorBegin);
             c2.asyncSend(GameMessage.waitMessageForColorBegin);
+            c2.setReadyToPlay(true);
+            c2.release();
+            if(cNext!=null){
+                cNext.release();
+            }
+            
         }
         else{
             ClientConnection c1 = registerOrder.get(0);
             ClientConnection c2 = registerOrder.get(1);
             ClientConnection c3 = registerOrder.get(2);
+            ClientConnection cNext = null;
+            if(registerOrder.size() > 3){
+                cNext = registerOrder.get(3);
+            }
             String nameC1 = getKeyByValue(waitingConnection, c1);
             String nameC2 = getKeyByValue(waitingConnection, c2);
             String nameC3 = getKeyByValue(waitingConnection, c3);
@@ -236,6 +250,13 @@ public class Server {
             c1.asyncSend(GameMessage.chooseColorBegin);
             c2.asyncSend(GameMessage.waitMessageForColorBegin);
             c3.asyncSend(GameMessage.waitMessageForColorBegin);
+            c2.setReadyToPlay(true);
+            c3.setReadyToPlay(true);
+            c2.release();
+            c3.release();
+            if(cNext!=null){
+                cNext.release();
+            }
         }
     }
 

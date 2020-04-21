@@ -16,7 +16,9 @@ public class SocketClientConnection extends Observable<String> implements Client
     private Server server;
 
     private boolean active = true;
-    private static final Object lock = new Object();
+    private boolean readyToPlay = false;
+    private final Object lock = new Object();
+
 
     public SocketClientConnection(Socket socket, Server server) {
         this.socket = socket;
@@ -25,6 +27,11 @@ public class SocketClientConnection extends Observable<String> implements Client
 
     private synchronized boolean isActive() {
         return active;
+    }
+
+    @Override
+    public void setReadyToPlay(boolean readyToPlay){
+        this.readyToPlay = readyToPlay;
     }
 
     @Override
@@ -73,6 +80,13 @@ public class SocketClientConnection extends Observable<String> implements Client
     }
 
     @Override
+    public void release(){
+        synchronized (lock){
+            lock.notify();
+        }
+    }
+
+    @Override
     public void run() {
         int numberOfPlayers = -1;
         Scanner in;
@@ -89,23 +103,33 @@ public class SocketClientConnection extends Observable<String> implements Client
                 name = read;
             }
             send("\nLooking for existing match...");
-            synchronized (lock){
-                if(server.isFirstPlayer(this)){
-                    boolean temp = false;
-                    while (!temp) {
-                        send("\nNo existing match found.");
-                        send("\nCreating new game...");
-                        send("\n\nYou are the Master Player. Choose number of players for this game");
-                        read = in.nextLine();
-                        try {
-                            numberOfPlayers = (Integer.parseInt(read));
-                            if (numberOfPlayers == 2 || numberOfPlayers == 3)
-                               temp = true;
-                            else
+            while(!readyToPlay){
+                synchronized (lock) {
+                    if (server.isFirstPlayer(this)) {
+                        boolean temp = false;
+                        while (!temp) {
+                            send("\nNo existing match found.");
+                            send("\nCreating new game...");
+                            send("\n\nYou are the Master Player. Choose number of players for this game");
+                            read = in.nextLine();
+                            try {
+                                numberOfPlayers = (Integer.parseInt(read));
+                                if (numberOfPlayers == 2 || numberOfPlayers == 3)
+                                    temp = true;
+                                else
+                                    this.send("Inserire un numero corretto");
+                                this.setReadyToPlay(true);
+                            } catch (NumberFormatException e) {
                                 this.send("Inserire un numero corretto");
-                        } catch (NumberFormatException e) {
-                            this.send("Inserire un numero corretto");
+                            }
                         }
+                    } else {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }
             }

@@ -17,4 +17,7 @@ public interface ClientConnection{
 
     void send(Object message);
 
+    void setReadyToPlay(boolean ready);
+
+    void release();
 }
