@@ -55,6 +55,12 @@ public class Player implements Serializable {
     }
 
     //per la CLI
+
+    /**This method set the selectedWorker of the player if it is not limited by some opponent's power.
+     *<p>
+     * @param selectedGender the gender of the worker which the player want to select
+     * @return {@code true} if the selection was possible and performed; {@code false} otherwise
+     */
     protected boolean setSelectedWorker(@NotNull Worker.Gender selectedGender){
         Worker tempWorker;
         switch (selectedGender){
@@ -76,7 +82,13 @@ public class Player implements Serializable {
         return selectedWorker != null;
     }
 
-    public boolean selectedWorkerMove(int x, int y){           //Memo: serve anche per allocare inizialmente i worker a inizio partita
+    /**If the move is possible checking only basic rules of movement with match.checkMove, this method try  to perform it with match.forceMove (which consider also others limitation caused by ,for example, opponent's power). This method is also used to allocate a worker for the first time.
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return {@code true} if the movement was possible and performed; {@code false} otherwise
+     */
+    public boolean selectedWorkerMove(int x, int y){
         Worker tempWorker;
         tempWorker=match.checkMove(x,y,selectedWorker);
         if (tempWorker == null) return false;
@@ -88,6 +100,12 @@ public class Player implements Serializable {
         return false;
     }
 
+    /**If it is possible to build checking only basic rules of building with match.checkBuild, this method try  to perform it with match.forceBuild (which consider also others limitation caused by ,for example, opponent's power).
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return {@code true} if was possible to build and performed; {@code false} otherwise
+     */
     public boolean selectedWorkerBuild(int x, int y){
         if(match.checkBuild(x,y,selectedWorker)){
             if(match.forceBuild(x,y,selectedWorker)){
@@ -97,6 +115,11 @@ public class Player implements Serializable {
         return false;
     }
 
+    /**This method invoke the method checkLimitSelection for all player who can limit the selection of others player (which has a card "STARTFOETURN") to check if is possible for the current player select his worker.
+     * <p>
+     * @param worker this is who the method must check if is possible to select
+     * @return {@code true} if is possible to select the worker; {@code false} otherwise
+     */
     private boolean checkAllLimitSelection(Worker worker){
         boolean selectionOk=true;
         for(int x = 0; x < match.getNumberOfPlayers(); x++) {
@@ -111,6 +134,14 @@ public class Player implements Serializable {
         return selectionOk;
     }
 
+    /**This method manage the state of the turn of a player (not of all the match). Allow to do the right checking and operations receiving parameter and choice of the player. It operates like an FSM. The 3 basic operations to do in order in all the turn are: manageStateSelection, manageStateMove, manageStateBuild.
+     * <p>
+     * @param x first coordinate, when its value is relevant
+     * @param y second coordinate, when its value is relevant
+     * @param gender of the worker to select, when its value is needed
+     * @param optional a particular choice of the player, when its value is needed
+     * @return ChoiceResponseMessage the message to notify to RemoteView
+     */
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
         ChoiceResponseMessage tempResponse;
         switch(stateOfTurn){
@@ -140,6 +171,11 @@ public class Player implements Serializable {
         }
     }
 
+    /**Manage the operation of selection of the worker of the player in its turn. Check losing condition (checkLoserMove of Match) and if possible select the worker of the specified gender, otherwise try with the other worker (setSelectedWorker).
+     *<p>
+     * @param gender the gender of the worker to select
+     * @return ChoiceResponseMessage the message to return to manageTurn and (modified or not) then to RemoteView. Specify the result of the tried operation.
+     */
     protected ChoiceResponseMessage manageStateSelection(Worker.Gender gender){ //i vari if else servono perchè nelle setSelectedWorker vengono verificati altri limiti rispetto alla checkLoserMove
         if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[0] : workers[1])){                         //se non può muovere il worker selezionato
             if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[1] : workers[0])){
@@ -175,7 +211,12 @@ public class Player implements Serializable {
         }
     }
 
-
+    /**Manage the state of the turn of the movement of the selectedWorker. Check also winning conditions after movement if it was correctly executed (match.checkWin).
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return ChoiceResponseMessage to return to manageTurn and (modified or not) then to RemoteView. Specify the result of the tried movement.
+     */
     protected ChoiceResponseMessage manageStateMove(int x, int y){
         if(selectedWorkerMove(x, y)) {
             if (match.checkWin(selectedWorker)) {
@@ -190,7 +231,12 @@ public class Player implements Serializable {
         }
     }
 
-
+    /**Manage the state of the turn of build  of the selectedWorker. Check losing conditions (match.checkLoserBuild) before try to build with selectedWorkerBuild.
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return ChoiceResponseMessage to return to manageTurn and (modified or not) then to RemoteView. Specify the result of the tried build.
+     */
     protected ChoiceResponseMessage manageStateBuild(int x, int y){
         if(match.checkLoserBuild(selectedWorker)){
             stateOfTurn = 1;
