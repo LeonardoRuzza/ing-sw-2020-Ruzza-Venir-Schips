@@ -21,20 +21,43 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         this.board = new Board();
     }
 
+    /**
+     * Return void, set internal elements to start the game and ask first player to allocate his first worker
+     */
     public void initializeGame(){
         nextPlayer();
         notify(new ChoiceResponseMessage(this.clone(), this.playingNow.clone(), GameMessage.turnMessageFIRSTALLOCATION));
     }
 
+    /**
+     * Getter for board associated with this match
+     * @return Board
+     */
     public Board getBoard() { return board; }
     public int getNumberOfPlayers(){
         return numberOfPlayers;
     }
+
+    /**
+     * Getter for the player which is playing now
+     * @return Player
+     */
     public Player getPlayingNow() { return playingNow; }
+
+    /**
+     * Getter for players associated with this match
+     * @return Player[]
+     */
     public Player[] getPlayers() {
         return players;
     }
 
+    /**
+     * Setter of players in match
+     *
+     * @param p Player to be added in match
+     * @return Player
+     */
     public void addPlayer(Player p){
         for(int x = 0; x<numberOfPlayers; x++){
             if(players[x] == null){
@@ -44,6 +67,12 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         }
     }
 
+    /**
+     * Returns true if the selected worker wins the match
+     *
+     * @param w Worker you want check if is winner
+     * @return True if the Worker is winner; False otherwise
+     * */
     public boolean checkWin(@NotNull Worker w) {
         if (w.getOldLocation() == null || w.getCell() == null){
             return checkSuperWin(false);
@@ -54,6 +83,12 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         return checkSuperWin(false);
     }
 
+    /**
+     * Check if the player has a card that expand the win condition
+     *
+     * @param standardWin Says if worker wins with standard rules
+     * @return True if the Worker is winner; False otherwise
+     * */
     public boolean checkSuperWin(boolean standardWin){
         boolean tempWin = false;
         if(playingNow.card == null){
@@ -63,6 +98,12 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         return standardWin|| tempWin;
     }
 
+    /**
+     * Check if there are card in match that limit the win condition
+     *
+     * @param standardWin Say if worker wins with standard rules
+     * @return True if the Worker is winner; False otherwise
+     * */
     public boolean checkLimitWin(boolean standardWin){
         boolean tempWin = standardWin;
         for(int x = 0; x < numberOfPlayers; x++) {
@@ -77,6 +118,13 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         return standardWin && tempWin;
     }
 
+    /**
+     * Returns true if the selected worker can no longer move
+     *
+     * @param w Worker you want check if is loser
+     * @return True if the Worker is loser; False otherwise
+     *
+     * */
     //va fatta a inizio turno
     public boolean checkLoserMove(@NotNull Worker w) {
         for(int x = w.getCell().getxCoord()-1; x < w.getCell().getxCoord()+2; x++){
@@ -122,7 +170,13 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         return true;
     }
 
-    //va fatta sul turno dopo lo spostamento
+    /**
+     * Returns true if the selected worker can no longer build
+     *
+     * @param w Worker you want check if is loser
+     * @return True if the Worker is loser; False otherwise
+     *
+     * */
     public boolean checkLoserBuild(@NotNull Worker w) {
         for(int x = w.getCell().getxCoord()-1; x < w.getCell().getxCoord()+2; x++){
             if(x > 4 || x < 0){
@@ -145,9 +199,13 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         return true;
     }
 
-    //\result == null ==> error
-    //\result == playerWorker ==> done
-    //\result == foeWorker ==> do something
+    /**
+     * Check player worker can move into a selected cell
+     * @param x coordinate of the cell in which to move
+     * @param y coordinate of the cell in which to move
+     * @param w Worker you want move
+     * @return The worker you gave as param if you can move; Worker which occupies the cell if the cell you want move into is busy; null otherwise
+     */
     protected Worker checkMove (int x, int y, Worker w) {
         if(x < 0 || x > 4 || y < 0 || y > 4){
             return null;
@@ -171,6 +229,13 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         return w;
     }
 
+    /**
+     * Check player worker can build into a selected cell
+     * @param x coordinate of the cell in which to build
+     * @param y coordinate of the cell in which to build
+     * @param w Worker you want build with
+     * @return True if you can build; null otherwise
+     */
     protected boolean checkBuild (int x, int y, @NotNull Worker w) {
         if(x < 0 || x > 4 || y < 0 || y > 4){
             return false;
@@ -189,6 +254,10 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         return distance[0] <= 1 && distance[1] <= 1;
     }
 
+    /**
+     * Select the next turn player and set parameters of match.
+     * @return Player selected as actual playing
+     */
     protected Player nextPlayer(){
         if(players[numberOfPlayers-1].equals(playingNow) || playingNow == null){ // caso in cui il giocatore è l'ultimo caso in cui si inizia la partita
             playingNow = players[0];
@@ -204,7 +273,13 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         return playingNow;
     }
 
-    //imposto da vincoli esterni in caso di esito positivo x e y saranno gli stessi di checkmove e checkbuild
+    /**
+     * Perform a move of a worker into a selected cell, also checking cards move limit
+     * @param x coordinate of the cell in which to move
+     * @param y coordinate of the cell in which to move
+     * @param w worker you want move
+     * @return True if moved; False otherwise
+     */
     protected boolean forceMove(int x,int y, Worker w){
         if (forceMoveLimit(board.getLastBusyCell(x, y))) {
             return board.forceMove(board.getLastBusyCell(x, y), w);
@@ -212,6 +287,11 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         return false;
     }
 
+    /**
+     * Check if there are cards that limit move
+     * @param nextCell cell you want move into
+     * @return True if you can move; False otherwise
+     */
     protected  boolean forceMoveLimit(Cell nextCell){
         boolean returnLimit = true;
         for(int x = 0; x < numberOfPlayers; x++) {
@@ -226,20 +306,45 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         return returnLimit;
     }
 
+    /**
+     * Perform build into a selected cell
+     * @param x coordinate of the cell in which to build
+     * @param y coordinate of the cell in which to build
+     * @param w worker you want build with
+     * @return True if builded; False otherwise
+     */
     protected boolean forceBuild(int x, int y, Worker w){
         return ((board.forceBuild(board.getFirstBuildableCell(x, y))) != null);
     }
-
+    /**
+     * Perform build of a dorse into a selected cell
+     * @param x coordinate of the cell in which to build
+     * @param y coordinate of the cell in which to build
+     * @param w worker you want build with
+     * @return True if builded; False otherwise
+     */
     protected boolean forceBuildDorse(int x, int y, Worker w){
         return (board.forcebuildDorse(board.getFirstBuildableCell(x,y)));
     }
-
+    /**
+     * Collapse block into a selected cell
+     * @param x coordinate of the cell in which collapse block
+     * @param y coordinate of the cell in which collapse block
+     */
     protected void removeBlock(int x, int y){
         board.removeBlock(x,y);
     }
+    /**
+     * Remove worker from board
+     * @param w worker to be removed
+     */
     protected void removeWorker(Worker w){
         board.removeWorker(w);
     }
+    /**
+     * Remove player from match
+     * @param p player to be removed
+     */
     protected void removePlayer(Player p){
         if(numberOfPlayers == 3){
             Player[] temp = new Player[numberOfPlayers-1];
@@ -276,6 +381,10 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         }
     }
 
+    /**
+     * Counts the number of ended tower on the board
+     * @return number of ended tower
+     */
     protected int towerCount(){
         int counter = 0;
         for(int x = 0; x < board.boardSide; x++){
@@ -288,6 +397,12 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         return counter;
     }
 
+    /**
+     * This method perform the first allocation of a worker by gender
+     * @param x coordinate where you want to put the worker
+     * @param y coordinate where you want to put the worker
+     * @param gender of worker you want put into cell
+     */
     public void execFirstAllocation(int x, int y, Worker.Gender gender){
         this.playingNow.setSelectedWorker(gender);
         if(this.playingNow.selectedWorker.getCell() != null){

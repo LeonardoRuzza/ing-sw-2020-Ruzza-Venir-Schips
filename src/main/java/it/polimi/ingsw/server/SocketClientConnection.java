@@ -125,7 +125,9 @@ public class SocketClientConnection extends Observable<String> implements Client
                         }
                     } else {
                         try {
-                            lock.wait();
+                            if(!server.manageLobby(-1)){
+                                lock.wait();
+                            }
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

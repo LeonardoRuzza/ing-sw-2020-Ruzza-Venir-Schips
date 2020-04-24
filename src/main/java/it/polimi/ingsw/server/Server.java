@@ -152,22 +152,23 @@ public class Server {
         return (registerOrder.get(0)).equals(c);
     }
 
-    public synchronized void manageLobby(int numberOfPlayers){
+    public synchronized boolean manageLobby(int numberOfPlayers){
         if(numberOfPlayers == 2 || numberOfPlayers == 3){
             if (waitingConnection.size() >= numberOfPlayers) {
                 createGame(numberOfPlayers);
+                return true;
             }else {
                 this.numberOfPlayers = numberOfPlayers;
+                return false;
             }
         }
         if (this.numberOfPlayers == 2 || this.numberOfPlayers == 3){
             if (waitingConnection.size() >= this.numberOfPlayers) {
                 createGame(this.numberOfPlayers);
-            }
-            else {
-                this.numberOfPlayers = this.numberOfPlayers;
+                return true;
             }
         }
+        return false;
     }
 
 
