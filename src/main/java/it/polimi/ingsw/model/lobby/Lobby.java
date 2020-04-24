@@ -40,6 +40,16 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
         numberOfLobbyPlayer = 3;
     }
 
+    /** Gets from the controller the color choosen by the player. It checks if the color is still available, and then save the player choice.
+     * <p>
+     * After that it checks if all player have choose their color; If this is true, it goes to the choose of Card phase.
+     * <p>
+     * At the end the method notify to the views the changes.
+     * <p>
+     * <b>The method take one choice at time, so it need to be called multiple times to perform all the choices</b>
+     * @param info   The color choosen by the player
+     * @return   {@code true} if the color is available, {@code false} otherwise
+     */
     public boolean chooseColor(String info){
         Worker.Color chosenColor = InputConversion.colorConversion(info.toUpperCase());
         if (availableColors.contains(chosenColor)){
@@ -58,6 +68,16 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
         return false;
     }
 
+    /**Gets from the MasterPlayer the cards with which the players will play.
+     * <p>
+     * After that it gets the card selected by the Otherplayers and save their choices.
+     * <p>
+     * At the end the method notify to the views the changes.
+     * <p>
+     * <b>The method take one choice at time, so it need to be called multiple times to perform all the choices</b>
+     * @param chosenCard  The card choosen by the player
+     * @return  {@code true} if the card is available, {@code false} otherwise
+     */
     public boolean chooseCard(String chosenCard){
         if (!isDeckChosen){
             for (Card c: completeDeck) {
@@ -100,6 +120,8 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
         }
     }
 
+    /**Update the {@code LobbyActualPlayer}, who will be the next in order after the one playing now
+     */
     protected void nextLobbyPlayer(){
         if (lobbyActualPlayer.equals(lobbyPlayers.get(lobbyPlayers.size() - 1))){ // Se l'actualPlayer è l'ultimo della lista il nuovo actual player è il primo della lista
             lobbyActualPlayer = lobbyPlayers.get(0);
@@ -109,7 +131,10 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
 
     }
 
-
+    /**The method check in which phase of the Lobby we are. Possible phase are choose of color or choose of card.
+     * @return  {@code StateofTurn}
+     */
+    public StateOfTurn getStateOfTurn() { return stateOfTurn; }
     public List<String> getAvailableColors() {  // Ritorna lista <di stringhe> con i colori rimanenti disponibili
         List<String> temp = new ArrayList<>();
         for (Worker.Color c: availableColors)
@@ -123,7 +148,6 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
     public int getNumberOfLobbyPlayer() { return numberOfLobbyPlayer; }
     public boolean getSwitchState() { return switchState; }
     private void updateAvailableColors(Worker.Color c) { this.availableColors.remove(c); }
-    public StateOfTurn getStateOfTurn() { return stateOfTurn; }
     public boolean isLobbyPlayerTurn(LobbyPlayer lobbyPlayer){ return (lobbyActualPlayer.getNickname().equals(lobbyPlayer.getNickname())); }
     public List<LobbyPlayer> getLobbyPlayers() { return lobbyPlayers; }
     private void addLobbyPlayer(LobbyPlayer lobbyPlayer) { this.lobbyPlayers.add(lobbyPlayer); }

@@ -35,6 +35,11 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
     }
 
 
+    /////////////////    Lobby     ////////////////////////////////////////////////
+    /**
+     * Function to handle the player input during the game
+     *  @param choice   Contains the information about the player: RemoteView, SelectedGender, xCoord, yCoord, OptionalString
+     */
     private synchronized void performMoveAndBuild(PlayerChoiceMessage choice){
         if (match.getPlayingNow().getNickname().equals(choice.getPlayer().getNickname())) {
             if (choice.getOptional().equals(GameMessage.turnMessageFIRSTALLOCATION)) {
@@ -55,6 +60,10 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
 
 
     /////////////////    Lobby     ////////////////////////////////////////////////
+    /**
+     * Function to handle the player input in the Lobby phase
+     *  @param message   Contains the information about the player: RemoteView, choice
+     */
     private synchronized void handleLobbyInput(ViewToController message){
 
         if (!lobby.isLobbyPlayerTurn(message.getLobbyPlayer())){          // Controllo se è il turno del player che ha mandato il messaggio di Input
@@ -83,6 +92,9 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
             }
     }
 
+    /** When all interactions in lobby are finished, this method create the various components of the normal MVC, adding relative
+     * observers, and then call a method in {@code match} to get prepared to start the real game.
+     */
     private void createNormalGame(){
         Match match = new Match(0, lobby.getLobbyPlayers().size());
         Controller controller = new Controller(match);
