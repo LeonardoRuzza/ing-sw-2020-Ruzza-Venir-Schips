@@ -19,7 +19,6 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
         this.clientConnection = clientConnection;
         this.lobbyPlayer = lobbyPlayer;
         clientConnection.addObserver(messageReceiver = new MessageReceiver());
-        // TODO Da aggiungere i riferimenti agli avversari...
     }
 
     private class MessageReceiver implements Observer<String> {

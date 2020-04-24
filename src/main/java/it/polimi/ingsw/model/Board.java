@@ -257,6 +257,7 @@ public class Board implements Cloneable, Serializable {
      */
     public void draw(Player myPlayer){
         boolean linePrint = true;
+        System.out.print("It's " + playingNow.getNickname() + " turn\n");
         for(int y = 0; y < boardSide*2+1; y++){
             int realY = y/2;
             if(y == 0){
