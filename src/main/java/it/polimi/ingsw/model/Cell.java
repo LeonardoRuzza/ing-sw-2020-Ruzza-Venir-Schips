@@ -12,6 +12,10 @@ public class Cell implements Cloneable, Serializable {
 
 
 // Builder
+
+    /**
+     * @see Board builder
+     */
     public Cell(int x, int y, int z){
         this.xCoord = x;
         this.yCoord = y;
@@ -48,10 +52,28 @@ public class Cell implements Cloneable, Serializable {
 
 
 // Generic Methods
+
+    /** Add a DORSE in this cell, no matter what the {@code zCoord} of {@code this} cell is.
+     * <p>
+     *     This is intended to perform the effect of the <b>Card Atlas<b>
+     * @see PlayerAtlas
+     */
     protected void addDorse(){
         this.blockInCell = Block.DORSE;
     }
 
+    /**Add a new block in {@code this} cell; this is only based on the {@code zCoord} of the cell;
+     * <p>
+     * {@code zCoord} = 0 ----> {@code Block} B1
+     * <p>
+     * {@code zCoord} = 1 ----> {@code Block} B2
+     * <p>
+     * {@code zCoord} = 2 ----> {@code Block} B3
+     * <p>
+     * {@code zCoord} = 3 ----> {@code Block} DORSE
+     * <p>
+     * @return  The Block just added in this cell
+     */
     public Block addBlock(){
         switch (this.zCoord) {
             case 0:
@@ -72,6 +94,14 @@ public class Cell implements Cloneable, Serializable {
         return this.blockInCell;
     }
 
+    /**Move the worker passed as parameter in {@code this} cell.
+     * Also mark the old Cell of the worker as free.
+     * <p>
+     *  <b>The function doesn't check if {@code this} cell is empty or not</b>
+     * <p>
+     * @param w  The worker you want to move in {@code this} cell
+     * @return   {@code true} if {@code w} != null ; {@code false} otherwise
+     */
     public Boolean moveWorkerInto(Worker w){
         if(w != null){
             Cell c = w.move(this);    // In c salvo la oldLocation del Worker, sposto il worker nella nuova cella

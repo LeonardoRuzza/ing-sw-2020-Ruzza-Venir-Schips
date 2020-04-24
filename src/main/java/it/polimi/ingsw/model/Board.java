@@ -14,6 +14,21 @@ public class Board implements Cloneable, Serializable {
 
 
 // Builder
+
+    /**A board consist in <b>a tri-dimensional array </b> of cells; Dimesions of a cell are x,y,z.
+     * <p>
+     * The {@code zCoord}represent the level of the cell.
+     * <p>
+     * It's possible to build a block also in cell at {@code zCoord} = 0
+     * On a cell at a certain level we can have both a worker and a block(of course following game's rules).
+     * <p>
+     * So, for example, if we have a worker and a block at (x,y,0), it means there is a worker at level1,
+     * because there is a Block B1 present.
+     * <p>
+     *     <b>IMPORTANT: At (x,y,0), it's possible to have a worker without a block, and so the worker is standing at level0. It's not like this
+     *        for cells at (x,y,z) with z>0; in this case it's only possible to have a block, or a worker and a block, since a worker cannot stand
+     *        in an higher level if there is not a block under his feet.</b>
+     */
     public Board() {
        cells = new Cell[boardSide][boardSide][levelHeight];
        for(int z = 0; z < levelHeight; z++){
@@ -29,8 +44,14 @@ public class Board implements Cloneable, Serializable {
         this.playingNow = playingNow;
     }
 
-    // Observers
-    public Block blockInCell(int x, int y) {  // Ritorna il blocco più in alto costruito nella cella
+// Observers
+    /**The function return the highest block built in the cell at (x,y)
+     * <p>
+     * @param x  {@code xCoord} of the cell that need to be checked
+     * @param y  {@code yCoord} of the cell that need to be checked
+     * @return  <b>The last Block built in the cell at (x,y)</b>; {@code null} if no block is detected
+     */
+    public Block blockInCell(int x, int y) {
         Block lastBlock = null;
         for(int z = 0; z < levelHeight; z++){
             if (this.cells[x][y][z].getBlock() == null) {break;}
@@ -54,6 +75,12 @@ public class Board implements Cloneable, Serializable {
         return lastBlock;
     }
 
+    /** The function return the only worker present in the cell at (x,y), checking every level.
+     * <p>
+     * @param x    {@code xCoord} of the cell that need to be checked
+     * @param y    {@code yCoord} of the cell that need to be checked
+     * @return     <b>The Worker who stand on the cell at (x,y)</b>; {@code null} if no worker is detected
+     */
     public Worker workerInCell(int x, int y) {  // Ritorna il worker presente sulla cella
         Worker foundWorker;
         for(int z = 0; z < levelHeight; z++) {
@@ -70,6 +97,15 @@ public class Board implements Cloneable, Serializable {
 
 
 // Getters
+    /** Check the last "busy" level for the cell at (x,y).
+     * <p>
+     * A level is busy when is occupied by: a block, a worker, or both of them
+     * <p>
+     * @param x   {@code xCoord} of the cell that need to be checked
+     * @param y   {@code yCoord} of the cell that need to be checked
+     * @return     <b>The last busy cell at (x,y)</b>;   {@code null} if no worker or block is detected
+     * @see      #Board()
+     */
     public Cell getLastBusyCell(int x, int y){
         Block b = blockInCell(x,y);
         Worker w = workerInCell(x,y);
@@ -92,7 +128,18 @@ public class Board implements Cloneable, Serializable {
         return null;
     }
 
-
+    /** Return the first level at (x,y), where is possible to build a new block. Typically returns {@code  getLastBusyCell} +1
+     * <p>
+     * If there is only a worker at level0, so no block is present at(x,y) at any level, it returns cell[x][y][0].
+     * <p>
+     * @param x    {@code xCoord} of the cell that need to be checked
+     * @param y    {@code yCoord} of the cell that need to be checked
+     * @return      <b>The first buildable cell at (x,y)</b>;
+     *              <p>
+     *             {@code null} if there is a block(DORSE) built at level3, and
+     *              so it's not possible build anymore at (x,y)
+     * @see      #getLastBusyCell(int x, int y)
+     */
     public Cell getFirstBuildableCell(int x, int y) {
         Cell busyCell = getLastBusyCell(x, y);  // Ultima cella occupata in altezza, o da un worker o da un blocco
 
@@ -106,6 +153,24 @@ public class Board implements Cloneable, Serializable {
     }
 
 
+    /** Return the distance of various coord between 2 cells.
+     * <p>
+     * For the {@code xCoord} and {@code yCoord} it return the absolute value
+     * of distance, <b>that can only be >0</b>
+     * <p>
+     * For the {@code zCoord} it return the simple value of distance, <b>that can be <0 or >0</b>
+     * <p>
+     * @param c1    First cell
+     * @param c2    Second cell
+     * @return      An array with 3 position:
+     *              <p>
+     *              <b>array[0]</b> = <p> |{@code c1.xCoord} - {@code c2.xCoord}|  note the absolute value </p>
+     *              <p>
+     *              <b>array[1]</b> = <p> |{@code c1.yCoord} - {@code c2.yCoord}|  note the absolute value </p>
+     *              <p>
+     *              <b>array[2]</b> = <p>{@code c1.zCoord} - {@code c2.zCoord}</p>
+     *
+     */
     public int[] getDistance(Cell c1, Cell c2){  // Modulo per x,y, per z cell1 - cell2
         int[] temp = new int[3];
 
@@ -121,12 +186,29 @@ public class Board implements Cloneable, Serializable {
 
 
 //Generic Methods
+    /**The "force" means that the function doesn't check if the move is allowed by the rules or not. These controls are made in match
+     * @param c   Destination cell
+     * @param w   Worker that need to be moved
+     * @return   {@code true} if the move was correclty performed; {@code false} otherwise
+     * @see Match
+     */
     protected boolean forceMove(@NotNull Cell c, Worker w){
         return c.moveWorkerInto(w);
     }
+
+    /** The "force" means that the function doesn't check if the move is allowed by the rules or not. These controls are made in match
+     * @param c  Cell where a new block will be built
+     * @return   The block just added
+     * @see Match
+     */
     protected Block forceBuild(@NotNull Cell c /*,Worker w*/){
         return c.addBlock();
     }
+
+    /** It build a a DORSE, no matter what the level of cell is
+     * @see #forceBuild(Cell)
+     * @see PlayerAtlas
+     */
     protected boolean forcebuildDorse(@NotNull Cell c){
         c.addDorse();
         return true;
@@ -137,9 +219,14 @@ public class Board implements Cloneable, Serializable {
         c.setWorkerNull();
     }
 
+    /**Remove the highest block built at (x,y)
+     * @param x   {@code xCoord} of the cell
+     * @param y   {@code yCoord} of the cell
+     * @see PlayerAres
+     */
     protected void removeBlock(int x, int y){
         Block blockToRemove = blockInCell(x, y);           // Ottengo ultimo blocco costruito sulla cella e lo salvo in blockToRemove
-        if (blockToRemove == null)  // Se non ci sono blocchi da rimuovere non fa nulla
+        if (blockToRemove == null)                         // Se non ci sono blocchi da rimuovere non fa nulla
             return;
         for(int z = 0; z < levelHeight; z++){
             Block tempBlock = cells[x][y][z].getBlock();   // Analizzo i blocchi a partire dal basso, appena trovo corrispondenza con blockToRemove lo rimuovo
@@ -164,6 +251,10 @@ public class Board implements Cloneable, Serializable {
         return result;
     }
 
+    /**Function to print a "screenshot" of the board to the player in the CLI
+     * <p>
+     * @param myPlayer  The player to whom the board will be printed
+     */
     public void draw(Player myPlayer){
         boolean linePrint = true;
         for(int y = 0; y < boardSide*2+1; y++){

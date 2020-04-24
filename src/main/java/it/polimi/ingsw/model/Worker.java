@@ -9,7 +9,7 @@ public class Worker implements Cloneable, Serializable {
 
         private String colorString;
         private String ANSI_RESET = "\u001B[0m";
-        private Color(String s) {
+        Color(String s) {
             colorString = s;
         }
         public String getANSI_RESET() {
@@ -19,6 +19,7 @@ public class Worker implements Cloneable, Serializable {
             return colorString;
         }
     }  //colori da valutare in seguito
+
     private final Gender gender;
     private final Color color;
     private Cell cell, oldLocation;
@@ -43,6 +44,12 @@ public class Worker implements Cloneable, Serializable {
 
 
 // Generic methods
+
+    /**Move the worker in the cell passed as parameter. The function does not apply any "controls" on the move.
+     * <p>
+     * @param newCell The cell destination where the selected worker will be moved
+     * @return oldPosition(a Cell) of the worker just moved
+     */
     protected Cell move(Cell newCell) {
         oldLocation = this.cell;
         this.cell = newCell;
