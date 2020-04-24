@@ -6,7 +6,10 @@ public class PlayerChronus extends Player {
         super(nickname, number, card, match, color);
     }
 
-
+    /**This method implement the power of Chronus. It allow the Player with this power to win if the number of complete tower is more than 5 (over the others win conditions).
+     * <p>
+     * @return {@code true} in case of win; {@code false} otherwise
+     */
     @Override
     public boolean checkSuperWin(){
         if(match.towerCount() >= numOfWinTower ){

@@ -9,14 +9,23 @@ public class PlayerHephaesthus extends Player {
         super(nickname, number, card, match, color);
     }
 
+    /**Reset parameters of the turn of the Player with Hephaestus's power.
+     *
+     */
     @Override
-    protected void resetTurn(){         //reset esplicito necessario nel caso venga eseguita una sola costruzione da Hephaesthus
+    protected void resetTurn(){
         firstBuild=true;
         x0=-1;
         y0=-1;
 
     }
 
+    /**Implement the power of Hephaestus which allow to build two times on the same cell (respecting the others building's rules).
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return {@code true} if was possible to build and performed; {@code false} otherwise
+     */
     @Override
     public boolean selectedWorkerBuild(int x, int y){
         if(firstBuild){
@@ -46,6 +55,14 @@ public class PlayerHephaesthus extends Player {
         return false;
     }
 
+    /**Integrate manageTurn with the state of turn expected by Hephaestus' power to choose to build two times.
+     *<p>
+     * @param x first coordinate, when its value is relevant
+     * @param y second coordinate, when its value is relevant
+     * @param gender of the worker to select, when its value is needed
+     * @param optional a particular choice of the player, when its value is needed
+     * @return ChoiceResponseMessage the message to notify to RemoteView
+     */
     @Override
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
         ChoiceResponseMessage tempResponse;
@@ -92,6 +109,12 @@ public class PlayerHephaesthus extends Player {
         }
     }
 
+    /**Integrate manageStateBuild with specific messages for the Player with Hephaestus' power.
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return ChoiceResponseMessage to return to manageTurn and (modified or not) then to RemoteView. Specify the result of the tried build.
+     */
     @Override
     protected ChoiceResponseMessage manageStateBuild(int x, int y){
         if(selectedWorkerBuild(x,y)) {

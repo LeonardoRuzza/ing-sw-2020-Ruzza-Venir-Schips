@@ -8,6 +8,12 @@ public class PlayerAres extends Player {
         super(nickname, number, card, match, color);
     }
 
+    /**This method implement the power of Ares allowing to remove an unoccupied block neighboring the unmoved worker of the Player.
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return {@code true} if the remove was possible and performed; {@code false} otherwise
+     */
    @Override
    protected boolean notSelectedWorkerRemoveBlock(int x, int y){
         Worker tempWorker;
@@ -22,6 +28,14 @@ public class PlayerAres extends Player {
         return false;
     }
 
+    /**This method allow to integrate manageTurn with the state of the turn of the possibility to remove a block respecting the power of Ares.
+     * <p>
+     * @param x first coordinate, when its value is relevant
+     * @param y second coordinate, when its value is relevant
+     * @param gender of the worker to select, when its value is needed
+     * @param optional a particular choice of the player, when its value is needed. In this case the Player can decide to remove a block or not at the end of his turn.
+     * @return ChoiceResponseMessage the message to notify to RemoteView
+     */
     @Override
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
         ChoiceResponseMessage tempResponse;

@@ -6,6 +6,12 @@ public class PlayerArtemis extends Player {
         super(nickname, number, card, match, color);
     }
 
+    /**This method implement the power of Artemis allowing the double movement of the selectedWorker of the Player (not to the same initial cell).
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return {@code true} if the movement was possible and performed; {@code false} otherwise
+     */
     @Override
     public boolean selectedWorkerMove(int x, int y){ //si può chiedere al giocatore di scegliere direttamente la posizione finale e poi verificare con delle check move se era possibile raggiungere le x,y finali con un'altra casella intermedia (doppio ciclo for)
         Worker tempWorker1;

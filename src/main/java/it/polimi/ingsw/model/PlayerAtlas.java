@@ -8,6 +8,12 @@ public class PlayerAtlas extends Player {
         super(nickname, number, card, match, color);
     }
 
+    /**This method implement the power of Atlas of build dorse at any level (respecting the others rules).
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return {@code true} if build dorse was possible and performed; {@code false} otherwise
+     */
     public boolean selectedWorkerBuildDorse(int x, int y){
         if(match.checkBuild(x, y, selectedWorker)){
             return match.forceBuildDorse(x, y, selectedWorker);
@@ -15,6 +21,14 @@ public class PlayerAtlas extends Player {
         return false;
     }
 
+    /**This method allow to integrate manageTurn with the power of Atlas, allowing to the Player to choose what type of building do.
+     * <p>
+     * @param x first coordinate, when its value is relevant
+     * @param y second coordinate, when its value is relevant
+     * @param gender of the worker to select, when its value is needed
+     * @param optional a particular choice of the player, when its value is needed. In this case it's used eventually to choose to build a "normal" block or a dorse.
+     * @return ChoiceResponseMessage the message to notify to RemoteView
+     */
     @Override
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
         ChoiceResponseMessage tempResponse;

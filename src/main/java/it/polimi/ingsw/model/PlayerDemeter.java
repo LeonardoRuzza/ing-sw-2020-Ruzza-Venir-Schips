@@ -10,13 +10,22 @@ public class PlayerDemeter extends Player {
         super(nickname, number, card, match, color);
     }
 
+    /**Reset parameters of the turn of the Player with Demeter's power.
+     *
+     */
     @Override
-    protected void resetTurn(){         //reset esplicito necessario nel caso venga eseguita una sola costruzione da Demeter
+    protected void resetTurn(){
         firstBuild=true;
         firstX=-1;
         firstY=-1;
     }
 
+    /**This method implement the power of Demeter which allow the Player to build two times but on different cells (respecting the others building rules).
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return {@code true} if was possible to build and performed; {@code false} otherwise
+     */
     @Override
     public boolean selectedWorkerBuild(int x, int y){  //questo metodo funzionerebbe solo se venisse chiamata sempre due volte la costruzione... funziona sempre solo se viene chiamato resetTurn quando Demeter costruisce una volta sola
         if(firstBuild){
@@ -39,6 +48,14 @@ public class PlayerDemeter extends Player {
         }
     }
 
+    /**This method allow to integrate manageTurn with the state of turn of the possible double build expected by the power of Demeter.
+     * <p>
+     * @param x first coordinate, when its value is relevant
+     * @param y second coordinate, when its value is relevant
+     * @param gender of the worker to select, when its value is needed
+     * @param optional a particular choice of the player, when its value is needed. In this case it can specify if the Player want to build two times or not.
+     * @return ChoiceResponseMessage the message to notify to RemoteView
+     */
     @Override
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
         ChoiceResponseMessage tempResponse;
@@ -81,6 +98,12 @@ public class PlayerDemeter extends Player {
         }
     }
 
+    /**This method integrate the manageStateBuild with specific message for the Player with Demeter's power.
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return ChoiceResponseMessage to return to manageTurn and (modified or not) then to RemoteView. Specify the result of the tried build.
+     */
     @Override
     protected ChoiceResponseMessage manageStateBuild(int x, int y){
         if(match.checkLoserBuild(selectedWorker)){

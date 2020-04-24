@@ -7,6 +7,12 @@ public class PlayerAthena extends Player {
         super(nickname, number, card, match, color);
     }
 
+    /**This method allow to implement the power of Athena (with checkLimitMove) saving actual and the previous z coordinates of the selectedWorker of the Player.
+     *<p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return {@code true} if the movement was possible and performed; {@code false} otherwise
+     */
     @Override
     public boolean selectedWorkerMove(int x, int y){
         boolean returnValue;
@@ -26,8 +32,14 @@ public class PlayerAthena extends Player {
         return returnValue;
     }
 
+    /**This method check if the movement specified by the Player (who is an opponent of the Player with Athena's power) is possible or not implementing the rule imposed by Athena power.
+     * <p>
+     * @param nextCell where the opponent's selectedWorker want to move
+     * @param opponent the opponent Player who is playing actually
+     * @return {@code true} if the opponent's movement is possible; {@code false} otherwise
+     */
     @Override
-    public boolean checkLimitMove(Cell nextCell, Player opponent){   //ritorna true se la mossa è fattibile sennò false se la limita
+    public boolean checkLimitMove(Cell nextCell, Player opponent){
         if(selectedWorker==null){ return true; }
         if(this.selectedWorker.getOldLocation() == null || this.selectedWorker.getCell() == null){
             return true;
