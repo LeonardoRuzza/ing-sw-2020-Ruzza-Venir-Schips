@@ -5,17 +5,25 @@ import it.polimi.ingsw.utils.GameMessage;
 public class PlayerHestia extends Player {
 
     private boolean firstBuild=true;
-    private int firstX=-1, firstY=-1;
 
     protected PlayerHestia(String nickname, int number, Card card, Match match, Worker.Color color) {
         super(nickname, number, card, match, color);
     }
 
+    /**Reset parameters of the turn of the Player with Hestia's power.
+     * <p>
+     */
     @Override
-    protected void resetTurn(){         //reset esplicito necessario nel caso venga eseguita una sola costruzione da Hestia
+    protected void resetTurn(){
         firstBuild=true;
     }
 
+    /**Integrate selectedWorkerBuild of Player with the power of Hestia which expect to build two times but not on a perimeter cell the second time (respecting others normal building rules).
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return {@code true} if was possible to build and performed; {@code false} otherwise
+     */
     @Override
     public boolean selectedWorkerBuild(int x, int y){
         if(firstBuild){
@@ -35,7 +43,14 @@ public class PlayerHestia extends Player {
         return false;
     }
 
-
+    /**Integrate manageTurn of Player with the state of turn of choose to build two times expected by Hestia's power.
+     *<p>
+     * @param x first coordinate, when its value is relevant
+     * @param y second coordinate, when its value is relevant
+     * @param gender of the worker to select, when its value is needed
+     * @param optional a particular choice of the player, when its value is needed
+     * @return ChoiceResponseMessage the message to notify to RemoteView
+     */
     @Override
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
         ChoiceResponseMessage tempResponse;
@@ -81,6 +96,12 @@ public class PlayerHestia extends Player {
         }
     }
 
+    /**Integrate manageStateBuild with specific messages for the player with Hestia's power.
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return ChoiceResponseMessage to return to manageTurn and (modified or not) then to RemoteView. Specify the result of the tried build.
+     */
     @Override
     protected ChoiceResponseMessage manageStateBuild(int x, int y){
         if(match.checkLoserBuild(selectedWorker)){

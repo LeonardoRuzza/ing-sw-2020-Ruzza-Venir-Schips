@@ -9,19 +9,34 @@ public class PlayerPrometheus extends Player {
         super(nickname, number, card, match, color);
     }
 
+    /**Reset parameters of the Player with Prometheus' power.
+     * <p>
+     */
     @Override
     protected void resetTurn(){   //reset esplicito per USO SOLO INTERNO a dispetto dei metodi simili nelle altre classi..il giocatore dovrà per forza muoversi per non perdere e quindi il reset prima o poi viene fatto
         justBuild=false;
     }
 
+    /**Integrate selectedWorkerBuild updating only the parameter justBuild.
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return  {@code true} if was possible to build and performed; {@code false} otherwise
+     */
     @Override
     public boolean selectedWorkerBuild(int x, int y){
         justBuild = true;
         return super.selectedWorkerBuild(x, y);
     }
 
+    /**Implement the power of Prometheus which expect that if the selectedWorker does not move up, it may build both before and after moving.
+     * <p>
+     * @param x first coordinate
+     * @param y second coordinate
+     * @return {@code true} if the movement was possible and performed; {@code false} otherwise
+     */
     @Override
-    public boolean selectedWorkerMove(int x, int y){  //NON BASTA ridefinire questo metodo...l'ordine di chiamata è del model/controller che dovranno chiamare nel caso per costruire prima di muoversi
+    public boolean selectedWorkerMove(int x, int y){
         if(!justBuild){
             return super.selectedWorkerMove(x,y);
         }
@@ -54,6 +69,14 @@ public class PlayerPrometheus extends Player {
         }
     }
 
+    /**Integrate manageTurn of Player with the state of the turn that expect the possibility to build before move respecting conditions of Prometheus' power.
+     * <p>
+     * @param x first coordinate, when its value is relevant
+     * @param y second coordinate, when its value is relevant
+     * @param gender of the worker to select, when its value is needed
+     * @param optional a particular choice of the player, when its value is needed. In this case it specify if the player want to build before move.
+     * @return ChoiceResponseMessage the message to notify to RemoteView
+     */
     @Override
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
         ChoiceResponseMessage tempResponse;

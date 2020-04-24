@@ -6,6 +6,10 @@ public class PlayerPan extends Player {
         super(nickname, number, card, match, color);
     }
 
+    /**Implement the power of Pan which expect that the Player with this power can win also if his worker moves down two or more levels.
+     * <p>
+     * @return {@code true} in case of win; {@code false} otherwise
+     */
     @Override
     public boolean checkSuperWin(){
         int zOld,zFinal,groundFinal=-1;
