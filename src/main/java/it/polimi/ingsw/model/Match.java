@@ -8,7 +8,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
     final int maxPlayer = 3;
     private int ID;
     private int numberOfPlayers;
-
+    private int numOfTurn = 0;
     //private enum stateOfMatch{};
     private Player playingNow;
     protected Player[] players;
@@ -443,8 +443,38 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
        return playingNow.selectedWorkerMove(x,y);
     }
 
+    /**Check that all workers have been located
+     *
+     * @return True if all workers have been located False otherwise
+     */
+    private boolean checkAllPlayerLocated(){
+        int totLocated=0;
+        for(Player p: players){
+            if(p.workers[0].getCell() != null){
+                totLocated++;
+            }
+            if(p.workers[1].getCell() != null){
+                totLocated++;
+            }
+        }
+        if(totLocated == numberOfPlayers*2){
+            return true;
+        }
+        return false;
+    }
+    /**Ask the playing now player to do his move, if it is the first turn also check all worker have been located successfully
+     *
+     */
     public void performPlay(int x, int y, Worker.Gender gender, String optional){
+        int totLocated=0;
+        if (numOfTurn==0){
+            if(!checkAllPlayerLocated()){
+                notify(new ChoiceResponseMessage(this.clone(), playingNow.clone(), GameMessage.turnMessageSelectFirstAllocation));
+                return;
+            }
+        }
         ChoiceResponseMessage resp = playingNow.manageTurn(x, y,gender, optional);
+        numOfTurn++;
         //controllo vittoria,reset partita
         notify(resp);
     }
