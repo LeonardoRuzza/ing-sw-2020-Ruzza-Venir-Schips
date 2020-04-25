@@ -89,11 +89,13 @@ public class PlayerDemeter extends Player {
                         return tempResponse;
                     }
                     return tempResponse;
+                }else if(optional.equals(GameMessage.turnMessageNO)){
+                    stateOfTurn = 1;
+                    resetTurn();
+                    match.nextPlayer();
+                    return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageTurnEnd);
                 }
-                stateOfTurn = 1;
-                resetTurn();
-                match.nextPlayer();
-                return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageTurnEnd);
+                return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageErrorInSyntax+GameMessage.hestiaDemeterTurnMessageAskTwoBuild);
             default: return new ChoiceResponseMessage(match.clone(), this.clone(), "Errore nello stato del turno!"); //da valutare questo default
         }
     }

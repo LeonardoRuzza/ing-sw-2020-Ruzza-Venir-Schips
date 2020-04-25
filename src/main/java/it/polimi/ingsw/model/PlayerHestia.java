@@ -91,7 +91,7 @@ public class PlayerHestia extends Player {
                     match.nextPlayer();
                     return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageTurnEnd);
                 }
-                return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageTurnEnd);
+                return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageErrorInSyntax+GameMessage.hestiaDemeterTurnMessageAskTwoBuild);
             default: return new ChoiceResponseMessage(match.clone(), this.clone(), "Errore nello stato del turno!"); //da valutare questo default
         }
     }

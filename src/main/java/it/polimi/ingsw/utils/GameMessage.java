@@ -64,6 +64,8 @@ public class GameMessage {
     public static final String turnMessageFailBuildChangeDestination = "Construction cannot be performed, change box. ";
     public static final String turnMessageTurnEnd = "Your turn is over. ";
 
+    public static final String turnMessageErrorInSyntax = "You wrote a wrong instruction, please check syntax. ";
+
     public static final String aresTurnMessageAskRemoveBlok = "If you want to remove a block adjacent to the worker that you have not moved, write the coordinates otherwise write NO. ";
     public static final String aresTurnMessageSuccessRemoveBlokWEnd = "The block was successfully removed. "+ turnMessageTurnEnd;
     public static final String aresTurnMessageFailRemoveBlokWNewCell = "Unable to remove a block here, change position or cancel the option by writing NO. ";
