@@ -48,7 +48,14 @@ public class Server {
         return null;
     }
 
-
+    /**
+     * The function deregister a {@code Clientconnection} from the {@code Server}. It checks if it's necessary to close connections
+     * also for other clients in the game.
+     * <p>
+     * For example, if a player win, all the connections must be closed for that game.
+     * @param c   {@code Clientconnection} of the client who need to be deregistered
+     * @param closingParameter   To distinguish various possibilities that lead a client to be deregistered
+     */
     public synchronized void deregisterConnection(ClientConnection c, ClosingConnectionParameter closingParameter) {
         Iterator<String> iterator = waitingConnection.keySet().iterator();
         registerOrder.remove(c);
@@ -94,6 +101,18 @@ public class Server {
         }
     }
 
+    /**
+     * <b>This is called only when a player lose the game and so we need to deregister him. For all other cases
+     * </b> see {@code deregisterConnection}
+     * <p>
+     * The function deregister a single client, and check if he was playing a 2 or 3 playerGame
+     * <p>
+     * <b>Case 2</b> Since there is only 1 player left, close his connecion too
+     * <p>
+     * <b>Case 3</b> Since there are 2 players left, move the 2 left players in a game for 2
+     * @param c  {@code Clientconnection} of the client who need to be deregistered
+     * @see     #deregisterConnection
+     */
     public synchronized void deregisterConnectionSingleClient(ClientConnection c) {
         Iterator<String> iterator = waitingConnection.keySet().iterator();
         while(iterator.hasNext()){
@@ -135,6 +154,12 @@ public class Server {
 
     }
 
+    /**
+     * Add a new client in the waiting List, checking previously if the name was already taken, by a client registered before
+     * @param c      {@code Clientconnection} of the client
+     * @param name   Name chosen by the client
+     * @return       {@code true} if the client was succesfully added to the waiting list, {@code false} otherwise
+     */
     public synchronized boolean addClient(ClientConnection c, String name){
         if (waitingConnection.containsKey(name)){
             return false;
@@ -144,7 +169,6 @@ public class Server {
         return true;
     }
 
-
     public synchronized boolean isFirstPlayer(ClientConnection c){
         if(registerOrder.size() == 0){
             return false;
@@ -152,6 +176,11 @@ public class Server {
         return (registerOrder.get(0)).equals(c);
     }
 
+    /**Check if there are enough clients in the waiting List to start a new game.
+     * <p>
+     * @param numberOfPlayers  Parameter received by the master player
+     * @return   {@code true} if there are enough player to start a game, {@code false} otherwise
+     */
     public synchronized boolean manageLobby(int numberOfPlayers){
         if(numberOfPlayers == 2 || numberOfPlayers == 3){
             if (waitingConnection.size() >= numberOfPlayers) {
@@ -172,8 +201,11 @@ public class Server {
     }
 
 
-
     //Wait for another player
+    /**The function create a new Lobby for the players, creating the MVC components and starting the interaction with the players
+     * <p>
+     * @param numberOfPlayers   who will play this game. The number is choosen by the master player
+     */
     public void createGame(int numberOfPlayers){
         if(numberOfPlayers == 2){
             ClientConnection c1 = registerOrder.get(0);
