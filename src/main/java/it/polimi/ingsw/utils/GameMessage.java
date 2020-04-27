@@ -43,15 +43,15 @@ public class GameMessage {
     public static final String turnMessageBUILDBEFORE = "BUILDBEFORE";
     public static final String turnMessageFIRSTALLOCATION =  "FIRSTALLOCATION";
 
-    public static final String turnMessageErrorFIRSTALLOCATION = "Error locating your Worker. ";
-
     public static final String turnMessageLose = "You Lose. ";
     public static final String turnMessageWin = "You Win. ";
 
-    public static final String turnMessageSelectFirstAllocation = "Please select worker to allocate. With syntax X,Y,GENDER,FIRSTALLOCATION. ";
+    public static final String turnMessageSelectFirstAllocation = "Please select worker to allocate. With syntax X,Y or if you want to specify gender position X,Y,GENDER. ";
     public static final String turnMessageWaitFirstAllocation = "Please allocation of other player. ";
     public static final String turnMessageAlreadyLocatedWorkerFirstAllocation = "You have already located this worker please select the other one. ";
+    public static final String turnMessageErrorFIRSTALLOCATION = "Error locating your Worker. ";
     public static final String turnMessageFIRSTALLOCATIONEnded = "Workers of all players have been allocated. ";
+
     public static final String turnMessageSelectYourWorker = "Select a worker specifying Male or Female";
     public static final String turnMessageLoserNoWorker = "You lost, neither worker is selectable! ";
     public static final String turnMessageOkWorkerSelection = "Worker successfully selected. ";

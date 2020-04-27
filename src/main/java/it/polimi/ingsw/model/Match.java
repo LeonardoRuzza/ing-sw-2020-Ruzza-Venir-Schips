@@ -2,12 +2,14 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.utils.GameMessage;
 import org.jetbrains.annotations.NotNull;
+import static it.polimi.ingsw.model.Worker.Gender.*;
 
 public class Match extends Observable<ChoiceResponseMessage> implements Cloneable {
 
     final int maxPlayer = 3;
     private int ID;
     private int numberOfPlayers;
+
     private int numOfTurn = 0;
     //private enum stateOfMatch{};
     private Player playingNow;
@@ -51,7 +53,13 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
     public Player[] getPlayers() {
         return players;
     }
-
+    /**
+     * Getter for number of turn
+     * @return int
+     */
+    public int getNumOfTurn() {
+        return numOfTurn;
+    }
     /**
      * Setter of players in match
      *
@@ -406,8 +414,23 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
     public void execFirstAllocation(int x, int y, Worker.Gender gender){
         this.playingNow.setSelectedWorker(gender);
         if(this.playingNow.selectedWorker.getCell() != null){
-            notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageErrorFIRSTALLOCATION));
-            return;
+            switch(gender){
+                case Male:
+                    this.playingNow.setSelectedWorker(Female);
+                    if(this.playingNow.selectedWorker.getCell() != null){
+                        notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageAlreadyLocatedWorkerFirstAllocation));
+                    }
+                    break;
+                case Female:
+                    this.playingNow.setSelectedWorker(Male);
+                    if(this.playingNow.selectedWorker.getCell() != null){
+                        notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageAlreadyLocatedWorkerFirstAllocation));
+                    }
+                    break;
+                default:
+                    notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageAlreadyLocatedWorkerFirstAllocation));
+                    return;
+            }
         }
         if(!firstAllocation(x,y,gender)){
             notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageErrorFIRSTALLOCATION));
@@ -447,7 +470,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      *
      * @return True if all workers have been located False otherwise
      */
-    private boolean checkAllPlayerLocated(){
+    public boolean checkAllPlayerLocated(){
         int totLocated=0;
         for(Player p: players){
             if(p.workers[0].getCell() != null){
@@ -466,16 +489,8 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      *
      */
     public void performPlay(int x, int y, Worker.Gender gender, String optional){
-        int totLocated=0;
-        if (numOfTurn==0){
-            if(!checkAllPlayerLocated()){
-                notify(new ChoiceResponseMessage(this.clone(), playingNow.clone(), GameMessage.turnMessageSelectFirstAllocation));
-                return;
-            }
-        }
         ChoiceResponseMessage resp = playingNow.manageTurn(x, y,gender, optional);
         numOfTurn++;
-        //controllo vittoria,reset partita
         notify(resp);
     }
 
