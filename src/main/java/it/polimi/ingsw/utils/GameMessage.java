@@ -4,6 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameMessage {
+
+    public static final String changeName = "\nThis name is already taken. Please change name.";
+    public static final String masterPlayerSelectNumberofPlayers = "\n\nYou are the Master Player. Choose number of players for this game";
+    public static final String waitingPlayers = "\nWaiting for other players...\n";
+
+
+    public static String searchStartingGameMessage(String s){
+        List<String> availableLobbyMessage = new ArrayList<>();
+        availableLobbyMessage.add(changeName);
+        availableLobbyMessage.add(masterPlayerSelectNumberofPlayers);
+        availableLobbyMessage.add(waitingPlayers);
+        availableLobbyMessage.add(chooseColorBegin);
+        availableLobbyMessage.add(waitMessageForColorBegin);
+        availableLobbyMessage.add(chooseColor);
+        availableLobbyMessage.add(waitMessageForColor);
+        availableLobbyMessage.add(cardPhase);
+        availableLobbyMessage.add(availableCards);
+        availableLobbyMessage.add(waitMessageForCard );
+        availableLobbyMessage.add(waitMasterChoseOfCard);
+        availableLobbyMessage.add(startNormalGame);
+
+        for(String temp:availableLobbyMessage){
+            if (s.contains(temp))
+                return temp;
+        }
+        return null;
+    }
+
+    public static boolean isMatchMessage(String s){
+        return true;
+    }
+
+
+
     // Lobby message
     public static final String chooseColorBegin = "Opponent(s) found.\n\nChoose your color.\nAvailable colors:\nBLACK\nWHITE\nRED\nBLUE\nGREEN\nYELLOW";
     public static final String waitMessageForColorBegin = "Opponent(s) found\n\nWait for another player's choose of color. ";
@@ -31,11 +65,7 @@ public class GameMessage {
 
 
 
-
-
-
     // Normal Game Message
-    public static final String messageGAMESTARTING = "The game is starting... ";
     public static final String wrongTurnMessage = "It is not your turn!";
     public static final String turnMessageDORSE = "DORSE";
     public static final String turnMessageBUILDTWOTIMES = "BUILDTWOTIMES";
@@ -91,4 +121,5 @@ public class GameMessage {
         availableOptional.add(turnMessageFIRSTALLOCATION);
         return availableOptional.contains(optional);
     }
+
 }

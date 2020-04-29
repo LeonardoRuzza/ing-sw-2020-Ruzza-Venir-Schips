@@ -2,8 +2,6 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerHera;
-import it.polimi.ingsw.model.PlayerHestia;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

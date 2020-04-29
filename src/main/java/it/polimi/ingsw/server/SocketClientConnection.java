@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.utils.ClosingConnectionParameter;
+import it.polimi.ingsw.utils.GameMessage;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -98,7 +99,7 @@ public class SocketClientConnection extends Observable<String> implements Client
             String read = in.nextLine();
             name = read;
             while(!server.addClient(this, name)){
-                send("\nThis name is already taken. Please change name.");
+                send(GameMessage.changeName);
                 read = in.nextLine();
                 name = read;
             }
@@ -110,7 +111,7 @@ public class SocketClientConnection extends Observable<String> implements Client
                         while (!temp) {
                             send("\nNo existing match found.");
                             send("\nCreating new game...");
-                            send("\n\nYou are the Master Player. Choose number of players for this game");
+                            send(GameMessage.masterPlayerSelectNumberofPlayers);
                             read = in.nextLine();
                             try {
                                 numberOfPlayers = (Integer.parseInt(read));
@@ -136,7 +137,7 @@ public class SocketClientConnection extends Observable<String> implements Client
                 }
             }
             server.manageLobby(numberOfPlayers);
-            this.send("\nWaiting for other players...\n");
+            this.send(GameMessage.waitingPlayers);
             while (isActive()) {
                 read = in.nextLine();
                 if (read.toUpperCase().equals("QUIT")){
