@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class NumberSelectionePanel extends JPanel {
+public class NumberSelectionPanel extends JPanel {
     JLabel button2;
     JLabel button3;
     JLabel sysLabel;
@@ -25,7 +25,7 @@ public class NumberSelectionePanel extends JPanel {
 
     ClientGUI clientGUI;
 
-    protected NumberSelectionePanel(ClientGUI gui) throws IOException {
+    protected NumberSelectionPanel(ClientGUI gui) throws IOException {
         clientGUI = gui;
         imageBtnPlay = ImageIO.read(new File("src/main/resources/btn_play.png"));
         imageLabelSys = ImageIO.read(new File("src/main/resources/sys_label_player_num.png"));
