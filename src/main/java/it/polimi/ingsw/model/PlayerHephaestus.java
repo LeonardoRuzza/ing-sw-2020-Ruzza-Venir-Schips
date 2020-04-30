@@ -2,10 +2,10 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.utils.GameMessage;
 
-public class PlayerHephaesthus extends Player {
+public class PlayerHephaestus extends Player {
     private boolean firstBuild=true;
     private int x0=-1, y0=-1;
-    protected PlayerHephaesthus(String nickname, int number, Card card, Match match, Worker.Color color) {
+    protected PlayerHephaestus(String nickname, int number, Card card, Match match, Worker.Color color) {
         super(nickname, number, card, match, color);
     }
 

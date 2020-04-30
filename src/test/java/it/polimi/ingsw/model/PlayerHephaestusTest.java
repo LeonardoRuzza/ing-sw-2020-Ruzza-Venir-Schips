@@ -3,16 +3,16 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.utils.GameMessage;
 import org.junit.*;
 
-public class PlayerHephaesthusTest {
+public class PlayerHephaestusTest {
 
     private  static Match match;
-    private static PlayerHephaesthus efesto;
+    private static PlayerHephaestus efesto;
     private static Player player2Generic;
 
     @Before
     public void setUp() throws Exception {
         match=new Match(1,2);
-        efesto=new PlayerHephaesthus("leo",2,new Card(5),match, Worker.Color.BLACK);
+        efesto=new PlayerHephaestus("leo",2,new Card(5),match, Worker.Color.BLACK);
         player2Generic=new Player("edo",1,new Card(1),match,Worker.Color.WHITE);
         match.players[1] = efesto;
         match.players[0] = player2Generic;

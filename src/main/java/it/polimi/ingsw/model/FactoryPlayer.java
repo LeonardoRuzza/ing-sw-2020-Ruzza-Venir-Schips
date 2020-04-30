@@ -14,7 +14,7 @@ public class FactoryPlayer {
             case 4:
                 return new PlayerDemeter(nickname,number,new Card(cardNum),match,color);
             case 5:
-                return new PlayerHephaesthus(nickname,number,new Card(cardNum),match,color);
+                return new PlayerHephaestus(nickname,number,new Card(cardNum),match,color);
             case 6:
                 return new PlayerMinotaur(nickname,number,new Card(cardNum),match,color);
             case 7:

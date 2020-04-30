@@ -28,7 +28,7 @@ public class FactoryPlayerTest {
                     Assert.assertTrue(finalPlayer instanceof PlayerDemeter);
                     break;
                 case 5:
-                    Assert.assertTrue(finalPlayer instanceof PlayerHephaesthus);
+                    Assert.assertTrue(finalPlayer instanceof PlayerHephaestus);
                     break;
                 case 6:
                     Assert.assertTrue(finalPlayer instanceof PlayerMinotaur);
