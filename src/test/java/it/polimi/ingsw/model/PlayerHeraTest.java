@@ -16,7 +16,7 @@ public class PlayerHeraTest {
     @Before
     public void setUp() throws Exception {
         testPlayer1 = new PlayerAtlas("player1", 2, cardAtlas, match, Worker.Color.RED);
-        Player testPlayer2 = new PlayerHera("player2", 1, cardHera, match, Worker.Color.BLACK);
+        Player testPlayer2 = new PlayerHera("player2", 1, cardHera, match, Worker.Color.GREEN);
         Player player3 = new Player("player3", 3, match);
         match.players = new Player[]{testPlayer1, testPlayer2, player3};
         testWorker = testPlayer1.workers[0];

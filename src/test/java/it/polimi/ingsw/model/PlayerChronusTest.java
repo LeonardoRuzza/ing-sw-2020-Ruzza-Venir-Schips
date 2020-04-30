@@ -12,7 +12,7 @@ public class PlayerChronusTest {
     private int[] build = new int[]{1,1};
     @Before
     public void setUp() throws Exception {
-        testPlayer1 = new PlayerChronus("player1", 1, cardChronus, match, Worker.Color.BLACK);
+        testPlayer1 = new PlayerChronus("player1", 1, cardChronus, match, Worker.Color.GREEN);
         Player player2 = new Player("player2", 2, match);
         Player player3 = new Player("player3", 3, match);
         match.players = new Player[]{testPlayer1, player2, player3};

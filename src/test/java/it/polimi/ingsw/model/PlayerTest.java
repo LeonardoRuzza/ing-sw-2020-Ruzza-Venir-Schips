@@ -13,8 +13,8 @@ public class PlayerTest {
     public void setUp() throws Exception {
         match=new Match(1,3);
         player1 = new Player("leo",1, card1 = new Card(1), match, Worker.Color.RED);
-        player2 = new Player("valerio", 2, card2  = new Card(5), match, Worker.Color.BLACK);
-        player3 = new Player("edo", 3, card3  = new Card(3), match, Worker.Color.WHITE);
+        player2 = new Player("valerio", 2, card2  = new Card(5), match, Worker.Color.GREEN);
+        player3 = new Player("edo", 3, card3  = new Card(3), match, Worker.Color.YELLOW);
         match.players[0] = player1;
         match.players[1] = player2;
         match.players[2] = player3;
@@ -47,8 +47,8 @@ public class PlayerTest {
         Assert.assertEquals("Errore6",2 ,player2.getNumber());
         Assert.assertEquals("Errore7",card2,player2.card);
         Assert.assertEquals("Errore8",match,player2.match);
-        Assert.assertEquals("Errore9",Worker.Color.BLACK,player2.workers[0].getColor());
-        Assert.assertEquals("Errore10",Worker.Color.BLACK,player2.workers[1].getColor());
+        Assert.assertEquals("Errore9",Worker.Color.GREEN,player2.workers[0].getColor());
+        Assert.assertEquals("Errore10",Worker.Color.GREEN,player2.workers[1].getColor());
         Assert.assertEquals("Errore11",Worker.Gender.Male,player2.workers[0].getGender());
         Assert.assertEquals("Errore12",Worker.Gender.Female,player2.workers[1].getGender());
         //player1=null;

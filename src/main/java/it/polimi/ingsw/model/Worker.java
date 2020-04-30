@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Worker implements Cloneable, Serializable {
 
     public enum Gender implements Serializable{Male,Female}
-    public enum Color implements Serializable{BLACK("\u001B[30m"),WHITE("\u001B[37m"),RED("\u001B[31m"),BLUE("\u001B[34m"),GREEN("\u001B[32m"),YELLOW("\u001B[33m"),PURPLE("\u001B[35m");
+    public enum Color implements Serializable{RED("\u001B[31m"),GREEN("\u001B[32m"),YELLOW("\u001B[33m"),PURPLE("\u001B[35m");
 
         private String colorString;
         private String ANSI_RESET = "\u001B[0m";

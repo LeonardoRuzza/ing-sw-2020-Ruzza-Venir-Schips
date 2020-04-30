@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.GUI;
 
-import jdk.tools.jlink.internal.Jlink;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;

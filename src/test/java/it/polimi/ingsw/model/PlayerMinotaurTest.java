@@ -12,8 +12,8 @@ public class PlayerMinotaurTest {
     @BeforeClass
     public static void beforeClass() throws Exception {
         match = new Match(1,2);
-        player1 = new Player("edo",1,new Card(2),match,Worker.Color.WHITE);
-        Minotaur = new PlayerMinotaur("Minotaur",2,new Card(1),match, Worker.Color.BLACK);
+        player1 = new Player("edo",1,new Card(2),match,Worker.Color.RED);
+        Minotaur = new PlayerMinotaur("Minotaur",2,new Card(1),match, Worker.Color.GREEN);
         match.players[0] = player1;
         match.players[1] = Minotaur;
     }

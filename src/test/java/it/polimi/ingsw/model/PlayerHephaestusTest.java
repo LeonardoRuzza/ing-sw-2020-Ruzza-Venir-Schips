@@ -12,8 +12,8 @@ public class PlayerHephaestusTest {
     @Before
     public void setUp() throws Exception {
         match=new Match(1,2);
-        efesto=new PlayerHephaestus("leo",2,new Card(5),match, Worker.Color.BLACK);
-        player2Generic=new Player("edo",1,new Card(1),match,Worker.Color.WHITE);
+        efesto=new PlayerHephaestus("leo",2,new Card(5),match, Worker.Color.GREEN);
+        player2Generic=new Player("edo",1,new Card(1),match,Worker.Color.RED);
         match.players[1] = efesto;
         match.players[0] = player2Generic;
     }

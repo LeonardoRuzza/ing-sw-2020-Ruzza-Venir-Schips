@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.io.Serializable;
 
 public class Board implements Cloneable, Serializable {
@@ -257,7 +258,7 @@ public class Board implements Cloneable, Serializable {
      */
     public void draw(Player myPlayer){
         boolean linePrint = true;
-        System.out.print("It's " + playingNow.workers[0].getColor().getColorString() + playingNow.getNickname() + Worker.Color.BLACK.getANSI_RESET() + " turn\n");
+        System.out.print("It's " + playingNow.workers[0].getColor().getColorString() + playingNow.getNickname() + Worker.Color.RED.getANSI_RESET() + " turn\n");
         for(int y = 0; y < boardSide*2+1; y++){
             int realY = y/2;
             if(y == 0){
@@ -284,7 +285,7 @@ public class Board implements Cloneable, Serializable {
                     }
                     if (getLastBusyCell(realX,realY).getBlock()!=null){
                         if(getLastBusyCell(realX,realY).getBlock() == Block.DORSE){
-                            System.out.print(Worker.Color.BLUE.getColorString() + "D" + Worker.Color.BLACK.getANSI_RESET());
+                            System.out.print(Color.BLUE + "D" + Worker.Color.RED.getANSI_RESET());
                         }else{
                             System.out.print(getLastBusyCell(realX,realY).getzCoord()+1);
                         }
@@ -295,11 +296,11 @@ public class Board implements Cloneable, Serializable {
                     Worker actW = getLastBusyCell(realX,realY).getWorker();
                     if(actW!=null){
                         if(actW.getGender() == myPlayer.workers[0].getGender() && actW.getColor() == myPlayer.workers[0].getColor()){
-                            System.out.print(actW.getColor().getColorString() + "M"+" " + Worker.Color.BLACK.getANSI_RESET());
+                            System.out.print(actW.getColor().getColorString() + "M"+" " + Worker.Color.RED.getANSI_RESET());
                         }else if(actW.getGender() == myPlayer.workers[1].getGender() && actW.getColor() == myPlayer.workers[1].getColor()){
-                            System.out.print(actW.getColor().getColorString() + "F"+" " + Worker.Color.BLACK.getANSI_RESET());
+                            System.out.print(actW.getColor().getColorString() + "F"+" " + Worker.Color.RED.getANSI_RESET());
                         }else{
-                            System.out.print(actW.getColor().getColorString() + "w"+" " + Worker.Color.BLACK.getANSI_RESET());
+                            System.out.print(actW.getColor().getColorString() + "w"+" " + Worker.Color.RED.getANSI_RESET());
                         }
                     }else{
                         System.out.print("  ");

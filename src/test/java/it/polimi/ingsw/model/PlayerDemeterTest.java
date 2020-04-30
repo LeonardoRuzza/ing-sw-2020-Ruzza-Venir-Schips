@@ -11,8 +11,8 @@ public class PlayerDemeterTest {
     @Before
     public void setUp() throws Exception {
         match=new Match(1,2);
-        demeter=new PlayerDemeter("leo",2,new Card(4),match, Worker.Color.BLACK);
-        player2Generic=new Player("edo",1,new Card(1),match,Worker.Color.WHITE);
+        demeter=new PlayerDemeter("leo",2,new Card(4),match, Worker.Color.RED);
+        player2Generic=new Player("edo",1,new Card(1),match,Worker.Color.GREEN);
         match.players[1] = demeter;
         match.players[0] = player2Generic;
     }

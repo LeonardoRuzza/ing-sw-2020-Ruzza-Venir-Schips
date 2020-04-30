@@ -11,8 +11,8 @@ public class PlayerHestiaTest {
     @Before
     public void setUp() throws Exception {
         match=new Match(1,2);
-        hestia=new PlayerHestia("leo",2,new Card(12),match, Worker.Color.BLACK);
-        player2Generic=new Player("edo",1,new Card(1),match,Worker.Color.WHITE);
+        hestia=new PlayerHestia("leo",2,new Card(12),match, Worker.Color.GREEN);
+        player2Generic=new Player("edo",1,new Card(1),match,Worker.Color.RED);
         match.players[1] = hestia;
         match.players[0] = player2Generic;
 

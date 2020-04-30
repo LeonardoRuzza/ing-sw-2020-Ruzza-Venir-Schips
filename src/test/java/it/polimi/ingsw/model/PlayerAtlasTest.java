@@ -18,7 +18,7 @@ public class PlayerAtlasTest {
 
     @Before
     public void setUp() throws Exception {
-        testPlayer1 = new PlayerAtlas("player1", 1, cardAtlas, match, Worker.Color.BLACK);
+        testPlayer1 = new PlayerAtlas("player1", 1, cardAtlas, match, Worker.Color.GREEN);
         Player player2 = new Player("player2", 2, match);
         Player player3 = new Player("player3", 3, match);
         match.players = new Player[]{testPlayer1, player2, player3};

@@ -18,7 +18,7 @@ public class PlayerAthenaTest {
     @Before
     public void setUp() throws Exception {
         testPlayer1 = new PlayerAtlas("player1", 1, cardAtlas, match, Worker.Color.RED);
-        testPlayer2 = new PlayerAthena("player2", 2, cardAthena, match, Worker.Color.BLACK);
+        testPlayer2 = new PlayerAthena("player2", 2, cardAthena, match, Worker.Color.GREEN);
         Player player3 = new Player("player3", 3, match);
         match.players = new Player[]{testPlayer1, testPlayer2, player3};
         testWorkerAtlsas = testPlayer1.workers[0];

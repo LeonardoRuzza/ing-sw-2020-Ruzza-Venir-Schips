@@ -10,8 +10,8 @@ public class PlayerArtemisTest {
     @BeforeClass
     public static void beforeClass() throws Exception {
         match=new Match(1,2);
-        artemis=new PlayerArtemis("ruzzolino",2,new Card(9),match, Worker.Color.BLACK);
-        player2Generic=new Player("edo",1,new Card(1),match,Worker.Color.WHITE);
+        artemis=new PlayerArtemis("ruzzolino",2,new Card(9),match, Worker.Color.RED);
+        player2Generic=new Player("edo",1,new Card(1),match,Worker.Color.GREEN);
         match.players[1] = artemis;
         match.players[0] = player2Generic;
     }

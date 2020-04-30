@@ -13,7 +13,7 @@ public class PlayerAresTest {
     public void setUp() throws Exception {
         match=new Match(1,2);
         ares=new PlayerAres("leo",2,new Card(1),match, Worker.Color.RED);
-        player2Generic=new Player("edo",1,new Card(2),match,Worker.Color.WHITE);
+        player2Generic=new Player("edo",1,new Card(2),match,Worker.Color.GREEN);
         match.players[1] = ares;
         match.players[0] = player2Generic;
 

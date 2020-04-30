@@ -39,7 +39,7 @@ public class GameMessage {
 
 
     // Lobby message
-    public static final String chooseColorBegin = "Opponent(s) found.\n\nChoose your color.\nAvailable colors:\nBLACK\nWHITE\nRED\nBLUE\nGREEN\nYELLOW";
+    public static final String chooseColorBegin = "Opponent(s) found.\n\nChoose your color.\nAvailable colors:\nRED\nGREEN\nYELLOW\nPURPLE";
     public static final String waitMessageForColorBegin = "Opponent(s) found\n\nWait for another player's choose of color. ";
     public static final String chooseColor = "Choose your color. ";
     public static final String waitMessageForColor = "Wait for another player's choose of color. ";

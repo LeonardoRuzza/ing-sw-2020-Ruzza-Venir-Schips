@@ -12,9 +12,9 @@ public class PlayerHypnusTest {
     @BeforeClass
     public static void beforeClass() throws Exception {
         match = new Match(1, 2);
-        player1 = new Player("edo", 1, new Card(2), match, Worker.Color.WHITE);
+        player1 = new Player("edo", 1, new Card(2), match, Worker.Color.GREEN);
         player2 = new Player("leo", 1, new Card(2), match, Worker.Color.RED);
-        Hypnus = new PlayerHypnus("Hypnus", 2,  new Card(13), match, Worker.Color.BLACK);
+        Hypnus = new PlayerHypnus("Hypnus", 2,  new Card(13), match, Worker.Color.PURPLE);
         match.players[0] = player1;
         match.players[1] = Hypnus;
     }

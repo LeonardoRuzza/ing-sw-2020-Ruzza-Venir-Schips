@@ -64,21 +64,21 @@ public class LobbyTest {
     @Test
     public void chooseColor() {
         // Turno del player 1
-        String color = "blue";
+        String color = "green";
         Assert.assertTrue(l.chooseColor(color));
         Assert.assertFalse(l.getAvailableColors().contains(color));
         Assert.assertEquals(l.getLobbyPlayers().get(0).getColor(), InputConversion.colorConversion(color.toUpperCase()));
         Assert.assertEquals(l.getStateOfTurn(), StateOfTurn.COLOR);
 
         color = "red";
-        Assert.assertFalse(l.chooseColor("blue"));
+        Assert.assertFalse(l.chooseColor("green"));
         Assert.assertTrue(l.chooseColor(color));
         Assert.assertFalse(l.getAvailableColors().contains(color));
         Assert.assertEquals(l.getLobbyPlayers().get(1).getColor(), InputConversion.colorConversion(color.toUpperCase()));
         Assert.assertEquals(l.getStateOfTurn(), StateOfTurn.COLOR);
 
         color = "yellow";
-        Assert.assertFalse(l.chooseColor("blue"));
+        Assert.assertFalse(l.chooseColor("green"));
         Assert.assertFalse(l.chooseColor("red"));
         Assert.assertTrue(l.chooseColor(color));
         Assert.assertFalse(l.getAvailableColors().contains(color));

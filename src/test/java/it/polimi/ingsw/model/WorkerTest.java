@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class WorkerTest {
 
-    Worker w1 = new Worker(Worker.Gender.Male, Worker.Color.BLACK);
+    Worker w1 = new Worker(Worker.Gender.Male, Worker.Color.GREEN);
     Cell c1 = new Cell(2,2,1);
     Cell c2 = new Cell(1,1,0);
 
@@ -15,7 +15,7 @@ public class WorkerTest {
 
         Assert.assertNull(w1.getCell());
         Assert.assertNull(w1.getOldLocation());
-        Assert.assertEquals(w1.getColor(), Worker.Color.BLACK);
+        Assert.assertEquals(w1.getColor(), Worker.Color.GREEN);
         Assert.assertEquals(w1.getGender(), Worker.Gender.Male);
     }
 
