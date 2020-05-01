@@ -5,43 +5,17 @@ import java.util.List;
 
 public class GameMessage {
 
+    public static final String insertName = "Welcome!\nWhat is your name?";
     public static final String changeName = "\nThis name is already taken. Please change name.";
+    public static final String loadingMatch = "\nLooking for existing match...";
     public static final String masterPlayerSelectNumberofPlayers = "\n\nYou are the Master Player. Choose number of players for this game";
     public static final String waitingPlayers = "\nWaiting for other players...\n";
-
-
-    public static String searchStartingGameMessage(String s){
-        List<String> availableLobbyMessage = new ArrayList<>();
-        availableLobbyMessage.add(changeName);
-        availableLobbyMessage.add(masterPlayerSelectNumberofPlayers);
-        availableLobbyMessage.add(waitingPlayers);
-        availableLobbyMessage.add(chooseColorBegin);
-        availableLobbyMessage.add(waitMessageForColorBegin);
-        availableLobbyMessage.add(chooseColor);
-        availableLobbyMessage.add(waitMessageForColor);
-        availableLobbyMessage.add(cardPhase);
-        availableLobbyMessage.add(availableCards);
-        availableLobbyMessage.add(waitMessageForCard );
-        availableLobbyMessage.add(waitMasterChoseOfCard);
-        availableLobbyMessage.add(startNormalGame);
-
-        for(String temp:availableLobbyMessage){
-            if (s.contains(temp))
-                return temp;
-        }
-        return null;
-    }
-
-    public static boolean isMatchMessage(String s){
-        return true;
-    }
-
 
 
     // Lobby message
     public static final String chooseColorBegin = "Opponent(s) found.\n\nChoose your color.\nAvailable colors:\nRED\nGREEN\nYELLOW\nPURPLE";
     public static final String waitMessageForColorBegin = "Opponent(s) found\n\nWait for another player's choose of color. ";
-    public static final String chooseColor = "Choose your color. ";
+    public static final String chooseColor = "Choose your color.  ";
     public static final String waitMessageForColor = "Wait for another player's choose of color. ";
     public static final String wrongColorInput = "Your input for color is not correct. ";
     public static final String notAvailableColor = "The selected color has been already chosen. ";
@@ -122,4 +96,31 @@ public class GameMessage {
         return availableOptional.contains(optional);
     }
 
+    /*
+    public static String searchStartingGameMessage(String s){
+        List<String> availableLobbyMessage = new ArrayList<>();
+        availableLobbyMessage.add(changeName);
+        availableLobbyMessage.add(masterPlayerSelectNumberofPlayers);
+        availableLobbyMessage.add(waitingPlayers);
+        availableLobbyMessage.add(chooseColorBegin);
+        availableLobbyMessage.add(waitMessageForColorBegin);
+        availableLobbyMessage.add(chooseColor);
+        availableLobbyMessage.add(waitMessageForColor);
+        availableLobbyMessage.add(cardPhase);
+        availableLobbyMessage.add(availableCards);
+        availableLobbyMessage.add(waitMessageForCard );
+        availableLobbyMessage.add(waitMasterChoseOfCard);
+        availableLobbyMessage.add(startNormalGame);
+
+        for(String temp:availableLobbyMessage){
+            if (s.contains(temp))
+                return temp;
+        }
+        return null;
+    }
+
+    public static boolean isMatchMessage(String s){
+        return true;
+    }
+   */
 }

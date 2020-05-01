@@ -50,17 +50,17 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
     @Override
     public void updateLobby(LobbyToView message) {
         final Lobby lobby = message.getLobby();
-        String resultMsg;
+        String resultMsg = "";
 
         switch (lobby.getStateOfTurn()) {
             case COLOR:  // Fase di scelta dei colori
                 if (lobby.isLobbyPlayerTurn(lobbyPlayer)) { // Se è il turno del player
                     showMessageSync(GameMessage.availableColors);
                     for (String s :lobby.getAvailableColors()) {
-                       resultMsg = s;
-                       showMessageSync(resultMsg);
+                       resultMsg = resultMsg.concat(s);
+                       resultMsg = resultMsg.concat("\n");
                     }
-                    showMessageSync(GameMessage.chooseColor);
+                    showMessageSync(resultMsg + GameMessage.chooseColor);
                 }
                 else{  // Altrimenti se non è il suo turno
                     showMessage(GameMessage.waitMessageForColor);
@@ -68,9 +68,8 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                 break;
             case CARD:
                 if (lobby.getSwitchState()){  // Finita fase di scelta dei colori e inizia quella delle carte
-                    showMessageSync(GameMessage.cardPhase);
-                    showMessageSync(Card.drawAll());
                     if (lobby.getLobbyPlayers().get(0).getNickname().equals(lobbyPlayer.getNickname())){
+                        showMessageSync(GameMessage.cardPhase + Card.drawAll());
                         if (lobby.getNumberOfLobbyPlayer() == 2)
                             showMessageSync(GameMessage.playerMasterChoseCard2);  // Mex per il master player
                         else
@@ -84,9 +83,10 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                         if (lobby.isLobbyPlayerTurn(lobbyPlayer)){    // Stampa le carte disponibili rimanenti
                             showMessageSync(GameMessage.availableCards);
                             for (Card c :lobby.getChosenDeck()) {
-                                resultMsg = c.getName();
-                                showMessageSync(resultMsg);
+                                resultMsg = resultMsg.concat(c.getName());
+                                resultMsg = resultMsg.concat("\n");
                             }
+                            showMessageSync(resultMsg);
                         }
                         else  // Altrimenti se non è il suo turno
                             showMessageSync(GameMessage.waitMessageForCard);

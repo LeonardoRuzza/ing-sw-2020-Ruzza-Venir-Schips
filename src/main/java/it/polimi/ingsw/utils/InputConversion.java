@@ -12,6 +12,8 @@ public class InputConversion {
                 return Worker.Color.GREEN;
             case "YELLOW":
                 return Worker.Color.YELLOW;
+            case "PURPLE":
+                return Worker.Color.PURPLE;
             default:
                 return null;
         }

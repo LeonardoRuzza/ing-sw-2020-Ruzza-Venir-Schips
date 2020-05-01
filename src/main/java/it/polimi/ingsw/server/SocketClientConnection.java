@@ -95,7 +95,7 @@ public class SocketClientConnection extends Observable<String> implements Client
         try {
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
-            send("Welcome!\nWhat is your name?");
+            send(GameMessage.insertName);
             String read = in.nextLine();
             name = read;
             while(!server.addClient(this, name)){
@@ -103,7 +103,7 @@ public class SocketClientConnection extends Observable<String> implements Client
                 read = in.nextLine();
                 name = read;
             }
-            send("\nLooking for existing match...");
+            send(GameMessage.loadingMatch);
             while(!readyToPlay){
                 synchronized (lock) {
                     if (server.isFirstPlayer(this)) {
@@ -115,13 +115,15 @@ public class SocketClientConnection extends Observable<String> implements Client
                             read = in.nextLine();
                             try {
                                 numberOfPlayers = (Integer.parseInt(read));
-                                if (numberOfPlayers == 2 || numberOfPlayers == 3)
+                                if (numberOfPlayers == 2 || numberOfPlayers == 3) {
                                     temp = true;
+                                    this.send(GameMessage.waitingPlayers);
+                                }
                                 else
-                                    this.send("Inserire un numero corretto");
+                                    this.send("Insert a correct number");
                                 this.setReadyToPlay(true);
                             } catch (NumberFormatException e) {
-                                this.send("Inserire un numero corretto");
+                                this.send("Insert a correct number");
                             }
                         }
                     } else {
@@ -137,7 +139,7 @@ public class SocketClientConnection extends Observable<String> implements Client
                 }
             }
             server.manageLobby(numberOfPlayers);
-            this.send(GameMessage.waitingPlayers);
+            //this.send(GameMessage.waitingPlayers);
             while (isActive()) {
                 read = in.nextLine();
                 if (read.toUpperCase().equals("QUIT")){
