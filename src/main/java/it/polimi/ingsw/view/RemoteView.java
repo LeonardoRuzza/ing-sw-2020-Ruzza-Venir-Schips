@@ -24,7 +24,7 @@ public class RemoteView extends View {
         public void update(String message) {
             int x=-1, y=-1;
             String optional="";
-            Worker.Gender gender=Worker.Gender.Male;
+            Worker.Gender gender=null;
             System.out.println("Received: " + message);
             if(message.isEmpty()){
                 clientConnection.asyncSend("Input empty!");
@@ -44,6 +44,9 @@ public class RemoteView extends View {
                                 if (!(inputs[0].toUpperCase().equals("MALE"))) {
                                     clientConnection.asyncSend("Input invalid!");
                                     return;
+                                }
+                                else{
+                                    gender = Worker.Gender.Male;
                                 }
                             }
                         }
@@ -67,6 +70,9 @@ public class RemoteView extends View {
                                     clientConnection.asyncSend("Input invalid!");
                                     return;
                                 }
+                                else {
+                                    gender = Worker.Gender.Male;
+                                }
                             }
                         }
                         break;
@@ -80,6 +86,9 @@ public class RemoteView extends View {
                             if(!(inputs[2].toUpperCase().equals("MALE"))) {
                                 clientConnection.asyncSend("Input invalid!");
                                 return;
+                            }
+                            else {
+                                gender = Worker.Gender.Male;
                             }
                         }
                         if(GameMessage.isValidOptional(inputs[3].toUpperCase())){
