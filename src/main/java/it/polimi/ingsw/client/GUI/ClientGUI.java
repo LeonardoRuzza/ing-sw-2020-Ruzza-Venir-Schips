@@ -1,8 +1,11 @@
 package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.utils.GameMessage;
+import it.polimi.ingsw.utils.InputConversion;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,32 +14,107 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-import java.util.Scanner;
 
 public class ClientGUI {
 
         private String ip;
         private int port;
         private Player player;
+        private boolean active = true;
+        private boolean isLobbyPhase = true;
         protected Queue<String> outcomeGUI = new LinkedList<>();
+        private SantoriniGUI santoriniGUI;
 
         public ClientGUI(String ip, int port) {
             this.ip = ip;
             this.port = port;
         }
 
-        private boolean active = true;
 
-        public synchronized boolean isActive() {
-            return active;
-        }
 
+        public synchronized boolean isActive() { return active; }
         public synchronized void setActive(boolean active) {
             this.active = active;
         }
 
 
     private void decoderGUI(String s){
+
+        // TODO Gestire caso inputINVALIDO? Non dovrebbe servire perché non ci sono messaggi da ricevere dal player oltre al nome
+        if (isLobbyPhase) {
+            switch (s) {
+                // MEX PER TUTTI
+                case (GameMessage.insertName):
+                    santoriniGUI = new SantoriniGUI(this);
+                    santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.INSERTNAME));
+                    break;
+                case (GameMessage.changeName):
+                    santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.CHANGENAME));
+                    break;
+                case (GameMessage.loadingMatch):
+                    santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.LOADINGMATCH));
+                    break;
+                //case (GameMessage.waitingPlayers):   // TODO attesa del master player dopo selezione del numero di giocatori
+                case (GameMessage.waitMessageForColor):
+                case (GameMessage.waitMessageForCard):
+                case (GameMessage.waitMasterChoseOfCard):
+                    santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.WAITINGOTHERPLAYERSCHOOSE));
+                    break;
+
+
+                // MEX PER IL MASTERPLAYER
+                case (GameMessage.masterPlayerSelectNumberofPlayers):
+                    santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.MASTERSELECTNUMBEROFPLAYERS));
+                    break;
+                case (GameMessage.chooseColorBegin):
+                    MessageToGUI m1 = new MessageToGUI(StateOfGUI.MASTERCHOOSECOLOR);
+                    for (Worker.Color c : Worker.Color.values()) {
+                        m1.updateAvailableColors(c);
+                    }
+                    santoriniGUI.updateGUILobby(m1);
+                    break;
+                case (GameMessage.cardPhase):
+                    MessageToGUI m2 = new MessageToGUI(StateOfGUI.MASTERCHOOSECARD, true);
+                    santoriniGUI.updateGUILobby(m2);
+                    break;
+
+
+                // MEX per TUTTI
+                case (GameMessage.startNormalGame):
+                    santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.STARTNORMALGAME));
+                    isLobbyPhase = false;
+                    break;
+
+
+                default:
+                    // MEX PER GLI ALTRI GIOCATORI
+                    if (s.contains(GameMessage.chooseColor)) {
+                        MessageToGUI mexForPlayer = new MessageToGUI(StateOfGUI.PLAYERCHOOSECOLOR);
+                        for (Worker.Color c : Worker.Color.values()) {
+                            if (s.contains(c.toString())) {
+                                mexForPlayer.updateAvailableColors(c);
+                            }
+                        }
+                        santoriniGUI.updateGUILobby(mexForPlayer);
+                        break;
+                    }
+                    if (s.contains(GameMessage.availableCards)) {
+                        MessageToGUI mexForPlayer2 = new MessageToGUI(StateOfGUI.PLAYERCHOOSECARD, true);
+                        for (Card c : mexForPlayer2.getCompleteDeck()) {
+                            if (s.contains(c.getName())) {
+                                mexForPlayer2.updateAvailableCards(c);
+                            }
+                        }
+                        santoriniGUI.updateGUILobby(mexForPlayer2);
+                        break;
+                    }
+            }
+        }
+        else{
+            return;
+        }
+
+/*
         String temp = GameMessage.searchStartingGameMessage(s);
         if (temp != null){
             return;
@@ -46,6 +124,7 @@ public class ClientGUI {
                 return;
             }
         }
+        */
     }
 
 
@@ -59,7 +138,7 @@ public class ClientGUI {
                         if(inputObject instanceof String){
                             decoderGUI((String) inputObject);
                         } else if (inputObject instanceof Board){
-
+                            // TODO Gestire aggiornamento della board
                         } else if (inputObject instanceof Player){
                             player=((Player)inputObject);
                         }else {

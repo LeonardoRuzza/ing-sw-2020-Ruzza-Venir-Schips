@@ -22,7 +22,7 @@ public class ClientApp
                 "\u001B[0m" + "        Progetto Ingegneria del Software Ruzza, Schips, Venir\n\n\n" );
 
 
-        System.out.println("Do you want to play the game with the GUI or CLI");
+        System.out.println("Do you want to play the game with the GUI or CLI?");
         Scanner in = new Scanner(System.in);
         String read = in.nextLine();
         while (!read.toUpperCase().equals("GUI") && !read.toUpperCase().equals("CLI")){
