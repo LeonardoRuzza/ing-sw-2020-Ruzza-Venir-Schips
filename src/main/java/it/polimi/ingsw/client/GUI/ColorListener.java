@@ -7,11 +7,14 @@ import java.util.List;
 
 public class ColorListener implements MouseListener {
     private SantoriniGUI santoriniGUI;
-    private static List<ColorLabel> connectedButtons = new ArrayList<>();
+    private List<ColorLabel> connectedLabels = new ArrayList<>();
 
-    public ColorListener(SantoriniGUI santoriniGUI, ColorLabel colorLabel) {
+    public ColorListener(SantoriniGUI santoriniGUI) {
         this.santoriniGUI = santoriniGUI;
-        connectedButtons.add(colorLabel);
+    }
+
+    public void addColorLabel(ColorLabel colorLabel){
+        connectedLabels.add(colorLabel);
     }
 
     @Override
@@ -19,7 +22,7 @@ public class ColorListener implements MouseListener {
         ColorLabel colorLabel = (ColorLabel) e.getSource();
         String s = colorLabel.getColor().toString();
         santoriniGUI.sendNotification(s);
-        for(ColorLabel cl:connectedButtons) {
+        for(ColorLabel cl: connectedLabels) {
             if(cl!=null) {
                 cl.removeMouseListener(this);
             }

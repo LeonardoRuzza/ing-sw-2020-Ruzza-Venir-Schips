@@ -12,6 +12,7 @@ import java.util.List;
 public class NotMasterCardPanel extends JPanel {
     private SantoriniGUI santoriniGUI;
     private List<Card> availableCards;
+    CardListener cardListener;
 
     public NotMasterCardPanel(SantoriniGUI santoriniGUI, List<Card> availableCards) {
         int x=0;
@@ -20,6 +21,7 @@ public class NotMasterCardPanel extends JPanel {
         int y = 431;
         this.santoriniGUI = santoriniGUI;
         this.availableCards = availableCards;
+        cardListener = new CardListener(santoriniGUI, 1);
         setLayout(null);
         setSize(1920,1080);
         add(createChooseCardLabel());
@@ -27,7 +29,9 @@ public class NotMasterCardPanel extends JPanel {
         jPanelCards.setLayout(null);
         jPanelCards.setBounds(141, y, 1638, cardLabelHeight);
         for(int i=0; i<4 && i<availableCards.size() ;i++){
-            CardLabel cardLabel = new CardLabel(santoriniGUI, availableCards.get(i), 1);
+            CardLabel cardLabel = new CardLabel(availableCards.get(i));
+            cardLabel.addMouseListener(cardListener);
+            cardListener.addConnectedLabel(cardLabel);
             jPanelCards.add(cardLabel);
             cardLabel.setBounds(x, 0, cardLabelWidth, cardLabelHeight);
             cardLabel.setBorder(null);

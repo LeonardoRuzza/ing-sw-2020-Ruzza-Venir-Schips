@@ -9,17 +9,20 @@ import java.util.List;
 
 public class CardListener implements MouseListener {
     private SantoriniGUI santoriniGUI;
-    private static List<Card> selectedCards = new ArrayList<>();
+    private List<Card> selectedCards = new ArrayList<>();
     private int numberOfSelectableCards;
-    private static List<CardLabel> connectedLabels = new ArrayList<>();
+    private List<CardLabel> connectedLabels = new ArrayList<>();
 
-    public CardListener(SantoriniGUI santoriniGUI, int numberOfSelectableCards, CardLabel cardLabel) {
+    public CardListener(SantoriniGUI santoriniGUI, int numberOfSelectableCards){
         this.santoriniGUI = santoriniGUI;
         this.numberOfSelectableCards = numberOfSelectableCards;
+    }
+
+    public void addConnectedLabel(CardLabel cardLabel){
         connectedLabels.add(cardLabel);
     }
 
-    public static List<Integer> getNumbersOfSelectedCards(){
+    public List<Integer> getNumbersOfSelectedCards(){
         List<Integer> result= new ArrayList<>();
         for(Card c: selectedCards){
             result.add(c.getNumber());
@@ -27,7 +30,7 @@ public class CardListener implements MouseListener {
         return result;
     }
 
-    public static List<Card> getSelectedCards(){
+    public List<Card> getSelectedCards(){
         return new ArrayList<>(selectedCards);
     }
 
@@ -50,7 +53,7 @@ public class CardListener implements MouseListener {
                 selectedCards.clear();
                 for(CardLabel cl: connectedLabels){
                     if(cl!=null) {
-                        cl.removeMouseListener(cl.getMouseListeners()[0]);
+                        cl.removeMouseListener(this);
                     }
                 }
                 connectedLabels.clear();

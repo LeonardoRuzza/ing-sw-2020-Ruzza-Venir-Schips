@@ -16,6 +16,7 @@ public class MasterCardPanel extends JPanel {
     private SantoriniGUI santoriniGUI;
     private int numberOfPlayers;
     private int currentStatePanel;
+    CardListener cardListener;
 
     public int getNumbOfAvailableCards(){
         return availableCards.size();
@@ -36,6 +37,7 @@ public class MasterCardPanel extends JPanel {
         this.numberOfPlayers = numberOfPlayers;
         this.santoriniGUI = santoriniGUI;
         currentStatePanel = 0;
+        cardListener = new CardListener(santoriniGUI, numberOfPlayers);
         setSize(1920,1080);
         setLayout(null);
         add(createChooseCardLabel(numberOfPlayers));
@@ -43,7 +45,9 @@ public class MasterCardPanel extends JPanel {
         jPanelCards.setLayout(null);
         jPanelCards.setBounds(141, y, 1638, cardLabelHeight);
         for(int i=0; i<4 && i<availableCards.size() ; i++){
-            CardLabel cardLabel = new CardLabel(santoriniGUI, availableCards.get(i), numberOfPlayers);
+            CardLabel cardLabel = new CardLabel(availableCards.get(i));
+            cardLabel.addMouseListener(cardListener);
+            cardListener.addConnectedLabel(cardLabel);
             jPanelCards.add(cardLabel);
             cardLabel.setBounds(x, 0, cardLabelWidth, cardLabelHeight);
             cardLabel.setBorder(null);
@@ -113,23 +117,27 @@ public class MasterCardPanel extends JPanel {
             jPanelCards.remove(cl);
         }
         for(int i=n; i<n+4 && i<availableCards.size() ;i++) {
-            boolean isSelected = CardListener.getNumbersOfSelectedCards().contains(availableCards.get(i).getNumber());
+            boolean isSelected = cardListener.getNumbersOfSelectedCards().contains(availableCards.get(i).getNumber());
             CardLabel cardLabel;
             if(isSelected){
                 int indexSelectedCard=0;
-                for(Card c: CardListener.getSelectedCards()){
+                for(Card c: cardListener.getSelectedCards()){
                     if(availableCards.get(i).getNumber() == c.getNumber()){
-                        indexSelectedCard = CardListener.getSelectedCards().indexOf(c);
+                        indexSelectedCard = cardListener.getSelectedCards().indexOf(c);
                     }
                 }
-                cardLabel = new CardLabel(santoriniGUI, CardListener.getSelectedCards().get(indexSelectedCard), numberOfPlayers, true);
+                cardLabel = new CardLabel(cardListener.getSelectedCards().get(indexSelectedCard), true);
+                cardLabel.addMouseListener(cardListener);
+                cardListener.addConnectedLabel(cardLabel);
                 jPanelCards.add(cardLabel);
                 cardLabel.setBounds(x, 0, cardLabelWidth, cardLabelHeight);
                 cardLabel.setBorder(null);
                 x+=480;
                 continue;
             }
-            cardLabel= new CardLabel(santoriniGUI, availableCards.get(i), numberOfPlayers);
+            cardLabel= new CardLabel(availableCards.get(i));
+            cardLabel.addMouseListener(cardListener);
+            cardListener.addConnectedLabel(cardLabel);
             jPanelCards.add(cardLabel);
             cardLabel.setBounds(x, 0, cardLabelWidth, cardLabelHeight);
             cardLabel.setBorder(null);

@@ -12,7 +12,7 @@ public class CardLabel extends JLabel {
     private Card card;
     private JLabel selectionLabel;
 
-    public CardLabel(SantoriniGUI santoriniGUI, Card card, int numberOfSelectableCards) {
+    public CardLabel(Card card) {
         this.card = card;
         this.selectionLabel = new JLabel();
         Image buttonIcon;
@@ -29,11 +29,10 @@ public class CardLabel extends JLabel {
             return;
         }
         setIcon(new ImageIcon(buttonIcon));
-        addMouseListener(new CardListener(santoriniGUI, numberOfSelectableCards,this));
     }
 
-    public CardLabel(SantoriniGUI santoriniGUI, Card card, int numberOfPlayers, boolean isSelected){
-        this(santoriniGUI, card, numberOfPlayers);
+    public CardLabel(Card card, boolean isSelected){
+        this(card);
         if(isSelected) selectCard();
     }
 

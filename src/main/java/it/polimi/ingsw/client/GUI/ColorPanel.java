@@ -10,12 +10,14 @@ import java.io.IOException;
 import java.util.List;
 
 public class ColorPanel extends JPanel {
+    private ColorListener  colorListener;
 
     public ColorPanel(SantoriniGUI santoriniGUI, List<Worker.Color> availableColors) {
         int x=0;
         int colorLabelHeight = 312;
         int colorLabelWidth = 188;
         int y = 435;
+        colorListener = new ColorListener(santoriniGUI);
         setSize(1920,1080);
         setLayout(null);
         add(createColorMessageLabel());
@@ -24,6 +26,8 @@ public class ColorPanel extends JPanel {
         jPanel.setBounds(146, y, 1628, colorLabelHeight);
         for(Worker.Color temp: availableColors){
             ColorLabel colorLabel = new ColorLabel(temp, santoriniGUI);
+            colorLabel.addMouseListener(colorListener);
+            colorListener.addColorLabel(colorLabel);
             jPanel.add(colorLabel);
             colorLabel.setBounds(x, 0, colorLabelWidth, colorLabelHeight);
             colorLabel.setBorder(null);

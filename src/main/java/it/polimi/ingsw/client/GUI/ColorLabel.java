@@ -46,7 +46,6 @@ public class ColorLabel extends JLabel {
         }
         setIcon(new ImageIcon(buttonIcon));
         setFocusable(false);
-        addMouseListener(new ColorListener(santoriniGUI,this));
     }
 
     public Worker.Color getColor() {
