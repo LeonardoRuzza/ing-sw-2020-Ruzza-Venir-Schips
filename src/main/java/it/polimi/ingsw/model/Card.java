@@ -8,7 +8,7 @@ public class Card implements Serializable {
     public enum activationPeriod{YOURMOVE, YOURBUILD, YOURTURN, FOETURN, ENDYOURTURN, STARTFOETURN, SUPERWINCOND, LIMITWINCOND}
     private static final int cardNumb = 14;
     private int number;
-    static final String[] names = {"APOLLO","ARTEMIS","ATHENA","ATLAS","DEMETER","HEPHAESTUSH","MINOTAUR","PAN","PROMETHEUS","ARES","CHRONUS","HERA","HESTIA","HYPNUS"};
+    static final String[] names = {"APOLLO","ARTEMIS","ATHENA","ATLAS","DEMETER","HEPHAESTUS","MINOTAUR","PAN","PROMETHEUS","ARES","CHRONUS","HERA","HESTIA","HYPNUS"};
 
     static final String[] descriptions = {
             "Your Move: Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.",
@@ -37,7 +37,13 @@ public class Card implements Serializable {
     public Card(int cardNum){
         this.number = cardNum;
     }
-
+    public Card(String cardName){
+        for(int x=0; x<names.length; x++){
+            if(names[x].equals(cardName)){
+                this.number = x;
+            }
+        }
+    }
     //Getter
     public static int getCardNumb() { return cardNumb; }
     public int getNumber() { return number; }
