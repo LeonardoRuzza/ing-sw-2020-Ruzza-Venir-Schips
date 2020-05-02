@@ -59,7 +59,7 @@ public class NicknamePanel extends JPanel{
 
     public void showNameAlreadyTokenDialog(JFrame f){
         int dialogResult = JOptionPane.showOptionDialog(f, "This name is already taken", "Nickname Error", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, null,"Cancel");
-        if(dialogResult == JOptionPane.DEFAULT_OPTION){
+        if(dialogResult == JOptionPane.ERROR_MESSAGE || dialogResult == JOptionPane.CLOSED_OPTION){
             nicknameTxtField.setText("nickname");
             playButton.addMouseListener(listner);
         }
