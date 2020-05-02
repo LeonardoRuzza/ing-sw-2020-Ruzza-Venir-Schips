@@ -176,13 +176,10 @@ public class GamePanel extends JPanel {
         }
 
         private void addAsGrid(JPanel component){
-            int x;
-            int intX = (int)((this.getComponentCount())/columns);
-            int doubleX = (hgap+elemWidth)*(this.getComponentCount()%columns);
-            x = ((int)(hgap+elemWidth))*(((int)((doubleX-intX) * 10))/2);
+            int x = (hgap+elemWidth)*(this.getComponentCount()%columns);
             int y = ((int)((this.getComponentCount())/columns)) *((int)(elemHeight+vgap));
             this.add(component);
-            component.setBounds(doubleX,y,elemWidth,elemHeight);
+            component.setBounds(x,y,elemWidth,elemHeight);
         }
 
         public CellPanel getCell(int row, int column){
