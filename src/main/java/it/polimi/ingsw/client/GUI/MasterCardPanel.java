@@ -28,31 +28,40 @@ public class MasterCardPanel extends JPanel {
     }
 
     public MasterCardPanel(SantoriniGUI santoriniGUI, List<Card> availableCards, int numberOfPlayers){
+        int x=0;
+        int cardLabelHeight = 332;
+        int cardLabelWidth = 198;
+        int y = 431;
         this.availableCards = new ArrayList<>(availableCards);
         this.numberOfPlayers = numberOfPlayers;
         this.santoriniGUI = santoriniGUI;
         currentStatePanel = 0;
-        setLayout(new BorderLayout());
-        add(createChooseCardLabel(numberOfPlayers), BorderLayout.NORTH);
-        JPanel jPanelTotal = new JPanel();
-        jPanelTotal.setLayout(new BorderLayout());
+        setSize(1920,1080);
+        setLayout(null);
+        add(createChooseCardLabel(numberOfPlayers));
         jPanelCards = new JPanel();
-        jPanelCards.setLayout(new FlowLayout());
-        for(int i=0; i<4 && i<availableCards.size() ;i++){
-            jPanelCards.add(new CardButton(santoriniGUI, availableCards.get(i), numberOfPlayers));
+        jPanelCards.setLayout(null);
+        jPanelCards.setBounds(141, y, 1638, cardLabelHeight);
+        for(int i=0; i<4 && i<availableCards.size() ; i++){
+            CardLabel cardLabel = new CardLabel(santoriniGUI, availableCards.get(i), numberOfPlayers);
+            jPanelCards.add(cardLabel);
+            cardLabel.setBounds(x, 0, cardLabelWidth, cardLabelHeight);
+            cardLabel.setBorder(null);
+            x+=480;
         }
-        ((FlowLayout)jPanelCards.getLayout()).setHgap(30); //settare il gap adatto
-        jPanelTotal.add(jPanelCards,BorderLayout.NORTH);
-        jPanelTotal.add(createNextButton(), BorderLayout.EAST);
-        jPanelTotal.add(createPrevButton(), BorderLayout.WEST);
-        this.add(jPanelTotal, BorderLayout.SOUTH);
-
+        jPanelCards.setOpaque(true);
+        jPanelCards.setBackground(new Color(0,0,0,0));
+        add(jPanelCards);
+        add(createNextButton());
+        add(createPrevButton());
+        setOpaque(true);
+        setBackground(new Color(0,0,0,0));
     }
 
     private JLabel createChooseCardLabel(int n){
         Image buttonIcon;
         try {
-            buttonIcon = ImageIO.read(new File("src/main/resource/sys_label_"+n+"_card.png"));
+            buttonIcon = ImageIO.read(new File("src/main/resources/sys_label_"+n+"_card.png"));
         }catch (IOException e){
             System.out.println("Error while trying to open choose card label image");
             return new JLabel("Error: image not found");
@@ -60,48 +69,52 @@ public class MasterCardPanel extends JPanel {
         if(buttonIcon == null) return new JLabel("Choose "+n+" cards:");
         JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon(buttonIcon));
-        jLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        jLabel.setBounds(651,188,619,207);
         return jLabel;
     }
 
-    private JButton createNextButton(){
+    private JLabel createNextButton(){
         Image buttonIcon;
         try {
             buttonIcon = ImageIO.read(new File("src/main/resources/btn_next.png"));
         }catch (IOException e){
             System.out.println("Error while trying to open next button image");
-            return new JButton("Error: image not found");
+            return new JLabel("Error: image not found");
         }
-        if(buttonIcon == null) return new JButton("Next");
-        JButton jButton = new JButton();
-        jButton.setIcon(new ImageIcon(buttonIcon));
-        jButton.setHorizontalAlignment(SwingConstants.RIGHT);
-        jButton.addActionListener(new NextListener(this));
-        return jButton;
+        if(buttonIcon == null) return new JLabel("Next");
+        JLabel jLabel = new JLabel();
+        jLabel.setIcon(new ImageIcon(buttonIcon));
+        jLabel.setBounds(1779,885,150,89);
+        jLabel.addMouseListener(new NextListener(this));
+        return jLabel;
     }
 
-    private JButton createPrevButton(){
+    private JLabel createPrevButton(){
         Image buttonIcon;
         try {
             buttonIcon = ImageIO.read(new File("src/main/resources/btn_prev.png"));
         }catch (IOException e){
             System.out.println("Error while trying to open prev button image");
-            return new JButton("Error: image not found");
+            return new JLabel("Error: image not found");
         }
-        if(buttonIcon == null) return new JButton("Prev");
-        JButton jButton = new JButton();
-        jButton.setIcon(new ImageIcon(buttonIcon));
-        jButton.setHorizontalAlignment(SwingConstants.LEFT);
-        jButton.addActionListener(new PrevListener(this));
-        return jButton;
+        if(buttonIcon == null) return new JLabel("Prev");
+        JLabel jLabel = new JLabel();
+        jLabel.setIcon(new ImageIcon(buttonIcon));
+        jLabel.setBounds(52,885,150,89);
+        jLabel.addMouseListener(new PrevListener(this));
+        return jLabel;
     }
 
     public void setjPanelCards(int n){
-        for(int i=0; i<4 && i<availableCards.size(); i++) {
-            jPanelCards.remove(i);
+        int x=0;
+        int cardLabelHeight = 332;
+        int cardLabelWidth = 198;
+        for(Component cl: jPanelCards.getComponents()){
+            jPanelCards.remove(cl);
         }
         for(int i=n; i<n+4 && i<availableCards.size() ;i++) {
             boolean isSelected = CardListener.getNumbersOfSelectedCards().contains(availableCards.get(i).getNumber());
+            CardLabel cardLabel;
             if(isSelected){
                 int indexSelectedCard=0;
                 for(Card c: CardListener.getSelectedCards()){
@@ -109,10 +122,18 @@ public class MasterCardPanel extends JPanel {
                         indexSelectedCard = CardListener.getSelectedCards().indexOf(c);
                     }
                 }
-                jPanelCards.add(new CardButton(santoriniGUI, CardListener.getSelectedCards().get(indexSelectedCard), numberOfPlayers, true));
-                return;
+                cardLabel = new CardLabel(santoriniGUI, CardListener.getSelectedCards().get(indexSelectedCard), numberOfPlayers, true);
+                jPanelCards.add(cardLabel);
+                cardLabel.setBounds(x, 0, cardLabelWidth, cardLabelHeight);
+                cardLabel.setBorder(null);
+                x+=480;
+                continue;
             }
-            jPanelCards.add(new CardButton(santoriniGUI, availableCards.get(i), numberOfPlayers));
+            cardLabel= new CardLabel(santoriniGUI, availableCards.get(i), numberOfPlayers);
+            jPanelCards.add(cardLabel);
+            cardLabel.setBounds(x, 0, cardLabelWidth, cardLabelHeight);
+            cardLabel.setBorder(null);
+            x+=480;
         }
     }
 
@@ -127,7 +148,7 @@ public class MasterCardPanel extends JPanel {
         if(buttonIcon == null) return new JLabel("Waiting others players choose of cards");
         JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon(buttonIcon));
-        jLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        jLabel.setBounds(651,188,619,207);
         return jLabel;
     }
 }

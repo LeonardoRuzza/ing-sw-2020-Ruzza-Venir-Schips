@@ -2,22 +2,21 @@ package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.model.Card;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardListener implements ActionListener {
+public class CardListener implements MouseListener {
     private SantoriniGUI santoriniGUI;
-    private static List<Card> selectedCards;
+    private static List<Card> selectedCards = new ArrayList<>();
     private int numberOfSelectableCards;
-    private static List<CardButton> connectedButtons = new ArrayList<>();
+    private static List<CardLabel> connectedLabels = new ArrayList<>();
 
-    public CardListener(SantoriniGUI santoriniGUI, int numberOfSelectableCards, CardButton cardButton) {
+    public CardListener(SantoriniGUI santoriniGUI, int numberOfSelectableCards, CardLabel cardLabel) {
         this.santoriniGUI = santoriniGUI;
         this.numberOfSelectableCards = numberOfSelectableCards;
-        connectedButtons.add(cardButton);
-        selectedCards = new ArrayList<>();
+        connectedLabels.add(cardLabel);
     }
 
     public static List<Integer> getNumbersOfSelectedCards(){
@@ -32,34 +31,56 @@ public class CardListener implements ActionListener {
         return new ArrayList<>(selectedCards);
     }
 
+
     @Override
-    public void actionPerformed(ActionEvent e) {
-        CardButton cardButton = (CardButton) e.getSource();
-        Card card = cardButton.getCard();
+    public void mouseClicked(MouseEvent e) {
+        CardLabel cardLabel = (CardLabel) e.getSource();
+        Card card = cardLabel.getCard();
         if(selectedCards.contains(card)){
-            cardButton.deselectCard();
+            cardLabel.deselectCard();
             selectedCards.remove(card);
         }
         else {
             if(selectedCards.size() == numberOfSelectableCards -1){
                 selectedCards.add(card);
-                cardButton.selectCard();
+                cardLabel.selectCard();
                 for(Card c:selectedCards){
                     santoriniGUI.sendNotification(c.getName());
                 }
                 selectedCards.clear();
-                for(CardButton cb:connectedButtons){
-                    if(cb!=null) {
-                        cb.removeActionListener(this);
+                for(CardLabel cl: connectedLabels){
+                    if(cl!=null) {
+                        cl.removeMouseListener(cl.getMouseListeners()[0]);
                     }
                 }
+                connectedLabels.clear();
             }
             else{
                 if(selectedCards.size() >= numberOfSelectableCards) return; //maybe not possible case
                 selectedCards.add(card);
-                cardButton.selectCard();
+                cardLabel.selectCard();
             }
 
         }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
