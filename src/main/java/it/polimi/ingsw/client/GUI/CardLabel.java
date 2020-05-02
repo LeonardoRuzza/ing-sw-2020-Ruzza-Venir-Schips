@@ -18,7 +18,6 @@ public class CardLabel extends JLabel {
         Image buttonIcon;
         try {
             buttonIcon = ImageIO.read(new File("src/main/resources/cards/"+card.getName().toLowerCase()+".png"));
-            System.out.println(card.getName().toLowerCase()); //TODO da rimuovere (utile solo per testing)
         }catch (IOException e){
             System.out.println("Error while trying to open card label image");
             setText(card.getName());
@@ -28,7 +27,7 @@ public class CardLabel extends JLabel {
             setText(card.getName());
             return;
         }
-        setIcon(new ImageIcon(buttonIcon));
+        setIcon(new ImageIcon(buttonIcon.getScaledInstance(198,332, Image.SCALE_SMOOTH)));
     }
 
     public CardLabel(Card card, boolean isSelected){
@@ -51,9 +50,11 @@ public class CardLabel extends JLabel {
         }
         selectionLabel.setIcon(new ImageIcon(buttonIcon));
         selectionLabel.setBounds(0, 0,198,332);
-        //setBounds(this.getBounds().x, this.getBounds().y,198,322);
         this.add(selectionLabel);
         selectionLabel.setVisible(true);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.getContentPane().revalidate();
+        topFrame.getContentPane().repaint();
     }
 
     public void deselectCard(){

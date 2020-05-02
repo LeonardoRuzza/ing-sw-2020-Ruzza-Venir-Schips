@@ -143,6 +143,9 @@ public class MasterCardPanel extends JPanel {
             cardLabel.setBorder(null);
             x+=480;
         }
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(jPanelCards);
+        topFrame.getContentPane().revalidate();
+        topFrame.getContentPane().repaint();
     }
 
     public static JLabel createWaitingCardLabel(){
