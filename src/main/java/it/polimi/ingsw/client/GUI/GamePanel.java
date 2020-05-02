@@ -178,10 +178,11 @@ public class GamePanel extends JPanel {
         private void addAsGrid(JPanel component){
             int x;
             int intX = (int)((this.getComponentCount())/columns);
-            x = ((int)(hgap+elemWidth))*((int)((((((this.getComponentCount())/columns)-intX) * 10)/2)));
+            int doubleX = (hgap+elemWidth)*(this.getComponentCount()%columns);
+            x = ((int)(hgap+elemWidth))*(((int)((doubleX-intX) * 10))/2);
             int y = ((int)((this.getComponentCount())/columns)) *((int)(elemHeight+vgap));
             this.add(component);
-            component.setBounds(x,y,elemWidth,elemHeight);
+            component.setBounds(doubleX,y,elemWidth,elemHeight);
         }
 
         public CellPanel getCell(int row, int column){
@@ -455,9 +456,17 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private class PlayerCardPanel extends JPanel{
-        JLabel playerName;
-        JLabel card;
+    protected class PlayerCardPanel extends JPanel{
+        private JLabel cardInfoButton;
+        private JLabel playerName;
+        private JLabel card;
+        private String nickName;
+        private String cardName;
+
+        private JPanel dialogPanelCardInfo;
+
+        private CardInfoListner listnerCardDetail;
+
         public PlayerCardPanel(){
             this.setLayout(null);
             this.setSize(349,540);
@@ -473,13 +482,19 @@ public class GamePanel extends JPanel {
             cardContainer.setBounds(0,0,this.getWidth(),this.getHeight());
 
             playerName = new JLabel("");
-            playerName.setBounds(53,474,246,61);
+            playerName.setBounds(5,474,341,61);
             playerName.setFont(new Font("ComicSansMS",Font.BOLD,40));
             playerName.setHorizontalAlignment(JTextField.CENTER);
 
             card = new JLabel("");
             card.setBounds(61,16,229,384);
 
+            cardInfoButton = new JLabel("");
+            cardInfoButton.setBounds(card.getBounds());
+            listnerCardDetail = new CardInfoListner(this);
+            cardInfoButton.addMouseListener(listnerCardDetail);
+
+            this.add(cardInfoButton);
             this.add(card);
             this.add(playerName);
             this.add(cardContainer);
@@ -500,6 +515,7 @@ public class GamePanel extends JPanel {
         }
 
         public void updateNamePlayer(String name){
+            this.nickName = nickName;
             playerName.setText(name);
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             updateFrame(topFrame);
@@ -512,6 +528,7 @@ public class GamePanel extends JPanel {
         }
 
         public void updateCardImg(String cardName){
+            this.cardName = cardName;
             String cardPath = "src/main/resources/cards/"+ cardName.toLowerCase() +".png";
 
             BufferedImage cardImg = null;
@@ -524,8 +541,102 @@ public class GamePanel extends JPanel {
             card.setIcon(new ImageIcon(cardImgScaled));
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             updateFrame(topFrame);
+
+            dialogPanelCardInfo = this.initDialogPanelCardInfo();
         }
 
+        public JPanel initDialogPanelCardInfo(){
+            JPanel screenPanel = new JPanel();
+            screenPanel.setLayout(null);
+            screenPanel.setBounds(0,0,1920,1080);
+            screenPanel.setOpaque(true);
+            screenPanel.setBackground(new java.awt.Color(0,0,0,0));
 
+            JPanel resultPanel = new JPanel();
+            resultPanel.setLayout(null);
+            String path = "src/main/resources/dialog_base_gods_detail.png";
+            BufferedImage backgroundImg = null;
+            try {
+                backgroundImg = ImageIO.read(new File(path));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
+
+            JLabel nameGod = new JLabel(String.valueOf(this.getCardName().charAt(0)).toUpperCase() + this.getCardName().substring(1));
+            nameGod.setFont(new Font("ComicSansMS",Font.BOLD,40));
+            nameGod.setHorizontalAlignment(JTextField.CENTER);
+            nameGod.setForeground(java.awt.Color.white);
+
+            path = "src/main/resources/gods/"+ this.getCardName().toLowerCase() +".png";
+            BufferedImage cardImg = null;
+            try {
+                cardImg = ImageIO.read(new File(path));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Image cardImgScaled = cardImg.getScaledInstance(500,512,Image.SCALE_SMOOTH);
+            JLabel godImg = new JLabel(new ImageIcon(cardImgScaled));
+
+            Card cardDesc = new Card(this.getCardName().toUpperCase());
+            JTextArea godDescription = new JTextArea(cardDesc.getDesc());
+            godDescription.setFont(new Font("ComicSansMS",Font.BOLD,54));
+            //godDescription.setHorizontalAlignment(JTextField.CENTER);
+            godDescription.setForeground(java.awt.Color.white);
+            godDescription.setEditable(false);
+            godDescription.setSelectionColor(new java.awt.Color(0,0,0,0));
+            godDescription.setHighlighter(null);
+            godDescription.setLineWrap(true);
+            godDescription.setWrapStyleWord(true);
+            godDescription.setOpaque(true);
+            godDescription.setBackground(new java.awt.Color(0,0,0,0));
+
+            path = "src/main/resources/btn_close.png";
+            BufferedImage closeImg = null;
+            try {
+                closeImg = ImageIO.read(new File(path));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            JLabel closeDescPanel = new JLabel(new ImageIcon(closeImg));
+            closeDescPanel.addMouseListener(listnerCardDetail);
+
+            closeDescPanel.setBounds(1627,0,73,70);
+            resultPanel.add(closeDescPanel);
+            godDescription.setBounds(474,171,1190,359);
+            resultPanel.add(godDescription);
+            nameGod.setBounds(613,33,482,79);
+            resultPanel.add(nameGod);
+            godImg.setBounds(-26,-85,500,512);
+            resultPanel.add(godImg);
+            backgroundLabel.setBounds(0,0,1700,775);
+            resultPanel.add(backgroundLabel);
+
+            resultPanel.setBounds(110,153,1700,775);
+            screenPanel.add(resultPanel);
+
+            return screenPanel;
+        }
+
+        public void showDialogPanelCardInfo(){
+            dialogPanelCardInfo.setBounds(110,153,1700,775);
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.getContentPane().add(dialogPanelCardInfo,0);
+            updateFrame(topFrame);
+        }
+
+        public void closeDialogPanelCardInfo(){
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.getContentPane().remove(0);
+            updateFrame(topFrame);
+        }
+
+        public String getNickName() {
+            return nickName;
+        }
+
+        public String getCardName() {
+            return cardName;
+        }
     }
 }
