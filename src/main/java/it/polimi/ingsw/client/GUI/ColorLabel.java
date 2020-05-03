@@ -9,10 +9,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ColorButton extends JButton {
+public class ColorLabel extends JLabel {
     private final Worker.Color color;
 
-    public ColorButton(Worker.Color color, SantoriniGUI santoriniGUI) {
+    public ColorLabel(Worker.Color color, SantoriniGUI santoriniGUI) {
         Image buttonIcon = null; //oppure usare BufferedImage?
         this.color=color;
         try {
@@ -45,12 +45,7 @@ public class ColorButton extends JButton {
             return;
         }
         setIcon(new ImageIcon(buttonIcon));
-        setBorderPainted(false);
-        setFocusPainted(false);
-        setContentAreaFilled(false);
         setFocusable(false);
-        setRolloverEnabled(false);
-        addActionListener(new ColorListener(santoriniGUI,this));
     }
 
     public Worker.Color getColor() {

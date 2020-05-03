@@ -146,7 +146,7 @@ public class Player implements Serializable {
         ChoiceResponseMessage tempResponse;
         switch(stateOfTurn){
             case 1:
-                tempResponse = manageStateSelection(gender);
+                tempResponse = manageStateSelection(gender,x,y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkWorkerSelection)){
                     tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.turnMessageChooseCellMove);
                     return tempResponse;
@@ -176,7 +176,20 @@ public class Player implements Serializable {
      * @param gender the gender of the worker to select
      * @return ChoiceResponseMessage the message to return to manageTurn and (modified or not) then to RemoteView. Specify the result of the tried operation.
      */
-    protected ChoiceResponseMessage manageStateSelection(Worker.Gender gender){ //i vari if else servono perchè nelle setSelectedWorker vengono verificati altri limiti rispetto alla checkLoserMove
+    protected ChoiceResponseMessage manageStateSelection(Worker.Gender gender, int x, int y){ //i vari if else servono perchè nelle setSelectedWorker vengono verificati altri limiti rispetto alla checkLoserMove
+        if(x!=-1 && y!=-1 && gender == null){
+            if(workers[0].getCell().getxCoord()==x && workers[0].getCell().getyCoord()==y){
+                gender = Worker.Gender.Male;
+            }
+            else{
+                if(workers[1].getCell().getxCoord()==x && workers[1].getCell().getyCoord()==y){
+                    gender = Worker.Gender.Female;
+                }
+                else{
+                    return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageSelectYourWorker);
+                }
+            }
+        }
         if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[0] : workers[1])){                         //se non può muovere il worker selezionato
             if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[1] : workers[0])){
                 match.removeWorker(workers[0]);
