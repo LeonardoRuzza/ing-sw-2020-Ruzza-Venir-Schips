@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.GUI;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Worker.Color;
 import org.jetbrains.annotations.Nullable;
@@ -578,7 +577,6 @@ public class GamePanel extends JPanel {
             Card cardDesc = new Card(this.getCardName().toUpperCase());
             JTextArea godDescription = new JTextArea(cardDesc.getDesc());
             godDescription.setFont(new Font("ComicSansMS",Font.BOLD,54));
-            //godDescription.setHorizontalAlignment(JTextField.CENTER);
             godDescription.setForeground(java.awt.Color.white);
             godDescription.setEditable(false);
             godDescription.setSelectionColor(new java.awt.Color(0,0,0,0));

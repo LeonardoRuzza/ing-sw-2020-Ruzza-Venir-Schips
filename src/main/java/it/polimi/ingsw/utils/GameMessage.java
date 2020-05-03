@@ -56,7 +56,7 @@ public class GameMessage {
     public static final String turnMessageErrorFIRSTALLOCATION = "Error locating your Worker. ";
     public static final String turnMessageFIRSTALLOCATIONEnded = "Workers of all players have been allocated. ";
 
-    public static final String turnMessageSelectYourWorker = "Select a worker specifying Male or Female";
+    public static final String turnMessageSelectYourWorker = "Select a worker specifying Male, Female or Worker coordinates X,Y";
     public static final String turnMessageLoserNoWorker = "You lost, neither worker is selectable! ";
     public static final String turnMessageOkWorkerSelection = "Worker successfully selected. ";
     public static final String turnMessageChooseCellMove = "Choose where to move. ";
