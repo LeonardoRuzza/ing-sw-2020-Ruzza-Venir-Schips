@@ -7,13 +7,12 @@ import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.utils.GameMessage;
 import it.polimi.ingsw.utils.InputConversion;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
+import java.util.Scanner;
 
 public class ClientGUI {
 
@@ -24,6 +23,8 @@ public class ClientGUI {
         private boolean isLobbyPhase = true;
         protected Queue<String> outcomeGUI = new LinkedList<>();
         private SantoriniGUI santoriniGUI;
+        private MessageToGUI summary = new MessageToGUI(StateOfGUI.STARTNORMALGAME);
+        int playersSummaries = 0;
 
         public ClientGUI(String ip, int port) {
             this.ip = ip;
@@ -54,11 +55,16 @@ public class ClientGUI {
                 case (GameMessage.loadingMatch):
                     santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.LOADINGMATCH));
                     break;
-                //case (GameMessage.waitingPlayers):   // TODO attesa del master player dopo selezione del numero di giocatori
+                case (GameMessage.waitingPlayers):
+                case (GameMessage.waitMessageForColorBegin):
                 case (GameMessage.waitMessageForColor):
                 case (GameMessage.waitMessageForCard):
                 case (GameMessage.waitMasterChoseOfCard):
                     santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.WAITINGOTHERPLAYERSCHOOSE));
+                    break;
+                case (GameMessage.startNormalGame):
+                    isLobbyPhase = false;
+                    santoriniGUI.updateGUILobby(summary);
                     break;
 
 
@@ -67,29 +73,18 @@ public class ClientGUI {
                     santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.MASTERSELECTNUMBEROFPLAYERS));
                     break;
                 case (GameMessage.chooseColorBegin):
-                    MessageToGUI m1 = new MessageToGUI(StateOfGUI.MASTERCHOOSECOLOR);
+                    MessageToGUI m1 = new MessageToGUI(StateOfGUI.CHOOSECOLOR);
                     for (Worker.Color c : Worker.Color.values()) {
                         m1.updateAvailableColors(c);
                     }
                     santoriniGUI.updateGUILobby(m1);
-                    break;
-                case (GameMessage.cardPhase):
-                    MessageToGUI m2 = new MessageToGUI(StateOfGUI.MASTERCHOOSECARD, true);
-                    santoriniGUI.updateGUILobby(m2);
-                    break;
-
-
-                // MEX per TUTTI
-                case (GameMessage.startNormalGame):
-                    santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.STARTNORMALGAME));
-                    isLobbyPhase = false;
                     break;
 
 
                 default:
                     // MEX PER GLI ALTRI GIOCATORI
                     if (s.contains(GameMessage.chooseColor)) {
-                        MessageToGUI mexForPlayer = new MessageToGUI(StateOfGUI.PLAYERCHOOSECOLOR);
+                        MessageToGUI mexForPlayer = new MessageToGUI(StateOfGUI.CHOOSECOLOR);
                         for (Worker.Color c : Worker.Color.values()) {
                             if (s.contains(c.toString())) {
                                 mexForPlayer.updateAvailableColors(c);
@@ -108,23 +103,38 @@ public class ClientGUI {
                         santoriniGUI.updateGUILobby(mexForPlayer2);
                         break;
                     }
-            }
-        }
-        else{
-            return;
-        }
+                    // MEX PER IL MASTER PLAYER
+                    if (s.contains(GameMessage.cardPhase)){
+                        MessageToGUI masterChooseCard = new MessageToGUI(StateOfGUI.MASTERCHOOSECARD, true);
+                        if(s.contains(GameMessage.playerMasterChoseCard2)) {
+                            masterChooseCard.setCardToChoose(2);
+                        }
+                        else if (s.contains(GameMessage.playerMasterChoseCard3)){
+                            masterChooseCard.setCardToChoose(3);
+                        }
+                        santoriniGUI.updateGUILobby(masterChooseCard);
+                        break;
+                    }
 
-/*
-        String temp = GameMessage.searchStartingGameMessage(s);
-        if (temp != null){
-            return;
-        }
-        else{
-            if (GameMessage.isMatchMessage(s)){
-                return;
+                    // MEX PER TUTTI di Riepilogo
+                    if (s.contains(GameMessage.player1is) || s.contains(GameMessage.player2is) || s.contains(GameMessage.player3is)){
+                        MessageToGUI.PlayerSummary temp = summary.addPlayerSummary();
+                        playersSummaries++;
+                        temp.setPlayerNumber(playersSummaries);
+                        Scanner scanner = new Scanner(s);
+                        scanner.nextLine();
+                        temp.setNickname(scanner.nextLine());
+                        scanner.nextLine();
+                        temp.setColor(InputConversion.colorConversion(scanner.nextLine().toUpperCase()));
+                        scanner.nextLine();
+                        temp.setCardName(scanner.nextLine());
+                        break;
+                    }
             }
         }
-        */
+        else{
+            return;
+        }
     }
 
 
