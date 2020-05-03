@@ -26,6 +26,7 @@ public class ClientApp
         Scanner in = new Scanner(System.in);
         String read = in.nextLine();
         while (!read.toUpperCase().equals("GUI") && !read.toUpperCase().equals("CLI")){
+            System.out.println("Input Invalid, please write 'CLI' or 'GUI'");
             read = in.nextLine();
         }
         if (read.toUpperCase().equals("GUI")){

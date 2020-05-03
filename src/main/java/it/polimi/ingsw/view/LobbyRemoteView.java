@@ -55,41 +55,38 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
         switch (lobby.getStateOfTurn()) {
             case COLOR:  // Fase di scelta dei colori
                 if (lobby.isLobbyPlayerTurn(lobbyPlayer)) { // Se è il turno del player
-                    showMessageSync(GameMessage.availableColors);
                     for (String s :lobby.getAvailableColors()) {
                        resultMsg = resultMsg.concat(s);
                        resultMsg = resultMsg.concat("\n");
                     }
-                    showMessageSync(resultMsg + GameMessage.chooseColor);
+                    showMessageSync(GameMessage.availableColors + "\n" + resultMsg + GameMessage.chooseColor);
                 }
                 else{  // Altrimenti se non è il suo turno
-                    showMessage(GameMessage.waitMessageForColor);
+                    showMessage("\n" +GameMessage.waitMessageForColor);
                 }
                 break;
             case CARD:
                 if (lobby.getSwitchState()){  // Finita fase di scelta dei colori e inizia quella delle carte
                     if (lobby.getLobbyPlayers().get(0).getNickname().equals(lobbyPlayer.getNickname())){
-                        showMessageSync(GameMessage.cardPhase + Card.drawAll());
                         if (lobby.getNumberOfLobbyPlayer() == 2)
-                            showMessageSync(GameMessage.playerMasterChoseCard2);  // Mex per il master player
+                            showMessageSync(GameMessage.cardPhase + Card.drawAll() + "\n" + GameMessage.playerMasterChoseCard2);  // Mex per il master player
                         else
-                            showMessageSync(GameMessage.playerMasterChoseCard3);  // Mex per il master player
+                            showMessageSync(GameMessage.cardPhase + Card.drawAll() + "\n" +GameMessage.playerMasterChoseCard3);  // Mex per il master player
                         }
                     else
-                        showMessageSync(GameMessage.waitMasterChoseOfCard); // Mex per gli altri player
+                        showMessageSync("\n" + GameMessage.waitMasterChoseOfCard); // Mex per gli altri player
                 }
                 else{
                     if (lobby.isDeckChosen()) {  // Se il deck è stato scelto
                         if (lobby.isLobbyPlayerTurn(lobbyPlayer)){    // Stampa le carte disponibili rimanenti
-                            showMessageSync(GameMessage.availableCards);
                             for (Card c :lobby.getChosenDeck()) {
                                 resultMsg = resultMsg.concat(c.getName());
                                 resultMsg = resultMsg.concat("\n");
                             }
-                            showMessageSync(resultMsg);
+                            showMessageSync(GameMessage.availableCards + "\n" + resultMsg);
                         }
                         else  // Altrimenti se non è il suo turno
-                            showMessageSync(GameMessage.waitMessageForCard);
+                            showMessageSync("\n" + GameMessage.waitMessageForCard);
                     }
                     else {  // Altrimenti chiedi al master player di inserire una nuova carta
                         if (lobby.isLobbyPlayerTurn(lobbyPlayer)) {
