@@ -1,7 +1,10 @@
 package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.Worker;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -12,6 +15,7 @@ public class CardListener implements MouseListener {
     private List<Card> selectedCards = new ArrayList<>();
     private int numberOfSelectableCards;
     private List<CardLabel> connectedLabels = new ArrayList<>();
+    private JPanel cardInfo;
 
     public CardListener(SantoriniGUI santoriniGUI, int numberOfSelectableCards){
         this.santoriniGUI = santoriniGUI;
@@ -79,11 +83,39 @@ public class CardListener implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        CardLabel cardLabel = (CardLabel) e.getSource();
+        Card card = cardLabel.getCard();
+        Container cardContainer = cardLabel.getParent().getParent();
+        String cardDescription = card.getDesc();
+        JTextArea jTextArea= new JTextArea(cardDescription);
+        jTextArea.setFont(new Font("ComicSansMS",Font.BOLD,20));
+        jTextArea.setForeground(Color.BLACK);
+        jTextArea.setEditable(false);
+        jTextArea.setHighlighter(null);
+        jTextArea.setLineWrap(true);
+        jTextArea.setWrapStyleWord(true);
+        jTextArea.setOpaque(true);
+        jTextArea.setBackground(new Color(236,228,212,255));
+        cardInfo = new JPanel();
+        cardInfo.setLayout(null);
+        cardInfo.add(jTextArea,0);
+        cardInfo.setBounds(cardLabel.getBounds().x+100,cardLabel.getParent().getBounds().y+405,290,165);
+        jTextArea.setBounds(0,0,cardInfo.getBounds().width,cardInfo.getBounds().height);
+        cardContainer.add(cardInfo,0);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(cardLabel);
+        topFrame.getContentPane().revalidate();
+        topFrame.getContentPane().repaint();
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        CardLabel cardLabel = (CardLabel) e.getSource();
+        if(cardInfo!=null){
+            cardInfo.setVisible(false);
+            cardInfo.getParent().remove(cardInfo);
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(cardLabel);
+            topFrame.getContentPane().revalidate();
+            topFrame.getContentPane().repaint();
+        }
     }
 }

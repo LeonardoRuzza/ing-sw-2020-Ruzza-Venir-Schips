@@ -11,6 +11,7 @@ import java.io.IOException;
 public class CardLabel extends JLabel {
     private Card card;
     private JLabel selectionLabel;
+    private JFrame topFrame;
 
     public CardLabel(Card card) {
         this.card = card;
@@ -30,8 +31,9 @@ public class CardLabel extends JLabel {
         setIcon(new ImageIcon(buttonIcon.getScaledInstance(198,332, Image.SCALE_SMOOTH)));
     }
 
-    public CardLabel(Card card, boolean isSelected){
+    public CardLabel(Card card, boolean isSelected,JFrame jFrame){
         this(card);
+        this.topFrame = jFrame;
         if(isSelected) selectCard();
     }
 
@@ -53,6 +55,7 @@ public class CardLabel extends JLabel {
         this.add(selectionLabel);
         selectionLabel.setVisible(true);
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if(topFrame == null) topFrame = this.topFrame;
         topFrame.getContentPane().revalidate();
         topFrame.getContentPane().repaint();
     }

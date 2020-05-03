@@ -88,7 +88,7 @@ public class MasterCardPanel extends JPanel {
         if(buttonIcon == null) return new JLabel("Next");
         JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon(buttonIcon));
-        jLabel.setBounds(1779,885,150,89);
+        jLabel.setBounds(1779,885,89,150);
         jLabel.addMouseListener(new NextListener(this));
         return jLabel;
     }
@@ -104,7 +104,7 @@ public class MasterCardPanel extends JPanel {
         if(buttonIcon == null) return new JLabel("Prev");
         JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon(buttonIcon));
-        jLabel.setBounds(52,885,150,89);
+        jLabel.setBounds(52,885,89,150);
         jLabel.addMouseListener(new PrevListener(this));
         return jLabel;
     }
@@ -126,7 +126,7 @@ public class MasterCardPanel extends JPanel {
                         indexSelectedCard = cardListener.getSelectedCards().indexOf(c);
                     }
                 }
-                cardLabel = new CardLabel(cardListener.getSelectedCards().get(indexSelectedCard), true);
+                cardLabel = new CardLabel(cardListener.getSelectedCards().get(indexSelectedCard), true, (JFrame) SwingUtilities.getWindowAncestor(this));
                 cardLabel.addMouseListener(cardListener);
                 cardListener.addConnectedLabel(cardLabel);
                 jPanelCards.add(cardLabel);
