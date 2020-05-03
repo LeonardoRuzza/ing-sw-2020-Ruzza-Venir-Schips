@@ -56,9 +56,9 @@ public class GamePanel extends JPanel {
         this.add(boardPanel);
     }
 
-    public void updateCardPanel(String numPlayer, @Nullable String nickName, @Nullable String cardName, @Nullable Worker.Color playerColor){
+    public void updateCardPanel(int numPlayer, @Nullable String nickName, @Nullable String cardName, @Nullable Worker.Color playerColor){
         switch (numPlayer){
-            case "Player1":
+            case 1:
                 if(nickName!=null){
                     cardPanelP1.updateNamePlayer(nickName);
                 }
@@ -69,7 +69,7 @@ public class GamePanel extends JPanel {
                     cardPanelP1.updateColorNamePlayer(playerColor);
                 }
                 break;
-            case "Player2":
+            case 2:
                 if(nickName!=null){
                     cardPanelP2.updateNamePlayer(nickName);
                 }
@@ -80,7 +80,7 @@ public class GamePanel extends JPanel {
                     cardPanelP2.updateColorNamePlayer(playerColor);
                 }
                 break;
-            case "Player3":
+            case 3:
                 if(nickName!=null){
                     cardPanelP3.updateNamePlayer(nickName);
                 }
