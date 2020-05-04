@@ -19,6 +19,10 @@ public class SantoriniGUI {
         createAndStartGUI();
     }
 
+    public JFrame getFrame() {
+        return frame;
+    }
+
     public void sendNotification(String s){
         clientGUI.outcomeGUI.add(s);
     }
@@ -102,16 +106,29 @@ public class SantoriniGUI {
                 }
                 switchPanel(currentPanel);
                 break;
+            case CHOOSECOLOR:
+                currentPanel = new ColorPanel(this, message.getAvailableColors());
+                switchPanel(currentPanel);
+                break;
+            case MASTERCHOOSECARD:
+                currentPanel = new MasterCardPanel(this, message.getCompleteDeck(), message.getCardToChoose());
+                switchPanel(currentPanel);
+                break;
+            case PLAYERCHOOSECARD:
+                currentPanel = new NotMasterCardPanel(this, message.getAvailableCards());
+                switchPanel(currentPanel);
+                break;
             case WAITINGOTHERPLAYERSCHOOSE:
                 addLabel("src/main/resources/sys_label_wait_players.png");
                 break;
             case STARTNORMALGAME:
                 currentPanel = new GamePanel(this);
                 GamePanel gamePanel = (GamePanel) currentPanel;
+                switchPanel(gamePanel);
                 for (MessageToGUI.PlayerSummary p: message.getPlayerSummaries()){
                     gamePanel.updateCardPanel((p.getPlayerNumber()), p.getNickname(), p.getCardName(), p.getColor());
                 }
-                switchPanel(gamePanel);
+                break;
         }
     }
 

@@ -511,7 +511,7 @@ public class GamePanel extends JPanel {
         }
 
         public void updateNamePlayer(String name){
-            this.nickName = nickName;
+            this.nickName = name;
             playerName.setText(name);
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             updateFrame(topFrame);

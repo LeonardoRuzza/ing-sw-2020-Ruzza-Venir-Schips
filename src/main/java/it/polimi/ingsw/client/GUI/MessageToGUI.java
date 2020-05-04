@@ -22,8 +22,10 @@ public class MessageToGUI {
 
     public MessageToGUI(StateOfGUI stateOfGUI, boolean setCompleteDeck) {
         this.stateOfGUI = stateOfGUI;
-        for (int i=0; i<Card.getCardNumb(); i++)
-            completeDeck.add(new Card(i));
+        if (setCompleteDeck){
+            for (int i=0; i<Card.getCardNumb(); i++)
+                completeDeck.add(new Card(i));
+        }
     }
 
 
@@ -42,9 +44,7 @@ public class MessageToGUI {
         availableColors.add(color);
     }
 
-    public List<Card> getAvailableCards() {
-        return availableCards;
-    }
+    public List<Card> getAvailableCards() { return availableCards; }
 
     protected void updateAvailableCards(Card card){
         availableCards.add(card);

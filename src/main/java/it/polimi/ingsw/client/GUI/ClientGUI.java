@@ -122,12 +122,15 @@ public class ClientGUI {
                         playersSummaries++;
                         temp.setPlayerNumber(playersSummaries);
                         Scanner scanner = new Scanner(s);
-                        scanner.nextLine();
-                        temp.setNickname(scanner.nextLine());
-                        scanner.nextLine();
-                        temp.setColor(InputConversion.colorConversion(scanner.nextLine().toUpperCase()));
-                        scanner.nextLine();
-                        temp.setCardName(scanner.nextLine());
+                        scanner.next();
+                        scanner.next();
+                        temp.setNickname(scanner.nextLine().substring(1));
+                        scanner.next();
+                        scanner.next();
+                        temp.setColor(InputConversion.colorConversion(scanner.nextLine().toUpperCase().substring(1)));
+                        scanner.next();
+                        scanner.next();
+                        temp.setCardName(scanner.nextLine().substring(1));
                         break;
                     }
             }
@@ -148,7 +151,7 @@ public class ClientGUI {
                         if(inputObject instanceof String){
                             decoderGUI((String) inputObject);
                         } else if (inputObject instanceof Board){
-                            // TODO Gestire aggiornamento della board
+                            ((Board)inputObject).draw(player);
                         } else if (inputObject instanceof Player){
                             player=((Player)inputObject);
                         }else {
