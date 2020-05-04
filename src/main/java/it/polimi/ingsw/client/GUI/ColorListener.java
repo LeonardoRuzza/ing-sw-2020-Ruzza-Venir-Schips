@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.GUI;
 
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -41,11 +44,20 @@ public class ColorListener implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
+        JLabel label = (JLabel) e.getSource();
+        label.setBorder(border);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(label);
+        topFrame.getContentPane().revalidate();
+        topFrame.getContentPane().repaint();
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        JLabel label = (JLabel) e.getSource();
+        label.setBorder(null);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(label);
+        topFrame.getContentPane().revalidate();
+        topFrame.getContentPane().repaint();
     }
 }
