@@ -16,6 +16,7 @@ public class CardListener implements MouseListener {
     private int numberOfSelectableCards;
     private List<CardLabel> connectedLabels = new ArrayList<>();
     private JPanel cardInfo;
+    private boolean stopSelection = false;
 
     public CardListener(SantoriniGUI santoriniGUI, int numberOfSelectableCards){
         this.santoriniGUI = santoriniGUI;
@@ -49,6 +50,7 @@ public class CardListener implements MouseListener {
         }
         else {
             if(selectedCards.size() == numberOfSelectableCards -1){
+                stopSelection = true;
                 selectedCards.add(card);
                 cardLabel.selectCard();
                 for(Card c:selectedCards){
@@ -117,5 +119,9 @@ public class CardListener implements MouseListener {
             topFrame.getContentPane().revalidate();
             topFrame.getContentPane().repaint();
         }
+    }
+
+    public boolean isStopSelection() {
+        return stopSelection;
     }
 }

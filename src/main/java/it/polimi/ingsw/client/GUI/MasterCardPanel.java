@@ -16,7 +16,7 @@ public class MasterCardPanel extends JPanel {
     private SantoriniGUI santoriniGUI;
     private int numberOfPlayers;
     private int currentStatePanel;
-    CardListener cardListener;
+    private CardListener cardListener;
 
     public int getNumbOfAvailableCards(){
         return availableCards.size();
@@ -89,7 +89,7 @@ public class MasterCardPanel extends JPanel {
         JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon(buttonIcon));
         jLabel.setBounds(1779,885,89,150);
-        jLabel.addMouseListener(new NextListener(this));
+        jLabel.addMouseListener(new NextListener(this, cardListener));
         return jLabel;
     }
 
@@ -105,7 +105,7 @@ public class MasterCardPanel extends JPanel {
         JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon(buttonIcon));
         jLabel.setBounds(52,885,89,150);
-        jLabel.addMouseListener(new PrevListener(this));
+        jLabel.addMouseListener(new PrevListener(this, cardListener));
         return jLabel;
     }
 

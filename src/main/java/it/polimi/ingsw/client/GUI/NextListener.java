@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.GUI;
 
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.lang.Math;
@@ -7,13 +8,16 @@ import java.awt.event.ActionEvent;
 
 public class NextListener implements MouseListener {
     private MasterCardPanel masterCardPanel;
+    private CardListener cardListener;
 
-    public NextListener(MasterCardPanel masterCardPanel) {
+    public NextListener(MasterCardPanel masterCardPanel, CardListener cardListener) {
         this.masterCardPanel = masterCardPanel;
+        this.cardListener = cardListener;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if(cardListener.isStopSelection()){return;}
         int numberOfPanel = masterCardPanel.getCurrentStatePanel();
         if(numberOfPanel < Math.floor(masterCardPanel.getNumbOfAvailableCards()/4.0)){
             numberOfPanel++;
