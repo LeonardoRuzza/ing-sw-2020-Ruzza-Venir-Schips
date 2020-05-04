@@ -11,8 +11,8 @@ public class SantoriniGUI {
     private  ClientGUI clientGUI;
     private JFrame frame = new JFrame("Santorini");
     private JPanel currentPanel;
-    private final GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
-
+    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    GraphicsDevice gd = ge.getDefaultScreenDevice();
 
     public SantoriniGUI(ClientGUI clientGUI){
         this.clientGUI = clientGUI;
@@ -24,13 +24,19 @@ public class SantoriniGUI {
     }
 
     public void createAndStartGUI() {
-        frame.setResizable(true);
+        frame.setResizable(false);
         frame.setSize(1920,1080);
-
+        frame.setMinimumSize(new Dimension(1920,1080));
+        frame.setMaximumSize(new Dimension(1920,1080));
+        frame.setPreferredSize(new Dimension(1920,1080));
+        frame.setUndecorated(true);
+        frame.setExtendedState(frame.MAXIMIZED_VERT);
+        gd.setFullScreenWindow(frame);
+        frame.setLocation((((int)(ge.getMaximumWindowBounds().getWidth()/2)-960)),0);
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        device.setFullScreenWindow(frame);
+    //gd.setFullScreenWindow(frame);
     }
 
     public void addBackgroungImage() {
