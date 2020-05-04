@@ -30,7 +30,7 @@ public class GameMessage {
     public static final String waitMessageForCard = "Another player is choosing a card...";
     public static final String waitMasterChoseOfCard = "Waiting the master player choose of deck ";
 
-    public static final String player1is = "\n\nPlayer1 is: ";
+    public static final String player1is = "Player1 is: ";
     public static final String player2is = "Player2 is: ";
     public static final String player3is = "Player3 is: ";
     public static final String hisColor = "Chosen color: ";

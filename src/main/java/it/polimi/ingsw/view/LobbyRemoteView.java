@@ -62,7 +62,7 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                     showMessageSync(GameMessage.availableColors + "\n" + resultMsg + GameMessage.chooseColor);
                 }
                 else{  // Altrimenti se non è il suo turno
-                    showMessage("\n" +GameMessage.waitMessageForColor);
+                    showMessage(GameMessage.waitMessageForColor);
                 }
                 break;
             case CARD:
@@ -74,7 +74,7 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                             showMessageSync(GameMessage.cardPhase + Card.drawAll() + "\n" +GameMessage.playerMasterChoseCard3);  // Mex per il master player
                         }
                     else
-                        showMessageSync("\n" + GameMessage.waitMasterChoseOfCard); // Mex per gli altri player
+                        showMessageSync(GameMessage.waitMasterChoseOfCard); // Mex per gli altri player
                 }
                 else{
                     if (lobby.isDeckChosen()) {  // Se il deck è stato scelto
@@ -86,7 +86,7 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                             showMessageSync(GameMessage.availableCards + "\n" + resultMsg);
                         }
                         else  // Altrimenti se non è il suo turno
-                            showMessageSync("\n" + GameMessage.waitMessageForCard);
+                            showMessageSync(GameMessage.waitMessageForCard);
                     }
                     else {  // Altrimenti chiedi al master player di inserire una nuova carta
                         if (lobby.isLobbyPlayerTurn(lobbyPlayer)) {
