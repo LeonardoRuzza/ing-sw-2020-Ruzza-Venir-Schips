@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Worker.Color;
+import it.polimi.ingsw.utils.GameMessage;
 import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
@@ -14,6 +15,9 @@ import java.io.IOException;
 
 public class GamePanel extends JPanel {
     private final int gridSide = 5;
+
+    private String superPower = "";
+    private JPanel superPowerDialog = null;
 
     private SantoriniGUI gui;
 
@@ -45,7 +49,7 @@ public class GamePanel extends JPanel {
         cardPanelP3.setBounds(0,0,349,540);
         messagePrinter = new ServerMessageReceiver();
         messagePrinter.setBounds(350,953,1221,127);
-        gridBoard = new GridBoardPanel(5,5,30,29,112,112);
+        gridBoard = new GridBoardPanel(5,5,30,29,112,112, this);
         gridBoard.setLocation(719,145);
         this.add(gridBoard);
         this.add(messagePrinter);
@@ -55,7 +59,7 @@ public class GamePanel extends JPanel {
         this.add(boardPanel);
     }
 
-    public void updateCardPanel(int numPlayer, @Nullable String nickName, @Nullable String cardName, @Nullable Worker.Color playerColor){
+    protected void updateCardPanel(int numPlayer, @Nullable String nickName, @Nullable String cardName, @Nullable Worker.Color playerColor){
         switch (numPlayer){
             case 1:
                 if(nickName!=null){
@@ -93,13 +97,13 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void updateServerMessage(String message){
+    protected void updateServerMessage(String message){
         if(messagePrinter!=null){
             messagePrinter.updateElem(message);
         }
     }
 
-    public void updateGrid(Board board){
+    protected void updateGrid(Board board){
         for(int y = 0; y < gridSide; y++){
             for(int x = 0; x < gridSide; x++){
                 CellPanel panel = this.gridBoard.getCell(y,x);
@@ -139,9 +143,77 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void updateFrame(JFrame frame){
+    protected void updateFrame(JFrame frame){
         frame.getContentPane().revalidate();
         frame.getContentPane().repaint();
+    }
+
+    protected void askUseSuperPower(String superPlayerAskMessage){
+        superPowerDialog = initAndShowSuperPowerDialog(superPlayerAskMessage);
+    }
+
+    private JPanel initAndShowSuperPowerDialog(String superPlayerAskMessage){
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(null);
+
+        String path = "src/main/resources/dialog_use_superpower.png";
+        BufferedImage backgroundImg = null;
+        try {
+            backgroundImg = ImageIO.read(new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
+        backgroundLabel.setBounds(0,0,775,380);
+
+        JTextArea godRequest = new JTextArea("");
+        godRequest.setFont(new Font("ComicSansMS",Font.BOLD,35));
+        godRequest.setForeground(java.awt.Color.white);
+        godRequest.setEditable(false);
+        godRequest.setSelectionColor(new java.awt.Color(0,0,0,0));
+        godRequest.setHighlighter(null);
+        godRequest.setLineWrap(true);
+        godRequest.setWrapStyleWord(true);
+        godRequest.setOpaque(true);
+        godRequest.setBackground(new java.awt.Color(0,0,0,0));
+        godRequest.setBounds(0,9,775,260);
+
+        JLabel buttonOK = new JLabel("");
+        buttonOK.setBounds(180,260,208,105);
+        buttonOK.addMouseListener(new SuperPlayeAcitvateListner(this, true, GameMessage.convertAskerSuperPlayerInPowerString(superPlayerAskMessage)));
+        JLabel buttonCANCEL = new JLabel("");
+        buttonCANCEL.setBounds(388,260,208,105);
+        buttonCANCEL.addMouseListener(new SuperPlayeAcitvateListner(this, false, ""));
+
+        infoPanel.setBounds(671,295,775,380);
+        infoPanel.add(buttonOK);
+        infoPanel.add(buttonCANCEL);
+        infoPanel.add(godRequest);
+        infoPanel.add(backgroundLabel);
+
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.getContentPane().add(infoPanel,0);
+        updateFrame(topFrame);
+
+        return infoPanel;
+    }
+
+    protected void hideSuperPowerDialog(){
+        if(superPowerDialog == null){
+            return;
+        }
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.getContentPane().remove(0);
+        updateFrame(topFrame);
+        superPowerDialog = null;
+    }
+
+    public String getSuperPower() {
+        return superPower;
+    }
+
+    public void setSuperPower(String superPower) {
+        this.superPower = superPower;
     }
 
     private class GridBoardPanel extends JPanel{
@@ -151,13 +223,15 @@ public class GamePanel extends JPanel {
         private int vgap;
         private int elemHeight;
         private int elemWidth;
-        public GridBoardPanel(int rows, int columns, int hgap, int vgap, int elemWidth, int elemHeight){
+        private GamePanel superPanel;
+        public GridBoardPanel(int rows, int columns, int hgap, int vgap, int elemWidth, int elemHeight, GamePanel superPanel){
             this.rows = rows;
             this.columns = columns;
             this.hgap = hgap;
             this.vgap = vgap;
             this.elemHeight = elemHeight;
             this.elemWidth = elemWidth;
+            this.superPanel = superPanel;
             this.setLayout(null);
             this.setSize((int)((elemWidth*columns)+(columns*hgap)),(int)((elemHeight*rows)+(vgap*rows)));
             this.setOpaque(false);
@@ -170,7 +244,7 @@ public class GamePanel extends JPanel {
         }
 
         private JPanel createGridPanel(int x, int y) {
-            CellPanel panel = new CellPanel(x,y,elemWidth,elemHeight);
+            CellPanel panel = new CellPanel(x,y,elemWidth,elemHeight, superPanel);
             return panel;
         }
 
@@ -200,14 +274,14 @@ public class GamePanel extends JPanel {
         CellButton cellButton;
         WorkerElem workerElem;
         BlockElem blockElem;
-        public CellPanel(int x, int y, int width, int height){
+        public CellPanel(int x, int y, int width, int height, GamePanel superPanel){
             this.row = y;
             this.column = x;
             this.setLayout(null);
             this.setBounds(0,0,width,height);
             this.setOpaque(false);
             this.setBackground(new java.awt.Color(0,0,0,0));
-            cellButton = new CellButton(x,y);
+            cellButton = new CellButton(x,y,superPanel);
             workerElem = new WorkerElem(null,null);
             blockElem = new BlockElem(null,-1);
             blockElem.setBounds(0,0,width,height);
@@ -243,12 +317,12 @@ public class GamePanel extends JPanel {
         private int xCoord;
         private int yCoord;
         private final Dimension dim = new Dimension(112,112);
-        public CellButton(int x, int y){
+        public CellButton(int x, int y, GamePanel superPanel){
             super("");
             this.xCoord = x;
             this.yCoord = y;
             this.setSize(dim);
-            this.addMouseListener(new CellButtonListner(gui, this));
+            this.addMouseListener(new CellButtonListner(gui, superPanel, this));
         }
         public int getxCoord() {
             return xCoord;
@@ -510,20 +584,20 @@ public class GamePanel extends JPanel {
             return null;
         }
 
-        public void updateNamePlayer(String name){
+        private void updateNamePlayer(String name){
             this.nickName = name;
             playerName.setText(name);
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             updateFrame(topFrame);
         }
 
-        public void updateColorNamePlayer(Worker.Color color){
+        private void updateColorNamePlayer(Worker.Color color){
             playerName.setForeground(switcherColor(color));
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             updateFrame(topFrame);
         }
 
-        public void updateCardImg(String cardName){
+        private void updateCardImg(String cardName){
             this.cardName = cardName;
             String cardPath = "src/main/resources/cards/"+ cardName.toLowerCase() +".png";
 
@@ -541,7 +615,7 @@ public class GamePanel extends JPanel {
             dialogPanelCardInfo = this.initDialogPanelCardInfo();
         }
 
-        public JPanel initDialogPanelCardInfo(){
+        private JPanel initDialogPanelCardInfo(){
             JPanel screenPanel = new JPanel();
             screenPanel.setLayout(null);
             screenPanel.setBounds(0,0,1920,1080);
@@ -613,14 +687,14 @@ public class GamePanel extends JPanel {
             return screenPanel;
         }
 
-        public void showDialogPanelCardInfo(){
+        protected void showDialogPanelCardInfo(){
             dialogPanelCardInfo.setBounds(110,153,1700,775);
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             topFrame.getContentPane().add(dialogPanelCardInfo,0);
             updateFrame(topFrame);
         }
 
-        public void closeDialogPanelCardInfo(){
+        protected void closeDialogPanelCardInfo(){
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             topFrame.getContentPane().remove(0);
             updateFrame(topFrame);
