@@ -412,6 +412,13 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @param gender of worker you want put into cell
      */
     public void execFirstAllocation(int x, int y, Worker.Gender gender){
+        if(x==-1 && y==-1){
+            notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageErrorFIRSTALLOCATION));
+            return;
+        }
+        if(gender == null){
+            gender = Male;
+        }
         this.playingNow.setSelectedWorker(gender);
         if(this.playingNow.selectedWorker.getCell() != null){
             switch(gender){
