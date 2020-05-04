@@ -19,10 +19,6 @@ public class SantoriniGUI {
         createAndStartGUI();
     }
 
-    public JFrame getFrame() {
-        return frame;
-    }
-
     public void sendNotification(String s){
         clientGUI.outcomeGUI.add(s);
     }

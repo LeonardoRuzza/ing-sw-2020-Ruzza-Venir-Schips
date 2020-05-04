@@ -95,32 +95,4 @@ public class GameMessage {
         availableOptional.add(turnMessageFIRSTALLOCATION);
         return availableOptional.contains(optional);
     }
-
-    /*
-    public static String searchStartingGameMessage(String s){
-        List<String> availableLobbyMessage = new ArrayList<>();
-        availableLobbyMessage.add(changeName);
-        availableLobbyMessage.add(masterPlayerSelectNumberofPlayers);
-        availableLobbyMessage.add(waitingPlayers);
-        availableLobbyMessage.add(chooseColorBegin);
-        availableLobbyMessage.add(waitMessageForColorBegin);
-        availableLobbyMessage.add(chooseColor);
-        availableLobbyMessage.add(waitMessageForColor);
-        availableLobbyMessage.add(cardPhase);
-        availableLobbyMessage.add(availableCards);
-        availableLobbyMessage.add(waitMessageForCard );
-        availableLobbyMessage.add(waitMasterChoseOfCard);
-        availableLobbyMessage.add(startNormalGame);
-
-        for(String temp:availableLobbyMessage){
-            if (s.contains(temp))
-                return temp;
-        }
-        return null;
-    }
-
-    public static boolean isMatchMessage(String s){
-        return true;
-    }
-   */
 }
