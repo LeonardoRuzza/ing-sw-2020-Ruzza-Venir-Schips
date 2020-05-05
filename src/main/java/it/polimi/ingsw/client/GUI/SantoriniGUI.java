@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.GUI;
 
+import it.polimi.ingsw.model.Board;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -134,8 +136,14 @@ public class SantoriniGUI {
         }
     }
 
-    public void updateMatchMessage() {
+    public void updateMatchMessage(String message) {
+        GamePanel gamePanel = (GamePanel) currentPanel;
+        gamePanel.updateServerMessage(message);
+    }
 
+    public void updateBoard(Board board){
+        GamePanel gamePanel = (GamePanel) currentPanel;
+        gamePanel.updateGrid(board);
     }
 
 }

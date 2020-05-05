@@ -39,9 +39,7 @@ public class ClientGUI {
         }
 
 
-    private void decoderGUI(String s){
-
-        // TODO Gestire caso inputINVALIDO? Non dovrebbe servire perché non ci sono messaggi da ricevere dal player oltre al nome
+    private void decoderGUI(String s) {
         if (isLobbyPhase) {
             switch (s) {
                 // MEX PER TUTTI
@@ -104,12 +102,11 @@ public class ClientGUI {
                         break;
                     }
                     // MEX PER IL MASTER PLAYER
-                    if (s.contains(GameMessage.cardPhase)){
+                    if (s.contains(GameMessage.cardPhase)) {
                         MessageToGUI masterChooseCard = new MessageToGUI(StateOfGUI.MASTERCHOOSECARD, true);
-                        if(s.contains(GameMessage.playerMasterChoseCard2)) {
+                        if (s.contains(GameMessage.playerMasterChoseCard2)) {
                             masterChooseCard.setCardToChoose(2);
-                        }
-                        else if (s.contains(GameMessage.playerMasterChoseCard3)){
+                        } else if (s.contains(GameMessage.playerMasterChoseCard3)) {
                             masterChooseCard.setCardToChoose(3);
                         }
                         santoriniGUI.updateGUILobby(masterChooseCard);
@@ -117,7 +114,7 @@ public class ClientGUI {
                     }
 
                     // MEX PER TUTTI di Riepilogo
-                    if (s.contains(GameMessage.player1is) || s.contains(GameMessage.player2is) || s.contains(GameMessage.player3is)){
+                    if (s.contains(GameMessage.player1is) || s.contains(GameMessage.player2is) || s.contains(GameMessage.player3is)) {
                         MessageToGUI.PlayerSummary temp = summary.addPlayerSummary();
                         playersSummaries++;
                         temp.setPlayerNumber(playersSummaries);
@@ -134,9 +131,32 @@ public class ClientGUI {
                         break;
                     }
             }
-        }
-        else{
-            return;
+        } else {
+            switch (s) {
+                case GameMessage.turnMessageSelectFirstAllocation:
+                    santoriniGUI.updateMatchMessage(GameMessage.GUIFirstallocation);
+                    break;
+                case GameMessage.turnMessageWaitFirstAllocation:
+                    santoriniGUI.updateMatchMessage(s);
+                    break;
+                default:
+                    if (s.contains(GameMessage.turnMessageSelectYourWorker)) {
+                        santoriniGUI.updateMatchMessage(GameMessage.GUISelectWorker);
+                        break;
+                    }
+                    if (s.contains(GameMessage.turnMessageChooseCellMove)) {
+                        santoriniGUI.updateMatchMessage(GameMessage.GUIChooseweretomove);
+                        break;
+                    }
+                    if (s.contains(GameMessage.turnMessageChooseCellBuild)) {
+                        santoriniGUI.updateMatchMessage(GameMessage.GUIChooseweretobuild);
+                        break;
+                    }
+                    if (s.contains(GameMessage.turnMessageTurnEnd)) {
+                        santoriniGUI.updateMatchMessage(GameMessage.GUIWaitOtherPlayersTurn);
+                        break;
+                    }
+            }
         }
     }
 
@@ -151,7 +171,7 @@ public class ClientGUI {
                         if(inputObject instanceof String){
                             decoderGUI((String) inputObject);
                         } else if (inputObject instanceof Board){
-                            ((Board)inputObject).draw(player);
+                            santoriniGUI.updateBoard((Board) inputObject);
                         } else if (inputObject instanceof Player){
                             player=((Player)inputObject);
                         }else {

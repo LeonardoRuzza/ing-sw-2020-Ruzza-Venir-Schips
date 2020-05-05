@@ -68,31 +68,24 @@ public class GameMessage {
     public static final String turnMessageFailBuildChangeDestination = "Construction cannot be performed, change box. ";
     public static final String turnMessageTurnEnd = "Your turn is over. ";
 
+
     public static final String turnMessageErrorInSyntax = "You wrote a wrong instruction, please check syntax. ";
 
     public static final String aresTurnMessageAskRemoveBlok = "If you want to remove a block adjacent to the worker that you have not moved, write the coordinates otherwise write NO. ";
-    public static final String aresTurnMessageAskRemoveBlokGUI = "If you want to remove a block adjacent to the worker that you have not moved select OK otherwise select CANCEL. ";
     public static final String aresTurnMessageSuccessRemoveBlokWEnd = "The block was successfully removed. "+ turnMessageTurnEnd;
     public static final String aresTurnMessageFailRemoveBlokWNewCell = "Unable to remove a block here, change position or cancel the option by writing NO. ";
-    public static final String aresTurnMessageFailRemoveBlokWNewCellGUI = "Unable to remove a block here, if you want to give up select CANCEL otherwise select OK. ";
 
     public static final String atlasTurnMessageAskBuildDorse = "Choose where to build and if you want to build a dome add DORSE after the box. ";
-    public static final String atlasTurnMessageAskBuildDorseGUI = "Choose where to build and if you want to build a dome select OK otherwise select CANCEL. ";
     public static final String atlasTurnMessageFailBuildDorse = "Impossible to build a dome here, change position or give up the DORSE option. ";
-    public static final String atlasTurnMessageFailBuildDorseGUI = "Impossible to build a dome here, if you want to give up select CANCEL otherwise select OK. ";
 
     public static final String prometheusTurnMessageAskBuildBefore = "Choose where to move or if you want to build before moving, write BUILDBEFORE after the box where you want to build. ";
-    public static final String prometheusTurnMessageAskBuildBeforeGUI = "Choose where to move or if you want to build before moving select OK otherwise select CANCEL. ";
 
     public static final String hephaesthusTurnMessageAskBuild = "Choose where to build and if you want to build twice write BUILDTWOTIMES after the box. ";
-    public static final String hephaesthusTurnMessageAskBuildGUI = "Choose where to build and if you want to build twice select OK otherwise select CANCEL. ";
     public static final String hephaesthusTurnMessageFailOptionalBuildWEnd = "You can't build twice here. " + turnMessageTurnEnd;
 
     public static final String hestiaDemeterTurnMessageAskTwoBuild = "If you want to build again, indicate the coordinates and write BUILDTWOTIMES otherwise write NO. ";
-    public static final String hestiaDemeterTurnMessageAskTwoBuildGUI = "If you want to build again select OK otherwise select CANCEL. ";
     public static final String hestiaDemeterTurnMessageFailOptionalBuildWEnd = "You can't build here twice. " + turnMessageTurnEnd;
     public static final String hestiaDemeterTurnMessageFailOptionalBuildWNewCell = "You can't build here. Enter new coordinates or write NO. ";
-    public static final String hestiaDemeterTurnMessageFailOptionalBuildWNewCellGUI = "You can't build here, if you want to give up select CANCEL otherwise select OK. ";
 
     public static boolean isValidOptional(String optional){
         List<String> availableOptional = new ArrayList<>();
@@ -124,4 +117,20 @@ public class GameMessage {
     }
 
 
+    // GUI Message
+    public static final String aresTurnMessageFailRemoveBlokWNewCellGUI = "Unable to remove a block here, if you want to give up select CANCEL otherwise select OK. ";
+    public static final String aresTurnMessageAskRemoveBlokGUI = "If you want to remove a block adjacent to the worker that you have not moved select OK otherwise select CANCEL. ";
+    public static final String atlasTurnMessageAskBuildDorseGUI = "Choose where to build and if you want to build a dome select OK otherwise select CANCEL. ";
+    public static final String atlasTurnMessageFailBuildDorseGUI = "Impossible to build a dome here, if you want to give up select CANCEL otherwise select OK. ";
+    public static final String prometheusTurnMessageAskBuildBeforeGUI = "Choose where to move or if you want to build before moving select OK otherwise select CANCEL. ";
+    public static final String hestiaDemeterTurnMessageAskTwoBuildGUI = "If you want to build again select OK otherwise select CANCEL. ";
+    public static final String hestiaDemeterTurnMessageFailOptionalBuildWNewCellGUI = "You can't build here, if you want to give up select CANCEL otherwise select OK. ";
+    public static final String hephaesthusTurnMessageAskBuildGUI = "Choose where to build and if you want to build twice select OK otherwise select CANCEL. ";
+
+
+    public static final String GUIFirstallocation = "Select a cell to allocate a worker";
+    public static final String GUISelectWorker = "Select a worker you want to move";
+    public static final String GUIChooseweretomove = "Select a cell where you want to move";
+    public static final String GUIChooseweretobuild = "Select a cell where you want to build";
+    public static final String GUIWaitOtherPlayersTurn= "Wait, it's another player turn";
 }
