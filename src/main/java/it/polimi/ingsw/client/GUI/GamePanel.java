@@ -296,7 +296,7 @@ public class GamePanel extends JPanel {
             workerElem = new WorkerElem(null,null);
             blockElem = new BlockElem(null,-1);
             blockElem.setBounds(0,0,width,height);
-            workerElem.setBounds(34,34,width,height);
+            workerElem.setBounds(34,0,width,height);
             cellButton.setBounds(0,0,width,height);
             this.add(cellButton);
             this.add(workerElem);
