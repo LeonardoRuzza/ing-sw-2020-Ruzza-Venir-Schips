@@ -57,6 +57,17 @@ public class SantoriniGUI {
         frame.getContentPane().add(background,1);
     }
 
+    public void setCursor(){
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(new File("src/main/resources/mouse_pointer.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0, 0), "customCursor");
+        frame.setCursor(customCursor);
+    }
+
     private void switchPanel(JPanel panel){
         frame.getContentPane().remove(0);
         frame.getContentPane().invalidate();
