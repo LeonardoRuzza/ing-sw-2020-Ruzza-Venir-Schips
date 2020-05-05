@@ -54,6 +54,7 @@ public class PlayerPrometheus extends Player {
                 }
                 if((zNow - zOld) > 0){
                     match.removeWorker(tempWorker);
+                    selectedWorker.getCell().setWorkerInCell(selectedWorker);
                     return false;
                 }else{
                     match.removeWorker(tempWorker);
@@ -61,10 +62,12 @@ public class PlayerPrometheus extends Player {
                         resetTurn();
                         return true;
                     }else{
+                        selectedWorker.getCell().setWorkerInCell(selectedWorker);
                         return false;
                     }
                 }
             }
+            selectedWorker.getCell().setWorkerInCell(selectedWorker);
             return false;
         }
     }
