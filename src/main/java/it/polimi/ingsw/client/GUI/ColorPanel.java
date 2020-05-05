@@ -54,19 +54,4 @@ public class ColorPanel extends JPanel {
         jLabel.setBounds(651,188,619,207);
         return jLabel;
     }
-
-    public static JLabel createWaitingColorMessageLabel(){
-        Image buttonIcon;
-        try {
-            buttonIcon = ImageIO.read(new File("src/main/resources/sys_label_wait_players.png"));
-        }catch (IOException e){
-            System.out.println("Error while trying to open color waiting message label image");
-            return new JLabel("Error: image not found");
-        }
-        if(buttonIcon == null) return new JLabel("Waiting others players choose of color");
-        JLabel jLabel = new JLabel();
-        jLabel.setIcon(new ImageIcon(buttonIcon));
-        jLabel.setBounds(651,188,619,207);
-        return jLabel;
-    }
 }

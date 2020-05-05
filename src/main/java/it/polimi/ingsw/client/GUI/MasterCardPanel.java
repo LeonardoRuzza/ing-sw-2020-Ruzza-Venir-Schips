@@ -24,7 +24,7 @@ public class MasterCardPanel extends JPanel {
     public int getCurrentStatePanel(){
         return currentStatePanel;
     }
-    public void setCurrentStatePanel(int currentStatePanel){
+    protected void setCurrentStatePanel(int currentStatePanel){
         this.currentStatePanel = currentStatePanel;
     }
 
@@ -109,6 +109,11 @@ public class MasterCardPanel extends JPanel {
         return jLabel;
     }
 
+    /**Refresh the jPanelCards after to be called by PrevLabel or NextLabel removing the 4 old cards and adding new 4 cards.
+     * Only cards selected are created maintaining the same Card instance connected.
+     * <p>
+     * @param n
+     */
     public void setjPanelCards(int n){
         int x=0;
         int cardLabelHeight = 332;
@@ -146,20 +151,5 @@ public class MasterCardPanel extends JPanel {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(jPanelCards);
         topFrame.getContentPane().revalidate();
         topFrame.getContentPane().repaint();
-    }
-
-    public static JLabel createWaitingCardLabel(){
-        Image buttonIcon;
-        try {
-            buttonIcon = ImageIO.read(new File("src/main/resources/sys_label_wait_players.png"));
-        }catch (IOException e){
-            System.out.println("Error while trying to open card's waiting label image");
-            return new JLabel("Error: image not found");
-        }
-        if(buttonIcon == null) return new JLabel("Waiting others players choose of cards");
-        JLabel jLabel = new JLabel();
-        jLabel.setIcon(new ImageIcon(buttonIcon));
-        jLabel.setBounds(651,188,619,207);
-        return jLabel;
     }
 }
