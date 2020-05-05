@@ -51,6 +51,7 @@ public class PlayerArtemis extends Player {
                     }
                 }
             }
+            selectedWorker.getCell().setWorkerInCell(selectedWorker);
         }
         return false;
     }
