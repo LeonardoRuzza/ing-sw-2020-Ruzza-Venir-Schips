@@ -15,7 +15,7 @@ public class PlayerHypnus extends Player {
     @Override
     public boolean checkLimitSelection(Player opponent, Worker w){
         if(opponent.equals(this)) return true;
-        if(w.getCell() == null) {return true;}
+        if(opponent.workers[0].getCell() == null || opponent.workers[1].getCell() == null ) {return true;}
         return !isHigherWorker(opponent, w);
     }
 
