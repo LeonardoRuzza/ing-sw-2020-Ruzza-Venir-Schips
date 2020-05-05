@@ -22,6 +22,10 @@ public class ColorListener implements MouseListener {
         connectedLabels.add(colorLabel);
     }
 
+    /**Send to server-side the selection of the correspondent color of the clicked colorLabel (calling sendNotification of SantoriniGUI).
+     * <p>
+     * @param e
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         ColorLabel colorLabel = (ColorLabel) e.getSource();
@@ -44,6 +48,10 @@ public class ColorListener implements MouseListener {
 
     }
 
+    /**Show borders of the mouseEntered colorLabel.
+     * <p>
+     * @param e
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
         ColorLabel label = (ColorLabel) e.getSource();
@@ -54,6 +62,10 @@ public class ColorListener implements MouseListener {
         topFrame.getContentPane().repaint();
     }
 
+    /**Remove borders of the mouseExited colorLabel.
+     * <p>
+     * @param e
+     */
     @Override
     public void mouseExited(MouseEvent e) {
         ColorLabel label = (ColorLabel) e.getSource();

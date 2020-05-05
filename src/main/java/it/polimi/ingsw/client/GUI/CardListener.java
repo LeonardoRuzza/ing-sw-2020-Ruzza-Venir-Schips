@@ -23,10 +23,18 @@ public class CardListener implements MouseListener {
         this.numberOfSelectableCards = numberOfSelectableCards;
     }
 
+    /**Add one CardLabel to the list connectedLabels.
+     * <p>
+     * @param cardLabel
+     */
     public void addConnectedLabel(CardLabel cardLabel){
         connectedLabels.add(cardLabel);
     }
 
+    /**This method convert the selectedCards List in a correspondent List which contains the number of the Card contained in selectedCards.
+     * <p>
+     * @return {@code List<Integer>}
+     */
     public List<Integer> getNumbersOfSelectedCards(){
         List<Integer> result= new ArrayList<>();
         for(Card c: selectedCards){
@@ -39,7 +47,11 @@ public class CardListener implements MouseListener {
         return new ArrayList<>(selectedCards);
     }
 
-
+    /**Add the pressed CardLabel to selectedCard List and call the method selectCard of CardLabel but if it is just contained remove it calling deselectCard.
+     * Also if the number of selected cards reach the number of the player, it use sendNotification of SantoriniGUI to communicate with the server-side and remove or block the others listeners of the elements of the current window.
+     * <p>
+     * @param e
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         CardLabel cardLabel = (CardLabel) e.getSource();
@@ -83,6 +95,10 @@ public class CardListener implements MouseListener {
 
     }
 
+    /**Show the description of the power of the cards on mouseEntered event on the correspondent cardLabel.
+     * <p>
+     * @param e
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
         CardLabel cardLabel = (CardLabel) e.getSource();
@@ -101,7 +117,7 @@ public class CardListener implements MouseListener {
         cardInfo = new JPanel();
         cardInfo.setLayout(null);
         cardInfo.add(jTextArea,0);
-        cardInfo.setBounds(cardLabel.getBounds().x+100,cardLabel.getParent().getBounds().y+405,290,165);
+        cardInfo.setBounds(cardLabel.getBounds().x+100,cardLabel.getParent().getBounds().y+405,290,170);
         jTextArea.setBounds(0,0,cardInfo.getBounds().width,cardInfo.getBounds().height);
         cardContainer.add(cardInfo,0);
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(cardLabel);
@@ -109,6 +125,10 @@ public class CardListener implements MouseListener {
         topFrame.getContentPane().repaint();
     }
 
+    /**Remove the description of the power of the cards on mouseExited event on the correspondent cardLabel.
+     * <p>
+     * @param e
+     */
     @Override
     public void mouseExited(MouseEvent e) {
         CardLabel cardLabel = (CardLabel) e.getSource();
