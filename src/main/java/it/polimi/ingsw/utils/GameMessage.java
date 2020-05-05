@@ -131,19 +131,29 @@ public class GameMessage {
 
 
     // GUI Message
+    // SUPERLAYERS
     public static final String aresTurnMessageFailRemoveBlokWNewCellGUI = "Unable to remove a block here, if you want to give up select CANCEL otherwise select OK. ";
     public static final String aresTurnMessageAskRemoveBlokGUI = "If you want to remove a block adjacent to the worker that you have not moved select OK otherwise select CANCEL. ";
+    public static final String aresRemoveBlockGUI = "Select where you want to remove...";
+
     public static final String atlasTurnMessageAskBuildDorseGUI = "Choose where to build and if you want to build a dome select OK otherwise select CANCEL. ";
     public static final String atlasTurnMessageFailBuildDorseGUI = "Impossible to build a dome here, if you want to give up select CANCEL otherwise select OK. ";
+    public static final String atlasBuildDomeGUI = "Build a dome...";
+    public static final String atlasBuildNormalGUI = "Build normal block...";
+
     public static final String prometheusTurnMessageAskBuildBeforeGUI = "Choose where to move or if you want to build before moving select OK otherwise select CANCEL. ";
-    public static final String hestiaDemeterTurnMessageAskTwoBuildGUI = "If you want to build again select OK otherwise select CANCEL. ";
-    public static final String hestiaDemeterTurnMessageFailOptionalBuildWNewCellGUI = "You can't build here, if you want to give up select CANCEL otherwise select OK. ";
+
     public static final String hephaesthusTurnMessageAskBuildGUI = "Choose where to build and if you want to build twice select OK otherwise select CANCEL. ";
 
+    public static final String hestiaDemeterTurnMessageAskTwoBuildGUI = "If you want to build again select OK otherwise select CANCEL. ";
+    public static final String hestiaDemeterTurnMessageFailOptionalBuildWNewCellGUI = "You can't build here, if you want to give up select CANCEL otherwise select OK. ";
 
+
+    // GAME MESSAGE
     public static final String GUIFirstallocation = "Select a cell to allocate a worker";
     public static final String GUISelectWorker = "Select a worker you want to move";
     public static final String GUIChooseweretomove = "Select a cell where you want to move";
     public static final String GUIChooseweretobuild = "Select a cell where you want to build";
     public static final String GUIWaitOtherPlayersTurn= "Wait, it's another player turn";
+    //public static final String GUISuperPowerUse = "Card SuperPower";
 }

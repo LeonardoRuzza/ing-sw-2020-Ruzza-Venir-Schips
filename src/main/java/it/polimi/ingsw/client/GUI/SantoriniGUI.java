@@ -12,6 +12,7 @@ import java.io.IOException;
 
 public class SantoriniGUI {
     private  ClientGUI clientGUI;
+    private StateOfGUI currentStateOfGUI;
     private JFrame frame = new JFrame("Santorini");
     private JPanel currentPanel;
     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -33,7 +34,7 @@ public class SantoriniGUI {
         frame.setMaximumSize(new Dimension(1920,1080));
         frame.setPreferredSize(new Dimension(1920,1080));
         frame.setUndecorated(true);
-        frame.setExtendedState(frame.MAXIMIZED_VERT);
+        frame.setExtendedState(Frame.MAXIMIZED_VERT);
         gd.setFullScreenWindow(frame);
         frame.setLocation((((int)(ge.getMaximumWindowBounds().getWidth()/2)-960)),0);
         frame.pack();
@@ -151,17 +152,33 @@ public class SantoriniGUI {
         GamePanel gamePanel = (GamePanel) currentPanel;
         switch (message.getStateOfGUI()) {
             case ARES:
+               currentStateOfGUI = message.getStateOfGUI();
                gamePanel.askUseSuperPower(GameMessage.aresTurnMessageAskRemoveBlokGUI);
                break;
             case ARESFAIL:
                 gamePanel.askUseSuperPower(GameMessage.aresTurnMessageFailRemoveBlokWNewCellGUI);
                 break;
             case ATLAS:
+                currentStateOfGUI = message.getStateOfGUI();
                 gamePanel.askUseSuperPower(GameMessage.atlasTurnMessageAskBuildDorseGUI);
                 break;
             case ATLASFAIL:
                 gamePanel.askUseSuperPower(GameMessage.atlasTurnMessageFailBuildDorseGUI);
                 break;
+        }
+    }
+
+    protected void superPlayerChoose(boolean response){
+        switch (currentStateOfGUI){
+            case ARES:
+                if (response)
+                    updateMatchMessage(GameMessage.aresRemoveBlockGUI);
+                break;
+            case ATLAS:
+                if (response)
+                    updateMatchMessage(GameMessage.atlasBuildDomeGUI);
+                else
+                    updateMatchMessage(GameMessage.atlasBuildNormalGUI);
         }
     }
 
