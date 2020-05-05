@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.utils.GameMessage;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -144,6 +145,24 @@ public class SantoriniGUI {
     public void updateBoard(Board board){
         GamePanel gamePanel = (GamePanel) currentPanel;
         gamePanel.updateGrid(board);
+    }
+
+    public void updateSuperPlayer(MessageToGUI message){
+        GamePanel gamePanel = (GamePanel) currentPanel;
+        switch (message.getStateOfGUI()) {
+            case ARES:
+               gamePanel.askUseSuperPower(GameMessage.aresTurnMessageAskRemoveBlokGUI);
+               break;
+            case ARESFAIL:
+                gamePanel.askUseSuperPower(GameMessage.aresTurnMessageFailRemoveBlokWNewCellGUI);
+                break;
+            case ATLAS:
+                gamePanel.askUseSuperPower(GameMessage.atlasTurnMessageAskBuildDorseGUI);
+                break;
+            case ATLASFAIL:
+                gamePanel.askUseSuperPower(GameMessage.atlasTurnMessageFailBuildDorseGUI);
+                break;
+        }
     }
 
 }

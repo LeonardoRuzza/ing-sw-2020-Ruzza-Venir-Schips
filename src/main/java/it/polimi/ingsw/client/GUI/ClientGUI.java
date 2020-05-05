@@ -152,9 +152,25 @@ public class ClientGUI {
                         santoriniGUI.updateMatchMessage(GameMessage.GUIChooseweretobuild);
                         break;
                     }
-                    if (s.contains(GameMessage.turnMessageTurnEnd)) {
+                    if (s.contains(GameMessage.turnMessageTurnEnd) || s.contains(GameMessage.turnMessageWaitAfterFirstAllocation)) {
                         santoriniGUI.updateMatchMessage(GameMessage.GUIWaitOtherPlayersTurn);
                         break;
+                    }
+
+                    // SUPERPLAYERS
+                    if (s.contains(GameMessage.aresTurnMessageAskRemoveBlok)) {
+                        santoriniGUI.updateSuperPlayer(new MessageToGUI(StateOfGUI.ARES));
+                        break;
+                    }
+                    if (s.contains(GameMessage.aresTurnMessageFailRemoveBlokWNewCell)) {
+                        santoriniGUI.updateSuperPlayer(new MessageToGUI(StateOfGUI.ARESFAIL));
+                        break;
+                    }
+                    if (s.contains(GameMessage.atlasTurnMessageAskBuildDorse)){
+                        santoriniGUI.updateSuperPlayer(new MessageToGUI(StateOfGUI.ATLAS));
+                    }
+                    if (s.contains(GameMessage.atlasTurnMessageFailBuildDorse)){
+                        santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.ATLASFAIL));
                     }
             }
         }

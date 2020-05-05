@@ -110,7 +110,6 @@ public class GameMessage {
             case prometheusTurnMessageAskBuildBeforeGUI:
                 return turnMessageBUILDBEFORE;
             case hephaesthusTurnMessageAskBuildGUI:
-                return turnMessageBUILDTWOTIMES;
             case hestiaDemeterTurnMessageAskTwoBuildGUI:
             case hestiaDemeterTurnMessageFailOptionalBuildWNewCellGUI:
                 return turnMessageBUILDTWOTIMES;
