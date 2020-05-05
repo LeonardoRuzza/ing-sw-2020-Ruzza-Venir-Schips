@@ -160,7 +160,7 @@ public class RemoteView extends View {
                 if (nicknameThisPlayer.equals(nicknamePlayerFromMessage)) {
                     resultMsg = message.getNextInstruction() + "\n";
                 } else {
-                    resultMsg = nicknamePlayerFromMessage+ "lose. " + "\n";
+                    resultMsg = nicknamePlayerFromMessage + GameMessage.turnMessagePlayerLose + "\n";
                     if(counterActivePlayers<=2) resultMsg += GameMessage.turnMessageWin + "\n";
                 }
             }
@@ -170,7 +170,7 @@ public class RemoteView extends View {
                         resultMsg = GameMessage.turnMessageSelectYourWorker;
                     }
                     else{
-                        resultMsg = message.getNextInstruction() + "Wait your turn.";
+                        resultMsg = message.getNextInstruction() + GameMessage.turnMessageWaitAfterFirstAllocation;
                     }
                 }
                 if(nicknameThisPlayer.equals(nicknamePlayerFromMessage)){

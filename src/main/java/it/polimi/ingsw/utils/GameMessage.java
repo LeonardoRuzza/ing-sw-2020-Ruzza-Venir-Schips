@@ -55,6 +55,7 @@ public class GameMessage {
     public static final String turnMessageAlreadyLocatedWorkerFirstAllocation = "You have already located this worker please select the other one. ";
     public static final String turnMessageErrorFIRSTALLOCATION = "Error locating your Worker. ";
     public static final String turnMessageFIRSTALLOCATIONEnded = "Workers of all players have been allocated. ";
+    public static final String turnMessageWaitAfterFirstAllocation = "Wait your turn.";
 
     public static final String turnMessageSelectYourWorker = "Select a worker specifying Male, Female or Worker coordinates X,Y";
     public static final String turnMessageLoserNoWorker = "You lost, neither worker is selectable! ";
@@ -67,6 +68,7 @@ public class GameMessage {
     public static final String turnMessageOkBuild = "Construction completed. ";
     public static final String turnMessageFailBuildChangeDestination = "Construction cannot be performed, change box. ";
     public static final String turnMessageTurnEnd = "Your turn is over. ";
+    public static final String turnMessagePlayerLose = "lose. ";
 
 
     public static final String turnMessageErrorInSyntax = "You wrote a wrong instruction, please check syntax. ";
