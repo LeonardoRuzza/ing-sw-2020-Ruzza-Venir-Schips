@@ -116,12 +116,12 @@ public class GamePanel extends JPanel {
                             if(panel.getBlockElem().getBlock() != blockInCell || panel.getBlockElem().getzCoord() != lastBusy.getzCoord()){
                                 panel.getBlockElem().updateElem(blockInCell,lastBusy.getzCoord());
                             }
-                            if(panel.getWorkerElem().getColor() != workerIcCell.getColor() && panel.getWorkerElem().getGender() != workerIcCell.getGender()){
+                            if(panel.getWorkerElem().getColor() != workerIcCell.getColor() || panel.getWorkerElem().getGender() != workerIcCell.getGender()){
                                 panel.getWorkerElem().updateElem(workerIcCell.getGender(), workerIcCell.getColor());
                             }
                         }else{
                             panel.getBlockElem().updateNull();
-                            if(panel.getWorkerElem().getColor() != workerIcCell.getColor() && panel.getWorkerElem().getGender() != workerIcCell.getGender()){
+                            if(panel.getWorkerElem().getColor() != workerIcCell.getColor() || panel.getWorkerElem().getGender() != workerIcCell.getGender()){
                                 panel.getWorkerElem().updateElem(workerIcCell.getGender(), workerIcCell.getColor());
                             }
                         }
@@ -486,7 +486,7 @@ public class GamePanel extends JPanel {
             this.color = color;
             this.gender = gender;
             if(this.gender != null && this.color != null){
-                BufferedImage wrkImg = null;
+                Image wrkImg = null;
                 try {
                     wrkImg = ImageIO.read(new File(selectImage(color)));
                 } catch (IOException e) {
