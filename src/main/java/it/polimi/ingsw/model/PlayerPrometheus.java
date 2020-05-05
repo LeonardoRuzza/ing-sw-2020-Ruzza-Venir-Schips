@@ -104,6 +104,12 @@ public class PlayerPrometheus extends Player {
                 }
                 return tempResponse;
             case 3:
+                if(match.checkLoserMove(selectedWorker)){
+                    match.removeWorker(workers[0]);
+                    match.removeWorker(workers[1]);
+                    match.removePlayer(this);
+                    return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageLose);
+                }
                 tempResponse = manageStateMove(x, y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkMovement)){
                     stateOfTurn = 4;
