@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.GUI;
 
+import it.polimi.ingsw.model.Worker;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -44,8 +46,8 @@ public class ColorListener implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
-        JLabel label = (JLabel) e.getSource();
+        ColorLabel label = (ColorLabel) e.getSource();
+        Border border = BorderFactory.createLineBorder(convertToColor(label.getColor()), 3);
         label.setBorder(border);
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(label);
         topFrame.getContentPane().revalidate();
@@ -54,10 +56,20 @@ public class ColorListener implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-        JLabel label = (JLabel) e.getSource();
+        ColorLabel label = (ColorLabel) e.getSource();
         label.setBorder(null);
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(label);
         topFrame.getContentPane().revalidate();
         topFrame.getContentPane().repaint();
+    }
+
+    private Color convertToColor(Worker.Color workerColor){
+        switch (workerColor){
+            case RED: return Color.RED;
+            case GREEN: return Color.GREEN;
+            case YELLOW: return Color.YELLOW;
+            case PURPLE: return new Color(128,0,128);
+            default: return Color.BLACK;
+        }
     }
 }
