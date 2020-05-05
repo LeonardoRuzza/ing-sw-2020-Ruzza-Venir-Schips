@@ -12,6 +12,11 @@ public class PrevListener implements MouseListener {
         this.cardListener = cardListener;
     }
 
+    /**If there are other cards to show, change the currentStatePanel (decrementing of 1) of MasterCardPanel and call setjPanelCards to refresh the window.
+     * It operates only if the selection phase is not finished (and currentStatePanel is >0).
+     * <p>
+     * @param e
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if(cardListener.isStopSelection()){return;}

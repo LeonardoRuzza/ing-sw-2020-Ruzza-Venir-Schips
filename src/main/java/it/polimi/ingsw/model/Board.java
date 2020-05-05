@@ -285,7 +285,7 @@ public class Board implements Cloneable, Serializable {
                     }
                     if (getLastBusyCell(realX,realY).getBlock()!=null){
                         if(getLastBusyCell(realX,realY).getBlock() == Block.DORSE){
-                            System.out.print(Color.BLUE + "D" + Worker.Color.RED.getANSI_RESET());
+                            System.out.print("\u001B[34m" + "D" + Worker.Color.RED.getANSI_RESET());
                         }else{
                             System.out.print(getLastBusyCell(realX,realY).getzCoord()+1);
                         }
