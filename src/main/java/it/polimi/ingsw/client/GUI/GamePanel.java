@@ -153,8 +153,16 @@ public class GamePanel extends JPanel {
     }
 
     private JPanel initAndShowSuperPowerDialog(String superPlayerAskMessage){
+        JPanel screenPanel = new JPanel();
+        screenPanel.setLayout(null);
+        screenPanel.setBounds(0,0,1920,1080);
+        screenPanel.setOpaque(true);
+        screenPanel.setBackground(new java.awt.Color(0,0,0,0));
+
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(null);
+        infoPanel.setOpaque(true);
+        infoPanel.setBackground(new java.awt.Color(0,0,0,0));
 
         String path = "src/main/resources/dialog_use_superpower.png";
         BufferedImage backgroundImg = null;
@@ -166,8 +174,8 @@ public class GamePanel extends JPanel {
         JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
         backgroundLabel.setBounds(0,0,775,380);
 
-        JTextArea godRequest = new JTextArea("");
-        godRequest.setFont(new Font("ComicSansMS",Font.BOLD,35));
+        JTextArea godRequest = new JTextArea(superPlayerAskMessage);
+        godRequest.setFont(new Font("ComicSansMS",Font.BOLD,40));
         godRequest.setForeground(java.awt.Color.white);
         godRequest.setEditable(false);
         godRequest.setSelectionColor(new java.awt.Color(0,0,0,0));
@@ -180,22 +188,25 @@ public class GamePanel extends JPanel {
 
         JLabel buttonOK = new JLabel("");
         buttonOK.setBounds(180,260,208,105);
-        buttonOK.addMouseListener(new SuperPlayeAcitvateListner(this, true, GameMessage.convertAskerSuperPlayerInPowerString(superPlayerAskMessage)));
+        buttonOK.addMouseListener(new SuperPlayeAcitvateListner(gui,this, true, GameMessage.convertAskerSuperPlayerInPowerString(superPlayerAskMessage)));
         JLabel buttonCANCEL = new JLabel("");
         buttonCANCEL.setBounds(388,260,208,105);
-        buttonCANCEL.addMouseListener(new SuperPlayeAcitvateListner(this, false, ""));
+        buttonCANCEL.addMouseListener(new SuperPlayeAcitvateListner(gui,this, false, GameMessage.convertSuperPowerRequireNo(superPlayerAskMessage)));
 
         infoPanel.setBounds(671,295,775,380);
         infoPanel.add(buttonOK);
         infoPanel.add(buttonCANCEL);
         infoPanel.add(godRequest);
         infoPanel.add(backgroundLabel);
+        infoPanel.setBounds(671,295,775,380);
+        screenPanel.add(infoPanel);
 
+        screenPanel.setBounds(0,0,1920,1080);
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.getContentPane().add(infoPanel,0);
+        topFrame.getContentPane().add(screenPanel,0);
         updateFrame(topFrame);
 
-        return infoPanel;
+        return screenPanel;
     }
 
     protected void hideSuperPowerDialog(){
@@ -285,7 +296,7 @@ public class GamePanel extends JPanel {
             workerElem = new WorkerElem(null,null);
             blockElem = new BlockElem(null,-1);
             blockElem.setBounds(0,0,width,height);
-            workerElem.setBounds(0,0,width,height);
+            workerElem.setBounds(34,34,width,height);
             cellButton.setBounds(0,0,width,height);
             this.add(cellButton);
             this.add(workerElem);

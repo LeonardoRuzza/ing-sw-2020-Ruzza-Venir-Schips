@@ -117,6 +117,18 @@ public class GameMessage {
         return "";
     }
 
+    public static String convertSuperPowerRequireNo(String optional){
+        switch (optional){
+            case aresTurnMessageAskRemoveBlokGUI:
+            case aresTurnMessageFailRemoveBlokWNewCellGUI:
+            case hestiaDemeterTurnMessageAskTwoBuildGUI:
+            case hestiaDemeterTurnMessageFailOptionalBuildWNewCellGUI:
+                return turnMessageNO;
+            default:
+                return "";
+        }
+    }
+
 
     // GUI Message
     public static final String aresTurnMessageFailRemoveBlokWNewCellGUI = "Unable to remove a block here, if you want to give up select CANCEL otherwise select OK. ";
