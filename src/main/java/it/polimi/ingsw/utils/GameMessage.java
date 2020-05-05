@@ -131,7 +131,7 @@ public class GameMessage {
 
 
     // GUI Message
-    // SUPERLAYERS
+    // SUPERPLAYERS
     public static final String aresTurnMessageFailRemoveBlokWNewCellGUI = "Unable to remove a block here, if you want to give up select CANCEL otherwise select OK. ";
     public static final String aresTurnMessageAskRemoveBlokGUI = "If you want to remove a block adjacent to the worker that you have not moved select OK otherwise select CANCEL. ";
     public static final String aresRemoveBlockGUI = "Select where you want to remove...";
@@ -144,6 +144,7 @@ public class GameMessage {
     public static final String prometheusTurnMessageAskBuildBeforeGUI = "Choose where to move or if you want to build before moving select OK otherwise select CANCEL. ";
 
     public static final String hephaesthusTurnMessageAskBuildGUI = "Choose where to build and if you want to build twice select OK otherwise select CANCEL. ";
+    public static final String hephaesthusBuildTwiceGUI= "You will build twice";
 
     public static final String hestiaDemeterTurnMessageAskTwoBuildGUI = "If you want to build again select OK otherwise select CANCEL. ";
     public static final String hestiaDemeterTurnMessageFailOptionalBuildWNewCellGUI = "You can't build here, if you want to give up select CANCEL otherwise select OK. ";

@@ -156,6 +156,15 @@ public class ClientGUI {
                         santoriniGUI.updateMatchMessage(GameMessage.GUIWaitOtherPlayersTurn);
                         break;
                     }
+                    if(s.contains(GameMessage.turnMessageFailBuildChangeDestination)){  // Caso particolare in cui bisogna richiedere ad HEPHAESTUS se vuole usare il suo super potere
+                        santoriniGUI.updateMatchMessage(GameMessage.turnMessageFailBuildChangeDestination);
+                        /*if (santoriniGUI.getCurrentStateOfGUI().equals(StateOfGUI.HEPHAESTUS)) {
+                            //santoriniGUI.updateSuperPlayer(new MessageToGUI((StateOfGUI.HEPHAESTUS)));
+                            santoriniGUI.updateMatchMessage(GameMessage.turnMessageFailBuildChangeDestination);
+                            break;
+                        }*/
+                        break;
+                    }
 
                     // SUPERPLAYERS
                     if (s.contains(GameMessage.aresTurnMessageAskRemoveBlok)) {
@@ -168,9 +177,19 @@ public class ClientGUI {
                     }
                     if (s.contains(GameMessage.atlasTurnMessageAskBuildDorse)){
                         santoriniGUI.updateSuperPlayer(new MessageToGUI(StateOfGUI.ATLAS));
+                        break;
                     }
                     if (s.contains(GameMessage.atlasTurnMessageFailBuildDorse)){
-                        santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.ATLASFAIL));
+                        santoriniGUI.updateSuperPlayer(new MessageToGUI(StateOfGUI.ATLASFAIL));
+                        break;
+                    }
+                    if(s.contains(GameMessage.prometheusTurnMessageAskBuildBefore)){
+                        santoriniGUI.updateSuperPlayer(new MessageToGUI(StateOfGUI.PROMETHEUS));
+                        break;
+                    }
+                    if(s.contains(GameMessage.hephaesthusTurnMessageAskBuild)){
+                        santoriniGUI.updateSuperPlayer(new MessageToGUI((StateOfGUI.HEPHAESTUS)));
+                        break;
                     }
             }
         }

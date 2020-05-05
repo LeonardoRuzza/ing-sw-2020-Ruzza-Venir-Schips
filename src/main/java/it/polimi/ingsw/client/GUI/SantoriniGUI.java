@@ -23,6 +23,10 @@ public class SantoriniGUI {
         createAndStartGUI();
     }
 
+    /*public StateOfGUI getCurrentStateOfGUI() {
+        return currentStateOfGUI;
+    }*/
+
     public void sendNotification(String s){
         clientGUI.outcomeGUI.add(s);
     }
@@ -39,11 +43,11 @@ public class SantoriniGUI {
         frame.setLocation((((int)(ge.getMaximumWindowBounds().getWidth()/2)-960)),0);
         frame.pack();
         frame.setVisible(true);
+        //setCursor();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    //gd.setFullScreenWindow(frame);
     }
 
-    public void addBackgroungImage() {
+    private void addBackgroungImage() {
         BufferedImage image = null;
         try {
             image = ImageIO.read(new File("src/main/resources/background_lobby.png"));
@@ -57,7 +61,7 @@ public class SantoriniGUI {
         frame.getContentPane().add(background,1);
     }
 
-    public void setCursor(){
+    private void setCursor(){
         BufferedImage image = null;
         try {
             image = ImageIO.read(new File("src/main/resources/mouse_pointer.png"));
@@ -76,7 +80,7 @@ public class SantoriniGUI {
         frame.repaint();
     }
 
-    public void addLabel(String pathname){
+    private void addLabel(String pathname){
         BufferedImage image = null;
         try {
             image = ImageIO.read(new File(pathname));
@@ -149,17 +153,17 @@ public class SantoriniGUI {
         }
     }
 
-    public void updateMatchMessage(String message) {
+    protected void updateMatchMessage(String message) {
         GamePanel gamePanel = (GamePanel) currentPanel;
         gamePanel.updateServerMessage(message);
     }
 
-    public void updateBoard(Board board){
+    protected void updateBoard(Board board){
         GamePanel gamePanel = (GamePanel) currentPanel;
         gamePanel.updateGrid(board);
     }
 
-    public void updateSuperPlayer(MessageToGUI message){
+    protected void updateSuperPlayer(MessageToGUI message){
         GamePanel gamePanel = (GamePanel) currentPanel;
         switch (message.getStateOfGUI()) {
             case ARES:
@@ -176,6 +180,14 @@ public class SantoriniGUI {
             case ATLASFAIL:
                 gamePanel.askUseSuperPower(GameMessage.atlasTurnMessageFailBuildDorseGUI);
                 break;
+            case PROMETHEUS:
+                currentStateOfGUI = message.getStateOfGUI();
+                gamePanel.askUseSuperPower(GameMessage.prometheusTurnMessageAskBuildBeforeGUI);
+                break;
+            case HEPHAESTUS:
+                currentStateOfGUI = message.getStateOfGUI();
+                gamePanel.askUseSuperPower(GameMessage.hephaesthusTurnMessageAskBuildGUI);
+                break;
         }
     }
 
@@ -183,13 +195,26 @@ public class SantoriniGUI {
         switch (currentStateOfGUI){
             case ARES:
                 if (response)
-                    updateMatchMessage(GameMessage.aresRemoveBlockGUI);
+                    updateMatchMessage(GameMessage.aresRemoveBlockGUI);   // Caso in cui Ares vuole rimuovere un blocco
                 break;
             case ATLAS:
                 if (response)
-                    updateMatchMessage(GameMessage.atlasBuildDomeGUI);
+                    updateMatchMessage(GameMessage.atlasBuildDomeGUI);  // Caso particolare in cui ATLAS vuole costruire una cupola
                 else
-                    updateMatchMessage(GameMessage.atlasBuildNormalGUI);
+                    updateMatchMessage(GameMessage.atlasBuildNormalGUI);  // Caso normale
+                break;
+            case PROMETHEUS:
+                if (response)
+                    updateMatchMessage(GameMessage.GUIChooseweretobuild);  // Caso particolare in cui PROMETHEUS vuole costruire prima di muoversi
+                else
+                    updateMatchMessage(GameMessage.GUIChooseweretomove);   // Caso normale
+                break;
+            case HEPHAESTUS:
+                if (response)
+                    updateMatchMessage(GameMessage.hephaesthusBuildTwiceGUI);  // Caso particolare in cui HEPHAESTUS vuole costruire 2 volte
+                else
+                    updateMatchMessage(GameMessage.GUIChooseweretobuild);  // Caso normale
+                break;
         }
     }
 
