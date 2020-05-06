@@ -43,32 +43,34 @@ public class PlayerPrometheus extends Player {
         else{
             Worker tempWorker=new Worker(selectedWorker.getGender(),selectedWorker.getColor());  //copio i valori di selected worker in un worker temporaneo
             tempWorker.move(selectedWorker.getCell());
-            if(match.checkMove(x,y,tempWorker).equals(tempWorker)) {
-                if (match.forceMove(x, y, tempWorker)) {
-                    int zNow = tempWorker.getCell().getzCoord();
-                    int zOld = selectedWorker.getCell().getzCoord();
-                    if (this.selectedWorker.getCell().getBlock() != null) {
-                        zOld++;
-                    }
-                    if (tempWorker.getCell().getBlock() != null) {
-                        zNow++;
-                    }
-                    if ((zNow - zOld) > 0) {
-                        match.removeWorker(tempWorker);
-                        selectedWorker.getCell().setWorkerInCell(selectedWorker);
-                        return false;
-                    } else {
-                        match.removeWorker(tempWorker);
-                        if (super.selectedWorkerMove(x, y)) {
-                            resetTurn();
-                            return true;
-                        } else {
+            if(match.checkMove(x,y,tempWorker)!=null){
+                if(match.checkMove(x,y,tempWorker).equals(tempWorker)) {
+                    if (match.forceMove(x, y, tempWorker)) {
+                        int zNow = tempWorker.getCell().getzCoord();
+                        int zOld = selectedWorker.getCell().getzCoord();
+                        if (this.selectedWorker.getCell().getBlock() != null) {
+                            zOld++;
+                        }
+                        if (tempWorker.getCell().getBlock() != null) {
+                            zNow++;
+                        }
+                        if ((zNow - zOld) > 0) {
+                            match.removeWorker(tempWorker);
                             selectedWorker.getCell().setWorkerInCell(selectedWorker);
                             return false;
+                        } else {
+                            match.removeWorker(tempWorker);
+                            if (super.selectedWorkerMove(x, y)) {
+                                resetTurn();
+                                return true;
+                            } else {
+                                selectedWorker.getCell().setWorkerInCell(selectedWorker);
+                                return false;
+                            }
                         }
                     }
+                    selectedWorker.getCell().setWorkerInCell(selectedWorker);
                 }
-                selectedWorker.getCell().setWorkerInCell(selectedWorker);
             }
             return false;
         }
