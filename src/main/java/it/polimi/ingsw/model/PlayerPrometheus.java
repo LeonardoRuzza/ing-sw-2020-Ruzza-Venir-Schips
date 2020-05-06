@@ -85,8 +85,11 @@ public class PlayerPrometheus extends Player {
     @Override
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
         ChoiceResponseMessage tempResponse;
-        if(!optional.equals(GameMessage.turnMessageBUILDBEFORE) && stateOfTurn == 2){
+        if(!optional.equals(GameMessage.turnMessageBUILDBEFORE) && stateOfTurn == 2 && optional.equals("")){
             stateOfTurn++;
+        }
+        if(!optional.equals(GameMessage.turnMessageBUILDBEFORE)&& !optional.equals("")){
+            return new ChoiceResponseMessage(this.match.clone(), this.clone(), GameMessage.prometheusTurnMessageFailOptionalBuild + GameMessage.prometheusTurnMessageAskBuildBefore);
         }
         switch(stateOfTurn){
             case 1:
@@ -94,6 +97,7 @@ public class PlayerPrometheus extends Player {
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkWorkerSelection)) {
                     tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction() + GameMessage.prometheusTurnMessageAskBuildBefore);
                 }
+
                 return tempResponse;
             case 2:
                 tempResponse = manageStateBuild(x, y);
@@ -102,7 +106,7 @@ public class PlayerPrometheus extends Player {
                     tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageChooseCellMove);
                     return tempResponse;
                 }
-                return tempResponse;
+                return new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), GameMessage.prometheusTurnMessageFailOptionalBuild + GameMessage.prometheusTurnMessageAskBuildBefore);
             case 3:
                 if(match.checkLoserMove(selectedWorker)){
                     match.removeWorker(workers[0]);

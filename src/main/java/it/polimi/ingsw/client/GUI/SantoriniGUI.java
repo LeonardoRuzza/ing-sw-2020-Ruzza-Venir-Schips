@@ -23,9 +23,9 @@ public class SantoriniGUI {
         createAndStartGUI();
     }
 
-    /*public StateOfGUI getCurrentStateOfGUI() {
+    public StateOfGUI getCurrentStateOfGUI() {
         return currentStateOfGUI;
-    }*/
+    }
 
     public void sendNotification(String s){
         clientGUI.outcomeGUI.add(s);
@@ -39,7 +39,7 @@ public class SantoriniGUI {
         frame.setPreferredSize(new Dimension(1920,1080));
         frame.setUndecorated(true);
         frame.setExtendedState(Frame.MAXIMIZED_VERT);
-        gd.setFullScreenWindow(frame);
+        //gd.setFullScreenWindow(frame);
         frame.setLocation((((int)(ge.getMaximumWindowBounds().getWidth()/2)-960)),0);
         frame.pack();
         frame.setVisible(true);

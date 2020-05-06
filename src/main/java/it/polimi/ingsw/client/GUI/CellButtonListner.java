@@ -19,9 +19,12 @@ public class CellButtonListner extends JFrame implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if(coordinates!=null){
             if(gui!=null){
-                if(gamePanel.getSuperPower() != ""){
-                    coordinates = coordinates + "," + gamePanel.getSuperPower();
+                String result = "";
+                if(!gamePanel.getSuperPower().equals("")){
+                    result = coordinates + "," + gamePanel.getSuperPower();
                     gamePanel.setSuperPower("");
+                    gui.sendNotification(result);
+                    return;
                 }
                 gui.sendNotification(coordinates);
             }

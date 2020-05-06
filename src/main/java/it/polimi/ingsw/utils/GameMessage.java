@@ -81,9 +81,11 @@ public class GameMessage {
     public static final String atlasTurnMessageFailBuildDorse = "Impossible to build a dome here, change position or give up the DORSE option. ";
 
     public static final String prometheusTurnMessageAskBuildBefore = "Choose where to move or if you want to build before moving, write BUILDBEFORE after the box where you want to build. ";
+    public static final String prometheusTurnMessageFailOptionalBuild = "Impossible to build here, please select new cell. ";
 
     public static final String hephaesthusTurnMessageAskBuild = "Choose where to build and if you want to build twice write BUILDTWOTIMES after the box. ";
     public static final String hephaesthusTurnMessageFailOptionalBuildWEnd = "You can't build twice here. " + turnMessageTurnEnd;
+    public static final String hephaesthusTurnMessageFailOptionalBuild = "You can't build here, please select new cell. ";
 
     public static final String hestiaDemeterTurnMessageAskTwoBuild = "If you want to build again, indicate the coordinates and write BUILDTWOTIMES otherwise write NO. ";
     public static final String hestiaDemeterTurnMessageFailOptionalBuildWEnd = "You can't build here twice. " + turnMessageTurnEnd;

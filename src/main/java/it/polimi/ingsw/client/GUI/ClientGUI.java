@@ -158,11 +158,11 @@ public class ClientGUI {
                     }
                     if(s.contains(GameMessage.turnMessageFailBuildChangeDestination)){  // Caso particolare in cui bisogna richiedere ad HEPHAESTUS se vuole usare il suo super potere
                         santoriniGUI.updateMatchMessage(GameMessage.turnMessageFailBuildChangeDestination);
-                        /*if (santoriniGUI.getCurrentStateOfGUI().equals(StateOfGUI.HEPHAESTUS)) {
-                            //santoriniGUI.updateSuperPlayer(new MessageToGUI((StateOfGUI.HEPHAESTUS)));
-                            santoriniGUI.updateMatchMessage(GameMessage.turnMessageFailBuildChangeDestination);
-                            break;
-                        }*/
+                        if (santoriniGUI.getCurrentStateOfGUI().equals(StateOfGUI.HEPHAESTUS)) {
+                            santoriniGUI.updateSuperPlayer(new MessageToGUI((StateOfGUI.HEPHAESTUS)));
+                            //santoriniGUI.updateMatchMessage(GameMessage.turnMessageFailBuildChangeDestination);
+
+                        }
                         break;
                     }
 

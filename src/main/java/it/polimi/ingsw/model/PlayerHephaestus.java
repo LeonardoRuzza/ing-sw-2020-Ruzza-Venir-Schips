@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.client.GUI.GamePanel;
 import it.polimi.ingsw.utils.GameMessage;
 
 public class PlayerHephaestus extends Player {
     private boolean firstBuild=true;
     private int x0=-1, y0=-1;
+    private boolean usedSuperPower = true;
     protected PlayerHephaestus(String nickname, int number, Card card, Match match, Worker.Color color) {
         super(nickname, number, card, match, color);
     }
@@ -81,20 +83,21 @@ public class PlayerHephaestus extends Player {
                 }
                 return tempResponse;
             case 3:
-                if(!optional.equals(GameMessage.turnMessageBUILDTWOTIMES)){
+                if(!optional.equals(GameMessage.turnMessageBUILDTWOTIMES) || !usedSuperPower){
                     tempResponse = super.manageStateBuild(x, y);
-                    resetTurn();
                     if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
                         resetTurn();
                         match.nextPlayer();
                         tempResponse = new ChoiceResponseMessage(match.clone(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.turnMessageTurnEnd);
+                        usedSuperPower = true;
                         return tempResponse;
                     }
+                    usedSuperPower = false;
                     return tempResponse;
                 }
                 tempResponse = super.manageStateBuild(x, y);
                 if(!tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
-                    return tempResponse;
+                    return new ChoiceResponseMessage(match.clone(), tempResponse.getPlayer(), GameMessage.hephaesthusTurnMessageFailOptionalBuild + GameMessage.hephaesthusTurnMessageAskBuild);
                 }
                 tempResponse = manageStateBuild(x, y);
                 resetTurn();
