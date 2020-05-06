@@ -23,10 +23,6 @@ public class SantoriniGUI {
         createAndStartGUI();
     }
 
-    public StateOfGUI getCurrentStateOfGUI() {
-        return currentStateOfGUI;
-    }
-
     public void sendNotification(String s){
         clientGUI.outcomeGUI.add(s);
     }
@@ -43,7 +39,7 @@ public class SantoriniGUI {
         frame.setLocation((((int)(ge.getMaximumWindowBounds().getWidth()/2)-960)),0);
         frame.pack();
         frame.setVisible(true);
-        //setCursor();
+        setCursor();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -188,6 +184,13 @@ public class SantoriniGUI {
                 currentStateOfGUI = message.getStateOfGUI();
                 gamePanel.askUseSuperPower(GameMessage.hephaesthusTurnMessageAskBuildGUI);
                 break;
+            case HESTIADEMETER:
+                currentStateOfGUI = message.getStateOfGUI();
+                gamePanel.askUseSuperPower(GameMessage.hestiaDemeterTurnMessageAskTwoBuildGUI);
+                break;
+            case HESTIADEMETERFAIL:
+                gamePanel.askUseSuperPower(GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWNewCellGUI);
+                break;
         }
     }
 
@@ -211,9 +214,13 @@ public class SantoriniGUI {
                 break;
             case HEPHAESTUS:
                 if (response)
-                    updateMatchMessage(GameMessage.hephaesthusBuildTwiceGUI);  // Caso particolare in cui HEPHAESTUS vuole costruire 2 volte
+                    updateMatchMessage(GameMessage.hephaesthusBuildTwiceGUI);  // Caso particolare in cui HEPHAESTUS vuole costruire 2 volte sulla stessa cella
                 else
                     updateMatchMessage(GameMessage.GUIChooseweretobuild);  // Caso normale
+                break;
+            case HESTIADEMETER:
+                if (response)
+                    updateMatchMessage(GameMessage.GUIChooseweretobuild);   // Caso in cui HESTIA o DEMETER vogliono costruire una seconda volta
                 break;
         }
     }

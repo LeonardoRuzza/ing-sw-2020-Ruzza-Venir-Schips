@@ -8,6 +8,7 @@ import it.polimi.ingsw.utils.GameMessage;
 import it.polimi.ingsw.utils.InputConversion;
 
 import java.io.*;
+import java.lang.reflect.GenericArrayType;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -156,13 +157,8 @@ public class ClientGUI {
                         santoriniGUI.updateMatchMessage(GameMessage.GUIWaitOtherPlayersTurn);
                         break;
                     }
-                    if(s.contains(GameMessage.turnMessageFailBuildChangeDestination)){  // Caso particolare in cui bisogna richiedere ad HEPHAESTUS se vuole usare il suo super potere
+                    if(s.contains(GameMessage.turnMessageFailBuildChangeDestination)){
                         santoriniGUI.updateMatchMessage(GameMessage.turnMessageFailBuildChangeDestination);
-                        if (santoriniGUI.getCurrentStateOfGUI().equals(StateOfGUI.HEPHAESTUS)) {
-                            santoriniGUI.updateSuperPlayer(new MessageToGUI((StateOfGUI.HEPHAESTUS)));
-                            //santoriniGUI.updateMatchMessage(GameMessage.turnMessageFailBuildChangeDestination);
-
-                        }
                         break;
                     }
 
@@ -184,11 +180,25 @@ public class ClientGUI {
                         break;
                     }
                     if(s.contains(GameMessage.prometheusTurnMessageAskBuildBefore)){
+                        if(s.contains(GameMessage.prometheusTurnMessageFailOptionalBuild)) {
+                            santoriniGUI.updateMatchMessage(GameMessage.turnMessageFailBuildChangeDestination);
+                        }
                         santoriniGUI.updateSuperPlayer(new MessageToGUI(StateOfGUI.PROMETHEUS));
                         break;
                     }
                     if(s.contains(GameMessage.hephaesthusTurnMessageAskBuild)){
+                        if(s.contains(GameMessage.hephaesthusTurnMessageFailOptionalBuild)){
+                            santoriniGUI.updateMatchMessage(GameMessage.turnMessageFailBuildChangeDestination);
+                        }
                         santoriniGUI.updateSuperPlayer(new MessageToGUI((StateOfGUI.HEPHAESTUS)));
+                        break;
+                    }
+                    if(s.contains(GameMessage.hestiaDemeterTurnMessageAskTwoBuild)){
+                        santoriniGUI.updateSuperPlayer(new MessageToGUI(StateOfGUI.HESTIADEMETER));
+                        break;
+                    }
+                    if(s.contains(GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWNewCell)){
+                        santoriniGUI.updateSuperPlayer(new MessageToGUI(StateOfGUI.HESTIADEMETERFAIL));
                         break;
                     }
             }
