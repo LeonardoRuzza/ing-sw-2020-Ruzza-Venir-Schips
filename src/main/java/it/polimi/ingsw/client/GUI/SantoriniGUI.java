@@ -159,6 +159,11 @@ public class SantoriniGUI {
         gamePanel.updateGrid(board);
     }
 
+    public void updateWin(boolean winORlose){
+        GamePanel gamePanel = (GamePanel) currentPanel;
+        gamePanel.showEndGameDialog(winORlose);
+    }
+
     protected void updateSuperPlayer(MessageToGUI message){
         GamePanel gamePanel = (GamePanel) currentPanel;
         switch (message.getStateOfGUI()) {

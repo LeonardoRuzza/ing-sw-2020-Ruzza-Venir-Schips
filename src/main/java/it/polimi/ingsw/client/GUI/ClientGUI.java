@@ -161,6 +161,14 @@ public class ClientGUI {
                         santoriniGUI.updateMatchMessage(GameMessage.turnMessageFailBuildChangeDestination);
                         break;
                     }
+                    if(s.contains(GameMessage.turnMessageWin)){
+                        santoriniGUI.updateWin(true);
+                        break;
+                    }
+                    if(s.contains(GameMessage.turnMessageLose)){
+                        santoriniGUI.updateWin(false);
+                        break;
+                    }
 
                     // SUPERPLAYERS
                     if (s.contains(GameMessage.aresTurnMessageAskRemoveBlok)) {
