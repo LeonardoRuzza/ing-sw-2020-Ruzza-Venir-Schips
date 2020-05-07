@@ -149,7 +149,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
                 if(board.getLastBusyCell(x, y).getBlock() != Block.DORSE){
                     if(board.getDistance(board.getFirstBuildableCell(x, y),board.getFirstBuildableCell(w.getCell().getxCoord(),w.getCell().getyCoord()))[2] < 2){
                         if((board.getLastBusyCell(x, y).getWorker()) == null){
-                            if(!forceMoveLimit(board.getLastBusyCell(x, y))){
+                            if(!forceMoveLimit(board.getLastBusyCell(x, y), w)){
                                 continue;
                             }
                             return false;
@@ -289,7 +289,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @return True if moved; False otherwise
      */
     protected boolean forceMove(int x,int y, Worker w){
-        if (forceMoveLimit(board.getLastBusyCell(x, y))) {
+        if (forceMoveLimit(board.getLastBusyCell(x, y), w)) {
             return board.forceMove(board.getLastBusyCell(x, y), w);
         }
         return false;
@@ -300,7 +300,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @param nextCell cell you want move into
      * @return True if you can move; False otherwise
      */
-    protected  boolean forceMoveLimit(Cell nextCell){
+    protected  boolean forceMoveLimit(Cell nextCell, Worker worker){
         boolean returnLimit = true;
         for(int x = 0; x < numberOfPlayers; x++) {
             Player p = players[x];
@@ -308,7 +308,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
                 continue;
             }
             if (p.card.getActivationPeriod() == Card.activationPeriod.FOETURN && p != playingNow) {
-                returnLimit = returnLimit && p.checkLimitMove(nextCell, playingNow);
+                returnLimit = returnLimit && p.checkLimitMove(nextCell, playingNow, worker);
             }
         }
         return returnLimit;

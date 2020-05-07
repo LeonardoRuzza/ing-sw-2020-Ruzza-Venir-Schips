@@ -277,7 +277,7 @@ public class Player implements Serializable {
     public boolean checkSuperWin(){
         return false;
     }
-    public boolean checkLimitMove(Cell nextCell, Player opponent){
+    public boolean checkLimitMove(Cell nextCell, Player opponent, Worker worker){
         return true;
     }
     protected void resetTurn(){}

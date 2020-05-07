@@ -39,17 +39,17 @@ public class PlayerAthena extends Player {
      * @return {@code true} if the opponent's movement is possible; {@code false} otherwise
      */
     @Override
-    public boolean checkLimitMove(Cell nextCell, Player opponent){
-        if(selectedWorker==null){ return true; }
+    public boolean checkLimitMove(Cell nextCell, Player opponent, Worker opponentWorker){
+        if(this.selectedWorker==null || opponentWorker ==null){ return true; }
         if(this.selectedWorker.getOldLocation() == null || this.selectedWorker.getCell() == null){
             return true;
         }
         if(zNowAthena-zOldAthena>=1){
-            if(opponent.selectedWorker.getCell() == null){
+            if(opponentWorker.getCell() == null){
                 return true;
             }
-            int zOldOpponent=opponent.selectedWorker.getCell().getzCoord();
-            if(opponent.selectedWorker.getCell().getBlock() != null){
+            int zOldOpponent= opponentWorker.getCell().getzCoord();
+            if(opponentWorker.getCell().getBlock() != null){
                 zOldOpponent++;
             }
             int zNewOpponent = nextCell.getzCoord();
