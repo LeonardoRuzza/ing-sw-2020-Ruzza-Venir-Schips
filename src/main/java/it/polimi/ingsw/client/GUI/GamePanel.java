@@ -95,6 +95,7 @@ public class GamePanel extends JPanel {
                 }
                 break;
         }
+
     }
 
     protected void updateServerMessage(String message){
@@ -225,6 +226,18 @@ public class GamePanel extends JPanel {
 
     public void setSuperPower(String superPower) {
         this.superPower = superPower;
+    }
+
+    public void showEndGameDialog(boolean win){
+        EndOfGameDialog endGameDialog = new EndOfGameDialog(win);
+        GridBoardPanel grid = (GridBoardPanel) this.getComponent(0);
+        this.remove(grid);
+        int numOfComp = this.getComponentCount();
+        this.add(grid, numOfComp-2);
+        numOfComp = this.getComponentCount();
+        this.add(endGameDialog, numOfComp-3);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        updateFrame(topFrame);
     }
 
     private class GridBoardPanel extends JPanel{
@@ -380,15 +393,13 @@ public class GamePanel extends JPanel {
             if(block != null){
                 this.block = block;
                 this.zCoord = zCoord;
-                if(block != null){
-                    BufferedImage blockImg = null;
-                    try {
-                        blockImg = ImageIO.read(new File(selectBlock(block, zCoord)));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    this.setIcon(new ImageIcon(blockImg));
+                BufferedImage blockImg = null;
+                try {
+                    blockImg = ImageIO.read(new File(selectBlock(block, zCoord)));
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                this.setIcon(new ImageIcon(blockImg));
             }else{
                 this.zCoord = 0;
                 this.block = null;
@@ -717,6 +728,45 @@ public class GamePanel extends JPanel {
 
         public String getCardName() {
             return cardName;
+        }
+    }
+
+    private class EndOfGameDialog extends JPanel{
+        String cardName;
+        public EndOfGameDialog(boolean win){
+            this.cardName = cardName;
+            if(win){
+                initDialog("win");
+            }else{
+                initDialog("lose");
+            }
+        }
+
+        protected void initDialog(String result){
+            this.setLayout(null);
+            this.setBounds(0,0,1920,1080);
+            this.setOpaque(true);
+            this.setBackground(new java.awt.Color(0,0,0,0));
+
+            JPanel resultPanel = new JPanel();
+            resultPanel.setLayout(null);
+            resultPanel.setOpaque(true);
+            resultPanel.setBackground(new java.awt.Color(0,0,0,0));
+            String path = "src/main/resources/dialog_base_"+result+".png";
+            BufferedImage backgroundImg = null;
+            try {
+                backgroundImg = ImageIO.read(new File(path));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
+
+
+            backgroundLabel.setBounds(0,0,1570,953);
+            resultPanel.add(backgroundLabel);
+
+            resultPanel.setBounds(349,0,1570,953);
+            this.add(resultPanel);
         }
     }
 }
