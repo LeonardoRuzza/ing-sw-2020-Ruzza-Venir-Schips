@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.utils.GameMessage;
+
 public class PlayerChronus extends Player {
     final int numOfWinTower = 5;
     protected PlayerChronus(String nickname, int number, Card card, Match match, Worker.Color color) {
@@ -16,5 +18,13 @@ public class PlayerChronus extends Player {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
+        if(checkSuperWin()){ return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageWin);}
+        ChoiceResponseMessage response = super.manageTurn(x,y,gender,optional);
+        if(checkSuperWin()){ return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageWin);}
+        return response;
     }
 }
