@@ -18,7 +18,7 @@ public class PlayerApollo extends Player {
         if(!super.selectedWorkerMove(x, y)){
             tempWorker=match.checkMove(x,y,selectedWorker);
             if (tempWorker == null || selectedWorker.getCell() == null) return false; //the second condition is for the initial allocation
-            if(!tempWorker.equals(selectedWorker)){
+            if(!tempWorker.getColor().equals(selectedWorker.getColor())){
                 int xOld = selectedWorker.getCell().getxCoord();
                 int yOld = selectedWorker.getCell().getyCoord();
                 boolean retValue1 = match.forceMove(x, y, selectedWorker) && match.forceMove(xOld, yOld, tempWorker);

@@ -30,7 +30,7 @@ public class ClientApp
             read = in.nextLine();
         }
         if (read.toUpperCase().equals("GUI")){
-            ClientGUI clientGUI = new ClientGUI("127.0.0.1", 12345);
+            ClientGUI clientGUI = new ClientGUI("151.64.25.212", 12345);
             try{
                 clientGUI.run();
             }catch (IOException e){

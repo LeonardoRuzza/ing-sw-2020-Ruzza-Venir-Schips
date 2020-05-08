@@ -19,7 +19,7 @@ public class PlayerMinotaur extends Player {
         if(super.selectedWorkerMove(x, y)){return true;}
         if(selectedWorker.getCell() == null) return false;
         tempWorker=match.checkMove(x, y, selectedWorker);
-        if(tempWorker!=null && !tempWorker.equals(selectedWorker)){
+        if(tempWorker!=null && !tempWorker.getColor().equals(selectedWorker.getColor())){
             x0=selectedWorker.getCell().getxCoord();
             y0=selectedWorker.getCell().getyCoord();
             xFinal=x-x0;
