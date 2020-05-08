@@ -212,15 +212,23 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @param x coordinate of the cell in which to move
      * @param y coordinate of the cell in which to move
      * @param w Worker you want move
-     * @return The worker you gave as param if you can move; Worker which occupies the cell if the cell you want move into is busy; null otherwise
+     * @return The worker you gave as param if you can move; Worker which occupies the cell if the cell you want move into is busy and reachable; null otherwise
      */
     protected Worker checkMove (int x, int y, Worker w) {
         if(x < 0 || x > 4 || y < 0 || y > 4){
             return null;
         }
         Cell moveToCell = board.getLastBusyCell(x,y);
-        if(moveToCell.getWorker() != null && !moveToCell.getWorker().equals(w)){
-            return moveToCell.getWorker();
+        Worker tempWorker= moveToCell.getWorker();
+        if(tempWorker != null && !tempWorker.equals(w)){
+            if(w.getCell() != null) {
+                moveToCell = board.getFirstBuildableCell(x, y);
+                int[] distance = board.getDistance(moveToCell, board.getFirstBuildableCell(w.getCell().getxCoord(), w.getCell().getyCoord()));
+                if (distance[0] > 1 || distance[1] > 1 || distance[2] > 1) {
+                    return null;
+                }
+            }
+            return tempWorker;
         }else if (moveToCell.getBlock() == Block.DORSE){
             return null;
         }
