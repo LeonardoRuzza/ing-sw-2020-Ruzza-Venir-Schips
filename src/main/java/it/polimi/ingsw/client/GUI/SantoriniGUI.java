@@ -4,11 +4,13 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.utils.GameMessage;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class SantoriniGUI {
     private  ClientGUI clientGUI;
@@ -17,10 +19,12 @@ public class SantoriniGUI {
     private JPanel currentPanel;
     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     GraphicsDevice gd = ge.getDefaultScreenDevice();
+    public Clip soundThread;
 
     public SantoriniGUI(ClientGUI clientGUI){
         this.clientGUI = clientGUI;
         createAndStartGUI();
+        soundThread = playSound("background.wav");
     }
 
     public void sendNotification(String s){
@@ -55,6 +59,22 @@ public class SantoriniGUI {
         JLabel backGrIm = new JLabel(new ImageIcon(image));
         background.add(backGrIm);
         frame.getContentPane().add(background,1);
+    }
+
+    private synchronized Clip playSound(final String fileName) {
+        Clip sound = null;
+        try {
+            Clip clip = AudioSystem.getClip();
+            InputStream audioSrc = new FileInputStream("src/main/resources/sound/" + fileName);
+            InputStream bufferedIn = new BufferedInputStream(audioSrc);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            sound = clip;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return sound;
     }
 
     private void setCursor(){
@@ -145,6 +165,8 @@ public class SantoriniGUI {
                 for (MessageToGUI.PlayerSummary p: message.getPlayerSummaries()){
                     gamePanel.updateCardPanel((p.getPlayerNumber()), p.getNickname(), p.getCardName(), p.getColor());
                 }
+                soundThread.stop();
+                soundThread = playSound("match_background.wav");
                 break;
         }
     }
@@ -162,6 +184,13 @@ public class SantoriniGUI {
     public void updateWin(boolean winORlose){
         GamePanel gamePanel = (GamePanel) currentPanel;
         gamePanel.showEndGameDialog(winORlose);
+        if(winORlose){
+            soundThread.stop();
+            soundThread = playSound("winner_sound.wav");
+        }else{
+            soundThread.stop();
+            soundThread = playSound("loser_sound.wav");
+        }
     }
 
     protected void updateSuperPlayer(MessageToGUI message){

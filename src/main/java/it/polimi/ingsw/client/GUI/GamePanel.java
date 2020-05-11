@@ -6,11 +6,13 @@ import it.polimi.ingsw.utils.GameMessage;
 import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 
 public class GamePanel extends JPanel {
@@ -110,35 +112,45 @@ public class GamePanel extends JPanel {
                 CellPanel panel = this.gridBoard.getCell(y,x);
                 Cell lastBusy = board.getLastBusyCell(x,y);
                 if(lastBusy != null){
-                    Worker workerIcCell = board.workerInCell(x,y);
+                    Worker workerInCell = board.workerInCell(x,y);
                     Block blockInCell = board.blockInCell(x,y);
-                    if(workerIcCell != null){
+                    if(workerInCell != null){
                         if(blockInCell != null){
                             if(panel.getBlockElem().getBlock() != blockInCell || panel.getBlockElem().getzCoord() != lastBusy.getzCoord()){
                                 panel.getBlockElem().updateElem(blockInCell,lastBusy.getzCoord());
                             }
-                            if(panel.getWorkerElem().getColor() != workerIcCell.getColor() || panel.getWorkerElem().getGender() != workerIcCell.getGender()){
-                                panel.getWorkerElem().updateElem(workerIcCell.getGender(), workerIcCell.getColor());
+                            if(panel.getWorkerElem().getColor() != workerInCell.getColor() || panel.getWorkerElem().getGender() != workerInCell.getGender()){
+                                panel.getWorkerElem().updateElem(workerInCell.getGender(), workerInCell.getColor());
                             }
                         }else{
-                            panel.getBlockElem().updateNull();
-                            if(panel.getWorkerElem().getColor() != workerIcCell.getColor() || panel.getWorkerElem().getGender() != workerIcCell.getGender()){
-                                panel.getWorkerElem().updateElem(workerIcCell.getGender(), workerIcCell.getColor());
+                            if(panel.getBlockElem().getBlock() != null){
+                                panel.getBlockElem().updateNull();
+                            }
+                            if(panel.getWorkerElem().getColor() != workerInCell.getColor() || panel.getWorkerElem().getGender() != workerInCell.getGender()){
+                                panel.getWorkerElem().updateElem(workerInCell.getGender(), workerInCell.getColor());
                             }
                         }
                     }else{
-                        panel.getWorkerElem().updateNull();
+                        if (panel.getWorkerElem().getGender() != null || panel.getWorkerElem().getColor() != null){
+                            panel.getWorkerElem().updateNull();
+                        }
                         if(blockInCell != null){
                             if(panel.getBlockElem().getBlock() != blockInCell || panel.getBlockElem().getzCoord() != lastBusy.getzCoord()){
                                 panel.getBlockElem().updateElem(blockInCell,lastBusy.getzCoord());
                             }
                         }else{
-                            panel.getBlockElem().updateNull();
+                            if(panel.getBlockElem().getBlock() != null){
+                                panel.getBlockElem().updateNull();
+                            }
                         }
                     }
                 }else{
-                    panel.getBlockElem().updateNull();
-                    panel.getWorkerElem().updateNull();
+                    if(panel.getBlockElem().getBlock() != null){
+                        panel.getBlockElem().updateNull();
+                    }
+                    if (panel.getWorkerElem().getGender() != null || panel.getWorkerElem().getColor() != null){
+                        panel.getWorkerElem().updateNull();
+                    }
                 }
             }
         }
@@ -408,6 +420,7 @@ public class GamePanel extends JPanel {
         }
 
         public void updateNull(){
+            playEffectSound("remove_block.wav");
             this.zCoord = 0;
             this.block = null;
             this.setIcon(null);
@@ -416,6 +429,7 @@ public class GamePanel extends JPanel {
         }
 
         public void updateElem(Block block, int zCoord) {
+            playEffectSound("block_added.wav");
             this.block = block;
             this.zCoord = zCoord;
             if(block != null){
@@ -505,6 +519,7 @@ public class GamePanel extends JPanel {
         }
 
         public void updateElem(Worker.Gender gender, Worker.Color color){
+            playEffectSound("movement_done_cut.wav");
             this.color = color;
             this.gender = gender;
             if(this.gender != null && this.color != null){
@@ -768,5 +783,22 @@ public class GamePanel extends JPanel {
             resultPanel.setBounds(349,0,1570,953);
             this.add(resultPanel);
         }
+    }
+
+    private synchronized void playEffectSound(final String fileName) {
+        new Thread(new Runnable() { // the wrapper thread is unnecessary, unless it blocks on the Clip finishing, see comments
+            public void run() {
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    InputStream audioSrc = new FileInputStream("src/main/resources/sound/" + fileName);
+                    InputStream bufferedIn = new BufferedInputStream(audioSrc);
+                    AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);
+                    clip.open(audioStream);
+                    clip.start();
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                }
+            }
+        }).start();
     }
 }
