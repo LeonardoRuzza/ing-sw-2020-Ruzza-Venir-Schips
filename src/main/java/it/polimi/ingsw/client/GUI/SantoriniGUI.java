@@ -21,12 +21,13 @@ public class SantoriniGUI {
     GraphicsDevice gd = ge.getDefaultScreenDevice();
     public Clip soundThread;
     private VolumeButtonListner volumeListner;
-    private JPanel volumePanel;
+    private JPanel settingsPanel;
+    private JLabel quitButton;
 
     public SantoriniGUI(ClientGUI clientGUI){
         this.clientGUI = clientGUI;
         soundThread = playSound("background.wav");
-        volumePanel = createMasterVolume();
+        settingsPanel = createSettingsPanel();
         createAndStartGUI();
     }
 
@@ -102,16 +103,16 @@ public class SantoriniGUI {
     }
 
     private void switchPanel(JPanel panel){
-        removeMasterVolumePanel();
+        removeSettingsPanel();
         frame.getContentPane().remove(0);
         frame.getContentPane().invalidate();
         frame.getContentPane().add(panel,0);
-        addMasterVolumePanel();
+        addSettingsPanel();
         frame.getContentPane().validate();
         frame.repaint();
     }
 
-    private JPanel createMasterVolume(){
+    private JPanel createSettingsPanel(){
         JPanel volumePanel = new JPanel();
         volumePanel.setLayout(null);
         volumePanel.setOpaque(true);
@@ -129,27 +130,37 @@ public class SantoriniGUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        BufferedImage quitImage = null;
+        try {
+            quitImage = ImageIO.read(new File("src/main/resources/btn_quit.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        quitButton = new JLabel(new ImageIcon(quitImage));
         JLabel volume = new JLabel(new ImageIcon(volumeImage));
         JLabel mute = new JLabel(new ImageIcon(muteImage));
         volumeListner = new VolumeButtonListner(mute,volume,soundThread, frame);
+
         mute.addMouseListener(volumeListner);
         volume.addMouseListener(volumeListner);
-
+        quitButton.addMouseListener(new QuitListner(this));
         volume.setBounds(1773,81,101,89);
         volumePanel.add(volume,0);
         mute.setBounds(1773,81,101,89);
         volumePanel.add(mute,1);
-
+        quitButton.setBounds(1773,170,101,26);
+        volumePanel.add(quitButton);
         mute.setVisible(false);
+        quitButton.setVisible(false);
         volumePanel.setBounds(0,0,1920,1080);
         return volumePanel;
     }
-    public void addMasterVolumePanel(){
-        volumePanel.setBounds(0,0,1920,1080);
-        frame.getContentPane().add(volumePanel,0);
+    public void addSettingsPanel(){
+        settingsPanel.setBounds(0,0,1920,1080);
+        frame.getContentPane().add(settingsPanel,0);
     }
-    public void removeMasterVolumePanel(){
-        frame.getContentPane().remove(volumePanel);
+    public void removeSettingsPanel(){
+        frame.getContentPane().remove(settingsPanel);
     }
 
     private void addLabel(String pathname){
@@ -178,7 +189,7 @@ public class SantoriniGUI {
                     currentPanel = new NicknamePanel(clientGUI);
                     frame.getContentPane().add(currentPanel,0);
                     addBackgroungImage();
-                    addMasterVolumePanel();
+                    addSettingsPanel();
                     frame.validate();
                     frame.repaint();
                 } catch (IOException e) {
@@ -218,6 +229,7 @@ public class SantoriniGUI {
             case STARTNORMALGAME:
                 currentPanel = new GamePanel(this);
                 GamePanel gamePanel = (GamePanel) currentPanel;
+                quitButton.setVisible(true);
                 switchPanel(gamePanel);
                 for (MessageToGUI.PlayerSummary p: message.getPlayerSummaries()){
                     gamePanel.updateCardPanel((p.getPlayerNumber()), p.getNickname(), p.getCardName(), p.getColor());
@@ -245,9 +257,13 @@ public class SantoriniGUI {
         if(winORlose){
             soundThread.stop();
             soundThread = playSound("winner_sound.wav");
+            volumeListner.setSound(soundThread);
+            soundThread.start();
         }else{
             soundThread.stop();
             soundThread = playSound("loser_sound.wav");
+            volumeListner.setSound(soundThread);
+            soundThread.start();
         }
     }
 
