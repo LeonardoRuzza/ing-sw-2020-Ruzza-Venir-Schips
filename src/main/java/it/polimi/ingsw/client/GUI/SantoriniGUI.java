@@ -20,11 +20,14 @@ public class SantoriniGUI {
     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     GraphicsDevice gd = ge.getDefaultScreenDevice();
     public Clip soundThread;
+    private VolumeButtonListner volumeListner;
+    private JPanel volumePanel;
 
     public SantoriniGUI(ClientGUI clientGUI){
         this.clientGUI = clientGUI;
-        createAndStartGUI();
         soundThread = playSound("background.wav");
+        volumePanel = createMasterVolume();
+        createAndStartGUI();
     }
 
     public void sendNotification(String s){
@@ -55,13 +58,16 @@ public class SantoriniGUI {
             e.printStackTrace();
         }
         JPanel background = new JPanel();
+        background.setLayout(null);
+        background.setBounds(0,0,1920,1080);
         assert image != null;
         JLabel backGrIm = new JLabel(new ImageIcon(image));
+        backGrIm.setBounds(0,0,1920,1080);
         background.add(backGrIm);
         frame.getContentPane().add(background,1);
     }
 
-    private synchronized Clip playSound(final String fileName) {
+    private Clip playSound(final String fileName) {
         Clip sound = null;
         try {
             Clip clip = AudioSystem.getClip();
@@ -69,7 +75,14 @@ public class SantoriniGUI {
             InputStream bufferedIn = new BufferedInputStream(audioSrc);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);
             clip.open(audioStream);
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            if(volumeListner != null){
+                if(volumeListner.getActive()){
+                    clip.loop(Clip.LOOP_CONTINUOUSLY);
+                }
+            }else{
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            }
+
             sound = clip;
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -89,11 +102,54 @@ public class SantoriniGUI {
     }
 
     private void switchPanel(JPanel panel){
+        removeMasterVolumePanel();
         frame.getContentPane().remove(0);
         frame.getContentPane().invalidate();
         frame.getContentPane().add(panel,0);
+        addMasterVolumePanel();
         frame.getContentPane().validate();
         frame.repaint();
+    }
+
+    private JPanel createMasterVolume(){
+        JPanel volumePanel = new JPanel();
+        volumePanel.setLayout(null);
+        volumePanel.setOpaque(true);
+        volumePanel.setBackground(new Color(0,0,0,0));
+
+        BufferedImage volumeImage = null;
+        try {
+            volumeImage = ImageIO.read(new File("src/main/resources/volume.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BufferedImage muteImage = null;
+        try {
+            muteImage = ImageIO.read(new File("src/main/resources/mute_volume.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JLabel volume = new JLabel(new ImageIcon(volumeImage));
+        JLabel mute = new JLabel(new ImageIcon(muteImage));
+        volumeListner = new VolumeButtonListner(mute,volume,soundThread, frame);
+        mute.addMouseListener(volumeListner);
+        volume.addMouseListener(volumeListner);
+
+        volume.setBounds(1773,81,101,89);
+        volumePanel.add(volume,0);
+        mute.setBounds(1773,81,101,89);
+        volumePanel.add(mute,1);
+
+        mute.setVisible(false);
+        volumePanel.setBounds(0,0,1920,1080);
+        return volumePanel;
+    }
+    public void addMasterVolumePanel(){
+        volumePanel.setBounds(0,0,1920,1080);
+        frame.getContentPane().add(volumePanel,0);
+    }
+    public void removeMasterVolumePanel(){
+        frame.getContentPane().remove(volumePanel);
     }
 
     private void addLabel(String pathname){
@@ -122,6 +178,7 @@ public class SantoriniGUI {
                     currentPanel = new NicknamePanel(clientGUI);
                     frame.getContentPane().add(currentPanel,0);
                     addBackgroungImage();
+                    addMasterVolumePanel();
                     frame.validate();
                     frame.repaint();
                 } catch (IOException e) {
@@ -167,6 +224,7 @@ public class SantoriniGUI {
                 }
                 soundThread.stop();
                 soundThread = playSound("match_background.wav");
+                volumeListner.setSound(soundThread);
                 break;
         }
     }
