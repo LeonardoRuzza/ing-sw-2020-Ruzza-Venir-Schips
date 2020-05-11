@@ -194,8 +194,10 @@ public class Player implements Serializable {
             if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[1] : workers[0])){
                 match.removeWorker(workers[0]);
                 match.removeWorker(workers[1]);
+                Match tempMatch= match.clone();
                 match.removePlayer(this);
-                return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageLose);
+                tempMatch.setPlayingNow(match.getPlayingNow());
+                return new ChoiceResponseMessage(tempMatch, this.clone(), GameMessage.turnMessageLose);
             }
             if(setSelectedWorker(gender == Worker.Gender.Male ? workers[1].getGender() : workers[0].getGender())){
                 stateOfTurn++;
@@ -217,8 +219,10 @@ public class Player implements Serializable {
                 else{
                     match.removeWorker(workers[0]);
                     match.removeWorker(workers[1]);
+                    Match tempMatch= match.clone();
                     match.removePlayer(this);
-                    return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageLoserNoWorker);
+                    tempMatch.setPlayingNow(match.getPlayingNow());
+                    return new ChoiceResponseMessage(tempMatch, this.clone(), GameMessage.turnMessageLoserNoWorker);
                 }
             }
         }
@@ -255,8 +259,10 @@ public class Player implements Serializable {
             stateOfTurn = 1;
             match.removeWorker(workers[0]);
             match.removeWorker(workers[1]);
+            Match tempMatch= match.clone();
             match.removePlayer(this);
-            return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageLose);
+            tempMatch.setPlayingNow(match.getPlayingNow());
+            return new ChoiceResponseMessage(tempMatch, this.clone(), GameMessage.turnMessageLose);
         }
         if(selectedWorkerBuild(x,y)) {
             stateOfTurn = 1;

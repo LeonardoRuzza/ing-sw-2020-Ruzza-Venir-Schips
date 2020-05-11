@@ -46,6 +46,8 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      */
     public Player getPlayingNow() { return playingNow; }
 
+    protected void setPlayingNow(Player playingNow){this.playingNow=playingNow;}
+
     /**
      * Getter for players associated with this match
      * @return Player[]
@@ -66,7 +68,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @param p Player to be added in match
      * @return Player
      */
-    public void addPlayer(Player p){
+    protected void addPlayer(Player p){
         for(int x = 0; x<numberOfPlayers; x++){
             if(players[x] == null){
                 players[x] = p;
