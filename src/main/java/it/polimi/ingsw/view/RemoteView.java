@@ -189,7 +189,7 @@ public class RemoteView extends View {
         }
         showMessageSync(resultMsg);
 
-        if((gameOverWin && nicknameThisPlayer.equals(nicknamePlayerFromMessage)) || (gameOverDefeat && counterActivePlayers<3 && nicknameThisPlayer.equals(nicknamePlayerFromMessage))){
+        if((gameOverWin && nicknameThisPlayer.equals(nicknamePlayerFromMessage)) || (gameOverDefeat && counterActivePlayers<3 && !nicknameThisPlayer.equals(nicknamePlayerFromMessage))){
             clientConnection.close(ClosingConnectionParameter.FORWIN);
         }
         if(gameOverDefeat && nicknameThisPlayer.equals(nicknamePlayerFromMessage) && counterActivePlayers==3) {

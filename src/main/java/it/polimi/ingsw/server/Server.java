@@ -69,8 +69,7 @@ public class Server {
             if(x.equals(c)){
                 ClientConnection opponent = playingConnectionForTwo.get(c);
                 if(opponent != null) {
-                    if(closingParameter == ClosingConnectionParameter.FORWIN) opponent.send(GameMessage.turnMessageLose);
-                    else opponent.send("Someone else quit the game. Closing your connection too.");
+                    if(!(closingParameter == ClosingConnectionParameter.FORWIN)) opponent.send("Someone else quit the game. Closing your connection too.");
                     opponent.closeConnection();
                 }
                 playingConnectionForTwo.remove(c);
@@ -86,14 +85,12 @@ public class Server {
             playingConnectionForThree.remove(c);
         }
         if(opponent1!=null){
-            if(closingParameter == ClosingConnectionParameter.FORWIN) opponent1.send(GameMessage.turnMessageLose);
-            else opponent1.send("Someone else quit the game. Closing your connection too.");
+            if(!(closingParameter == ClosingConnectionParameter.FORWIN)) opponent1.send("Someone else quit the game. Closing your connection too.");
             playingConnectionForThree.remove(opponent1);
             opponent1.closeConnection();
         }
         if(opponent2 != null){
-            if(closingParameter == ClosingConnectionParameter.FORWIN) opponent2.send(GameMessage.turnMessageLose);
-            else opponent2.send("Someone else quit the game. Closing your connection too.");
+            if(!(closingParameter == ClosingConnectionParameter.FORWIN)) opponent2.send("Someone else quit the game. Closing your connection too.");
             playingConnectionForThree.remove(opponent2);
             opponent2.closeConnection();
         }
