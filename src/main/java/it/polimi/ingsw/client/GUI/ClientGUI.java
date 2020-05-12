@@ -128,6 +128,7 @@ public class ClientGUI {
                         scanner.next();
                         scanner.next();
                         temp.setCardName(scanner.nextLine().substring(1));
+                        scanner.close();
                         break;
                     }
             }

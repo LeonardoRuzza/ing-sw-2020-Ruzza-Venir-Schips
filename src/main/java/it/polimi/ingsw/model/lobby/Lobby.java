@@ -182,7 +182,7 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
 
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 }
