@@ -49,6 +49,7 @@ public class GameMessage {
 
     public static final String turnMessageLose = "You Lose. ";
     public static final String turnMessageWin = "You Win. ";
+    public static final String quitCloseConnection = "Someone else quit the game. Closing your connection too.";
 
     public static final String turnMessageSelectFirstAllocation = "Please select worker to allocate. With syntax X,Y or if you want to specify gender position X,Y,GENDER. ";
     public static final String turnMessageWaitFirstAllocation = "Please allocation of other player. ";

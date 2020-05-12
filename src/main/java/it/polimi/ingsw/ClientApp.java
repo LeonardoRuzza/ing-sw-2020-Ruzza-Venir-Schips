@@ -38,7 +38,7 @@ public class ClientApp
             }
         }
         else {
-            Client client = new Client("127.0.0.1", 12345);
+            Client client = new Client("151.64.25.212", 12345);
             try{
                 client.run();
             }catch (IOException e){

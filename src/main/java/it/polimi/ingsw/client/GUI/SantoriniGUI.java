@@ -241,6 +241,11 @@ public class SantoriniGUI {
         }
     }
 
+    protected  void updatePanelForQuiteAndLose(String message){
+        GamePanel gamePanel = (GamePanel) currentPanel;
+        gamePanel.askUseGeneralDialog(message);
+    }
+
     protected void updateMatchMessage(String message) {
         GamePanel gamePanel = (GamePanel) currentPanel;
         gamePanel.updateServerMessage(message);

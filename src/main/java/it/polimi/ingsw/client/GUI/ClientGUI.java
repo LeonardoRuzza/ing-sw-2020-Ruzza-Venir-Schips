@@ -8,7 +8,6 @@ import it.polimi.ingsw.utils.GameMessage;
 import it.polimi.ingsw.utils.InputConversion;
 
 import java.io.*;
-import java.lang.reflect.GenericArrayType;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -140,6 +139,9 @@ public class ClientGUI {
                 case GameMessage.turnMessageWaitFirstAllocation:
                     santoriniGUI.updateMatchMessage(s);
                     break;
+                case GameMessage.quitCloseConnection:
+                    santoriniGUI.updatePanelForQuiteAndLose(GameMessage.quitCloseConnection);
+                    break;
                 default:
                     if (s.contains(GameMessage.turnMessageSelectYourWorker)) {
                         santoriniGUI.updateMatchMessage(GameMessage.GUISelectWorker);
@@ -169,7 +171,10 @@ public class ClientGUI {
                         santoriniGUI.updateWin(false);
                         break;
                     }
-
+                    if(s.contains(GameMessage.turnMessagePlayerLose)){
+                        santoriniGUI.updatePanelForQuiteAndLose(s);
+                        break;
+                    }
                     // SUPERPLAYERS
                     if (s.contains(GameMessage.aresTurnMessageAskRemoveBlok)) {
                         santoriniGUI.updateSuperPlayer(new MessageToGUI(StateOfGUI.ARES));
