@@ -26,7 +26,7 @@ public class SantoriniGUI {
 
     public SantoriniGUI(ClientGUI clientGUI){
         this.clientGUI = clientGUI;
-        soundThread = playSound("background.wav");
+        soundThread = playSound("background2.wav");
         settingsPanel = createSettingsPanel();
         createAndStartGUI();
     }
