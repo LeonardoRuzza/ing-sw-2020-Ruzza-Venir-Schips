@@ -164,7 +164,9 @@ public class RemoteView extends View {
                     if(counterActivePlayers<=2){ resultMsg += GameMessage.turnMessageWin + "\n";}
                     else {
                         if (nicknameThisPlayer.equals(message.getMatch().getPlayingNow().getNickname())){
-                        resultMsg += GameMessage.turnMessageSelectYourWorker;}
+                            showMessageSync(resultMsg);
+                            resultMsg = GameMessage.turnMessageSelectYourWorker;
+                        }
                     }
                 }
             }
