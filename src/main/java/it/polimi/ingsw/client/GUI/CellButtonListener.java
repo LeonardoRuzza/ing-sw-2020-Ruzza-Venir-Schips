@@ -6,11 +6,11 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class CellButtonListner extends JFrame implements MouseListener {
+public class CellButtonListener extends JFrame implements MouseListener {
     SantoriniGUI gui;
     String coordinates;
     GamePanel gamePanel;
-    public CellButtonListner(SantoriniGUI gui, GamePanel gamePanel, GamePanel.CellButton button){
+    public CellButtonListener(SantoriniGUI gui, GamePanel gamePanel, GamePanel.CellButton button){
         this.gui = gui;
         this.gamePanel = gamePanel;
         coordinates = String.valueOf(button.getxCoord())+","+String.valueOf(button.getyCoord());
@@ -19,7 +19,7 @@ public class CellButtonListner extends JFrame implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if(coordinates!=null){
             if(gui!=null){
-                String result = "";
+                String result;
                 if(!gamePanel.getSuperPower().equals("")){
                     result = coordinates + "," + gamePanel.getSuperPower();
                     gamePanel.setSuperPower("");

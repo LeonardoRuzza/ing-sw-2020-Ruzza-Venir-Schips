@@ -5,20 +5,20 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class PlayButtonListner extends JFrame implements MouseListener {
+public class PlayButtonListener extends JFrame implements MouseListener {
 
     ClientGUI gui;
     JTextField nicknameTxtField;
     JLabel playBtn;
     JFrame frame;
-    PlayButtonListner listner;
+    PlayButtonListener listener;
 
-    public PlayButtonListner(JFrame f, JTextField txtField, JLabel btn, ClientGUI gui, PlayButtonListner playButtonListner){
+    public PlayButtonListener(JFrame f, JTextField txtField, JLabel btn, ClientGUI gui, PlayButtonListener playButtonListener){
         this.gui = gui;
         this.nicknameTxtField = txtField;
         this.playBtn = btn;
         this.frame = f;
-        this.listner = playButtonListner;
+        this.listener = playButtonListener;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class PlayButtonListner extends JFrame implements MouseListener {
             }
         }
         if(gui == null && nicknameTxtField == null && playBtn != null){
-            playBtn.addMouseListener(listner);
+            playBtn.addMouseListener(listener);
             frame.getContentPane().remove(0);
             frame.getContentPane().revalidate();
             frame.getContentPane().repaint();

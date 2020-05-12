@@ -20,7 +20,7 @@ public class SantoriniGUI {
     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     GraphicsDevice gd = ge.getDefaultScreenDevice();
     public Clip soundThread;
-    private VolumeButtonListner volumeListner;
+    private VolumeButtonListner volumeListener;
     private JPanel settingsPanel;
     private JLabel quitButton;
 
@@ -76,8 +76,8 @@ public class SantoriniGUI {
             InputStream bufferedIn = new BufferedInputStream(audioSrc);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);
             clip.open(audioStream);
-            if(volumeListner != null){
-                if(volumeListner.getActive()){
+            if(volumeListener != null){
+                if(volumeListener.getActive()){
                     clip.loop(Clip.LOOP_CONTINUOUSLY);
                 }
             }else{
@@ -136,13 +136,16 @@ public class SantoriniGUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assert quitImage != null;
         quitButton = new JLabel(new ImageIcon(quitImage));
+        assert volumeImage != null;
         JLabel volume = new JLabel(new ImageIcon(volumeImage));
+        assert muteImage != null;
         JLabel mute = new JLabel(new ImageIcon(muteImage));
-        volumeListner = new VolumeButtonListner(mute,volume,soundThread, frame);
+        volumeListener = new VolumeButtonListner(mute,volume,soundThread, frame);
 
-        mute.addMouseListener(volumeListner);
-        volume.addMouseListener(volumeListner);
+        mute.addMouseListener(volumeListener);
+        volume.addMouseListener(volumeListener);
         quitButton.addMouseListener(new QuitListner(this));
         volume.setBounds(1773,81,101,89);
         volumePanel.add(volume,0);
@@ -171,6 +174,7 @@ public class SantoriniGUI {
             e.printStackTrace();
         }
         JPanel temp = new JPanel();
+        assert image != null;
         JLabel label = new JLabel(new ImageIcon(image));
         label.setBounds(651,188,619,207);
         temp.setSize(new Dimension(1920,1080));
@@ -236,7 +240,7 @@ public class SantoriniGUI {
                 }
                 soundThread.stop();
                 soundThread = playSound("match_background.wav");
-                volumeListner.setSound(soundThread);
+                volumeListener.setSound(soundThread);
                 break;
         }
     }
@@ -262,12 +266,12 @@ public class SantoriniGUI {
         if(winORlose){
             soundThread.stop();
             soundThread = playSound("winner_sound.wav");
-            volumeListner.setSound(soundThread);
+            volumeListener.setSound(soundThread);
             soundThread.start();
         }else{
             soundThread.stop();
             soundThread = playSound("loser_sound.wav");
-            volumeListner.setSound(soundThread);
+            volumeListener.setSound(soundThread);
             soundThread.start();
         }
     }

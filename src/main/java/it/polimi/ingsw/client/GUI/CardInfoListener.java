@@ -4,11 +4,11 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class CardInfoListner extends JFrame implements MouseListener {
+public class CardInfoListener extends JFrame implements MouseListener {
     private GamePanel.PlayerCardPanel panelCard;
     private boolean active = false;
 
-    public CardInfoListner(GamePanel.PlayerCardPanel panel){
+    public CardInfoListener(GamePanel.PlayerCardPanel panel){
         this.panelCard = panel;
     }
 

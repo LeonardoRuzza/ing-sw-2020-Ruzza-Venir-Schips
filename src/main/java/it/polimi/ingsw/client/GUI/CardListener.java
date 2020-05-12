@@ -25,7 +25,7 @@ public class CardListener implements MouseListener {
 
     /**Add one CardLabel to the list connectedLabels.
      * <p>
-     * @param cardLabel
+     * @param cardLabel the cardLabel which must be added to connectedLabels
      */
     public void addConnectedLabel(CardLabel cardLabel){
         connectedLabels.add(cardLabel);
@@ -50,7 +50,7 @@ public class CardListener implements MouseListener {
     /**Add the pressed CardLabel to selectedCard List and call the method selectCard of CardLabel but if it is just contained remove it calling deselectCard.
      * Also if the number of selected cards reach the number of the player, it use sendNotification of SantoriniGUI to communicate with the server-side and remove or block the others listeners of the elements of the current window.
      * <p>
-     * @param e
+     * @param e the MouseEvent
      */
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -97,7 +97,7 @@ public class CardListener implements MouseListener {
 
     /**Show the description of the power of the cards on mouseEntered event on the correspondent cardLabel.
      * <p>
-     * @param e
+     * @param e the MouseEvent
      */
     @Override
     public void mouseEntered(MouseEvent e) {
@@ -127,7 +127,7 @@ public class CardListener implements MouseListener {
 
     /**Remove the description of the power of the cards on mouseExited event on the correspondent cardLabel.
      * <p>
-     * @param e
+     * @param e the MouseEvent
      */
     @Override
     public void mouseExited(MouseEvent e) {

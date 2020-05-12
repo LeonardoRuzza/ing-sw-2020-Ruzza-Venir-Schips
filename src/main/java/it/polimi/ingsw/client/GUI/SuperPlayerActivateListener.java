@@ -6,13 +6,13 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class SuperPlayeAcitvateListner extends JFrame implements MouseListener {
+public class SuperPlayerActivateListener extends JFrame implements MouseListener {
     boolean activate;
-    String superPower = "";
+    String superPower;
     GamePanel boardPanel;
     SantoriniGUI gui;
 
-    public SuperPlayeAcitvateListner(SantoriniGUI gui, GamePanel boardPanel, boolean activate, String superPower){
+    public SuperPlayerActivateListener(SantoriniGUI gui, GamePanel boardPanel, boolean activate, String superPower){
         this.boardPanel = boardPanel;
         this.activate = activate;
         this.superPower = superPower;
