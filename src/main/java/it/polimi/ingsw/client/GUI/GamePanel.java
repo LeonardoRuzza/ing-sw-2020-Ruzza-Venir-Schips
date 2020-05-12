@@ -21,6 +21,8 @@ public class GamePanel extends JPanel {
     private String superPower = "";
     private JPanel superPowerDialog = null;
 
+    private JPanel generalDialog = null;
+
     private SantoriniGUI gui;
 
 
@@ -230,6 +232,68 @@ public class GamePanel extends JPanel {
         topFrame.getContentPane().remove(0);
         updateFrame(topFrame);
         superPowerDialog = null;
+    }
+
+    private JPanel initAndShowGeneralDialog(String messageGeneral){
+        JPanel screenPanel = new JPanel();
+        screenPanel.setLayout(null);
+        screenPanel.setBounds(0,0,1920,1080);
+        screenPanel.setOpaque(true);
+        screenPanel.setBackground(new java.awt.Color(0,0,0,0));
+
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(null);
+        infoPanel.setOpaque(true);
+        infoPanel.setBackground(new java.awt.Color(0,0,0,0));
+
+        String path = "src/main/resources/general_dialog.png";
+        BufferedImage backgroundImg = null;
+        try {
+            backgroundImg = ImageIO.read(new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
+        backgroundLabel.setBounds(0,0,775,380);
+
+        JTextArea godRequest = new JTextArea(messageGeneral);
+        godRequest.setFont(new Font("ComicSansMS",Font.BOLD,40));
+        godRequest.setForeground(java.awt.Color.white);
+        godRequest.setEditable(false);
+        godRequest.setSelectionColor(new java.awt.Color(0,0,0,0));
+        godRequest.setHighlighter(null);
+        godRequest.setLineWrap(true);
+        godRequest.setWrapStyleWord(true);
+        godRequest.setOpaque(true);
+        godRequest.setBackground(new java.awt.Color(0,0,0,0));
+        godRequest.setBounds(0,9,775,260);
+
+        JLabel buttonOK = new JLabel("");
+        buttonOK.setBounds(180,260,416,105);
+        buttonOK.addMouseListener(new GeneralDialogListener(this, messageGeneral));
+
+        infoPanel.setBounds(671,295,775,380);
+        infoPanel.add(buttonOK);
+        infoPanel.add(godRequest);
+        infoPanel.add(backgroundLabel);
+        infoPanel.setBounds(671,295,775,380);
+        screenPanel.add(infoPanel);
+
+        screenPanel.setBounds(0,0,1920,1080);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.getContentPane().add(screenPanel,0);
+        updateFrame(topFrame);
+
+        return screenPanel;
+    }
+
+    protected void hideGeneralDialog(){
+        if(generalDialog == null){
+            return;
+        }
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.getContentPane().remove(0);
+        updateFrame(topFrame);
     }
 
     public String getSuperPower() {

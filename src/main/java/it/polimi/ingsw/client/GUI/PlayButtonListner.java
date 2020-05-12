@@ -10,11 +10,15 @@ public class PlayButtonListner extends JFrame implements MouseListener {
     ClientGUI gui;
     JTextField nicknameTxtField;
     JLabel playBtn;
+    JFrame frame;
+    PlayButtonListner listner;
 
-    public PlayButtonListner(JTextField txtField, JLabel btn, ClientGUI gui){
+    public PlayButtonListner(JFrame f, JTextField txtField, JLabel btn, ClientGUI gui, PlayButtonListner playButtonListner){
         this.gui = gui;
         this.nicknameTxtField = txtField;
         this.playBtn = btn;
+        this.frame = f;
+        this.listner = playButtonListner;
     }
 
     @Override
@@ -23,7 +27,14 @@ public class PlayButtonListner extends JFrame implements MouseListener {
             if(nicknameTxtField.getText() != null){
                 gui.outcomeGUI.add(nicknameTxtField.getText());
                 playBtn.removeMouseListener(this);
+                return;
             }
+        }
+        if(gui == null && nicknameTxtField == null && playBtn != null){
+            playBtn.addMouseListener(listner);
+            frame.getContentPane().remove(0);
+            frame.getContentPane().revalidate();
+            frame.getContentPane().repaint();
         }
     }
 
