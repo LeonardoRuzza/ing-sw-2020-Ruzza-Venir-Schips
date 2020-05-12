@@ -51,7 +51,7 @@ public class SantoriniGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private void addBackgroungImage() {
+    private void addBackgroundImage() {
         BufferedImage image = null;
         try {
             image = ImageIO.read(new File("src/main/resources/background_lobby.png"));
@@ -188,7 +188,7 @@ public class SantoriniGUI {
                 try {
                     currentPanel = new NicknamePanel(clientGUI);
                     frame.getContentPane().add(currentPanel,0);
-                    addBackgroungImage();
+                    addBackgroundImage();
                     addSettingsPanel();
                     frame.validate();
                     frame.repaint();

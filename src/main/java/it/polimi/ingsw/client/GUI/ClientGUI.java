@@ -25,7 +25,7 @@ public class ClientGUI {
         protected Queue<String> outcomeGUI = new LinkedList<>();
         private SantoriniGUI santoriniGUI;
         private MessageToGUI summary = new MessageToGUI(StateOfGUI.STARTNORMALGAME);
-        int playersSummaries = 0;
+        private int playersSummaries = 0;
 
         public ClientGUI(String ip, int port) {
             this.ip = ip;
