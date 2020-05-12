@@ -234,6 +234,9 @@ public class GamePanel extends JPanel {
         superPowerDialog = null;
     }
 
+    protected void askUseGeneralDialog(String generalMessage){
+        generalDialog = initAndShowGeneralDialog(generalMessage);
+    }
     private JPanel initAndShowGeneralDialog(String messageGeneral){
         JPanel screenPanel = new JPanel();
         screenPanel.setLayout(null);
