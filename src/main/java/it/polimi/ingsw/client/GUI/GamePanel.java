@@ -43,6 +43,7 @@ public class GamePanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assert boardImg != null;
         boardPanel = new JLabel(new ImageIcon(boardImg));
         boardPanel.setBounds(196,0,1724,970);
         cardPanelP1 = new PlayerCardPanel();
@@ -163,11 +164,88 @@ public class GamePanel extends JPanel {
         frame.getContentPane().repaint();
     }
 
-    protected void askUseSuperPower(String superPlayerAskMessage){
+    /*protected void askUseSuperPower(String superPlayerAskMessage){
         superPowerDialog = initAndShowSuperPowerDialog(superPlayerAskMessage);
+    }*/
+
+    protected void askUseGeneralDialog(boolean isSuperPlayerMessage, String utilityMessage){
+        if(isSuperPlayerMessage){
+            superPowerDialog = initAndShowDialog(isSuperPlayerMessage, utilityMessage);
+        }else{
+            generalDialog = initAndShowDialog(isSuperPlayerMessage, utilityMessage);
+        }
     }
 
-    private JPanel initAndShowSuperPowerDialog(String superPlayerAskMessage){
+    private JPanel initAndShowDialog(boolean isSuperPlayerMessage, String utilityMessage){
+        JPanel screenPanel = new JPanel();
+        screenPanel.setLayout(null);
+        screenPanel.setBounds(0,0,1920,1080);
+        screenPanel.setOpaque(true);
+        screenPanel.setBackground(new java.awt.Color(0,0,0,0));
+
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(null);
+        infoPanel.setOpaque(true);
+        infoPanel.setBackground(new java.awt.Color(0,0,0,0));
+        String path;
+        if(isSuperPlayerMessage){
+            path = "src/main/resources/dialog_use_superpower.png";
+        }else{
+            path = "src/main/resources/general_dialog.png";
+        }
+        BufferedImage backgroundImg = null;
+        try {
+            backgroundImg = ImageIO.read(new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert backgroundImg != null;
+        JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
+        backgroundLabel.setBounds(0,0,775,380);
+
+        JTextArea godRequest = new JTextArea(utilityMessage);
+        godRequest.setFont(new Font("ComicSansMS",Font.BOLD,40));
+        godRequest.setForeground(java.awt.Color.white);
+        godRequest.setEditable(false);
+        godRequest.setSelectionColor(new java.awt.Color(0,0,0,0));
+        godRequest.setHighlighter(null);
+        godRequest.setLineWrap(true);
+        godRequest.setWrapStyleWord(true);
+        godRequest.setOpaque(true);
+        godRequest.setBackground(new java.awt.Color(0,0,0,0));
+        godRequest.setBounds(0,9,775,260);
+
+        JLabel buttonOK = new JLabel("");
+        JLabel buttonCANCEL = new JLabel("");
+        if(isSuperPlayerMessage){
+            buttonOK.setBounds(180,260,208,105);
+            buttonOK.addMouseListener(new SuperPlayerActivateListener(gui,this, true, GameMessage.convertAskerSuperPlayerInPowerString(utilityMessage)));
+            buttonCANCEL.setBounds(388,260,208,105);
+            buttonCANCEL.addMouseListener(new SuperPlayerActivateListener(gui,this, false, GameMessage.convertSuperPowerRequireNo(utilityMessage)));
+        }else{
+            buttonOK.setBounds(180,260,416,105);
+            buttonOK.addMouseListener(new GeneralDialogListener(this, utilityMessage));
+        }
+
+        infoPanel.setBounds(671,295,775,380);
+        infoPanel.add(buttonOK);
+        if (isSuperPlayerMessage){
+            infoPanel.add(buttonCANCEL);
+        }
+        infoPanel.add(godRequest);
+        infoPanel.add(backgroundLabel);
+        infoPanel.setBounds(671,295,775,380);
+        screenPanel.add(infoPanel);
+
+        screenPanel.setBounds(0,0,1920,1080);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.getContentPane().add(screenPanel,0);
+        updateFrame(topFrame);
+
+        return screenPanel;
+    }
+
+    /*private JPanel initAndShowSuperPowerDialog(String superPlayerAskMessage){
         JPanel screenPanel = new JPanel();
         screenPanel.setLayout(null);
         screenPanel.setBounds(0,0,1920,1080);
@@ -186,6 +264,7 @@ public class GamePanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assert backgroundImg != null;
         JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
         backgroundLabel.setBounds(0,0,775,380);
 
@@ -203,10 +282,10 @@ public class GamePanel extends JPanel {
 
         JLabel buttonOK = new JLabel("");
         buttonOK.setBounds(180,260,208,105);
-        buttonOK.addMouseListener(new SuperPlayeAcitvateListner(gui,this, true, GameMessage.convertAskerSuperPlayerInPowerString(superPlayerAskMessage)));
+        buttonOK.addMouseListener(new SuperPlayerActivateListener(gui,this, true, GameMessage.convertAskerSuperPlayerInPowerString(superPlayerAskMessage)));
         JLabel buttonCANCEL = new JLabel("");
         buttonCANCEL.setBounds(388,260,208,105);
-        buttonCANCEL.addMouseListener(new SuperPlayeAcitvateListner(gui,this, false, GameMessage.convertSuperPowerRequireNo(superPlayerAskMessage)));
+        buttonCANCEL.addMouseListener(new SuperPlayerActivateListener(gui,this, false, GameMessage.convertSuperPowerRequireNo(superPlayerAskMessage)));
 
         infoPanel.setBounds(671,295,775,380);
         infoPanel.add(buttonOK);
@@ -222,7 +301,7 @@ public class GamePanel extends JPanel {
         updateFrame(topFrame);
 
         return screenPanel;
-    }
+    }*/
 
     protected void hideSuperPowerDialog(){
         if(superPowerDialog == null){
@@ -234,10 +313,10 @@ public class GamePanel extends JPanel {
         superPowerDialog = null;
     }
 
-    protected void askUseGeneralDialog(String generalMessage){
+    /*protected void askUseGeneralDialog(String generalMessage){
         generalDialog = initAndShowGeneralDialog(generalMessage);
-    }
-    private JPanel initAndShowGeneralDialog(String messageGeneral){
+    }*/
+    /*private JPanel initAndShowGeneralDialog(String messageGeneral){
         JPanel screenPanel = new JPanel();
         screenPanel.setLayout(null);
         screenPanel.setBounds(0,0,1920,1080);
@@ -256,6 +335,7 @@ public class GamePanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assert backgroundImg != null;
         JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
         backgroundLabel.setBounds(0,0,775,380);
 
@@ -288,7 +368,7 @@ public class GamePanel extends JPanel {
         updateFrame(topFrame);
 
         return screenPanel;
-    }
+    }*/
 
     protected void hideGeneralDialog(){
         if(generalDialog == null){
@@ -347,8 +427,7 @@ public class GamePanel extends JPanel {
         }
 
         private JPanel createGridPanel(int x, int y) {
-            CellPanel panel = new CellPanel(x,y,elemWidth,elemHeight, superPanel);
-            return panel;
+            return new CellPanel(x,y,elemWidth,elemHeight, superPanel);
         }
 
         private void addAsGrid(JPanel component){
@@ -425,7 +504,7 @@ public class GamePanel extends JPanel {
             this.xCoord = x;
             this.yCoord = y;
             this.setSize(dim);
-            this.addMouseListener(new CellButtonListner(gui, superPanel, this));
+            this.addMouseListener(new CellButtonListener(gui, superPanel, this));
         }
         public int getxCoord() {
             return xCoord;
@@ -448,6 +527,7 @@ public class GamePanel extends JPanel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            assert messageBackgroundImg != null;
             backGroundRec = new JLabel(new ImageIcon(messageBackgroundImg));
             backGroundRec.setBounds(0,0,this.getWidth(),this.getHeight());
             messageText = new JLabel("");
@@ -478,6 +558,7 @@ public class GamePanel extends JPanel {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                assert blockImg != null;
                 this.setIcon(new ImageIcon(blockImg));
             }else{
                 this.zCoord = 0;
@@ -506,6 +587,7 @@ public class GamePanel extends JPanel {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                assert blockImg != null;
                 this.setIcon(new ImageIcon(blockImg));
             }
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -568,6 +650,7 @@ public class GamePanel extends JPanel {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    assert wrkImg != null;
                     this.setIcon(new ImageIcon(wrkImg));
                 }
             }else{
@@ -596,6 +679,7 @@ public class GamePanel extends JPanel {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                assert wrkImg != null;
                 this.setIcon(new ImageIcon(wrkImg));
             }
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -639,7 +723,7 @@ public class GamePanel extends JPanel {
 
         private JPanel dialogPanelCardInfo;
 
-        private CardInfoListner listnerCardDetail;
+        private CardInfoListener listenerCardDetail;
 
         public PlayerCardPanel(){
             this.setLayout(null);
@@ -652,6 +736,7 @@ public class GamePanel extends JPanel {
                 e.printStackTrace();
             }
 
+            assert cardContainerImg != null;
             JLabel cardContainer = new JLabel(new ImageIcon(cardContainerImg));
             cardContainer.setBounds(0,0,this.getWidth(),this.getHeight());
 
@@ -665,8 +750,8 @@ public class GamePanel extends JPanel {
 
             cardInfoButton = new JLabel("");
             cardInfoButton.setBounds(card.getBounds());
-            listnerCardDetail = new CardInfoListner(this);
-            cardInfoButton.addMouseListener(listnerCardDetail);
+            listenerCardDetail = new CardInfoListener(this);
+            cardInfoButton.addMouseListener(listenerCardDetail);
 
             this.add(cardInfoButton);
             this.add(card);
@@ -711,6 +796,7 @@ public class GamePanel extends JPanel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            assert cardImg != null;
             Image cardImgScaled = cardImg.getScaledInstance(card.getWidth(),card.getHeight(),Image.SCALE_SMOOTH);
             card.setIcon(new ImageIcon(cardImgScaled));
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -735,6 +821,7 @@ public class GamePanel extends JPanel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            assert backgroundImg != null;
             JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
 
             JLabel nameGod = new JLabel(String.valueOf(this.getCardName().charAt(0)).toUpperCase() + this.getCardName().substring(1));
@@ -749,6 +836,7 @@ public class GamePanel extends JPanel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            assert cardImg != null;
             Image cardImgScaled = cardImg.getScaledInstance(500,512,Image.SCALE_SMOOTH);
             JLabel godImg = new JLabel(new ImageIcon(cardImgScaled));
 
@@ -771,8 +859,9 @@ public class GamePanel extends JPanel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            assert closeImg != null;
             JLabel closeDescPanel = new JLabel(new ImageIcon(closeImg));
-            closeDescPanel.addMouseListener(listnerCardDetail);
+            closeDescPanel.addMouseListener(listenerCardDetail);
 
             closeDescPanel.setBounds(1627,0,73,70);
             resultPanel.add(closeDescPanel);
@@ -841,6 +930,7 @@ public class GamePanel extends JPanel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            assert backgroundImg != null;
             JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
 
 

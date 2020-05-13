@@ -1,6 +1,16 @@
 package it.polimi.ingsw.model;
 
 public class FactoryPlayer {
+
+    /**Create and return a particular type of player associated with the right cardNum.
+     * <p>
+     * @param nickname of the player to create
+     * @param number of the player in the match
+     * @param match the match to associate to the player
+     * @param color the color choose by the player
+     * @param cardNum the card choose by the player
+     * @return {@code Player} the created player
+     */
     public static Player getPlayer(String nickname, int number, Match match, Worker.Color color, int cardNum){
         switch(cardNum){
             case 0:

@@ -112,7 +112,7 @@ public class MasterCardPanel extends JPanel {
     /**Refresh the jPanelCards after to be called by PrevLabel or NextLabel removing the 4 old cards and adding new 4 cards.
      * Only cards selected are created maintaining the same Card instance connected.
      * <p>
-     * @param n
+     * @param n is the number from start to show cards
      */
     public void setjPanelCards(int n){
         int x=0;

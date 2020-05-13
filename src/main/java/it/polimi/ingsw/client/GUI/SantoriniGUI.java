@@ -20,13 +20,13 @@ public class SantoriniGUI {
     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     GraphicsDevice gd = ge.getDefaultScreenDevice();
     public Clip soundThread;
-    private VolumeButtonListner volumeListner;
+    private VolumeButtonListner volumeListener;
     private JPanel settingsPanel;
     private JLabel quitButton;
 
     public SantoriniGUI(ClientGUI clientGUI){
         this.clientGUI = clientGUI;
-        soundThread = playSound("background.wav");
+        soundThread = playSound("background2.wav");
         settingsPanel = createSettingsPanel();
         createAndStartGUI();
     }
@@ -76,8 +76,8 @@ public class SantoriniGUI {
             InputStream bufferedIn = new BufferedInputStream(audioSrc);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);
             clip.open(audioStream);
-            if(volumeListner != null){
-                if(volumeListner.getActive()){
+            if(volumeListener != null){
+                if(volumeListener.getActive()){
                     clip.loop(Clip.LOOP_CONTINUOUSLY);
                 }
             }else{
@@ -136,14 +136,17 @@ public class SantoriniGUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assert quitImage != null;
         quitButton = new JLabel(new ImageIcon(quitImage));
+        assert volumeImage != null;
         JLabel volume = new JLabel(new ImageIcon(volumeImage));
+        assert muteImage != null;
         JLabel mute = new JLabel(new ImageIcon(muteImage));
-        volumeListner = new VolumeButtonListner(mute,volume,soundThread, frame);
+        volumeListener = new VolumeButtonListner(mute,volume,soundThread, frame);
 
-        mute.addMouseListener(volumeListner);
-        volume.addMouseListener(volumeListner);
-        quitButton.addMouseListener(new QuitListner(this));
+        mute.addMouseListener(volumeListener);
+        volume.addMouseListener(volumeListener);
+        quitButton.addMouseListener(new QuitListner(this, frame));
         volume.setBounds(1773,81,101,89);
         volumePanel.add(volume,0);
         mute.setBounds(1773,81,101,89);
@@ -171,6 +174,7 @@ public class SantoriniGUI {
             e.printStackTrace();
         }
         JPanel temp = new JPanel();
+        assert image != null;
         JLabel label = new JLabel(new ImageIcon(image));
         label.setBounds(651,188,619,207);
         temp.setSize(new Dimension(1920,1080));
@@ -236,14 +240,14 @@ public class SantoriniGUI {
                 }
                 soundThread.stop();
                 soundThread = playSound("match_background.wav");
-                volumeListner.setSound(soundThread);
+                volumeListener.setSound(soundThread);
                 break;
         }
     }
 
     protected  void updatePanelForQuiteAndLose(String message){
         GamePanel gamePanel = (GamePanel) currentPanel;
-        gamePanel.askUseGeneralDialog(message);
+        gamePanel.askUseGeneralDialog(false, message);
     }
 
     protected void updateMatchMessage(String message) {
@@ -262,12 +266,12 @@ public class SantoriniGUI {
         if(winORlose){
             soundThread.stop();
             soundThread = playSound("winner_sound.wav");
-            volumeListner.setSound(soundThread);
+            volumeListener.setSound(soundThread);
             soundThread.start();
         }else{
             soundThread.stop();
             soundThread = playSound("loser_sound.wav");
-            volumeListner.setSound(soundThread);
+            volumeListener.setSound(soundThread);
             soundThread.start();
         }
     }
@@ -277,32 +281,32 @@ public class SantoriniGUI {
         switch (message.getStateOfGUI()) {
             case ARES:
                currentStateOfGUI = message.getStateOfGUI();
-               gamePanel.askUseSuperPower(GameMessage.aresTurnMessageAskRemoveBlokGUI);
+               gamePanel.askUseGeneralDialog(true, GameMessage.aresTurnMessageAskRemoveBlokGUI);
                break;
             case ARESFAIL:
-                gamePanel.askUseSuperPower(GameMessage.aresTurnMessageFailRemoveBlokWNewCellGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.aresTurnMessageFailRemoveBlokWNewCellGUI);
                 break;
             case ATLAS:
                 currentStateOfGUI = message.getStateOfGUI();
-                gamePanel.askUseSuperPower(GameMessage.atlasTurnMessageAskBuildDorseGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.atlasTurnMessageAskBuildDorseGUI);
                 break;
             case ATLASFAIL:
-                gamePanel.askUseSuperPower(GameMessage.atlasTurnMessageFailBuildDorseGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.atlasTurnMessageFailBuildDorseGUI);
                 break;
             case PROMETHEUS:
                 currentStateOfGUI = message.getStateOfGUI();
-                gamePanel.askUseSuperPower(GameMessage.prometheusTurnMessageAskBuildBeforeGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.prometheusTurnMessageAskBuildBeforeGUI);
                 break;
             case HEPHAESTUS:
                 currentStateOfGUI = message.getStateOfGUI();
-                gamePanel.askUseSuperPower(GameMessage.hephaesthusTurnMessageAskBuildGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.hephaesthusTurnMessageAskBuildGUI);
                 break;
             case HESTIADEMETER:
                 currentStateOfGUI = message.getStateOfGUI();
-                gamePanel.askUseSuperPower(GameMessage.hestiaDemeterTurnMessageAskTwoBuildGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.hestiaDemeterTurnMessageAskTwoBuildGUI);
                 break;
             case HESTIADEMETERFAIL:
-                gamePanel.askUseSuperPower(GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWNewCellGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWNewCellGUI);
                 break;
         }
     }

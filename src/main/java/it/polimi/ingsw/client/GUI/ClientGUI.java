@@ -16,8 +16,8 @@ import java.util.Scanner;
 
 public class ClientGUI {
 
-        private String ip;
-        private int port;
+        private final String ip;
+        private final int port;
         private Player player;
         private boolean active = true;
         private boolean isLobbyPhase = true;

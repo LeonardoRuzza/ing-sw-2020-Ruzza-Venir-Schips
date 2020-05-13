@@ -1,8 +1,5 @@
 package it.polimi.ingsw.client.GUI;
 
-import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.utils.GameMessage;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +13,7 @@ public class NicknamePanel extends JPanel{
     BufferedImage imageLabelSys;
     BufferedImage imageTxtField;
     JLabel playButton;
-    PlayButtonListner listner;
+    PlayButtonListener listner;
     JLabel imageTextBox;
     JLabel sysLabel;
     JTextField nicknameTxtField;
@@ -47,7 +44,7 @@ public class NicknamePanel extends JPanel{
         nicknameTxtField.setHorizontalAlignment(JTextField.CENTER);
 
         playButton.setBounds(1597,684,323,396);
-        listner = new PlayButtonListner(null,nicknameTxtField, playButton, clientGUI, listner);
+        listner = new PlayButtonListener(null,nicknameTxtField, playButton, clientGUI, listner);
         playButton.addMouseListener(listner);
 
         this.setOpaque(true);
@@ -78,12 +75,13 @@ public class NicknamePanel extends JPanel{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assert backgroundImg != null;
         JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
         backgroundLabel.setBounds(0,0,775,380);
 
         JLabel buttonOK = new JLabel("");
         buttonOK.setBounds(180,260,416,105);
-        buttonOK.addMouseListener(new PlayButtonListner(f,null, playButton, null, listner));
+        buttonOK.addMouseListener(new PlayButtonListener(f,null, playButton, null, listner));
 
         infoPanel.setBounds(671,295,775,380);
         infoPanel.add(buttonOK);
@@ -92,15 +90,8 @@ public class NicknamePanel extends JPanel{
         screenPanel.add(infoPanel);
 
         screenPanel.setBounds(0,0,1920,1080);
-        //JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         f.getContentPane().add(screenPanel,0);
         f.getContentPane().revalidate();
         f.getContentPane().repaint();
-
-        //int dialogResult = JOptionPane.showOptionDialog(f, "This name is already taken", "Nickname Error", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, null,"Cancel");
-        /*if(dialogResult == JOptionPane.ERROR_MESSAGE || dialogResult == JOptionPane.CLOSED_OPTION){
-            nicknameTxtField.setText("nickname");
-            playButton.addMouseListener(listner);
-        }*/
     }
 }

@@ -24,7 +24,7 @@ public class ColorListener implements MouseListener {
 
     /**Send to server-side the selection of the correspondent color of the clicked colorLabel (calling sendNotification of SantoriniGUI).
      * <p>
-     * @param e
+     * @param e the MouseEvent
      */
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -50,7 +50,7 @@ public class ColorListener implements MouseListener {
 
     /**Show borders of the mouseEntered colorLabel.
      * <p>
-     * @param e
+     * @param e the MouseEvent
      */
     @Override
     public void mouseEntered(MouseEvent e) {
@@ -64,7 +64,7 @@ public class ColorListener implements MouseListener {
 
     /**Remove borders of the mouseExited colorLabel.
      * <p>
-     * @param e
+     * @param e the MouseEvent
      */
     @Override
     public void mouseExited(MouseEvent e) {
