@@ -164,11 +164,88 @@ public class GamePanel extends JPanel {
         frame.getContentPane().repaint();
     }
 
-    protected void askUseSuperPower(String superPlayerAskMessage){
+    /*protected void askUseSuperPower(String superPlayerAskMessage){
         superPowerDialog = initAndShowSuperPowerDialog(superPlayerAskMessage);
+    }*/
+
+    protected void askUseGeneralDialog(boolean isSuperPlayerMessage, String utilityMessage){
+        if(isSuperPlayerMessage){
+            superPowerDialog = initAndShowDialog(isSuperPlayerMessage, utilityMessage);
+        }else{
+            generalDialog = initAndShowDialog(isSuperPlayerMessage, utilityMessage);
+        }
     }
 
-    private JPanel initAndShowSuperPowerDialog(String superPlayerAskMessage){
+    private JPanel initAndShowDialog(boolean isSuperPlayerMessage, String utilityMessage){
+        JPanel screenPanel = new JPanel();
+        screenPanel.setLayout(null);
+        screenPanel.setBounds(0,0,1920,1080);
+        screenPanel.setOpaque(true);
+        screenPanel.setBackground(new java.awt.Color(0,0,0,0));
+
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(null);
+        infoPanel.setOpaque(true);
+        infoPanel.setBackground(new java.awt.Color(0,0,0,0));
+        String path;
+        if(isSuperPlayerMessage){
+            path = "src/main/resources/dialog_use_superpower.png";
+        }else{
+            path = "src/main/resources/general_dialog.png";
+        }
+        BufferedImage backgroundImg = null;
+        try {
+            backgroundImg = ImageIO.read(new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert backgroundImg != null;
+        JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
+        backgroundLabel.setBounds(0,0,775,380);
+
+        JTextArea godRequest = new JTextArea(utilityMessage);
+        godRequest.setFont(new Font("ComicSansMS",Font.BOLD,40));
+        godRequest.setForeground(java.awt.Color.white);
+        godRequest.setEditable(false);
+        godRequest.setSelectionColor(new java.awt.Color(0,0,0,0));
+        godRequest.setHighlighter(null);
+        godRequest.setLineWrap(true);
+        godRequest.setWrapStyleWord(true);
+        godRequest.setOpaque(true);
+        godRequest.setBackground(new java.awt.Color(0,0,0,0));
+        godRequest.setBounds(0,9,775,260);
+
+        JLabel buttonOK = new JLabel("");
+        JLabel buttonCANCEL = new JLabel("");
+        if(isSuperPlayerMessage){
+            buttonOK.setBounds(180,260,208,105);
+            buttonOK.addMouseListener(new SuperPlayerActivateListener(gui,this, true, GameMessage.convertAskerSuperPlayerInPowerString(utilityMessage)));
+            buttonCANCEL.setBounds(388,260,208,105);
+            buttonCANCEL.addMouseListener(new SuperPlayerActivateListener(gui,this, false, GameMessage.convertSuperPowerRequireNo(utilityMessage)));
+        }else{
+            buttonOK.setBounds(180,260,416,105);
+            buttonOK.addMouseListener(new GeneralDialogListener(this, utilityMessage));
+        }
+
+        infoPanel.setBounds(671,295,775,380);
+        infoPanel.add(buttonOK);
+        if (isSuperPlayerMessage){
+            infoPanel.add(buttonCANCEL);
+        }
+        infoPanel.add(godRequest);
+        infoPanel.add(backgroundLabel);
+        infoPanel.setBounds(671,295,775,380);
+        screenPanel.add(infoPanel);
+
+        screenPanel.setBounds(0,0,1920,1080);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.getContentPane().add(screenPanel,0);
+        updateFrame(topFrame);
+
+        return screenPanel;
+    }
+
+    /*private JPanel initAndShowSuperPowerDialog(String superPlayerAskMessage){
         JPanel screenPanel = new JPanel();
         screenPanel.setLayout(null);
         screenPanel.setBounds(0,0,1920,1080);
@@ -224,7 +301,7 @@ public class GamePanel extends JPanel {
         updateFrame(topFrame);
 
         return screenPanel;
-    }
+    }*/
 
     protected void hideSuperPowerDialog(){
         if(superPowerDialog == null){
@@ -236,10 +313,10 @@ public class GamePanel extends JPanel {
         superPowerDialog = null;
     }
 
-    protected void askUseGeneralDialog(String generalMessage){
+    /*protected void askUseGeneralDialog(String generalMessage){
         generalDialog = initAndShowGeneralDialog(generalMessage);
-    }
-    private JPanel initAndShowGeneralDialog(String messageGeneral){
+    }*/
+    /*private JPanel initAndShowGeneralDialog(String messageGeneral){
         JPanel screenPanel = new JPanel();
         screenPanel.setLayout(null);
         screenPanel.setBounds(0,0,1920,1080);
@@ -291,7 +368,7 @@ public class GamePanel extends JPanel {
         updateFrame(topFrame);
 
         return screenPanel;
-    }
+    }*/
 
     protected void hideGeneralDialog(){
         if(generalDialog == null){

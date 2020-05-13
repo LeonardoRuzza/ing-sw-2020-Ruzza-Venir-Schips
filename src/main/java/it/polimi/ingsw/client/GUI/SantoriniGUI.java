@@ -146,7 +146,7 @@ public class SantoriniGUI {
 
         mute.addMouseListener(volumeListener);
         volume.addMouseListener(volumeListener);
-        quitButton.addMouseListener(new QuitListner(this));
+        quitButton.addMouseListener(new QuitListner(this, frame));
         volume.setBounds(1773,81,101,89);
         volumePanel.add(volume,0);
         mute.setBounds(1773,81,101,89);
@@ -247,7 +247,7 @@ public class SantoriniGUI {
 
     protected  void updatePanelForQuiteAndLose(String message){
         GamePanel gamePanel = (GamePanel) currentPanel;
-        gamePanel.askUseGeneralDialog(message);
+        gamePanel.askUseGeneralDialog(false, message);
     }
 
     protected void updateMatchMessage(String message) {
@@ -281,32 +281,32 @@ public class SantoriniGUI {
         switch (message.getStateOfGUI()) {
             case ARES:
                currentStateOfGUI = message.getStateOfGUI();
-               gamePanel.askUseSuperPower(GameMessage.aresTurnMessageAskRemoveBlokGUI);
+               gamePanel.askUseGeneralDialog(true, GameMessage.aresTurnMessageAskRemoveBlokGUI);
                break;
             case ARESFAIL:
-                gamePanel.askUseSuperPower(GameMessage.aresTurnMessageFailRemoveBlokWNewCellGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.aresTurnMessageFailRemoveBlokWNewCellGUI);
                 break;
             case ATLAS:
                 currentStateOfGUI = message.getStateOfGUI();
-                gamePanel.askUseSuperPower(GameMessage.atlasTurnMessageAskBuildDorseGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.atlasTurnMessageAskBuildDorseGUI);
                 break;
             case ATLASFAIL:
-                gamePanel.askUseSuperPower(GameMessage.atlasTurnMessageFailBuildDorseGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.atlasTurnMessageFailBuildDorseGUI);
                 break;
             case PROMETHEUS:
                 currentStateOfGUI = message.getStateOfGUI();
-                gamePanel.askUseSuperPower(GameMessage.prometheusTurnMessageAskBuildBeforeGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.prometheusTurnMessageAskBuildBeforeGUI);
                 break;
             case HEPHAESTUS:
                 currentStateOfGUI = message.getStateOfGUI();
-                gamePanel.askUseSuperPower(GameMessage.hephaesthusTurnMessageAskBuildGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.hephaesthusTurnMessageAskBuildGUI);
                 break;
             case HESTIADEMETER:
                 currentStateOfGUI = message.getStateOfGUI();
-                gamePanel.askUseSuperPower(GameMessage.hestiaDemeterTurnMessageAskTwoBuildGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.hestiaDemeterTurnMessageAskTwoBuildGUI);
                 break;
             case HESTIADEMETERFAIL:
-                gamePanel.askUseSuperPower(GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWNewCellGUI);
+                gamePanel.askUseGeneralDialog(true, GameMessage.hestiaDemeterTurnMessageFailOptionalBuildWNewCellGUI);
                 break;
         }
     }
