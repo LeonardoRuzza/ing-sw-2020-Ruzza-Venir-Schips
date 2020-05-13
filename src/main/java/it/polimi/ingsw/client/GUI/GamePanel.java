@@ -33,6 +33,10 @@ public class GamePanel extends JPanel {
     private PlayerCardPanel cardPanelP3;
     private ServerMessageReceiver messagePrinter;
 
+    /**
+     * Create the game panel
+     * @param gui class which will control the game panel
+     */
     public GamePanel(SantoriniGUI gui){
         this.gui = gui;
         this.setLayout(null);
@@ -64,6 +68,13 @@ public class GamePanel extends JPanel {
         this.add(boardPanel);
     }
 
+    /**
+     * Sets the panel which contains info about players
+     * @param numPlayer num of the player you are going to set
+     * @param nickName name of the player
+     * @param cardName card associated to the player
+     * @param playerColor color assciated to the player
+     */
     protected void updateCardPanel(int numPlayer, @Nullable String nickName, @Nullable String cardName, @Nullable Worker.Color playerColor){
         switch (numPlayer){
             case 1:
@@ -103,12 +114,20 @@ public class GamePanel extends JPanel {
 
     }
 
+    /**
+     * Update message to show at the users
+     * @param message
+     */
     protected void updateServerMessage(String message){
         if(messagePrinter!=null){
             messagePrinter.updateElem(message);
         }
     }
 
+    /**
+     * Unzip board to show at the users and update the board situation
+     * @param board
+     */
     protected void updateGrid(Board board){
         for(int y = 0; y < gridSide; y++){
             for(int x = 0; x < gridSide; x++){
@@ -159,15 +178,20 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Update the frame
+     * @param frame frame to update
+     */
     protected void updateFrame(JFrame frame){
         frame.getContentPane().revalidate();
         frame.getContentPane().repaint();
     }
 
-    /*protected void askUseSuperPower(String superPlayerAskMessage){
-        superPowerDialog = initAndShowSuperPowerDialog(superPlayerAskMessage);
-    }*/
-
+    /**
+     * Show a general dialog to users
+     * @param isSuperPlayerMessage True if you want panel with cancel and ok option False if you want only ok option
+     * @param utilityMessage message to show
+     */
     protected void askUseGeneralDialog(boolean isSuperPlayerMessage, String utilityMessage){
         if(isSuperPlayerMessage){
             superPowerDialog = initAndShowDialog(isSuperPlayerMessage, utilityMessage);
@@ -176,6 +200,12 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Create and show a general dialog to users
+     * @param isSuperPlayerMessage True if you want panel with cancel and ok option False if you want only ok option
+     * @param utilityMessage Message to show
+     * @return The panel to show
+     */
     private JPanel initAndShowDialog(boolean isSuperPlayerMessage, String utilityMessage){
         JPanel screenPanel = new JPanel();
         screenPanel.setLayout(null);
@@ -245,64 +275,9 @@ public class GamePanel extends JPanel {
         return screenPanel;
     }
 
-    /*private JPanel initAndShowSuperPowerDialog(String superPlayerAskMessage){
-        JPanel screenPanel = new JPanel();
-        screenPanel.setLayout(null);
-        screenPanel.setBounds(0,0,1920,1080);
-        screenPanel.setOpaque(true);
-        screenPanel.setBackground(new java.awt.Color(0,0,0,0));
-
-        JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(null);
-        infoPanel.setOpaque(true);
-        infoPanel.setBackground(new java.awt.Color(0,0,0,0));
-
-        String path = "src/main/resources/dialog_use_superpower.png";
-        BufferedImage backgroundImg = null;
-        try {
-            backgroundImg = ImageIO.read(new File(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert backgroundImg != null;
-        JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
-        backgroundLabel.setBounds(0,0,775,380);
-
-        JTextArea godRequest = new JTextArea(superPlayerAskMessage);
-        godRequest.setFont(new Font("ComicSansMS",Font.BOLD,40));
-        godRequest.setForeground(java.awt.Color.white);
-        godRequest.setEditable(false);
-        godRequest.setSelectionColor(new java.awt.Color(0,0,0,0));
-        godRequest.setHighlighter(null);
-        godRequest.setLineWrap(true);
-        godRequest.setWrapStyleWord(true);
-        godRequest.setOpaque(true);
-        godRequest.setBackground(new java.awt.Color(0,0,0,0));
-        godRequest.setBounds(0,9,775,260);
-
-        JLabel buttonOK = new JLabel("");
-        buttonOK.setBounds(180,260,208,105);
-        buttonOK.addMouseListener(new SuperPlayerActivateListener(gui,this, true, GameMessage.convertAskerSuperPlayerInPowerString(superPlayerAskMessage)));
-        JLabel buttonCANCEL = new JLabel("");
-        buttonCANCEL.setBounds(388,260,208,105);
-        buttonCANCEL.addMouseListener(new SuperPlayerActivateListener(gui,this, false, GameMessage.convertSuperPowerRequireNo(superPlayerAskMessage)));
-
-        infoPanel.setBounds(671,295,775,380);
-        infoPanel.add(buttonOK);
-        infoPanel.add(buttonCANCEL);
-        infoPanel.add(godRequest);
-        infoPanel.add(backgroundLabel);
-        infoPanel.setBounds(671,295,775,380);
-        screenPanel.add(infoPanel);
-
-        screenPanel.setBounds(0,0,1920,1080);
-        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.getContentPane().add(screenPanel,0);
-        updateFrame(topFrame);
-
-        return screenPanel;
-    }*/
-
+    /**
+     * Remove from the frame the panel superPowerDialog if existing
+     */
     protected void hideSuperPowerDialog(){
         if(superPowerDialog == null){
             return;
@@ -313,63 +288,9 @@ public class GamePanel extends JPanel {
         superPowerDialog = null;
     }
 
-    /*protected void askUseGeneralDialog(String generalMessage){
-        generalDialog = initAndShowGeneralDialog(generalMessage);
-    }*/
-    /*private JPanel initAndShowGeneralDialog(String messageGeneral){
-        JPanel screenPanel = new JPanel();
-        screenPanel.setLayout(null);
-        screenPanel.setBounds(0,0,1920,1080);
-        screenPanel.setOpaque(true);
-        screenPanel.setBackground(new java.awt.Color(0,0,0,0));
-
-        JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(null);
-        infoPanel.setOpaque(true);
-        infoPanel.setBackground(new java.awt.Color(0,0,0,0));
-
-        String path = "src/main/resources/general_dialog.png";
-        BufferedImage backgroundImg = null;
-        try {
-            backgroundImg = ImageIO.read(new File(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert backgroundImg != null;
-        JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
-        backgroundLabel.setBounds(0,0,775,380);
-
-        JTextArea godRequest = new JTextArea(messageGeneral);
-        godRequest.setFont(new Font("ComicSansMS",Font.BOLD,40));
-        godRequest.setForeground(java.awt.Color.white);
-        godRequest.setEditable(false);
-        godRequest.setSelectionColor(new java.awt.Color(0,0,0,0));
-        godRequest.setHighlighter(null);
-        godRequest.setLineWrap(true);
-        godRequest.setWrapStyleWord(true);
-        godRequest.setOpaque(true);
-        godRequest.setBackground(new java.awt.Color(0,0,0,0));
-        godRequest.setBounds(0,9,775,260);
-
-        JLabel buttonOK = new JLabel("");
-        buttonOK.setBounds(180,260,416,105);
-        buttonOK.addMouseListener(new GeneralDialogListener(this, messageGeneral));
-
-        infoPanel.setBounds(671,295,775,380);
-        infoPanel.add(buttonOK);
-        infoPanel.add(godRequest);
-        infoPanel.add(backgroundLabel);
-        infoPanel.setBounds(671,295,775,380);
-        screenPanel.add(infoPanel);
-
-        screenPanel.setBounds(0,0,1920,1080);
-        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.getContentPane().add(screenPanel,0);
-        updateFrame(topFrame);
-
-        return screenPanel;
-    }*/
-
+    /**
+     * Remove from the frame the panel generalDialog if existing
+     */
     protected void hideGeneralDialog(){
         if(generalDialog == null){
             return;
@@ -377,16 +298,29 @@ public class GamePanel extends JPanel {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         topFrame.getContentPane().remove(0);
         updateFrame(topFrame);
+        generalDialog = null;
     }
 
+    /**
+     * Getter for superPower string if setted
+     * @return
+     */
     public String getSuperPower() {
         return superPower;
     }
 
+    /**
+     * Set super power as string
+     * @param superPower super power
+     */
     public void setSuperPower(String superPower) {
         this.superPower = superPower;
     }
 
+    /**
+     * Show panel with result of the match
+     * @param win True if player wins False otherwise
+     */
     public void showEndGameDialog(boolean win){
         EndOfGameDialog endGameDialog = new EndOfGameDialog(win);
         GridBoardPanel grid = (GridBoardPanel) this.getComponent(0);
@@ -407,6 +341,17 @@ public class GamePanel extends JPanel {
         private int elemHeight;
         private int elemWidth;
         private GamePanel superPanel;
+
+        /**
+         * Return a grid with clickable cell
+         * @param rows number of rows
+         * @param columns number of columns
+         * @param hgap horizontal distance between cells
+         * @param vgap vertical distance between cells
+         * @param elemWidth width of cells
+         * @param elemHeight height of cells
+         * @param superPanel panel which contains the gird
+         */
         public GridBoardPanel(int rows, int columns, int hgap, int vgap, int elemWidth, int elemHeight, GamePanel superPanel){
             this.rows = rows;
             this.columns = columns;
@@ -426,10 +371,20 @@ public class GamePanel extends JPanel {
             }
         }
 
+        /**
+         * Make a new CellPanel
+         * @param x x position in grid
+         * @param y y position in grid
+         * @return created CellPanel
+         */
         private JPanel createGridPanel(int x, int y) {
             return new CellPanel(x,y,elemWidth,elemHeight, superPanel);
         }
 
+        /**
+         * Add a panel in the right position of the grid
+         * @param component panel to add
+         */
         private void addAsGrid(JPanel component){
             int x = (hgap+elemWidth)*(this.getComponentCount()%columns);
             int y = ((int)((this.getComponentCount())/columns)) *((int)(elemHeight+vgap));
@@ -437,6 +392,12 @@ public class GamePanel extends JPanel {
             component.setBounds(x,y,elemWidth,elemHeight);
         }
 
+        /**
+         * Getter for cell in grid
+         * @param row row of wanted cell
+         * @param column column of wanted cell
+         * @return cell wanted
+         */
         public CellPanel getCell(int row, int column){
             for(int x=0; x<rows*columns; x++){
                 if(this.getComponent(x) instanceof CellPanel){
@@ -456,6 +417,15 @@ public class GamePanel extends JPanel {
         CellButton cellButton;
         WorkerElem workerElem;
         BlockElem blockElem;
+
+        /**
+         * Return a cell of a grid
+         * @param x x position of the cell in grid
+         * @param y y position of the cell in grid
+         * @param width width of the cell in grid
+         * @param height height of the cell in grid
+         * @param superPanel panel which contains the grid
+         */
         public CellPanel(int x, int y, int width, int height, GamePanel superPanel){
             this.row = y;
             this.column = x;
@@ -474,22 +444,42 @@ public class GamePanel extends JPanel {
             this.add(blockElem);
         }
 
+        /**
+         * Getter for row of cell
+         * @return row
+         */
         public int getRow() {
             return row;
         }
 
+        /**
+         * Getter for column of cell
+         * @return column
+         */
         public int getColumn() {
             return column;
         }
 
+        /**
+         * Getter for CellButton of cell
+         * @return CellButton
+         */
         public CellButton getCellButton() {
             return cellButton;
         }
 
+        /**
+         * Getter for Worker of cell
+         * @return WorkerElem
+         */
         public WorkerElem getWorkerElem() {
             return workerElem;
         }
 
+        /**
+         * Getter for Block of cell
+         * @return BlockElem
+         */
         public BlockElem getBlockElem() {
             return blockElem;
         }
@@ -499,6 +489,13 @@ public class GamePanel extends JPanel {
         private int xCoord;
         private int yCoord;
         private final Dimension dim = new Dimension(112,112);
+
+        /**
+         * Creates the button to be superimposed one the cell
+         * @param x x coordinate of the cell
+         * @param y y coordinate of the cell
+         * @param superPanel panel which contains the cell
+         */
         public CellButton(int x, int y, GamePanel superPanel){
             super("");
             this.xCoord = x;
@@ -506,10 +503,19 @@ public class GamePanel extends JPanel {
             this.setSize(dim);
             this.addMouseListener(new CellButtonListener(gui, superPanel, this));
         }
+
+        /**
+         * Getter for x coordinate of the button
+         * @return x coordinate
+         */
         public int getxCoord() {
             return xCoord;
         }
 
+        /**
+         * Getter for y coordinate of the button
+         * @return y coordinate
+         */
         public int getyCoord() {
             return yCoord;
         }
@@ -518,6 +524,10 @@ public class GamePanel extends JPanel {
     private class ServerMessageReceiver extends JPanel{
         JLabel backGroundRec;
         JLabel messageText;
+
+        /**
+         * Create the box where will be shown messages for users
+         */
         public ServerMessageReceiver(){
             this.setLayout(null);
             this.setSize(1221,127);
@@ -538,6 +548,11 @@ public class GamePanel extends JPanel {
             this.add(messageText);
             this.add(backGroundRec);
         }
+
+        /**
+         * Used to update the message
+         * @param newMessage message to show
+         */
         public void updateElem(String newMessage){
             if(messageText != null){
                 messageText.setText(newMessage);
@@ -548,6 +563,12 @@ public class GamePanel extends JPanel {
     private class BlockElem extends JLabel{
         private Block block;
         private int zCoord;
+
+        /**
+         * Create a label which will contain the image of the block
+         * @param block type of block
+         * @param zCoord height of the block
+         */
         public BlockElem(Block block, int zCoord) {
             if(block != null){
                 this.block = block;
@@ -567,6 +588,9 @@ public class GamePanel extends JPanel {
             }
         }
 
+        /**
+         * Set no block in cell
+         */
         public void updateNull(){
             playEffectSound("remove_block.wav");
             this.zCoord = 0;
@@ -576,6 +600,11 @@ public class GamePanel extends JPanel {
             updateFrame(topFrame);
         }
 
+        /**
+         * Update the block contained in the cell
+         * @param block type of block
+         * @param zCoord height of block
+         */
         public void updateElem(Block block, int zCoord) {
             playEffectSound("block_added.wav");
             this.block = block;
@@ -594,6 +623,12 @@ public class GamePanel extends JPanel {
             updateFrame(topFrame);
         }
 
+        /**
+         * Converts block type and height in the image path
+         * @param block type of block
+         * @param zCoord height of block
+         * @return path of the image
+         */
         private String selectBlock(Block block, int zCoord){
             String path = "src/main/resources/blok_";
             switch (block){
@@ -626,10 +661,18 @@ public class GamePanel extends JPanel {
             return path;
         }
 
+        /**
+         * Getter for block types
+         * @return block type
+         */
         public Block getBlock() {
             return block;
         }
 
+        /**
+         * Getter for block height
+         * @return block height
+         */
         public int getzCoord() {
             return zCoord;
         }
@@ -639,6 +682,11 @@ public class GamePanel extends JPanel {
         private Worker.Gender gender;
         private Worker.Color color;
 
+        /**
+         * Create a label which will contain the image of the worker
+         * @param gender gender of worker
+         * @param color color of the worker
+         */
         public WorkerElem(Worker.Gender gender, Worker.Color color){
             if(this.gender != null && this.color != null){
                 this.color = color;
@@ -660,6 +708,9 @@ public class GamePanel extends JPanel {
             }
         }
 
+        /**
+         * Set no worker in cell
+         */
         public void updateNull(){
             this.gender = null;
             this.color = null;
@@ -668,6 +719,11 @@ public class GamePanel extends JPanel {
             updateFrame(topFrame);
         }
 
+        /**
+         * Update the worker contained in the cell
+         * @param gender gender of worker
+         * @param color color of worker
+         */
         public void updateElem(Worker.Gender gender, Worker.Color color){
             playEffectSound("movement_done_cut.wav");
             this.color = color;
@@ -686,6 +742,11 @@ public class GamePanel extends JPanel {
             updateFrame(topFrame);
         }
 
+        /**
+         * Converts worker color in the image path
+         * @param color worker color
+         * @return path of image
+         */
         private String selectImage(Worker.Color color){
             String path = "src/main/resources/wrk_";
             switch (color){
@@ -705,10 +766,18 @@ public class GamePanel extends JPanel {
             return path;
         }
 
+        /**
+         * Getter for worker color
+         * @return worker color
+         */
         public Color getColor() {
             return color;
         }
 
+        /**
+         * Getter for worker gender
+         * @return worker gender
+         */
         public Worker.Gender getGender() {
             return gender;
         }
@@ -725,6 +794,9 @@ public class GamePanel extends JPanel {
 
         private CardInfoListener listenerCardDetail;
 
+        /**
+         * Creates a panel where will be shown the players info
+         */
         public PlayerCardPanel(){
             this.setLayout(null);
             this.setSize(349,540);
@@ -759,6 +831,11 @@ public class GamePanel extends JPanel {
             this.add(cardContainer);
         }
 
+        /**
+         * Convert the worker color type in java awt Color
+         * @param color Worker Color
+         * @return java awt color
+         */
         private java.awt.Color switcherColor(Worker.Color color){
             switch (color){
                 case RED:
@@ -773,6 +850,10 @@ public class GamePanel extends JPanel {
             return null;
         }
 
+        /**
+         * Show name Player
+         * @param name player name
+         */
         private void updateNamePlayer(String name){
             this.nickName = name;
             playerName.setText(name);
@@ -780,12 +861,20 @@ public class GamePanel extends JPanel {
             updateFrame(topFrame);
         }
 
+        /**
+         * Show color of player
+         * @param color Worker Color
+         */
         private void updateColorNamePlayer(Worker.Color color){
             playerName.setForeground(switcherColor(color));
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             updateFrame(topFrame);
         }
 
+        /**
+         * Show image of the card choose by user
+         * @param cardName name of the card
+         */
         private void updateCardImg(String cardName){
             this.cardName = cardName;
             String cardPath = "src/main/resources/cards/"+ cardName.toLowerCase() +".png";
@@ -805,6 +894,10 @@ public class GamePanel extends JPanel {
             dialogPanelCardInfo = this.initDialogPanelCardInfo();
         }
 
+        /**
+         * Creates the panel which contain the description of the card choose by the user
+         * @return panel
+         */
         private JPanel initDialogPanelCardInfo(){
             JPanel screenPanel = new JPanel();
             screenPanel.setLayout(null);
@@ -880,6 +973,9 @@ public class GamePanel extends JPanel {
             return screenPanel;
         }
 
+        /**
+         * Show the panel which contain the description of the card choose by the user
+         */
         protected void showDialogPanelCardInfo(){
             dialogPanelCardInfo.setBounds(110,153,1700,775);
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -887,16 +983,27 @@ public class GamePanel extends JPanel {
             updateFrame(topFrame);
         }
 
+        /**
+         * Close the panel which contain the description of the card choose by the user
+         */
         protected void closeDialogPanelCardInfo(){
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             topFrame.getContentPane().remove(0);
             updateFrame(topFrame);
         }
 
+        /**
+         * Getter for nickname associated at this panel
+         * @return nickname of player
+         */
         public String getNickName() {
             return nickName;
         }
 
+        /**
+         * Getter for card name associated at this panel
+         * @return card name
+         */
         public String getCardName() {
             return cardName;
         }
@@ -904,6 +1011,11 @@ public class GamePanel extends JPanel {
 
     private class EndOfGameDialog extends JPanel{
         String cardName;
+
+        /**
+         * Create the panel which will show the result of the match
+         * @param win
+         */
         public EndOfGameDialog(boolean win){
             this.cardName = cardName;
             if(win){
@@ -913,6 +1025,10 @@ public class GamePanel extends JPanel {
             }
         }
 
+        /**
+         * Create the panel which will show the result of the match
+         * @param result name of image to load
+         */
         protected void initDialog(String result){
             this.setLayout(null);
             this.setBounds(0,0,1920,1080);
@@ -942,6 +1058,10 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * This method is called to play sound effects when is done a board update
+     * @param fileName name of file to load
+     */
     private synchronized void playEffectSound(final String fileName) {
         new Thread(new Runnable() { // the wrapper thread is unnecessary, unless it blocks on the Clip finishing, see comments
             public void run() {
