@@ -9,7 +9,10 @@ public class LobbyPlayer implements Cloneable{
     protected Worker.Color color;
     protected Card card;
 
-
+    /**
+     * Create a new LobbyPlayer for the User's which name is equals to {@code Nickname} to store info about his choices
+     * @param nickname name of the player
+     */
     public LobbyPlayer(String nickname) {
         this.nickname = nickname;
         this.color = null;
@@ -22,8 +25,6 @@ public class LobbyPlayer implements Cloneable{
 
     @Override
     public LobbyPlayer clone() throws CloneNotSupportedException {
-        //return (LobbyPlayer) super.clone();
-
         LobbyPlayer temp = new LobbyPlayer(this.nickname);
         temp.color = this.color;
         if (card != null) {

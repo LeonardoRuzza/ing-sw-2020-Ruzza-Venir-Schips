@@ -18,12 +18,21 @@ public class SantoriniGUI {
     private JFrame frame = new JFrame("Santorini");
     private JPanel currentPanel;
     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    GraphicsDevice gd = ge.getDefaultScreenDevice();
+    //GraphicsDevice gd = ge.getDefaultScreenDevice();
     public Clip soundThread;
     private VolumeButtonListner volumeListener;
     private JPanel settingsPanel;
     private JLabel quitButton;
 
+    /**
+     * Simply call the createAndStartGUI, to associate a GUI to the Client
+     * <p>
+     * <b>For the lobby phase</b>GUI consist of a main frame, with various panels that will be switched to support user interactions ( choose of name, color, card)
+     * <p>
+     * <b>For the normal game</b> GUI consist in a main frame, with various element, such as buttons, to support user interaction showing an Image of Current state of the Board
+     * @param clientGUI the Client associated to the GUI
+     * @see #createAndStartGUI()
+     */
     public SantoriniGUI(ClientGUI clientGUI){
         this.clientGUI = clientGUI;
         soundThread = playSound("background2.wav");
@@ -31,10 +40,19 @@ public class SantoriniGUI {
         createAndStartGUI();
     }
 
+    /**
+     * Send the player input from the GUI, converted in String, to the asyncWriteToSocket
+     * @param s  String to send
+     * @see ClientGUI
+     */
     public void sendNotification(String s){
         clientGUI.outcomeGUI.add(s);
     }
 
+    /**
+     * Sett the various setting for the main framework
+     * <b>Resolution</b>: 1920x1080
+     */
     public void createAndStartGUI() {
         frame.setResizable(false);
         frame.setSize(1920,1080);
@@ -51,6 +69,9 @@ public class SantoriniGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Add a background image; This will be shown only in the <b>Lobby phase</b>
+     */
     private void addBackgroundImage() {
         BufferedImage image = null;
         try {
@@ -68,6 +89,11 @@ public class SantoriniGUI {
         frame.getContentPane().add(background,1);
     }
 
+    /**
+     * Add a background sound, which is played in loop
+     * @param fileName Name of the sound file
+     * @return Clip associated to the sound specified in the parameter
+     */
     private Clip playSound(final String fileName) {
         Clip sound = null;
         try {
@@ -91,6 +117,9 @@ public class SantoriniGUI {
         return sound;
     }
 
+    /**
+     * Set a customized cursor to the replace the standard SO cursor
+     */
     private void setCursor(){
         BufferedImage image = null;
         try {
@@ -102,6 +131,12 @@ public class SantoriniGUI {
         frame.setCursor(customCursor);
     }
 
+    /**
+     * Method to remove the current panel, and show a new one passed as parameter; This also add the settings panel to the new panel
+     *<p>
+     * This is meant for the <b>Lobby phase</b> to switch from various panels (choose of card, color...)
+     * @param panel The Jpanel that need to be shown
+     */
     private void switchPanel(JPanel panel){
         removeSettingsPanel();
         frame.getContentPane().remove(0);
@@ -112,6 +147,10 @@ public class SantoriniGUI {
         frame.repaint();
     }
 
+    /**
+     * Add a setting panel in the top right of frame, to allow user quit the game, sett or disable sounds
+     * @return The panel just created
+     */
     private JPanel createSettingsPanel(){
         JPanel volumePanel = new JPanel();
         volumePanel.setLayout(null);
@@ -158,14 +197,26 @@ public class SantoriniGUI {
         volumePanel.setBounds(0,0,1920,1080);
         return volumePanel;
     }
+
+    /**
+     * Add the setting panel to the main frame
+     */
     public void addSettingsPanel(){
         settingsPanel.setBounds(0,0,1920,1080);
         frame.getContentPane().add(settingsPanel,0);
     }
+
+    /**
+     * Remove the setting panel from the framework
+     */
     public void removeSettingsPanel(){
         frame.getContentPane().remove(settingsPanel);
     }
 
+    /**
+     * Create a {@code JPanel} and add a label to it. Also set the JPanel to Opaque to not cover the main Panel
+     * @param pathname Relative path of the image to be added in the {@code JLabel}
+     */
     private void addLabel(String pathname){
         BufferedImage image = null;
         try {
@@ -185,7 +236,15 @@ public class SantoriniGUI {
         switchPanel(temp);
     }
 
-
+    /**
+     * <b>For the Lobby Phase</b>:
+     * <p>
+     *    It create and remove various panels, associated to the current StateOfGUI, that need to be shown to the User. For example show the panel for InsertName, ChoseColor
+     * </p>
+     * @param message Contains the current {@code StateOfGui} plus various info, to show available colors,card...
+     * @see MessageToGUI
+     * @see StateOfGUI
+     */
     public void updateGUILobby(MessageToGUI message) {
         switch (message.getStateOfGUI()){
             case INSERTNAME:
@@ -245,21 +304,39 @@ public class SantoriniGUI {
         }
     }
 
+    /**
+     * Show a panel in case a player Lose or Quit the Game
+     * @param message Message to show
+     */
     protected  void updatePanelForQuiteAndLose(String message){
         GamePanel gamePanel = (GamePanel) currentPanel;
         gamePanel.askUseGeneralDialog(false, message);
     }
 
+    /**
+     * Update the message show in the bottom of the {@code GamePanel}, to let the User know what to do
+     * @param message Message that need to be shown
+     * @see GamePanel
+     */
     protected void updateMatchMessage(String message) {
         GamePanel gamePanel = (GamePanel) currentPanel;
         gamePanel.updateServerMessage(message);
     }
 
+    /**
+     * Update the current image of the Board to show to the User effect of his and other player's moves
+     * @param board A cloned Board, with all relative informations
+     * @see Board
+     */
     protected void updateBoard(Board board){
         GamePanel gamePanel = (GamePanel) currentPanel;
         gamePanel.updateGrid(board);
     }
 
+    /**
+     * Show a Panel, with relative sound effect, to User in case he Win or Lose the Game
+     * @param winORlose {@code true} if a Player win; {@code false} if a player Lose
+     */
     public void updateWin(boolean winORlose){
         GamePanel gamePanel = (GamePanel) currentPanel;
         gamePanel.showEndGameDialog(winORlose);
@@ -276,6 +353,10 @@ public class SantoriniGUI {
         }
     }
 
+    /**
+     * Show the various custom panels associated to the Cards, to let the User choose if use his card's Super Power or Not
+     * @param message Contains info to know player's card in order to show the associated Panel
+     */
     protected void updateSuperPlayer(MessageToGUI message){
         GamePanel gamePanel = (GamePanel) currentPanel;
         switch (message.getStateOfGUI()) {
@@ -311,6 +392,10 @@ public class SantoriniGUI {
         }
     }
 
+    /**
+     * Call the {@code updateMatchMessage} to let User know after his choice of use his Card's Superpower or Not
+     * @param response {@code true} if User choose to use his Card's Superpower; {@code} false otherwise
+     */
     protected void superPlayerChoose(boolean response){
         switch (currentStateOfGUI){
             case ARES:

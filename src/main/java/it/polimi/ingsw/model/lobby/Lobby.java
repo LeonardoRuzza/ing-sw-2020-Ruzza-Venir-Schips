@@ -24,6 +24,18 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
     private final int totalColors = Worker.Color.values().length;
 
 
+    /**
+     * <b>2 PLAYERS GAME</b>
+     * <p>
+     * Lobby is where players go after the choose of name in {@code Server};
+     * <p>
+     * It's created by the Server to allocate players passed as parameters in a game
+     * <p>
+     * Here we have all the logic to support Choose of Colors and Cards by players; After that we are ready to start a Real Game, and so the <b>Lobby Phase</b> is over
+     * @param name1 Name of <b>first</b> player
+     * @param name2 Name of <b>second</b> player
+     * @see it.polimi.ingsw.server.Server
+     */
     public Lobby(String name1, String name2) {
         addLobbyPlayer(new LobbyPlayer(name1));
         lobbyActualPlayer = lobbyPlayers.get(0);
@@ -34,6 +46,13 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
             completeDeck.add(new Card(i));
     }
 
+    /**
+     * Same as for 2 players, but this create a game for 3 players
+     * @param name1 Name of <b>first</b> player
+     * @param name2 Name of <b>second</b> player
+     * @param name3 Name of <b>third</b> player
+     * @see #Lobby(String, String)
+     */
     public Lobby(String name1, String name2, String name3) {
         this(name1, name2);
         addLobbyPlayer(new LobbyPlayer(name3));
