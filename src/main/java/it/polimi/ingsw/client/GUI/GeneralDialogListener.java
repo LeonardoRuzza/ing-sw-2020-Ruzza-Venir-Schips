@@ -12,6 +12,11 @@ public class GeneralDialogListener extends JFrame implements MouseListener {
         this.panel = panel;
         this.message = message;
     }
+
+    /**
+     * On click this listener close the dialog and if the showed message contains close the frame
+     * @param e Mouse Event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if(panel != null){
@@ -26,21 +31,35 @@ public class GeneralDialogListener extends JFrame implements MouseListener {
         }
     }
 
+    /**
+     * Mouse Pressed Event
+     * @param e Mouse event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse Released Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Entered Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Exited Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseExited(MouseEvent e) {
 

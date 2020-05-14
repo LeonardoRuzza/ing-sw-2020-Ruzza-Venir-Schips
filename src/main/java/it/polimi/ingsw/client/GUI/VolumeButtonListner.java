@@ -20,13 +20,26 @@ public class VolumeButtonListner extends JFrame implements MouseListener {
         this.frame = frame;
     }
 
+    /**
+     * Setter for the clip which is playing
+     * @param sound Playing Clip
+     */
     public void setSound(Clip sound) {
         this.sound = sound;
     }
+
+    /**
+     * Return if sound is playing or not
+     * @return True if active False otherwise
+     */
     public boolean getActive() {
         return active;
     }
 
+    /**
+     * On mouse click this method will play or stop music
+     * @param e Mouse Event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if(active){
@@ -44,21 +57,35 @@ public class VolumeButtonListner extends JFrame implements MouseListener {
         frame.getContentPane().repaint();
     }
 
+    /**
+     * Mouse Pressed Event
+     * @param e Mouse event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse Released Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Entered Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Exited Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseExited(MouseEvent e) {
 

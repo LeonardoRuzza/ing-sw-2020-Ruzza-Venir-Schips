@@ -12,6 +12,10 @@ public class CardInfoListener extends JFrame implements MouseListener {
         this.panelCard = panel;
     }
 
+    /**
+     * On event this method show or hide the Panel Info Card
+     * @param e Mouse event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if(active){
@@ -23,21 +27,35 @@ public class CardInfoListener extends JFrame implements MouseListener {
         }
     }
 
+    /**
+     * Mouse Pressed Event
+     * @param e Mouse event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse Released Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Entered Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Exited Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseExited(MouseEvent e) {
 

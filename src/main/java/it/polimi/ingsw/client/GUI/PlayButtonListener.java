@@ -21,6 +21,10 @@ public class PlayButtonListener extends JFrame implements MouseListener {
         this.listener = playButtonListener;
     }
 
+    /**
+     * On click this method will send to client gui the name selected by the user and will remove the button listner
+     * @param e Mouse Event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if(nicknameTxtField != null){
@@ -38,21 +42,35 @@ public class PlayButtonListener extends JFrame implements MouseListener {
         }
     }
 
+    /**
+     * Mouse Pressed Event
+     * @param e Mouse event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse Released Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Entered Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Exited Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseExited(MouseEvent e) {
 

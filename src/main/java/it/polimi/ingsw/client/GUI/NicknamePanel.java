@@ -20,6 +20,11 @@ public class NicknamePanel extends JPanel{
 
     ClientGUI clientGUI;
 
+    /**
+     * This Class implements the panel which will ask the username
+     * @param gui Class that will receive the user name
+     * @throws IOException Exception
+     */
     protected NicknamePanel(ClientGUI gui) throws IOException {
         this.clientGUI = gui;
         imageBtnPlay = ImageIO.read(new File("src/main/resources/btn_play.png"));
@@ -55,8 +60,11 @@ public class NicknamePanel extends JPanel{
         this.add(playButton);
     }
 
+    /**
+     * This method create and show a panel which will notify to user that the name he choose isn't available
+     * @param f frame which will sho the panel
+     */
     public void showNameAlreadyTokenDialog(JFrame f){
-
         JPanel screenPanel = new JPanel();
         screenPanel.setLayout(null);
         screenPanel.setBounds(0,0,1920,1080);

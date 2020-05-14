@@ -23,6 +23,11 @@ public class NumberSelectionPanel extends JPanel {
 
     ClientGUI clientGUI;
 
+    /**
+     * This Class implements the panel which will ask the number of players in the match
+     * @param gui Class that will receive the number
+     * @throws IOException Exception
+     */
     protected NumberSelectionPanel(ClientGUI gui) throws IOException {
         clientGUI = gui;
         imageBtnPlay = ImageIO.read(new File("src/main/resources/btn_play.png"));

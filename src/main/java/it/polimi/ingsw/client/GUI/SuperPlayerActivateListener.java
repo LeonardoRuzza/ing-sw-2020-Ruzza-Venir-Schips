@@ -19,6 +19,10 @@ public class SuperPlayerActivateListener extends JFrame implements MouseListener
         this.gui = gui;
     }
 
+    /**
+     * On Click this method will set the string which will be sent to gui if click on cancel send NO
+     * @param e Mouse Event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if(activate){
@@ -38,21 +42,35 @@ public class SuperPlayerActivateListener extends JFrame implements MouseListener
         }
     }
 
+    /**
+     * Mouse Pressed Event
+     * @param e Mouse event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse Released Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Entered Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Exited Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseExited(MouseEvent e) {
 

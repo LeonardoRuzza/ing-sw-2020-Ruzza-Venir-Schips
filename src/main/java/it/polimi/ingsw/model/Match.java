@@ -69,7 +69,6 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * Setter of players in match
      *
      * @param p Player to be added in match
-     * @return Player
      */
     public void addPlayer(Player p){
         for(int x = 0; x<numberOfPlayers; x++){
@@ -383,7 +382,6 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
             }
             numberOfPlayers = 2;
             this.players = temp;
-            return;
         }else{
             Player[] temp = new Player[numberOfPlayers-1];
             nextPlayer();
@@ -398,7 +396,6 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
             }
             numberOfPlayers = 1;
             this.players = temp;
-            return;
         }
     }
 
@@ -479,7 +476,6 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
             return;
         }
         notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageFIRSTALLOCATION));
-        return;
     }
 
     public boolean firstAllocation(int x, int y, Worker.Gender gender){
@@ -500,10 +496,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
                 totLocated++;
             }
         }
-        if(totLocated == numberOfPlayers*2){
-            return true;
-        }
-        return false;
+        return totLocated == numberOfPlayers * 2;
     }
     /**Ask the playing now player to do his move, if it is the first turn also check all worker have been located successfully
      *

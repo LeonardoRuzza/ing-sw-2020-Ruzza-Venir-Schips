@@ -15,6 +15,11 @@ public class CellButtonListener extends JFrame implements MouseListener {
         this.gamePanel = gamePanel;
         coordinates = String.valueOf(button.getxCoord())+","+String.valueOf(button.getyCoord());
     }
+
+    /**
+     * On click this listener send to gui the string needed to use super power
+     * @param e Mouse Event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if(coordinates!=null){
@@ -31,21 +36,35 @@ public class CellButtonListener extends JFrame implements MouseListener {
         }
     }
 
+    /**
+     * Mouse Pressed Event
+     * @param e Mouse event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse Released Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Entered Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Exited Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseExited(MouseEvent e) {
 

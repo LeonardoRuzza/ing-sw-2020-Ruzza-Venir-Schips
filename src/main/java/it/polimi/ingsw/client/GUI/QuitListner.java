@@ -16,27 +16,46 @@ public class QuitListner extends JFrame  implements MouseListener {
         this.gui = gui;
         this.frame = frame;
     }
+
+    /**
+     * On Click this method will send QUIT message to server and close the frame
+     * @param e Mouse Event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         gui.sendNotification(quit);
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 
+    /**
+     * Mouse Pressed Event
+     * @param e Mouse event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse Released Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Entered Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
 
     }
-
+    /**
+     * Mouse Exited Event
+     * @param e Mouse event
+     */
     @Override
     public void mouseExited(MouseEvent e) {
 
