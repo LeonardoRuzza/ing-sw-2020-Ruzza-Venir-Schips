@@ -24,28 +24,62 @@ public class Cell implements Cloneable, Serializable {
 
 
 // Getter
+
+    /**
+     * Getter for x coordinate of cell
+     * @return x coordinate
+     */
     public int getxCoord() {
         return xCoord;
     }
+    /**
+     * Getter for y coordinate of cell
+     * @return y coordinate
+     */
     public int getyCoord() {
         return yCoord;
     }
+    /**
+     * Getter for z coordinate of cell
+     * @return z coordinate
+     */
     public int getzCoord() {
         return zCoord;
     }
+    /**
+     * Getter for worker of cell
+     * @return worker in cell if present null otherwise
+     */
     public Worker getWorker(){
         return workerInCell;
     }
+    /**
+     * Getter for block of cell
+     * @return block in cell if present null otherwise
+     */
     public Block getBlock(){ return blockInCell; }
 
 
 // Setter
+
+    /**
+     * Setter for worker of cell
+     * @param workerInCell worker to add in cell
+     */
     protected void setWorkerInCell(Worker workerInCell) {
         this.workerInCell = workerInCell;
     }
+
+    /**
+     * Set no worker in cell
+     */
     protected void setWorkerNull() {
         this.workerInCell = null;
     }
+
+    /**
+     * Set no block in cell
+     */
     protected void setBlockNull() {
         this.blockInCell = null;
     }
