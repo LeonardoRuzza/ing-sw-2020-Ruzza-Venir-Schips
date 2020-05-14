@@ -26,19 +26,36 @@ public class ClientGUI {
         private MessageToGUI summary = new MessageToGUI(StateOfGUI.STARTNORMALGAME);
         private int playersSummaries = 0;
 
-        public ClientGUI(String ip, int port) {
+    /**
+     * This is the intermediary between Server and the Client. Here we receive input from Server, converting it in order to show to the User's GUI
+     * <p>
+     *  Here are implemented methods to write and read from Socket
+     *  <p>
+     *  It works like the normal {@code Client} for CLI, but also need to convert from String to relative element in GUI. This is made in {@code SantoriniGUI}, here we only set the {@code CurrentStateOfGUI}
+     * @param ip   Ip of the Server we want to connect to
+     * @param port  Port on which the Client and Server will speak
+     * @see it.polimi.ingsw.server.Server
+     */
+    public ClientGUI(String ip, int port) {
             this.ip = ip;
             this.port = port;
         }
 
 
+    /**
+      * @return {@code true} if active, {@code false} otherwise
+     */
+    public synchronized boolean isActive() { return active; }
 
-        public synchronized boolean isActive() { return active; }
-        public synchronized void setActive(boolean active) {
-            this.active = active;
-        }
+    /**
+     * @param active {@code true} to set active, {@code false} otherwise
+     */
+    public synchronized void setActive(boolean active) {this.active = active; }
 
-
+    /**
+     * Check input sent to CLI, and decode it setting the {@code StateOfGUI}; Then send an Update to {@code SantoriniGUI}
+      * @param s String received from the CLI
+     */
     private void decoderGUI(String s) {
         if (isLobbyPhase) {
             switch (s) {
@@ -219,7 +236,19 @@ public class ClientGUI {
         }
     }
 
-
+    /**
+     * A dedicated thread created to receive Objects from the Server
+     * <p>
+     * Call the {@link #decoderGUI(String)} if socketIn is a String
+     * <p>
+     * Call the {@link #santoriniGUI} update method, to show changes in Board
+     * <p>
+     * <p>
+     *     <b>If an execption occur this thread will be killed</b>
+     * </p>
+     * @param socketIn An {@code ObjectInputStream} to receive from the Socket
+     * @return New thread waiting for input <b>from the Server</b>
+     */
     public Thread asyncReadFromSocket(final ObjectInputStream socketIn){
         Thread t = new Thread(new Runnable() {
             @Override
@@ -246,6 +275,14 @@ public class ClientGUI {
         return t;
     }
 
+    /**
+     * A dedicated thread created to receive the converted input from the GUI( a String). This is added to a queque, and then flush when queque is not empty
+     * <p>
+     * <b>If an execption occur this thread will be killed</b>
+     * <p>
+     * @param socketOut a PrintWriter, where the output received from the GUI will be send
+     * @return New thread waiting for input <b>from the GUI</b>
+     */
     public Thread asyncWriteToSocket(final PrintWriter socketOut){
         Thread t = new Thread(new Runnable() {
             @Override
@@ -267,6 +304,12 @@ public class ClientGUI {
     }
 
 
+    /**
+     * The main thread associated to the ClientGUI
+     * @throws IOException Should be never used, since Threads that read or write to Socket are killed if an exception occurs
+     * @see #asyncReadFromSocket(ObjectInputStream)
+     * @see #asyncWriteToSocket(PrintWriter)
+     */
     public void run() throws IOException {
         Socket socket = new Socket(ip, port);
         System.out.println("Connection established");
