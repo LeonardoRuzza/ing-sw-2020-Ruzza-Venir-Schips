@@ -51,6 +51,10 @@ public class PlayerTest {
         Assert.assertEquals("Errore10",Worker.Color.GREEN,player2.workers[1].getColor());
         Assert.assertEquals("Errore11",Worker.Gender.Male,player2.workers[0].getGender());
         Assert.assertEquals("Errore12",Worker.Gender.Female,player2.workers[1].getGender());
+        player2.setNickname("Tester");
+        player2.setNumber(3);
+        Assert.assertEquals("Errore13", "Tester", player2.getNickname());
+        Assert.assertEquals("Errore14",3 ,player2.getNumber());
         //player1=null;
         //player2=null;
     }

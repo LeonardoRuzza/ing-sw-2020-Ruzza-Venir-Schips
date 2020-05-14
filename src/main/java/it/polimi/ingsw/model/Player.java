@@ -30,31 +30,50 @@ public class Player implements Serializable {
     }
 
 //Getter and Setter
+
+    /**Return nickname of the Player.
+     * <p>
+     * @return {@code String}
+     */
     public String getNickname() {
         return nickname;
     }
 
+    /**Set the parameter as nickname of the Player.
+     * <p>
+     * @param nickname the new nickname to set
+     */
     protected void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+    /**Return the number of the Player.
+     * <p>
+     * @return {@code int}
+     */
     public int getNumber() {
         return number;
     }
 
+    /**Set the parameter as number of the Player.
+     * <p>
+     * @param number the new number to set
+     */
     protected void setNumber(int number) {
         this.number = number;
     }
 
-    //per la GUI
+    /**If possible set the selectedWorker with the parameter.
+     * <p>
+     * @param worker to select
+     * @return {@code true} if the selection is successfully done {@code false} otherwise
+     */
     protected boolean setSelectedWorker(Worker worker){
         if(checkAllLimitSelection(worker)) {
             selectedWorker = worker;
         }
         return selectedWorker!= null;
     }
-
-    //per la CLI
 
     /**This method set the selectedWorker of the player if it is not limited by some opponent's power.
      *<p>
@@ -93,9 +112,7 @@ public class Player implements Serializable {
         tempWorker=match.checkMove(x,y,selectedWorker);
         if (tempWorker == null) return false;
         if(tempWorker.equals(selectedWorker)){
-            if(match.forceMove(x,y,selectedWorker)){
-                return true;
-            }
+            return match.forceMove(x, y, selectedWorker);
         }
         return false;
     }
@@ -108,9 +125,7 @@ public class Player implements Serializable {
      */
     public boolean selectedWorkerBuild(int x, int y){
         if(match.checkBuild(x,y,selectedWorker)){
-            if(match.forceBuild(x,y,selectedWorker)){
-                return true;
-            }
+            return match.forceBuild(x, y, selectedWorker);
         }
         return false;
     }
@@ -273,23 +288,70 @@ public class Player implements Serializable {
         }
     }
 
-
+    /**This method return every time false if not override in subclasses.
+     * <p>
+     * @param x coordinate x
+     * @param y coordinate y
+     * @return {@code false}
+     */
     public boolean selectedWorkerBuildDorse(int x, int y){
         return false;
     }
+
+    /**This method return true every time if not override in subclasses.
+     * <p>
+     * @param opponent the opponent Player to check if is subjected to a restriction.
+     * @return {@code true}
+     */
     public boolean checkLimitWin(Player opponent){
         return true;
     }
+
+    /**This method return false every time if not override in subclasses.
+     * <p>
+     * @return {@code false}
+     */
     public boolean checkSuperWin(){
         return false;
     }
+
+    /**This method return true every time if not override in subclasses.
+     * <p>
+     * @param nextCell the cell where the opponent want to move
+     * @param opponent the opponent Player who want to move
+     * @param worker the worker which the opponent want to move
+     * @return {@code true}
+     */
     public boolean checkLimitMove(Cell nextCell, Player opponent, Worker worker){
         return true;
     }
+
+    /**This method do nothing id not override in subclasses.
+     * <p>
+     */
     protected void resetTurn(){}
+
+    /**This method return true every time if not override in subclasses.
+     * <p>
+     * @param actualPlayer the actualPlayer of the match
+     * @param w the worker which the actualPlayer want to select
+     * @return {@code true}
+     */
     public boolean checkLimitSelection(Player actualPlayer, Worker w){return true;}
+
+    /**This method return false every time if not override in subclasses.
+     * <p>
+     * @param x coordinate x
+     * @param y coordinate y
+     * @return {@code false}
+     */
     protected boolean notSelectedWorkerRemoveBlock(int x, int y){return false;}
 
+    /**Clone a Player setting to the cloned Player the same nickname, number, color of workers, card (a new card with the same number).
+     * It use FactoryPlayer to clone the player with the right subclass and also clone the workers in the workers[] array and set the same stateOfTurn.
+     * <p>
+     * @return {@code Player} a cloned Player.
+     */
     @Override
     public Player clone() {
         final Player result;
@@ -304,6 +366,11 @@ public class Player implements Serializable {
         return result;
     }
 
+    /**Check if two Players are equals.
+     * <p>
+     * @param obj the player to check if is equals to this (if it is a Player)
+     * @return {@code true} if two players are the same {@code false} otherwise
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
