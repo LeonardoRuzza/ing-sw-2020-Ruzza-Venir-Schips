@@ -11,13 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardListener implements MouseListener {
-    private SantoriniGUI santoriniGUI;
+    private final SantoriniGUI santoriniGUI;
     private List<Card> selectedCards = new ArrayList<>();
-    private int numberOfSelectableCards;
+    private final int numberOfSelectableCards;
     private List<CardLabel> connectedLabels = new ArrayList<>();
     private JPanel cardInfo;
     private boolean stopSelection = false;
 
+    /**Create a new CardListener.
+     * <p>
+     * @param santoriniGUI the santoriniGUI to associate to this
+     * @param numberOfSelectableCards the number of selectable cards
+     */
     public CardListener(SantoriniGUI santoriniGUI, int numberOfSelectableCards){
         this.santoriniGUI = santoriniGUI;
         this.numberOfSelectableCards = numberOfSelectableCards;
@@ -117,7 +122,7 @@ public class CardListener implements MouseListener {
         cardInfo = new JPanel();
         cardInfo.setLayout(null);
         cardInfo.add(jTextArea,0);
-        cardInfo.setBounds(cardLabel.getBounds().x+100,cardLabel.getParent().getBounds().y+405,290,170);
+        cardInfo.setBounds(cardLabel.getBounds().x+100,cardLabel.getParent().getBounds().y+405,290,175);
         jTextArea.setBounds(0,0,cardInfo.getBounds().width,cardInfo.getBounds().height);
         cardContainer.add(cardInfo,0);
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(cardLabel);

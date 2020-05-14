@@ -7,9 +7,14 @@ import java.lang.Math;
 import java.awt.event.ActionEvent;
 
 public class NextListener implements MouseListener {
-    private MasterCardPanel masterCardPanel;
+    private final MasterCardPanel masterCardPanel;
     private CardListener cardListener;
 
+    /**Create a new NextListener.
+     * <p>
+     * @param masterCardPanel the masterCardPanel to associate to this
+     * @param cardListener the cardListener to associate to this
+     */
     public NextListener(MasterCardPanel masterCardPanel, CardListener cardListener) {
         this.masterCardPanel = masterCardPanel;
         this.cardListener = cardListener;

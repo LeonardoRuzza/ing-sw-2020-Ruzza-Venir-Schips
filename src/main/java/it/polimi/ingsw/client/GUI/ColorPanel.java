@@ -25,7 +25,7 @@ public class ColorPanel extends JPanel {
         jPanel.setLayout(null);
         jPanel.setBounds(146, y, 1628, colorLabelHeight);
         for(Worker.Color temp: availableColors){
-            ColorLabel colorLabel = new ColorLabel(temp, santoriniGUI);
+            ColorLabel colorLabel = new ColorLabel(temp);
             colorLabel.addMouseListener(colorListener);
             colorListener.addColorLabel(colorLabel);
             jPanel.add(colorLabel);

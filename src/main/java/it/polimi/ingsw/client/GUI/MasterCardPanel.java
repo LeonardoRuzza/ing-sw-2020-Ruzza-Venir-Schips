@@ -11,23 +11,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MasterCardPanel extends JPanel {
-    private JPanel jPanelCards;
+    private final JPanel jPanelCards;
     private List<Card> availableCards;
-    private SantoriniGUI santoriniGUI;
-    private int numberOfPlayers;
+    private final SantoriniGUI santoriniGUI;
+    private final int numberOfPlayers;
     private int currentStatePanel;
     private CardListener cardListener;
 
+    /**Getter for the size of availableCards.
+     * <p>
+     * @return {@code int}
+     */
     public int getNumbOfAvailableCards(){
         return availableCards.size();
     }
+
+    /**Getter for the currentStatePanel.
+     * <p>
+     * @return {@code int}
+     */
     public int getCurrentStatePanel(){
         return currentStatePanel;
     }
+
+    /**Setter for the currentStatePanel.
+     * <p>
+     * @param currentStatePanel the number of the new state of the panel
+     */
     protected void setCurrentStatePanel(int currentStatePanel){
         this.currentStatePanel = currentStatePanel;
     }
 
+    /**Create a new MasterCardPanel (the panel to show for the selection of the cards to the master player).
+     * <p>
+     * @param santoriniGUI the santoriniGUI to associate to this
+     * @param availableCards the List of available cards
+     * @param numberOfPlayers the number of the players of the match
+     */
     public MasterCardPanel(SantoriniGUI santoriniGUI, List<Card> availableCards, int numberOfPlayers){
         int x=0;
         int cardLabelHeight = 332;

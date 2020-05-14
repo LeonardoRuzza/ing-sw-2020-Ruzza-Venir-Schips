@@ -10,10 +10,15 @@ import java.io.IOException;
 import java.util.List;
 
 public class NotMasterCardPanel extends JPanel {
-    private SantoriniGUI santoriniGUI;
+    private final SantoriniGUI santoriniGUI;
     private List<Card> availableCards;
     CardListener cardListener;
 
+    /**Create a new NotMasterCardPanel (a panel to show to a player who is not a master for the choose of his card).
+     * <p>
+     * @param santoriniGUI the santoriniGUI to associate to this
+     * @param availableCards the List of available cards for the choose
+     */
     public NotMasterCardPanel(SantoriniGUI santoriniGUI, List<Card> availableCards) {
         int x=0;
         int cardLabelHeight = 332;

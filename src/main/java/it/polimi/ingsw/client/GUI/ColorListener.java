@@ -11,9 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ColorListener implements MouseListener {
-    private SantoriniGUI santoriniGUI;
+    private final SantoriniGUI santoriniGUI;
     private List<ColorLabel> connectedLabels = new ArrayList<>();
 
+    /**Create a new ColorListener.
+     * <p>
+     * @param santoriniGUI the santoriniGUI to associate to this
+     */
     public ColorListener(SantoriniGUI santoriniGUI) {
         this.santoriniGUI = santoriniGUI;
     }

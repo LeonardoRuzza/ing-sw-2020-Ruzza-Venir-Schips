@@ -4,9 +4,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class PrevListener implements MouseListener {
-    private MasterCardPanel masterCardPanel;
+    private final MasterCardPanel masterCardPanel;
     private CardListener cardListener;
 
+    /**Create a new PrevListener.
+     * <p>
+     * @param masterCardPanel the masterCardPanel to associate to this
+     * @param cardListener the cardListener to associate to this
+     */
     public PrevListener(MasterCardPanel masterCardPanel,CardListener cardListener) {
         this.masterCardPanel = masterCardPanel;
         this.cardListener = cardListener;

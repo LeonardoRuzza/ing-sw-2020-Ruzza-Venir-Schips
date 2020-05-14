@@ -9,10 +9,14 @@ import java.io.File;
 import java.io.IOException;
 
 public class CardLabel extends JLabel {
-    private Card card;
+    private final Card card;
     private JLabel selectionLabel;
     private JFrame topFrame;
 
+    /**Create a new CardLabel.
+     * <p>
+     * @param card the card to associate to the label
+     */
     public CardLabel(Card card) {
         this.card = card;
         this.selectionLabel = new JLabel();
@@ -31,12 +35,22 @@ public class CardLabel extends JLabel {
         setIcon(new ImageIcon(buttonIcon.getScaledInstance(198,332, Image.SCALE_SMOOTH)));
     }
 
+    /**Create a new CardLabel and select them if necessary.
+     *<p>
+     * @param card the card to associate to the label
+     * @param isSelected the condition of the selection
+     * @param jFrame the JFrame
+     */
     public CardLabel(Card card, boolean isSelected,JFrame jFrame){
         this(card);
         this.topFrame = jFrame;
         if(isSelected) selectCard();
     }
 
+    /**Getter for the card.
+     * <p>
+     * @return {@code Card}
+     */
     public Card getCard(){
         return card;
     }
