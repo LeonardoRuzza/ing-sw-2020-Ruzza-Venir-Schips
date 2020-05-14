@@ -44,18 +44,41 @@ public class Card implements Serializable {
             }
         }
     }
-    //Getter
+
+    /**
+     * Getter for the total number of cards
+     * @return number of cards
+     */
     public static int getCardNumb() { return cardNumb; }
+    /**
+     * Getter for the number associated at the card
+     * @return number of the card
+     */
     public int getNumber() { return number; }
+    /**
+     * Getter for the name associated at the card
+     * @return name of the card
+     */
     public String getName(){
         return names[this.number];
     }
+    /**
+     * Getter for the description associated at the card
+     * @return description of the card
+     */
     public String getDesc(){
         return descriptions[this.number];
     }
+    /**
+     * Getter for the activation time associated at the card
+     * @return activation time of the card
+     */
     public activationPeriod getActivationPeriod(){ return actPeriods[this.number]; }
 
-    //toPrint
+    /**
+     * Create a String with all card info already formatted for print
+     * @return String contains all card info
+     */
     public static String drawAll(){
         StringBuilder result = new StringBuilder();
         for(int i=0; i<cardNumb; i++ ){
@@ -64,6 +87,10 @@ public class Card implements Serializable {
         return result.toString();
     }
 
+    /**
+     * Create a string formatted for print with card info
+     * @return String contains card info
+     */
     public String draw(){
         return "\n" + Worker.Color.RED.getColorString() + names[number] + Worker.Color.RED.getANSI_RESET() + "\n" + descriptions[number] + "\n";
     }
