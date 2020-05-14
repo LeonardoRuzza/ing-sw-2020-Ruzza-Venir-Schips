@@ -16,13 +16,27 @@ public class Player implements Serializable {
     protected Worker[] workers = new Worker[2];
     protected Worker selectedWorker;
 
+    /**Create a new Player receiving 3 parameters.
+     * <p>
+     * @param nickname the nickname of the player
+     * @param number the number of the player in the match
+     * @param match the match associated to the player
+     */
     protected Player(String nickname, int number, Match match){
         this.nickname = nickname;
         this.number = number;
         this.match = match;
     }
 
-    protected Player(String nickname, int number, Card card, Match match, Worker.Color color){ //secondo costruttore che sarà utilizzato dalle sottoclassi per la loro medesima istanziazione.
+    /**Create a new Player receiving 5 parameters.
+     * <p>
+     * @param nickname the nickname of the player
+     * @param number the number of the player in the match
+     * @param card the choose card by the player
+     * @param match the match associated to the player
+     * @param color the color choose by the player
+     */
+    protected Player(String nickname, int number, Card card, Match match, Worker.Color color){ //second constructor which will be used from subclasses
         this(nickname, number, match);
         this.card = card;
         workers[0] = new Worker(Worker.Gender.Male, color);
@@ -191,7 +205,7 @@ public class Player implements Serializable {
      * @param gender the gender of the worker to select
      * @return ChoiceResponseMessage the message to return to manageTurn and (modified or not) then to RemoteView. Specify the result of the tried operation.
      */
-    protected ChoiceResponseMessage manageStateSelection(Worker.Gender gender, int x, int y){ //i vari if else servono perchè nelle setSelectedWorker vengono verificati altri limiti rispetto alla checkLoserMove
+    protected ChoiceResponseMessage manageStateSelection(Worker.Gender gender, int x, int y){ //various if else are necessary because in setSelectedWorker are verified other limits respect to the checkLoserMove
         if(x!=-1 && y!=-1 && gender == null){
             if(workers[0].getCell().getxCoord()==x && workers[0].getCell().getyCoord()==y){
                 gender = Worker.Gender.Male;
@@ -205,7 +219,7 @@ public class Player implements Serializable {
                 }
             }
         }
-        if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[0] : workers[1])){                         //se non può muovere il worker selezionato
+        if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[0] : workers[1])){
             if(match.checkLoserMove(gender == Worker.Gender.Male ? workers[1] : workers[0])){
                 match.removeWorker(workers[0]);
                 match.removeWorker(workers[1]);
