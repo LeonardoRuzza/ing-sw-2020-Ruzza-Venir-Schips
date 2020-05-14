@@ -35,11 +35,28 @@ public class Worker implements Cloneable, Serializable {
 
 
 // Getter
+
+    /**
+     * Getter for worker old location
+     * @return previous Cell of worker
+     */
     public Cell getOldLocation() {
         return oldLocation;
     }
+    /**
+     * Getter for worker gender
+     * @return gender of worker
+     */
     public Gender getGender() { return gender; }
+    /**
+     * Getter for worker color
+     * @return color of worker
+     */
     public Color getColor(){return color;}
+    /**
+     * Getter for worker location
+     * @return actuale Cell of worker
+     */
     public Cell getCell() { return cell;}
 
 
