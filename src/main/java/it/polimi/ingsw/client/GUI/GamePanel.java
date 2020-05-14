@@ -79,7 +79,7 @@ public class GamePanel extends JPanel {
         switch (numPlayer){
             case 1:
                 if(nickName!=null){
-                    cardPanelP1.updateNamePlayer(nickName);
+                    cardPanelP1.updateNamePlayer(nickName, "1st:");
                 }
                 if (cardName != null) {
                     cardPanelP1.updateCardImg(cardName);
@@ -90,7 +90,7 @@ public class GamePanel extends JPanel {
                 break;
             case 2:
                 if(nickName!=null){
-                    cardPanelP2.updateNamePlayer(nickName);
+                    cardPanelP2.updateNamePlayer(nickName, "2nd:");
                 }
                 if (cardName != null) {
                     cardPanelP2.updateCardImg(cardName);
@@ -101,7 +101,7 @@ public class GamePanel extends JPanel {
                 break;
             case 3:
                 if(nickName!=null){
-                    cardPanelP3.updateNamePlayer(nickName);
+                    cardPanelP3.updateNamePlayer(nickName, "3rd:");
                 }
                 if (cardName != null) {
                     cardPanelP3.updateCardImg(cardName);
@@ -606,7 +606,11 @@ public class GamePanel extends JPanel {
          * @param zCoord height of block
          */
         public void updateElem(Block block, int zCoord) {
-            playEffectSound("block_added.wav");
+            if(zCoord < this.zCoord){
+                playEffectSound("remove_block.wav");
+            }else{
+                playEffectSound("block_added.wav");
+            }
             this.block = block;
             this.zCoord = zCoord;
             if(block != null){
@@ -854,9 +858,9 @@ public class GamePanel extends JPanel {
          * Show name Player
          * @param name player name
          */
-        private void updateNamePlayer(String name){
+        private void updateNamePlayer(String name, String num){
             this.nickName = name;
-            playerName.setText(name);
+            playerName.setText(num + " " + name);
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             updateFrame(topFrame);
         }
