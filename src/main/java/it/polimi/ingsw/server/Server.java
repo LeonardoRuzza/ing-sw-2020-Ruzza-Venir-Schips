@@ -144,7 +144,7 @@ public class Server {
             playingConnectionForThree.remove(opponent2);
             playingConnectionForTwo.put(opponent1, opponent2);
             playingConnectionForTwo.put(opponent2, opponent1);
-        }else if(opponent1 == null && opponent2 != null) {      //questo ramo else non viene mai raggiunto perchè questo metodo è invocato solo quando ci sono ancora altri due giocatori attivi
+        }else if(opponent1 == null && opponent2 != null) {      //this else is never reached because this method is invoked only when there are already two active player
             opponent2.closeConnection();
         }else if(opponent1 != null){
             opponent1.closeConnection();
@@ -154,9 +154,9 @@ public class Server {
 
     /**
      * Add a new client in the waiting List, checking previously if the name was already taken, by a client registered before
-     * @param c      {@code Clientconnection} of the client
+     * @param c      {@code ClientConnection} of the client
      * @param name   Name chosen by the client
-     * @return       {@code true} if the client was succesfully added to the waiting list, {@code false} otherwise
+     * @return       {@code true} if the client was successfully added to the waiting list, {@code false} otherwise
      */
     public synchronized boolean addClient(ClientConnection c, String name){
         if (waitingConnection.containsKey(name)){
