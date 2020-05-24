@@ -426,5 +426,25 @@ public class SantoriniGUI {
                 break;
         }
     }
-
+    /**
+     * load image
+     * @param imageName name of image to without extension
+     * @return loaded image
+     */
+    protected Image loadImage(String imageName){
+        Image img = null;
+        String pathString = getClass().getClassLoader().getResource(imageName+".png").getFile();
+        try {
+            img = ImageIO.read(new File(pathString));
+        } catch (IOException e) {
+            e.printStackTrace();
+            pathString = pathString.substring(5,pathString.length()-(19+imageName.length())) + "classes/"+imageName+".png";
+            try {
+                img = ImageIO.read(new File(pathString));
+            } catch (IOException eInt) {
+                eInt.printStackTrace();
+            }
+        }
+        return img;
+    }
 }

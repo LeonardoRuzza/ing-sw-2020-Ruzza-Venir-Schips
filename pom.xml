@@ -57,6 +57,15 @@
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
+          <configuration>
+            <finalName>Santorini</finalName>
+            <archive>
+              <manifest>
+                <addClasspath>true</addClasspath>
+                <mainClass>it.polimi.ingsw.ClientApp</mainClass>
+              </manifest>
+            </archive>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
