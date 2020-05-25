@@ -68,7 +68,10 @@ public class Client {
                     while (isActive()) {
                         Object inputObject = socketIn.readObject();
                         if(inputObject instanceof String){
-                            System.out.println((String)inputObject);
+                            if (((String) inputObject).contains("Connection closed!")) {
+                                setActive(false);
+                            }
+                            System.out.println((String) inputObject);
                         } else if (inputObject instanceof Board){
                             ((Board)inputObject).draw(player);
                         } else if (inputObject instanceof Player){

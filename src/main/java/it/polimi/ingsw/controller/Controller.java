@@ -11,6 +11,7 @@ import it.polimi.ingsw.utils.GameMessage;
 import it.polimi.ingsw.utils.InputConversion;
 import it.polimi.ingsw.view.LobbyRemoteView;
 import it.polimi.ingsw.view.RemoteView;
+import it.polimi.ingsw.view.View;
 
 
 public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<ViewToController> {
@@ -53,6 +54,10 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
 
     @Override
     public void update(PlayerChoiceMessage message) {
+        if (message.getOptional().equals("RemoveObserver")){
+            removeMe(message.getView());
+            return;
+        }
         performMoveAndBuild(message);
     }
 
@@ -131,4 +136,8 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
 
     @Override
     public void updateLobby(ViewToController message) { handleLobbyInput(message);}
+
+    public void removeMe(View rv){
+        match.removeObserver(rv);
+    }
 }
