@@ -6,7 +6,7 @@ import java.util.List;
 public class GameMessage {
 
     public static final String insertName = "Welcome!\nWhat is your name?";
-    public static final String changeName = "\nThis name is already taken. Please change name.";
+    public static final String changeName = "\nThis name is already taken or input is empty. Please change name.";
     public static final String loadingMatch = "\nLooking for existing match...";
     public static final String masterPlayerSelectNumberofPlayers = "\n\nYou are the Master Player. Choose number of players for this game";
     public static final String waitingPlayers = "\nWaiting for other players...\n";
