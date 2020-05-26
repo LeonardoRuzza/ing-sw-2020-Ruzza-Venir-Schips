@@ -42,8 +42,8 @@ public class Server {
      * The function deregister a {@code Clientconnection} from the {@code Server}. It checks if it's necessary to close connections
      * also for other clients in the game.
      * <p>
-     * For example, if a player win, all the connections must be closed for that game.
-     * @param c   {@code Clientconnection} of the client who need to be deregistered
+     * <b>This is called only when a player QUIT/DISCONNECT the game</b>
+     * @param c   {@code Clientconnection} of the client who need to be deregister
      */
     public synchronized void deregisterConnection(ClientConnection c) {
         Iterator<String> iterator = waitingConnection.keySet().iterator();
@@ -72,9 +72,8 @@ public class Server {
         ClientConnection[] temp =  opponents.values().toArray(new ClientConnection[0]);
         ClientConnection opponent1 = temp[0];
         ClientConnection opponent2 = getKeyByValue(opponents, opponent1);
-        if(c != null){
-            playingConnectionForThree.remove(c);
-        }
+        playingConnectionForThree.remove(c);
+
         if(opponent1!=null){
             opponent1.send(GameMessage.quitCloseConnection);
             playingConnectionForThree.remove(opponent1);
@@ -88,15 +87,15 @@ public class Server {
     }
 
     /**
-     * <b>This is called only when a player lose the game and so we need to deregister him. For all other cases
+     * <b>This is called when we need to deregister a player. For the <b>QUIT</b> case
      * </b> see {@code deregisterConnection}
      * <p>
      * The function deregister a single client, and check if he was playing a 2 or 3 playerGame
      * <p>
-     * <b>Case 2</b> Since there is only 1 player left, close his connecion too
+     * <b>Case 2</b> Remove from Map for 2 player {@code c}
      * <p>
-     * <b>Case 3</b> Since there are 2 players left, move the 2 left players in a game for 2
-     * @param c  {@code Clientconnection} of the client who need to be deregistered
+     * <b>Case 3</b> Same as for Case 2. In addition since there are 2 players left, move the 2 left players, from Map for 3 to Map for 2
+     * @param c  {@code ClientConnection} of the client who need to be deregister
      * @see     #deregisterConnection
      */
     public synchronized void deregisterConnectionSingleClient(ClientConnection c) {
@@ -119,9 +118,8 @@ public class Server {
         ClientConnection[] temp =  opponents.values().toArray(new ClientConnection[0]);
         ClientConnection opponent1 = temp[0];
         ClientConnection opponent2 = getKeyByValue(opponents, opponent1);
-        if(c != null){ //if inutile!?
-            playingConnectionForThree.remove(c);
-        }
+        playingConnectionForThree.remove(c);
+
         if(opponent1!= null && opponent2 != null){
             playingConnectionForThree.remove(opponent1);
             playingConnectionForThree.remove(opponent2);
