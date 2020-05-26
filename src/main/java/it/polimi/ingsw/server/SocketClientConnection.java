@@ -61,11 +61,11 @@ public class SocketClientConnection extends Observable<String> implements Client
     @Override
     public void close(ClosingConnectionParameter closingParameter) {
         closeConnection();                          // Chiude connessione per il client
-        System.out.println("Deregistering 1 or more clients...");
-        if (closingParameter == ClosingConnectionParameter.FORLOSE){
+        System.out.println("Deregistering 1 client...");
+        if (closingParameter == ClosingConnectionParameter.SINGLE){
             server.deregisterConnectionSingleClient(this);
         }else{
-            server.deregisterConnection(this, closingParameter);
+            server.deregisterConnection(this);
         }
         System.out.println("Done!");
     }
@@ -98,7 +98,7 @@ public class SocketClientConnection extends Observable<String> implements Client
             send(GameMessage.insertName);
             String read = in.nextLine();
             name = read;
-            while(!server.addClient(this, name)){
+            while(!server.addClient(this, name) || name.isEmpty()){
                 send(GameMessage.changeName);
                 read = in.nextLine();
                 name = read;
@@ -143,7 +143,7 @@ public class SocketClientConnection extends Observable<String> implements Client
             while (isActive()) {
                 read = in.nextLine();
                 if (read.toUpperCase().equals("QUIT")){
-                    close(ClosingConnectionParameter.FORQUIT);
+                    close(ClosingConnectionParameter.ALL);
                     break;
                 }
                 notify(read);
@@ -151,7 +151,7 @@ public class SocketClientConnection extends Observable<String> implements Client
         } catch (IOException | NoSuchElementException e) {
             if(isActive()){
                 System.err.println("Error!" + e.getMessage());
-                close(ClosingConnectionParameter.FORQUIT);
+                close(ClosingConnectionParameter.ALL);
             }
         } finally {
             if(isActive()) closeConnection();

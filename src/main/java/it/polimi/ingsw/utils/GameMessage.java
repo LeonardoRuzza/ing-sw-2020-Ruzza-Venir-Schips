@@ -10,6 +10,7 @@ public class GameMessage {
     public static final String loadingMatch = "\nLooking for existing match...";
     public static final String masterPlayerSelectNumberofPlayers = "\n\nYou are the Master Player. Choose number of players for this game";
     public static final String waitingPlayers = "\nWaiting for other players...\n";
+    public static final String removeObserver = "RemoveObserver";
 
 
     // Lobby message

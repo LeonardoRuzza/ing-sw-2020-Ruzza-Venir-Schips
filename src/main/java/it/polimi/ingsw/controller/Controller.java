@@ -54,7 +54,7 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
 
     @Override
     public void update(PlayerChoiceMessage message) {
-        if (message.getOptional().equals("RemoveObserver")){
+        if (message.getOptional().equals(GameMessage.removeObserver)){
             removeMe(message.getView());
             return;
         }

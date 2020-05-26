@@ -29,14 +29,6 @@ public class Server {
         this.serverSocket = new ServerSocket(PORT);
     }
 
-    /*private int[] deckTwo = new int[2];
-    private int[] deckThree = new int[3];
-    private Worker.Color[] playerColorTwo = new Worker.Color[2];
-    private Worker.Color[] playerColorThree = new Worker.Color[3];
-    public int[] getDeckTwo() { return deckTwo; }
-    public int[] getDeckThree() { return deckThree; }*/
-
-
     public static <T, E> T getKeyByValue(@NotNull Map<T, E> map, E value) {
         for (Map.Entry<T, E> entry : map.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
@@ -52,9 +44,8 @@ public class Server {
      * <p>
      * For example, if a player win, all the connections must be closed for that game.
      * @param c   {@code Clientconnection} of the client who need to be deregistered
-     * @param closingParameter   To distinguish various possibilities that lead a client to be deregistered
      */
-    public synchronized void deregisterConnection(ClientConnection c, ClosingConnectionParameter closingParameter) {
+    public synchronized void deregisterConnection(ClientConnection c) {
         Iterator<String> iterator = waitingConnection.keySet().iterator();
         registerOrder.remove(c);
         while(iterator.hasNext()){
@@ -69,8 +60,7 @@ public class Server {
             if(x.equals(c)){
                 ClientConnection opponent = playingConnectionForTwo.get(c);
                 if(opponent != null) {
-                    if(closingParameter == ClosingConnectionParameter.FORWIN) opponent.send(GameMessage.turnMessageLose);
-                    else opponent.send(GameMessage.quitCloseConnection);
+                    opponent.send(GameMessage.quitCloseConnection);
                     opponent.closeConnection();
                 }
                 playingConnectionForTwo.remove(c);
@@ -86,14 +76,12 @@ public class Server {
             playingConnectionForThree.remove(c);
         }
         if(opponent1!=null){
-            if(closingParameter == ClosingConnectionParameter.FORWIN) opponent1.send(GameMessage.turnMessageLose);
-            else opponent1.send(GameMessage.quitCloseConnection);
+            opponent1.send(GameMessage.quitCloseConnection);
             playingConnectionForThree.remove(opponent1);
             opponent1.closeConnection();
         }
         if(opponent2 != null){
-            if(closingParameter == ClosingConnectionParameter.FORWIN) opponent2.send(GameMessage.turnMessageLose);
-            else opponent2.send(GameMessage.quitCloseConnection);
+            opponent2.send(GameMessage.quitCloseConnection);
             playingConnectionForThree.remove(opponent2);
             opponent2.closeConnection();
         }
@@ -120,15 +108,10 @@ public class Server {
             }
         }
 
-        List<ClientConnection> clientConnections = new ArrayList<>(playingConnectionForTwo.values());
+        List<ClientConnection> clientConnections = new ArrayList<>(playingConnectionForTwo.keySet());
         for(ClientConnection x: clientConnections){
             if(x.equals(c)){
-                ClientConnection opponent = playingConnectionForTwo.get(c);
-                if(opponent != null) {
-                    opponent.closeConnection();
-                }
                 playingConnectionForTwo.remove(c);
-                playingConnectionForTwo.remove(opponent);
                 return;
             }
         }
@@ -136,7 +119,7 @@ public class Server {
         ClientConnection[] temp =  opponents.values().toArray(new ClientConnection[0]);
         ClientConnection opponent1 = temp[0];
         ClientConnection opponent2 = getKeyByValue(opponents, opponent1);
-        if(c != null){
+        if(c != null){ //if inutile!?
             playingConnectionForThree.remove(c);
         }
         if(opponent1!= null && opponent2 != null){
@@ -144,12 +127,7 @@ public class Server {
             playingConnectionForThree.remove(opponent2);
             playingConnectionForTwo.put(opponent1, opponent2);
             playingConnectionForTwo.put(opponent2, opponent1);
-        }else if(opponent1 == null && opponent2 != null) {      //this else is never reached because this method is invoked only when there are already two active player
-            opponent2.closeConnection();
-        }else if(opponent1 != null){
-            opponent1.closeConnection();
         }
-
     }
 
     /**

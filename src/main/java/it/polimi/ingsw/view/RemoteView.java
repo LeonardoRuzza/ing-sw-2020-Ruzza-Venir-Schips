@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.ChoiceResponseMessage;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerChoiceMessage;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
@@ -191,11 +192,14 @@ public class RemoteView extends View {
         }
         showMessageSync(resultMsg);
 
-        if((gameOverWin && nicknameThisPlayer.equals(nicknamePlayerFromMessage)) || (gameOverDefeat && counterActivePlayers<3 && !nicknameThisPlayer.equals(nicknamePlayerFromMessage))){
-            clientConnection.close(ClosingConnectionParameter.FORWIN);
-        }
-        if(gameOverDefeat && nicknameThisPlayer.equals(nicknamePlayerFromMessage) && counterActivePlayers==3) {
-            clientConnection.close(ClosingConnectionParameter.FORLOSE);
+        if(gameOverWin || (gameOverDefeat && counterActivePlayers<3) || (gameOverDefeat && nicknameThisPlayer.equals(nicknamePlayerFromMessage) && counterActivePlayers==3)){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    manageChoice(getPlayer(),-1,-1,GameMessage.removeObserver,null);
+                }
+            }).start();
+            clientConnection.close(ClosingConnectionParameter.SINGLE);
         }
     }
 }
