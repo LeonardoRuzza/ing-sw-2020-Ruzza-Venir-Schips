@@ -59,7 +59,6 @@ public class ClientGUI {
     private void decoderGUI(String s) {
         if (isLobbyPhase) {
             switch (s) {
-                // MEX PER TUTTI
                 case (GameMessage.insertName):
                     santoriniGUI = new SantoriniGUI(this);
                     santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.INSERTNAME));
@@ -83,7 +82,6 @@ public class ClientGUI {
                     break;
 
 
-                // MEX PER IL MASTERPLAYER
                 case (GameMessage.masterPlayerSelectNumberofPlayers):
                     santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.MASTERSELECTNUMBEROFPLAYERS));
                     break;
@@ -97,7 +95,6 @@ public class ClientGUI {
 
 
                 default:
-                    // MEX PER GLI ALTRI GIOCATORI
                     if (s.contains(GameMessage.chooseColor)) {
                         MessageToGUI mexForPlayer = new MessageToGUI(StateOfGUI.CHOOSECOLOR);
                         for (Worker.Color c : Worker.Color.values()) {
@@ -118,7 +115,6 @@ public class ClientGUI {
                         santoriniGUI.updateGUILobby(mexForPlayer2);
                         break;
                     }
-                    // MEX PER IL MASTER PLAYER
                     if (s.contains(GameMessage.cardPhase)) {
                         MessageToGUI masterChooseCard = new MessageToGUI(StateOfGUI.MASTERCHOOSECARD, true);
                         if (s.contains(GameMessage.playerMasterChoseCard2)) {
@@ -130,7 +126,6 @@ public class ClientGUI {
                         break;
                     }
 
-                    // MEX PER TUTTI di Riepilogo
                     if (s.contains(GameMessage.player1is) || s.contains(GameMessage.player2is) || s.contains(GameMessage.player3is)) {
                         MessageToGUI.PlayerSummary temp = summary.addPlayerSummary();
                         playersSummaries++;
@@ -193,7 +188,7 @@ public class ClientGUI {
                         santoriniGUI.updatePanelForQuiteAndLose(s);
                         break;
                     }
-                    // SUPERPLAYERS
+
                     if (s.contains(GameMessage.aresTurnMessageAskRemoveBlok)) {
                         santoriniGUI.updateSuperPlayer(new MessageToGUI(StateOfGUI.ARES));
                         break;
@@ -257,6 +252,9 @@ public class ClientGUI {
                     while (isActive()) {
                         Object inputObject = socketIn.readObject();
                         if(inputObject instanceof String){
+                            if (((String) inputObject).contains("Connection closed!")) {
+                                setActive(false);
+                            }
                             decoderGUI((String) inputObject);
                         } else if (inputObject instanceof Board){
                             santoriniGUI.updateBoard((Board) inputObject);
@@ -324,11 +322,10 @@ public class ClientGUI {
         } catch(InterruptedException | NoSuchElementException e){
             System.out.println("Connection closed from the client side");
         } finally {
-            System.out.println("Closing Connection...");
             socketIn.close();
             socketOut.close();
             socket.close();
-            System.out.println("Connection closed!");
+            System.out.println("Closing the application...");
         }
     }
 }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.lobby.Lobby;
-import it.polimi.ingsw.utils.ClosingConnectionParameter;
 import it.polimi.ingsw.utils.GameMessage;
 import it.polimi.ingsw.view.LobbyRemoteView;
 import org.jetbrains.annotations.NotNull;

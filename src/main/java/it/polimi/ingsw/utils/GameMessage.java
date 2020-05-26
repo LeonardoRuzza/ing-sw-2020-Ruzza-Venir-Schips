@@ -11,6 +11,7 @@ public class GameMessage {
     public static final String masterPlayerSelectNumberofPlayers = "\n\nYou are the Master Player. Choose number of players for this game";
     public static final String waitingPlayers = "\nWaiting for other players...\n";
     public static final String removeObserver = "RemoveObserver";
+    public static final String closingConnection = "Connection closed!\nPress Enter to close the application";
 
 
     // Lobby message

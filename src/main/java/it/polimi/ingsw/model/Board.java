@@ -82,7 +82,7 @@ public class Board implements Cloneable, Serializable {
      * @param y    {@code yCoord} of the cell that need to be checked
      * @return     <b>The Worker who stand on the cell at (x,y)</b>; {@code null} if no worker is detected
      */
-    public Worker workerInCell(int x, int y) {  // Ritorna il worker presente sulla cella
+    public Worker workerInCell(int x, int y) {
         Worker foundWorker;
         for(int z = 0; z < levelHeight; z++) {
             foundWorker = cells[x][y][z].getWorker();
@@ -142,15 +142,15 @@ public class Board implements Cloneable, Serializable {
      * @see      #getLastBusyCell(int x, int y)
      */
     public Cell getFirstBuildableCell(int x, int y) {
-        Cell busyCell = getLastBusyCell(x, y);  // Ultima cella occupata in altezza, o da un worker o da un blocco
+        Cell busyCell = getLastBusyCell(x, y);
 
         if (busyCell.getBlock() != null) {
             if (busyCell.getzCoord() == 3)
                 return null;
-            return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord() + 1];  // Se c'è un blocco ritorna la cella superiore
+            return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord() + 1];
         }
         else
-            return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord()];       // Se non c'è un blocco ritorna cella stessa
+            return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord()];
     }
 
 
@@ -172,7 +172,7 @@ public class Board implements Cloneable, Serializable {
      *              <b>array[2]</b> = <p>{@code c1.zCoord} - {@code c2.zCoord}</p>
      *
      */
-    public int[] getDistance(Cell c1, Cell c2){  // Modulo per x,y, per z cell1 - cell2
+    public int[] getDistance(Cell c1, Cell c2){
         int[] temp = new int[3];
 
         if (c1 != null && c2 != null) {
@@ -226,11 +226,11 @@ public class Board implements Cloneable, Serializable {
      * @see PlayerAres
      */
     protected void removeBlock(int x, int y){
-        Block blockToRemove = blockInCell(x, y);           // Ottengo ultimo blocco costruito sulla cella e lo salvo in blockToRemove
-        if (blockToRemove == null)                         // Se non ci sono blocchi da rimuovere non fa nulla
+        Block blockToRemove = blockInCell(x, y);
+        if (blockToRemove == null)
             return;
         for(int z = 0; z < levelHeight; z++){
-            Block tempBlock = cells[x][y][z].getBlock();   // Analizzo i blocchi a partire dal basso, appena trovo corrispondenza con blockToRemove lo rimuovo
+            Block tempBlock = cells[x][y][z].getBlock();
             if (tempBlock.equals(blockToRemove)) {
                 cells[x][y][z].setBlockNull();
                 return;
