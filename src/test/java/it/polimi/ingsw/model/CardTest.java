@@ -28,6 +28,8 @@ public class CardTest {
             System.out.println("\n\nNome:"+i.getName()+"\nDescrizione:"+i.getDesc()+"\nActivationPeriod:"+i.getActivationPeriod());
         }
         cards=null;
+        Card card=new Card("Apollo");
+        Assert.assertEquals("APOLLO", card.getName());
     }
 
     @Test

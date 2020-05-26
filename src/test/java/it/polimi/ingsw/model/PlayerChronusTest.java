@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.utils.GameMessage;
 import org.junit.*;
 
 public class PlayerChronusTest {
@@ -29,5 +30,10 @@ public class PlayerChronusTest {
     @Test
     public void testSuperWin() {
         Assert.assertTrue("Error Check Win", match.checkWin(testPlayer1.workers[0]));
+    }
+
+    @Test
+    public void testManageTurn(){
+        Assert.assertEquals(testPlayer1.manageTurn(-1, -1, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageWin);
     }
 }
