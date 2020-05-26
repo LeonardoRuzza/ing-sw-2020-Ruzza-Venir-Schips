@@ -41,12 +41,8 @@ public class GamePanel extends JPanel {
         this.gui = gui;
         this.setLayout(null);
         this.setBounds(0,0,1920,1080);
-        BufferedImage boardImg = null;
-        try {
-            boardImg = ImageIO.read(new File("src/main/resources/board_base.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        gui.loadImage("board_base");
+        Image boardImg = gui.loadImage("board_base");
         assert boardImg != null;
         boardPanel = new JLabel(new ImageIcon(boardImg));
         boardPanel.setBounds(196,0,1724,970);
@@ -219,16 +215,11 @@ public class GamePanel extends JPanel {
         infoPanel.setBackground(new java.awt.Color(0,0,0,0));
         String path;
         if(isSuperPlayerMessage){
-            path = "src/main/resources/dialog_use_superpower.png";
+            path = "dialog_use_superpower";
         }else{
-            path = "src/main/resources/general_dialog.png";
+            path = "general_dialog";
         }
-        BufferedImage backgroundImg = null;
-        try {
-            backgroundImg = ImageIO.read(new File(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Image backgroundImg = gui.loadImage(path);
         assert backgroundImg != null;
         JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
         backgroundLabel.setBounds(0,0,775,380);
@@ -531,12 +522,7 @@ public class GamePanel extends JPanel {
         public ServerMessageReceiver(){
             this.setLayout(null);
             this.setSize(1221,127);
-            BufferedImage messageBackgroundImg = null;
-            try {
-                messageBackgroundImg = ImageIO.read(new File("src/main/resources/label_sys_message_game.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Image messageBackgroundImg = gui.loadImage("label_sys_message_game");
             assert messageBackgroundImg != null;
             backGroundRec = new JLabel(new ImageIcon(messageBackgroundImg));
             backGroundRec.setBounds(0,0,this.getWidth(),this.getHeight());
@@ -573,7 +559,7 @@ public class GamePanel extends JPanel {
             if(block != null){
                 this.block = block;
                 this.zCoord = zCoord;
-                BufferedImage blockImg = null;
+                Image blockImg = gui.loadImage(selectBlock(block,zCoord));
                 try {
                     blockImg = ImageIO.read(new File(selectBlock(block, zCoord)));
                 } catch (IOException e) {
@@ -614,12 +600,7 @@ public class GamePanel extends JPanel {
             this.block = block;
             this.zCoord = zCoord;
             if(block != null){
-                BufferedImage blockImg = null;
-                try {
-                    blockImg = ImageIO.read(new File(selectBlock(block, zCoord)));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Image blockImg = gui.loadImage(selectBlock(block, zCoord));
                 assert blockImg != null;
                 this.setIcon(new ImageIcon(blockImg));
             }
@@ -634,30 +615,30 @@ public class GamePanel extends JPanel {
          * @return path of the image
          */
         private String selectBlock(Block block, int zCoord){
-            String path = "src/main/resources/blok_";
+            String path = "blok_";
             switch (block){
                 case B1:
-                    path = path + "lv1.png";
+                    path = path + "lv1";
                     break;
                 case B2:
-                    path = path + "lv2.png";
+                    path = path + "lv2";
                     break;
                 case B3:
-                    path = path + "lv3.png";
+                    path = path + "lv3";
                     break;
                 case DORSE:
                     switch(zCoord){
                         case 0:
-                            path = path + "dorse_lv0.png";
+                            path = path + "dorse_lv0";
                             break;
                         case 1:
-                            path = path + "dorse_lv1.png";
+                            path = path + "dorse_lv1";
                             break;
                         case 2:
-                            path = path + "dorse_lv2.png";
+                            path = path + "dorse_lv2";
                             break;
                         case 3:
-                            path = path + "dorse.png";
+                            path = path + "dorse";
                             break;
                     }
                     break;
@@ -696,12 +677,7 @@ public class GamePanel extends JPanel {
                 this.color = color;
                 this.gender = gender;
                 if(this.gender != null && this.color != null){
-                    BufferedImage wrkImg = null;
-                    try {
-                        wrkImg = ImageIO.read(new File(selectImage(color)));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Image wrkImg = gui.loadImage(selectImage(color));
                     assert wrkImg != null;
                     this.setIcon(new ImageIcon(wrkImg));
                 }
@@ -733,12 +709,7 @@ public class GamePanel extends JPanel {
             this.color = color;
             this.gender = gender;
             if(this.gender != null && this.color != null){
-                Image wrkImg = null;
-                try {
-                    wrkImg = ImageIO.read(new File(selectImage(color)));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Image wrkImg = gui.loadImage(selectImage(color));
                 assert wrkImg != null;
                 this.setIcon(new ImageIcon(wrkImg));
             }
@@ -752,19 +723,19 @@ public class GamePanel extends JPanel {
          * @return path of image
          */
         private String selectImage(Worker.Color color){
-            String path = "src/main/resources/wrk_";
+            String path = "wrk_";
             switch (color){
                 case RED:
-                    path = path + "red" + "_small.png";
+                    path = path + "red" + "_small";
                     break;
                 case GREEN:
-                    path = path + "green" + "_small.png";
+                    path = path + "green" + "_small";
                     break;
                 case YELLOW:
-                    path = path + "yellow" + "_small.png";
+                    path = path + "yellow" + "_small";
                     break;
                 case PURPLE:
-                    path = path + "purple" + "_small.png";
+                    path = path + "purple" + "_small";
                     break;
             }
             return path;
@@ -805,13 +776,7 @@ public class GamePanel extends JPanel {
             this.setLayout(null);
             this.setSize(349,540);
 
-            BufferedImage cardContainerImg = null;
-            try {
-                cardContainerImg = ImageIO.read(new File("src/main/resources/card_container.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            Image cardContainerImg = gui.loadImage("card_container");
             assert cardContainerImg != null;
             JLabel cardContainer = new JLabel(new ImageIcon(cardContainerImg));
             cardContainer.setBounds(0,0,this.getWidth(),this.getHeight());
@@ -881,14 +846,9 @@ public class GamePanel extends JPanel {
          */
         private void updateCardImg(String cardName){
             this.cardName = cardName;
-            String cardPath = "src/main/resources/cards/"+ cardName.toLowerCase() +".png";
+            String cardPath = "cards/"+ cardName.toLowerCase();
 
-            BufferedImage cardImg = null;
-            try {
-                cardImg = ImageIO.read(new File(cardPath));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Image cardImg = gui.loadImage(cardPath);
             assert cardImg != null;
             Image cardImgScaled = cardImg.getScaledInstance(card.getWidth(),card.getHeight(),Image.SCALE_SMOOTH);
             card.setIcon(new ImageIcon(cardImgScaled));
@@ -911,13 +871,8 @@ public class GamePanel extends JPanel {
 
             JPanel resultPanel = new JPanel();
             resultPanel.setLayout(null);
-            String path = "src/main/resources/dialog_base_gods_detail.png";
-            BufferedImage backgroundImg = null;
-            try {
-                backgroundImg = ImageIO.read(new File(path));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            String path = "dialog_base_gods_detail";
+            Image backgroundImg = gui.loadImage(path);
             assert backgroundImg != null;
             JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
 
@@ -926,13 +881,8 @@ public class GamePanel extends JPanel {
             nameGod.setHorizontalAlignment(JTextField.CENTER);
             nameGod.setForeground(java.awt.Color.white);
 
-            path = "src/main/resources/gods/"+ this.getCardName().toLowerCase() +".png";
-            BufferedImage cardImg = null;
-            try {
-                cardImg = ImageIO.read(new File(path));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            path = "gods/"+ this.getCardName().toLowerCase();
+            Image cardImg = gui.loadImage(path);
             assert cardImg != null;
             Image cardImgScaled = cardImg.getScaledInstance(500,512,Image.SCALE_SMOOTH);
             JLabel godImg = new JLabel(new ImageIcon(cardImgScaled));
@@ -949,13 +899,8 @@ public class GamePanel extends JPanel {
             godDescription.setOpaque(true);
             godDescription.setBackground(new java.awt.Color(0,0,0,0));
 
-            path = "src/main/resources/btn_close.png";
-            BufferedImage closeImg = null;
-            try {
-                closeImg = ImageIO.read(new File(path));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            path = "btn_close";
+            Image closeImg = gui.loadImage(path);
             assert closeImg != null;
             JLabel closeDescPanel = new JLabel(new ImageIcon(closeImg));
             closeDescPanel.addMouseListener(listenerCardDetail);
@@ -1043,20 +988,12 @@ public class GamePanel extends JPanel {
             resultPanel.setLayout(null);
             resultPanel.setOpaque(true);
             resultPanel.setBackground(new java.awt.Color(0,0,0,0));
-            String path = "src/main/resources/dialog_base_"+result+".png";
-            BufferedImage backgroundImg = null;
-            try {
-                backgroundImg = ImageIO.read(new File(path));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            String path = "dialog_base_"+result;
+            Image backgroundImg = gui.loadImage(path);
             assert backgroundImg != null;
             JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
-
-
             backgroundLabel.setBounds(0,0,1570,953);
             resultPanel.add(backgroundLabel);
-
             resultPanel.setBounds(349,0,1570,953);
             this.add(resultPanel);
         }
