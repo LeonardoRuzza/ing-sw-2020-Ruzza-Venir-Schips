@@ -14,5 +14,6 @@ public class PlayerChoiceMessageTest {
         Assert.assertEquals(playerChoiceMessage.getY(),1);
         Assert.assertEquals(playerChoiceMessage.getGender(),Worker.Gender.Male);
         Assert.assertEquals(playerChoiceMessage.getOptional(),"");
+        Assert.assertNull(playerChoiceMessage.getView());
     }
 }
