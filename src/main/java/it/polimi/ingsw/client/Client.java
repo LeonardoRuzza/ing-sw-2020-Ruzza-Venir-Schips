@@ -135,7 +135,6 @@ public class Client {
         } catch(InterruptedException | NoSuchElementException e){
             System.out.println("Connection closed from the client side");
         } finally {
-            //System.out.println("Closing Connection...");
             stdin.close();
             socketIn.close();
             socketOut.close();

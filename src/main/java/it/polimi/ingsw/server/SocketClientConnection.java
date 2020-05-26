@@ -49,7 +49,7 @@ public class SocketClientConnection extends Observable<String> implements Client
 
     @Override
     public synchronized void closeConnection() {
-        send("Connection closed!\nPress Enter to close the application");
+        send(GameMessage.closingConnection);
         try {
             socket.close();
         } catch (IOException e) {
@@ -60,7 +60,7 @@ public class SocketClientConnection extends Observable<String> implements Client
 
     @Override
     public void close(ClosingConnectionParameter closingParameter) {
-        closeConnection();                          // Chiude connessione per il client
+        closeConnection();
         if (closingParameter == ClosingConnectionParameter.SINGLE){
             System.out.println("Deregistering 1 client...");
             server.deregisterConnectionSingleClient(this);

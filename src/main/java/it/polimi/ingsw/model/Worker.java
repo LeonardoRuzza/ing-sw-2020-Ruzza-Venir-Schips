@@ -18,7 +18,7 @@ public class Worker implements Cloneable, Serializable {
         public String getColorString() {
             return colorString;
         }
-    }  //colori da valutare in seguito
+    }
 
     private final Gender gender;
     private final Color color;

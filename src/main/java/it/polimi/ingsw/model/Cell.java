@@ -138,11 +138,11 @@ public class Cell implements Cloneable, Serializable {
      */
     public Boolean moveWorkerInto(Worker w){
         if(w != null){
-            Cell c = w.move(this);    // In c salvo la oldLocation del Worker, sposto il worker nella nuova cella
+            Cell c = w.move(this);
             if (c != null) {
-                c.setWorkerNull();   // Libero la cella precedentemente occupata dal worker
+                c.setWorkerNull();
             }
-            workerInCell = w;   // Salvo riferimento a nuovo worker
+            workerInCell = w;
             return true;
         }
         return false;
