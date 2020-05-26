@@ -275,6 +275,9 @@ public class PlayerTest {
 
         match.nextPlayer();
         Assert.assertEquals(player1.manageStateSelection(Worker.Gender.Male,-1,-1).getNextInstruction(), GameMessage.turnMessageOkWorkerSelection);
+        Assert.assertEquals(player1.manageStateSelection(null,0,0).getNextInstruction(),GameMessage.turnMessageOkWorkerSelection);
+        Assert.assertEquals(player1.manageStateSelection(null,2,3).getNextInstruction(),GameMessage.turnMessageSelectYourWorker);
+        Assert.assertEquals(player1.manageStateSelection(null,1,0).getNextInstruction(),GameMessage.turnMessageOkWorkerSelection);
 
         player3.setSelectedWorker(Worker.Gender.Female);
         player3.match.forceMove(1,1,player3.selectedWorker);
