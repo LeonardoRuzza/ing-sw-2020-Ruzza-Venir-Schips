@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class CardLabel extends JLabel {
+    private SantoriniGUI santoriniGUI;
     private final Card card;
     private JLabel selectionLabel;
     private JFrame topFrame;
@@ -17,17 +18,12 @@ public class CardLabel extends JLabel {
      * <p>
      * @param card the card to associate to the label
      */
-    public CardLabel(Card card) {
+    public CardLabel(Card card, SantoriniGUI santoriniGUI) {
+        this.santoriniGUI = santoriniGUI;
         this.card = card;
         this.selectionLabel = new JLabel();
         Image buttonIcon;
-        try {
-            buttonIcon = ImageIO.read(new File("src/main/resources/cards/"+card.getName().toLowerCase()+".png"));
-        }catch (IOException e){
-            System.out.println("Error while trying to open card label image");
-            setText(card.getName());
-            return;
-        }
+        buttonIcon = this.santoriniGUI.loadImage("cards/"+card.getName().toLowerCase());
         if(buttonIcon == null){
             setText(card.getName());
             return;
@@ -41,8 +37,8 @@ public class CardLabel extends JLabel {
      * @param isSelected the condition of the selection
      * @param jFrame the JFrame
      */
-    public CardLabel(Card card, boolean isSelected,JFrame jFrame){
-        this(card);
+    public CardLabel(Card card, boolean isSelected,JFrame jFrame, SantoriniGUI santoriniGUI){
+        this(card, santoriniGUI);
         this.topFrame = jFrame;
         if(isSelected) selectCard();
     }
@@ -60,14 +56,13 @@ public class CardLabel extends JLabel {
      */
     public void selectCard(){
         Image buttonIcon;
-        try {
-            buttonIcon = ImageIO.read(new File("src/main/resources/selected_card.png"));
-        }catch (IOException e){
-            System.out.println("Error while trying to open card selection label image");
+        buttonIcon = santoriniGUI.loadImage("selected_card");
+        if(buttonIcon == null) {
             setText("Selected");
-            return;
         }
-        selectionLabel.setIcon(new ImageIcon(buttonIcon));
+        else{
+            selectionLabel.setIcon(new ImageIcon(buttonIcon));
+        }
         selectionLabel.setBounds(0, 0,198,332);
         this.add(selectionLabel);
         selectionLabel.setVisible(true);

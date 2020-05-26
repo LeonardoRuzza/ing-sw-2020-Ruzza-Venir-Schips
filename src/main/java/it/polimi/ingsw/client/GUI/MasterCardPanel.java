@@ -65,7 +65,7 @@ public class MasterCardPanel extends JPanel {
         jPanelCards.setLayout(null);
         jPanelCards.setBounds(141, y, 1638, cardLabelHeight);
         for(int i=0; i<4 && i<availableCards.size() ; i++){
-            CardLabel cardLabel = new CardLabel(availableCards.get(i));
+            CardLabel cardLabel = new CardLabel(availableCards.get(i),santoriniGUI);
             cardLabel.addMouseListener(cardListener);
             cardListener.addConnectedLabel(cardLabel);
             jPanelCards.add(cardLabel);
@@ -84,12 +84,7 @@ public class MasterCardPanel extends JPanel {
 
     private JLabel createChooseCardLabel(int n){
         Image buttonIcon;
-        try {
-            buttonIcon = ImageIO.read(new File("src/main/resources/sys_label_"+n+"_card.png"));
-        }catch (IOException e){
-            System.out.println("Error while trying to open choose card label image");
-            return new JLabel("Error: image not found");
-        }
+        buttonIcon = santoriniGUI.loadImage("sys_label_"+n+"_card");
         if(buttonIcon == null) return new JLabel("Choose "+n+" cards:");
         JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon(buttonIcon));
@@ -99,12 +94,7 @@ public class MasterCardPanel extends JPanel {
 
     private JLabel createNextButton(){
         Image buttonIcon;
-        try {
-            buttonIcon = ImageIO.read(new File("src/main/resources/btn_next.png"));
-        }catch (IOException e){
-            System.out.println("Error while trying to open next button image");
-            return new JLabel("Error: image not found");
-        }
+        buttonIcon = santoriniGUI.loadImage("btn_next");
         if(buttonIcon == null) return new JLabel("Next");
         JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon(buttonIcon));
@@ -115,12 +105,7 @@ public class MasterCardPanel extends JPanel {
 
     private JLabel createPrevButton(){
         Image buttonIcon;
-        try {
-            buttonIcon = ImageIO.read(new File("src/main/resources/btn_prev.png"));
-        }catch (IOException e){
-            System.out.println("Error while trying to open prev button image");
-            return new JLabel("Error: image not found");
-        }
+        buttonIcon = santoriniGUI.loadImage("btn_prev");
         if(buttonIcon == null) return new JLabel("Prev");
         JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon(buttonIcon));
@@ -151,7 +136,7 @@ public class MasterCardPanel extends JPanel {
                         indexSelectedCard = cardListener.getSelectedCards().indexOf(c);
                     }
                 }
-                cardLabel = new CardLabel(cardListener.getSelectedCards().get(indexSelectedCard), true, (JFrame) SwingUtilities.getWindowAncestor(this));
+                cardLabel = new CardLabel(cardListener.getSelectedCards().get(indexSelectedCard), true, (JFrame) SwingUtilities.getWindowAncestor(this),santoriniGUI);
                 cardLabel.addMouseListener(cardListener);
                 cardListener.addConnectedLabel(cardLabel);
                 jPanelCards.add(cardLabel);
@@ -160,7 +145,7 @@ public class MasterCardPanel extends JPanel {
                 x+=480;
                 continue;
             }
-            cardLabel= new CardLabel(availableCards.get(i));
+            cardLabel= new CardLabel(availableCards.get(i),santoriniGUI);
             cardLabel.addMouseListener(cardListener);
             cardListener.addConnectedLabel(cardLabel);
             jPanelCards.add(cardLabel);

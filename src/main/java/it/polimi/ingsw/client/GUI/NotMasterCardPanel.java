@@ -34,7 +34,7 @@ public class NotMasterCardPanel extends JPanel {
         jPanelCards.setLayout(null);
         jPanelCards.setBounds(141, y, 1638, cardLabelHeight);
         for(int i=0; i<4 && i<availableCards.size() ;i++){
-            CardLabel cardLabel = new CardLabel(availableCards.get(i));
+            CardLabel cardLabel = new CardLabel(availableCards.get(i),santoriniGUI);
             cardLabel.addMouseListener(cardListener);
             cardListener.addConnectedLabel(cardLabel);
             jPanelCards.add(cardLabel);
@@ -51,12 +51,7 @@ public class NotMasterCardPanel extends JPanel {
 
     private JLabel createChooseCardLabel(){
         Image buttonIcon;
-        try {
-            buttonIcon = ImageIO.read(new File("src/main/resources/sys_label_1_card.png"));
-        }catch (IOException e){
-            System.out.println("Error while trying to open choose card label image (not Master)");
-            return new JLabel("Error: image not found");
-        }
+        buttonIcon = santoriniGUI.loadImage("sys_label_1_card");
         if(buttonIcon == null) return new JLabel("Choose your card:");
         JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon(buttonIcon));

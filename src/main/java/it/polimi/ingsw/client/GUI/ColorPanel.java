@@ -11,12 +11,14 @@ import java.util.List;
 
 public class ColorPanel extends JPanel {
     private ColorListener  colorListener;
+    private SantoriniGUI santoriniGUI;
 
     public ColorPanel(SantoriniGUI santoriniGUI, List<Worker.Color> availableColors) {
         int x=0;
         int colorLabelHeight = 312;
         int colorLabelWidth = 188;
         int y = 435;
+        this.santoriniGUI = santoriniGUI;
         colorListener = new ColorListener(santoriniGUI);
         setSize(1920,1080);
         setLayout(null);
@@ -25,7 +27,7 @@ public class ColorPanel extends JPanel {
         jPanel.setLayout(null);
         jPanel.setBounds(146, y, 1628, colorLabelHeight);
         for(Worker.Color temp: availableColors){
-            ColorLabel colorLabel = new ColorLabel(temp);
+            ColorLabel colorLabel = new ColorLabel(temp,santoriniGUI);
             colorLabel.addMouseListener(colorListener);
             colorListener.addColorLabel(colorLabel);
             jPanel.add(colorLabel);
@@ -42,12 +44,7 @@ public class ColorPanel extends JPanel {
 
     private JLabel createColorMessageLabel(){
         Image buttonIcon;
-        try {
-            buttonIcon = ImageIO.read(new File("src/main/resources/sys_label_select_color.png"));
-        }catch (IOException e){
-            System.out.println("Error while trying to open color label message image");
-            return new JLabel("Error: image not found");
-        }
+        buttonIcon = santoriniGUI.loadImage("sys_label_select_color");
         if(buttonIcon == null) return new JLabel("Choose your color:");
         JLabel jLabel = new JLabel();
         jLabel.setIcon(new ImageIcon(buttonIcon));

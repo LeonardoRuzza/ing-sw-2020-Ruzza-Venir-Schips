@@ -10,37 +10,31 @@ import java.io.IOException;
 
 public class ColorLabel extends JLabel {
     private final Worker.Color color;
+    private SantoriniGUI santoriniGUI;
 
     /**Create a new ColorLabel.
      * <p>
      * @param color the color associated to the label
      */
-    public ColorLabel(Worker.Color color) {
+    public ColorLabel(Worker.Color color, SantoriniGUI santoriniGUI) {
+        this.santoriniGUI = santoriniGUI;
         Image buttonIcon = null;
         this.color=color;
-        try {
-            switch (color) {
-                case RED:
-                    buttonIcon = ImageIO.read(new File("src/main/resources/wrk_red_big.png"));
-                    break;
-                case YELLOW:
-                    buttonIcon = ImageIO.read(new File("src/main/resources/wrk_yellow_big.png"));
-                    break;
-                case GREEN:
-                    buttonIcon = ImageIO.read(new File("src/main/resources/wrk_green_big.png"));
-                    break;
-                case PURPLE:
-                    buttonIcon = ImageIO.read(new File("src/main/resources/wrk_purple_big.png"));
-                    break;
-                default:
-                    break;
-            }
-        }
-        catch (IOException e){
-            System.out.println("Error trying to open worker image");
-            setText(color.toString());
-            setBackground(Color.getColor(color.toString()));
-            return;
+        switch (color) {
+            case RED:
+                buttonIcon =  santoriniGUI.loadImage("wrk_red_big");
+                break;
+            case YELLOW:
+                buttonIcon = santoriniGUI.loadImage("wrk_yellow_big");
+                break;
+            case GREEN:
+                buttonIcon = santoriniGUI.loadImage("wrk_green_big");
+                break;
+            case PURPLE:
+                buttonIcon = santoriniGUI.loadImage("wrk_purple_big");
+                break;
+            default:
+                break;
         }
         if(buttonIcon == null){
             setText(color.toString());
