@@ -1,35 +1,31 @@
 package it.polimi.ingsw.client.GUI;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class NicknamePanel extends JPanel{
 
-    BufferedImage imageBtnPlay;
-    BufferedImage imageLabelSys;
-    BufferedImage imageTxtField;
+    Image imageBtnPlay;
+    Image imageLabelSys;
+    Image imageTxtField;
     JLabel playButton;
     PlayButtonListener listner;
     JLabel imageTextBox;
     JLabel sysLabel;
     JTextField nicknameTxtField;
 
-    ClientGUI clientGUI;
+    SantoriniGUI gui;
 
     /**
      * This Class implements the panel which will ask the username
      * @param gui Class that will receive the user name
      * @throws IOException Exception
      */
-    protected NicknamePanel(ClientGUI gui) throws IOException {
-        this.clientGUI = gui;
-        imageBtnPlay = ImageIO.read(new File("src/main/resources/btn_play.png"));
-        imageLabelSys = ImageIO.read(new File("src/main/resources/sys_label_nickname.png"));
-        imageTxtField = ImageIO.read(new File("src/main/resources/nickname_txtField.png"));
+    protected NicknamePanel( SantoriniGUI gui) throws IOException {
+        this.gui = gui;
+        imageBtnPlay = gui.loadImage("btn_play");
+        imageLabelSys = gui.loadImage("sys_label_nickname");
+        imageTxtField = gui.loadImage("nickname_txtField");
         this.setSize(new Dimension(1920,1080));
         this.setLayout(null);
         playButton = new JLabel(new ImageIcon(imageBtnPlay));
@@ -49,7 +45,7 @@ public class NicknamePanel extends JPanel{
         nicknameTxtField.setHorizontalAlignment(JTextField.CENTER);
 
         playButton.setBounds(1597,684,323,396);
-        listner = new PlayButtonListener(null,nicknameTxtField, playButton, clientGUI, listner);
+        listner = new PlayButtonListener(null,nicknameTxtField, playButton, gui, listner);
         playButton.addMouseListener(listner);
 
         this.setOpaque(true);
@@ -75,14 +71,7 @@ public class NicknamePanel extends JPanel{
         infoPanel.setLayout(null);
         infoPanel.setOpaque(true);
         infoPanel.setBackground(new java.awt.Color(0,0,0,0));
-
-        String path = "src/main/resources/dialog_unavailable_name.png";
-        BufferedImage backgroundImg = null;
-        try {
-            backgroundImg = ImageIO.read(new File(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Image backgroundImg = gui.loadImage("dialog_unavailable_name");
         assert backgroundImg != null;
         JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
         backgroundLabel.setBounds(0,0,775,380);

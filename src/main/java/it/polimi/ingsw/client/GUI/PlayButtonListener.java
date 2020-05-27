@@ -7,13 +7,13 @@ import java.awt.event.MouseListener;
 
 public class PlayButtonListener extends JFrame implements MouseListener {
 
-    ClientGUI gui;
+    SantoriniGUI gui;
     JTextField nicknameTxtField;
     JLabel playBtn;
     JFrame frame;
     PlayButtonListener listener;
 
-    public PlayButtonListener(JFrame f, JTextField txtField, JLabel btn, ClientGUI gui, PlayButtonListener playButtonListener){
+    public PlayButtonListener(JFrame f, JTextField txtField, JLabel btn, SantoriniGUI gui, PlayButtonListener playButtonListener){
         this.gui = gui;
         this.nicknameTxtField = txtField;
         this.playBtn = btn;
@@ -29,7 +29,7 @@ public class PlayButtonListener extends JFrame implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if(nicknameTxtField != null){
             if(nicknameTxtField.getText() != null){
-                gui.outcomeGUI.add(nicknameTxtField.getText());
+                gui.sendNotification(nicknameTxtField.getText());
                 playBtn.removeMouseListener(this);
                 return;
             }

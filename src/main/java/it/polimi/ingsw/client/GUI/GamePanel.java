@@ -11,7 +11,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 
 
@@ -578,7 +577,7 @@ public class GamePanel extends JPanel {
          * Set no block in cell
          */
         public void updateNull(){
-            playEffectSound("remove_block.wav");
+            playEffectSound("remove_block");
             this.zCoord = 0;
             this.block = null;
             this.setIcon(null);
@@ -593,9 +592,9 @@ public class GamePanel extends JPanel {
          */
         public void updateElem(Block block, int zCoord) {
             if(zCoord < this.zCoord){
-                playEffectSound("remove_block.wav");
+                playEffectSound("remove_block");
             }else{
-                playEffectSound("block_added.wav");
+                playEffectSound("block_added");
             }
             this.block = block;
             this.zCoord = zCoord;
@@ -705,7 +704,7 @@ public class GamePanel extends JPanel {
          * @param color color of worker
          */
         public void updateElem(Worker.Gender gender, Worker.Color color){
-            playEffectSound("movement_done_cut.wav");
+            playEffectSound("movement_done_cut");
             this.color = color;
             this.gender = gender;
             if(this.gender != null && this.color != null){
@@ -1008,9 +1007,13 @@ public class GamePanel extends JPanel {
             public void run() {
                 try {
                     Clip clip = AudioSystem.getClip();
-                    InputStream audioSrc = new FileInputStream("src/main/resources/sound/" + fileName);
+                    /*InputStream audioSrc = new FileInputStream("src/main/resources/sound/" + fileName);
                     InputStream bufferedIn = new BufferedInputStream(audioSrc);
-                    AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);
+                    AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);*/
+                    AudioInputStream audioStream = gui.loadSound(fileName);
+                    if(audioStream==null){
+                        return;
+                    }
                     clip.open(audioStream);
                     clip.start();
                 } catch (Exception e) {

@@ -7,10 +7,11 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Objects;
 
 public class SantoriniGUI {
     private  ClientGUI clientGUI;
@@ -35,7 +36,7 @@ public class SantoriniGUI {
      */
     public SantoriniGUI(ClientGUI clientGUI){
         this.clientGUI = clientGUI;
-        soundThread = playSound("background2.wav");
+        soundThread = playSound("background2");
         settingsPanel = createSettingsPanel();
         createAndStartGUI();
     }
@@ -73,12 +74,7 @@ public class SantoriniGUI {
      * Add a background image; This will be shown only in the <b>Lobby phase</b>
      */
     private void addBackgroundImage() {
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(new File("src/main/resources/background_lobby.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Image image = loadImage("background_lobby");
         JPanel background = new JPanel();
         background.setLayout(null);
         background.setBounds(0,0,1920,1080);
@@ -98,9 +94,13 @@ public class SantoriniGUI {
         Clip sound = null;
         try {
             Clip clip = AudioSystem.getClip();
-            InputStream audioSrc = new FileInputStream("src/main/resources/sound/" + fileName);
+            /*InputStream audioSrc = new FileInputStream("src/main/resources/sound/" + fileName);
             InputStream bufferedIn = new BufferedInputStream(audioSrc);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);*/
+            AudioInputStream audioStream = loadSound(fileName);
+            if(audioStream==null){
+                return clip;
+            }
             clip.open(audioStream);
             if(volumeListener != null){
                 if(volumeListener.getActive()){
@@ -121,12 +121,7 @@ public class SantoriniGUI {
      * Set a customized cursor to the replace the standard SO cursor
      */
     private void setCursor(){
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(new File("src/main/resources/mouse_pointer.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Image image = loadImage("mouse_pointer");
         Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0, 0), "customCursor");
         frame.setCursor(customCursor);
     }
@@ -157,24 +152,9 @@ public class SantoriniGUI {
         volumePanel.setOpaque(true);
         volumePanel.setBackground(new Color(0,0,0,0));
 
-        BufferedImage volumeImage = null;
-        try {
-            volumeImage = ImageIO.read(new File("src/main/resources/volume.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        BufferedImage muteImage = null;
-        try {
-            muteImage = ImageIO.read(new File("src/main/resources/mute_volume.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        BufferedImage quitImage = null;
-        try {
-            quitImage = ImageIO.read(new File("src/main/resources/btn_quit.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Image volumeImage = loadImage("volume");
+        Image muteImage = loadImage("mute_volume");
+        Image quitImage = loadImage("btn_quit");
         assert quitImage != null;
         quitButton = new JLabel(new ImageIcon(quitImage));
         assert volumeImage != null;
@@ -218,12 +198,7 @@ public class SantoriniGUI {
      * @param pathname Relative path of the image to be added in the {@code JLabel}
      */
     private void addLabel(String pathname){
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(new File(pathname));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Image image = loadImage(pathname);
         JPanel temp = new JPanel();
         assert image != null;
         JLabel label = new JLabel(new ImageIcon(image));
@@ -249,7 +224,7 @@ public class SantoriniGUI {
         switch (message.getStateOfGUI()){
             case INSERTNAME:
                 try {
-                    currentPanel = new NicknamePanel(clientGUI);
+                    currentPanel = new NicknamePanel(this);
                     frame.getContentPane().add(currentPanel,0);
                     addBackgroundImage();
                     addSettingsPanel();
@@ -264,11 +239,11 @@ public class SantoriniGUI {
                 nicknamePanel.showNameAlreadyTokenDialog(frame);
                 break;
             case LOADINGMATCH:
-                addLabel("src/main/resources/sys_label_loading.png");
+                addLabel("sys_label_loading");
                 break;
             case MASTERSELECTNUMBEROFPLAYERS:
                 try {
-                    currentPanel = new NumberSelectionPanel(clientGUI);
+                    currentPanel = new NumberSelectionPanel(this);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -287,7 +262,7 @@ public class SantoriniGUI {
                 switchPanel(currentPanel);
                 break;
             case WAITINGOTHERPLAYERSCHOOSE:
-                addLabel("src/main/resources/sys_label_wait_players.png");
+                addLabel("sys_label_wait_players");
                 break;
             case STARTNORMALGAME:
                 currentPanel = new GamePanel(this);
@@ -298,7 +273,7 @@ public class SantoriniGUI {
                     gamePanel.updateCardPanel((p.getPlayerNumber()), p.getNickname(), p.getCardName(), p.getColor());
                 }
                 soundThread.stop();
-                soundThread = playSound("match_background.wav");
+                soundThread = playSound("match_background");
                 volumeListener.setSound(soundThread);
                 break;
         }
@@ -342,12 +317,12 @@ public class SantoriniGUI {
         gamePanel.showEndGameDialog(winORlose);
         if(winORlose){
             soundThread.stop();
-            soundThread = playSound("winner_sound.wav");
+            soundThread = playSound("winner_sound");
             volumeListener.setSound(soundThread);
             soundThread.start();
         }else{
             soundThread.stop();
-            soundThread = playSound("loser_sound.wav");
+            soundThread = playSound("loser_sound");
             volumeListener.setSound(soundThread);
             soundThread.start();
         }
@@ -433,11 +408,10 @@ public class SantoriniGUI {
      */
     protected Image loadImage(String imageName){
         Image img = null;
-        String pathString = getClass().getClassLoader().getResource(imageName+".png").getFile();
+        String pathString = Objects.requireNonNull(getClass().getClassLoader().getResource(imageName + ".png")).getFile();
         try {
             img = ImageIO.read(new File(pathString));
         } catch (IOException e) {
-            e.printStackTrace();
             pathString = pathString.substring(5,pathString.length()-(19+imageName.length())) + "classes/"+imageName+".png";
             try {
                 img = ImageIO.read(new File(pathString));
@@ -446,5 +420,26 @@ public class SantoriniGUI {
             }
         }
         return img;
+    }
+    protected AudioInputStream loadSound(String soundName){
+        InputStream audioSrc = null;
+        InputStream bufferedIn = null;
+        AudioInputStream audioStream = null;
+        String pathString = Objects.requireNonNull(getClass().getClassLoader().getResource("sound/" + soundName + ".wav")).getFile();
+        try {
+            audioSrc = new FileInputStream(pathString);
+            bufferedIn = new BufferedInputStream(audioSrc);
+            audioStream = AudioSystem.getAudioInputStream(bufferedIn);
+        } catch (IOException | UnsupportedAudioFileException e) {
+            pathString = pathString.substring(5,pathString.length()-(19+6+soundName.length())) + "classes/sound/"+soundName+".wav";
+            try {
+                audioSrc = new FileInputStream(pathString);
+                bufferedIn = new BufferedInputStream(audioSrc);
+                audioStream = AudioSystem.getAudioInputStream(bufferedIn);
+            } catch (IOException | UnsupportedAudioFileException eInt) {
+                eInt.printStackTrace();
+            }
+        }
+        return audioStream;
     }
 }

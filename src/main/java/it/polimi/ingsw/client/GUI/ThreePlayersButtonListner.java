@@ -9,12 +9,12 @@ import java.awt.event.MouseListener;
 public class ThreePlayersButtonListner extends JFrame implements MouseListener {
 
     private final int nPlayers = 3;
-    ClientGUI clientGUI;
+    SantoriniGUI clientGUI;
     JLabel btnThree;
     JLabel btnTwo;
     MouseListener listenerTwo;
 
-    public ThreePlayersButtonListner(ClientGUI gui, JLabel btnThree, JLabel btnTwo, MouseListener listenerTwo){
+    public ThreePlayersButtonListner(SantoriniGUI gui, JLabel btnThree, JLabel btnTwo, MouseListener listenerTwo){
         this.btnThree = btnThree;
         this.clientGUI = gui;
         this.btnTwo = btnTwo;
@@ -24,7 +24,7 @@ public class ThreePlayersButtonListner extends JFrame implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if(clientGUI != null){
-            clientGUI.outcomeGUI.add(Integer.toString(nPlayers));
+            clientGUI.sendNotification(Integer.toString(nPlayers));
             btnThree.removeMouseListener(this);
             btnTwo.removeMouseListener(listenerTwo);
         }

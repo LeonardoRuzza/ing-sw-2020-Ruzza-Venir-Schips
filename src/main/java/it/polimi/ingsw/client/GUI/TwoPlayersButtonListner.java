@@ -7,12 +7,12 @@ import java.awt.event.MouseListener;
 public class TwoPlayersButtonListner extends JFrame implements MouseListener {
     private final int nPlayers = 2;
 
-    ClientGUI clientGUI;
+    SantoriniGUI clientGUI;
     JLabel btnThree;
     JLabel btnTwo;
     MouseListener listenerThree;
 
-    public TwoPlayersButtonListner(ClientGUI gui, JLabel btnThree, JLabel btnTwo, MouseListener listenerThree){
+    public TwoPlayersButtonListner(SantoriniGUI gui, JLabel btnThree, JLabel btnTwo, MouseListener listenerThree){
         this.btnThree = btnThree;
         this.clientGUI = gui;
         this.btnTwo = btnTwo;
@@ -22,7 +22,7 @@ public class TwoPlayersButtonListner extends JFrame implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if(clientGUI != null){
-            clientGUI.outcomeGUI.add(Integer.toString(nPlayers));
+            clientGUI.sendNotification(Integer.toString(nPlayers));
             btnTwo.removeMouseListener(this);
             btnThree.removeMouseListener(listenerThree);
         }
