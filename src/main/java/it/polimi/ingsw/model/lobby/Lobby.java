@@ -131,6 +131,11 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
             return false;
     }
 
+    /**
+     * Set the player who need to start the game, chosen by the MASTER PLAYER
+     * @param playersName Player choose by the master
+     * @return {@code true} if the player exist, false otherwise
+     */
     public boolean chooseStartPlayer(String playersName){
         for (LobbyPlayer l: lobbyPlayers) {
             if(l.getNickname().toUpperCase().equals(playersName.toUpperCase())){

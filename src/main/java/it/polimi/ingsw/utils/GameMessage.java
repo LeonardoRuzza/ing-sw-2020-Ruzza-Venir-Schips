@@ -32,7 +32,7 @@ public class GameMessage {
     public static final String waitMessageForCard = "Another player is choosing a card...";
     public static final String waitMasterChoseOfCard = "Waiting the master player choose of deck ";
     public static final String waitchooseStartPlayer = "Wait for choose of start player. ";
-    public static final String chooseStartPlayer = "Choose which player start the game. The others will follow according to the joining order\n";
+    public static final String chooseStartPlayer = "Choose which player will start the game. The others will follow according to the joining order\n";
     public static final String chooseStartPlayerBadInput = "This player doesn't exist in this game";
 
     public static final String player1is = "Player1 is: ";

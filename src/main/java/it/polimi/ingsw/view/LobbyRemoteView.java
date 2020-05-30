@@ -101,6 +101,8 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
                     resultMsg = GameMessage.chooseStartPlayer;
                     for (LobbyPlayer l :lobby.getLobbyPlayers()) {
                         resultMsg = resultMsg.concat(l.getNickname());
+                        resultMsg = resultMsg.concat(" -- ");
+                        resultMsg = resultMsg.concat(l.getCard().getName());
                         resultMsg = resultMsg.concat("\n");
                     }
                     showMessageSync(resultMsg);

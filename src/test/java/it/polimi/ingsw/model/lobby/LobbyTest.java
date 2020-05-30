@@ -118,4 +118,17 @@ public class LobbyTest {
         Assert.assertEquals(l.getLobbyPlayers().get(0).getCard().getName(), "Hera".toUpperCase());
 
     }
+
+    @Test
+    public void chooseStartPlayer() {
+        setUp();
+        Assert.assertTrue(l.chooseStartPlayer("edo"));
+        Assert.assertEquals(l.getPlayingNow(), 0);
+        l.chooseStartPlayer("leo");
+        Assert.assertEquals(l.getPlayingNow(), 1);
+        l.chooseStartPlayer("vale");
+        Assert.assertEquals(l.getPlayingNow(), 2);
+
+        Assert.assertFalse(l.chooseStartPlayer("pippo"));
+    }
 }

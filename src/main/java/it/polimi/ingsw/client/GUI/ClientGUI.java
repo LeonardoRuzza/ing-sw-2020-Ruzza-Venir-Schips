@@ -126,8 +126,24 @@ public class ClientGUI {
                         santoriniGUI.updateGUILobby(masterChooseCard);
                         break;
                     }
+                    // TODO check if works
                     if(s.contains(GameMessage.chooseStartPlayer)){
                         MessageToGUI chooseStartPlayer = new MessageToGUI((StateOfGUI.CHOOSESTARTPLAYER));
+                        MessageToGUI.PlayerSummary player = chooseStartPlayer.addPlayerSummary();
+                        Scanner scanner = new Scanner(s);
+                        scanner.nextLine();
+                        for (int i = 0; i<3; i++) {
+                            try {
+                                String name = scanner.next();
+                                player.setNickname(name);
+                                scanner.next();
+                                scanner.next();
+                                player.setCardName(scanner.nextLine().substring(1));
+                            } catch (NoSuchElementException | IllegalStateException e) {
+                                scanner.close();
+                                santoriniGUI.updateGUILobby(chooseStartPlayer);
+                            }
+                        }
                     }
 
                     if (s.contains(GameMessage.player1is) || s.contains(GameMessage.player2is) || s.contains(GameMessage.player3is)) {
