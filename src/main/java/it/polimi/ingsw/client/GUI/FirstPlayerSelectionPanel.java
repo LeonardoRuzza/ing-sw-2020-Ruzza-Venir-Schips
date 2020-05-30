@@ -31,6 +31,8 @@ public class FirstPlayerSelectionPanel extends JPanel {
             p2.setLocation(1019,413);
             this.add(p1);
             this.add(p2);
+            this.add(sysLabelMessage);
+            this.add(labelBackground);
             return;
         }
         JPanel p3 = createMiniPlayerPanel(players.get(2).getNickname(), players.get(2).getCardName());
@@ -40,6 +42,8 @@ public class FirstPlayerSelectionPanel extends JPanel {
         this.add(p1);
         this.add(p2);
         this.add(p3);
+        this.add(sysLabelMessage);
+        this.add(labelBackground);
     }
 
     /**
@@ -54,6 +58,8 @@ public class FirstPlayerSelectionPanel extends JPanel {
         JPanel resultPanel = new JPanel();
         resultPanel.setLayout(null);
         resultPanel.setBounds(0,0,365, 448);
+        resultPanel.setOpaque(true);
+        resultPanel.setBackground(new Color(255,255,255,0));
 
         JLabel labelNicknameBackgroundP1 = new JLabel(new ImageIcon(nicknameImg));
         labelNicknameBackgroundP1.setBounds(0, 361, 365, 87);
@@ -61,10 +67,10 @@ public class FirstPlayerSelectionPanel extends JPanel {
         JLabel playerNameP1 = new JLabel(pName);
         playerNameP1.setFont(new Font("ComicSansMS",Font.BOLD,40));
         playerNameP1.setHorizontalAlignment(JTextField.CENTER);
+        playerNameP1.setForeground(Color.white);
         playerNameP1.setBounds(30,370,304,54);
 
-        imgP1.getScaledInstance(198, 333,Image.SCALE_SMOOTH);
-        JLabel playerCardP1 = new JLabel(new ImageIcon(imgP1));
+        JLabel playerCardP1 = new JLabel(new ImageIcon(imgP1.getScaledInstance(198, 333,Image.SCALE_SMOOTH)));
         playerCardP1.setBounds(83, 0, 198, 333);
         playerCardP1.addMouseListener(new FirstPlayerSelectionListener(gui, pName));
 

@@ -213,7 +213,7 @@ public class Server {
             if(cNext!=null){
                 cNext.release();
             }
-            
+            this.numberOfPlayers = 0;
         }
         else{
             ClientConnection c1 = registerOrder.get(0);
@@ -263,6 +263,7 @@ public class Server {
             if(cNext!=null){
                 cNext.release();
             }
+            this.numberOfPlayers = 0;
         }
     }
 
