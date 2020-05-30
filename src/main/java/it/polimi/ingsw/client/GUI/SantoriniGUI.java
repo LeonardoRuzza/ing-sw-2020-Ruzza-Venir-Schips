@@ -265,7 +265,8 @@ public class SantoriniGUI {
                 addLabel("sys_label_wait_players");
                 break;
             case CHOOSESTARTPLAYER:
-                //TODO
+                currentPanel = new FirstPlayerSelectionPanel(this, message.getPlayerSummaries());
+                switchPanel(currentPanel);
                 break;
             case STARTNORMALGAME:
                 currentPanel = new GamePanel(this);
