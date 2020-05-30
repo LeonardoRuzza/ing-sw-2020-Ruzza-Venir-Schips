@@ -87,7 +87,12 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
             case CARD:
                 if(!lobby.chooseCard(message.getInformation())){
                     message.getLobbyRemoteView().reportError(GameMessage.notAvailableCard);
-                    break;
+                }
+                break;
+            case CHOOSESTARTPLAYER:
+                if(!lobby.chooseStartPlayer(message.getInformation())){
+                    message.getLobbyRemoteView().reportError(GameMessage.chooseStartPlayerBadInput);
+                    return;
                 }
                 if (lobby.getStateOfTurn().equals(StateOfTurn.READYTOSTART)){
                     createNormalGame();
@@ -100,7 +105,7 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
      * observers, and then call a method in {@code match} to get prepared to start the real game.
      */
     private void createNormalGame(){
-        Match match = new Match(0, lobby.getLobbyPlayers().size());
+        /*Match match = new Match(0, lobby.getLobbyPlayers().size());
         Controller controller = new Controller(match);
         LobbyPlayer l1 = lobby.getLobbyPlayers().get(0);
         LobbyPlayer l2 = lobby.getLobbyPlayers().get(1);
@@ -131,8 +136,76 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
 
             lobbyView3.getClientConnection().removeObserver(lobbyView3.getMessageReceiver());
         }
+        match.initializeGame();*/
+
+        Match match = new Match(0, lobby.getLobbyPlayers().size());
+        Controller controller = new Controller(match);
+        LobbyPlayer l1 = null;
+        LobbyPlayer l2 = null;
+        LobbyPlayer l3 = null;
+        ClientConnection c1 = null;
+        ClientConnection c2 = null;
+        ClientConnection c3 = null;
+        if(lobby.getNumberOfLobbyPlayer() == 3 && lobby.getPlayingNow() == 2){
+            l1 = lobby.getLobbyPlayers().get(2);
+            l2 = lobby.getLobbyPlayers().get(0);
+            l3 = lobby.getLobbyPlayers().get(1);
+            c1 = lobbyView3.getClientConnection();
+            c2 = lobbyView1.getClientConnection();
+            c3 = lobbyView2.getClientConnection();
+        }else{
+            if(lobby.getPlayingNow() == 0){
+                l1 = lobby.getLobbyPlayers().get(0);
+                l2 = lobby.getLobbyPlayers().get(1);
+                c1 = lobbyView1.getClientConnection();
+                c2 = lobbyView2.getClientConnection();
+            }else{
+                if(lobby.getPlayingNow() == 1){
+                    if (lobby.getNumberOfLobbyPlayer() == 3){
+                        l1 = lobby.getLobbyPlayers().get(1);
+                        l2 = lobby.getLobbyPlayers().get(2);
+                        l3 = lobby.getLobbyPlayers().get(0);
+                        c1 = lobbyView2.getClientConnection();
+                        c2 = lobbyView3.getClientConnection();
+                        c3 = lobbyView1.getClientConnection();
+                    }else{
+                        l1 = lobby.getLobbyPlayers().get(1);
+                        l2 = lobby.getLobbyPlayers().get(0);
+                        c1 = lobbyView2.getClientConnection();
+                        c2 = lobbyView1.getClientConnection();
+                    }
+                }
+            }
+        }
+        assert l1 != null;
+        Player p1 = FactoryPlayer.getPlayer(l1.getNickname(), 1, match, l1.getColor(), l1.getCard().getNumber());
+        Player p2 = FactoryPlayer.getPlayer(l2.getNickname(), 2, match, l2.getColor(), l2.getCard().getNumber());
+        match.addPlayer(p1);
+        match.addPlayer(p2);
+        RemoteView p1RemoteView = new RemoteView(c1, p1);
+        RemoteView p2RemoteView = new RemoteView(c2, p2);
+        match.addObserver(p1RemoteView);
+        match.addObserver(p2RemoteView);
+        p1RemoteView.addObserver(controller);
+        p2RemoteView.addObserver(controller);
+        lobbyView1.getClientConnection().removeObserver(lobbyView1.getMessageReceiver());
+        lobbyView2.getClientConnection().removeObserver(lobbyView2.getMessageReceiver());
+        if (lobby.getLobbyPlayers().size() == 3){
+            if(l3 == null){
+                l3 = lobby.getLobbyPlayers().get(2);
+                c3 = lobbyView3.getClientConnection();
+            }
+            Player p3 = FactoryPlayer.getPlayer(l3.getNickname(), 3, match, l3.getColor(), l3.getCard().getNumber());
+            match.addPlayer(p3);
+            RemoteView p3RemoteView = new RemoteView(c3, p3);
+            match.addObserver(p3RemoteView);
+            p3RemoteView.addObserver(controller);
+            lobbyView3.getClientConnection().removeObserver(lobbyView3.getMessageReceiver());
+        }
         match.initializeGame();
     }
+
+
 
     @Override
     public void updateLobby(ViewToController message) { handleLobbyInput(message);}

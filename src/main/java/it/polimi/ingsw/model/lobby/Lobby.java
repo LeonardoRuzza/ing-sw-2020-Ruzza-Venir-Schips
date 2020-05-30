@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
 
-    protected StateOfTurn stateOfTurn = StateOfTurn.COLOR; // Fase 1 = scelta dei colori
+    protected StateOfTurn stateOfTurn = StateOfTurn.COLOR;
     private boolean switchState = false;
     private boolean isDeckChosen = false;
     protected enum Insert {ADD,REMOVE}
@@ -22,6 +22,7 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
     private LobbyPlayer lobbyActualPlayer;
     private List<Worker.Color> availableColors = new ArrayList<>();
     private final int totalColors = Worker.Color.values().length;
+    private int playingNow;
 
 
     /**
@@ -120,14 +121,26 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
                     lobbyActualPlayer.card = c;
                     nextLobbyPlayer();
                     if (chosenDeck.size() == 1){
-                        lobbyActualPlayer.card = chosenDeck.get(0); // Assegna l'unica carta rimanente all'ultimo giocatore
-                        stateOfTurn = StateOfTurn.READYTOSTART;
+                        lobbyActualPlayer.card = chosenDeck.get(0);
+                        stateOfTurn = StateOfTurn.CHOOSESTARTPLAYER;
                     }
                     notifyLobby(new LobbyToView(this.clone()));
                     return true;
                 }
             }
             return false;
+    }
+
+    public boolean chooseStartPlayer(String playersName){
+        for (LobbyPlayer l: lobbyPlayers) {
+            if(l.getNickname().toUpperCase().equals(playersName.toUpperCase())){
+                playingNow = lobbyPlayers.indexOf(l);
+                stateOfTurn = StateOfTurn.READYTOSTART;
+                notifyLobby(new LobbyToView(this.clone()));
+                return true;
+            }
+        }
+        return false;
     }
 
     protected void updateChosenDeck(Card chosenCard, Insert insert){
@@ -154,13 +167,19 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
      * @return  {@code StateofTurn}
      */
     public StateOfTurn getStateOfTurn() { return stateOfTurn; }
-    public List<String> getAvailableColors() {  // Ritorna lista <di stringhe> con i colori rimanenti disponibili
+
+    /**
+     * @return Player choose by the master, who will start the game
+     */
+    public int getPlayingNow() { return playingNow; }
+
+    public List<String> getAvailableColors() {
         List<String> temp = new ArrayList<>();
         for (Worker.Color c: availableColors)
             temp.add(c.toString());
         return temp;
     }
-    public List<Card> getChosenDeck() {   // Ritorna lista con le carte rimanenti disponibili
+    public List<Card> getChosenDeck() {
         return chosenDeck;
     }
     public boolean isDeckChosen() { return isDeckChosen; }

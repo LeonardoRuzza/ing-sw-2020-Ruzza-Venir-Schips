@@ -113,7 +113,7 @@ public class LobbyTest {
 
         Assert.assertFalse(l.chooseCard("Apollo"));
         Assert.assertTrue(l.chooseCard("Minotaur"));
-        Assert.assertEquals(l.getStateOfTurn(), StateOfTurn.READYTOSTART);
+        Assert.assertEquals(l.getStateOfTurn(), StateOfTurn.CHOOSESTARTPLAYER);
         Assert.assertEquals(l.getLobbyPlayers().get(2).getCard().getName(), "Minotaur".toUpperCase());
         Assert.assertEquals(l.getLobbyPlayers().get(0).getCard().getName(), "Hera".toUpperCase());
 

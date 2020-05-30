@@ -96,6 +96,19 @@ public class LobbyRemoteView extends ObservableLobby<ViewToController> implement
 
                 }
                 break;
+            case CHOOSESTARTPLAYER:
+                if (lobby.isLobbyPlayerTurn(lobbyPlayer)) {
+                    resultMsg = GameMessage.chooseStartPlayer;
+                    for (LobbyPlayer l :lobby.getLobbyPlayers()) {
+                        resultMsg = resultMsg.concat(l.getNickname());
+                        resultMsg = resultMsg.concat("\n");
+                    }
+                    showMessageSync(resultMsg);
+                }
+                else{
+                    showMessageSync(GameMessage.waitchooseStartPlayer);
+                }
+                break;
             case READYTOSTART:
                 LobbyPlayer l = lobby.getLobbyPlayers().get(0);
                 resultMsg = GameMessage.player1is + l.getNickname() + "\n" + GameMessage.hisColor + l.getColor().toString() + "\n" + GameMessage.hisCard + l.getCard().getName() + "\n\n";

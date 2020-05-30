@@ -74,6 +74,7 @@ public class ClientGUI {
                 case (GameMessage.waitMessageForColor):
                 case (GameMessage.waitMessageForCard):
                 case (GameMessage.waitMasterChoseOfCard):
+                case (GameMessage.waitchooseStartPlayer):
                     santoriniGUI.updateGUILobby(new MessageToGUI(StateOfGUI.WAITINGOTHERPLAYERSCHOOSE));
                     break;
                 case (GameMessage.startNormalGame):
@@ -124,6 +125,9 @@ public class ClientGUI {
                         }
                         santoriniGUI.updateGUILobby(masterChooseCard);
                         break;
+                    }
+                    if(s.contains(GameMessage.chooseStartPlayer)){
+                        MessageToGUI chooseStartPlayer = new MessageToGUI((StateOfGUI.CHOOSESTARTPLAYER));
                     }
 
                     if (s.contains(GameMessage.player1is) || s.contains(GameMessage.player2is) || s.contains(GameMessage.player3is)) {
