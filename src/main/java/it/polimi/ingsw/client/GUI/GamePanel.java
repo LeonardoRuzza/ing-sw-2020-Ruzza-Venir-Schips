@@ -40,7 +40,6 @@ public class GamePanel extends JPanel {
         this.gui = gui;
         this.setLayout(null);
         this.setBounds(0,0,1920,1080);
-        gui.loadImage("board_base");
         Image boardImg = gui.loadImage("board_base");
         assert boardImg != null;
         boardPanel = new JLabel(new ImageIcon(boardImg));
