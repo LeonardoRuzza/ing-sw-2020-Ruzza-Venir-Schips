@@ -46,14 +46,22 @@ public class Server {
      */
     public synchronized void deregisterConnection(ClientConnection c) {
         Iterator<String> iterator = waitingConnection.keySet().iterator();
-        registerOrder.remove(c);
         while(iterator.hasNext()){
             if(waitingConnection.get(iterator.next())==c){
                 iterator.remove();
+                if(isFirstPlayer(c)){
+                    numberOfPlayers = 0;
+                    registerOrder.remove(c);
+                    if(registerOrder.get(0)!=null){
+                        registerOrder.get(0).release();
+                    }
+                    return;
+                }
+                registerOrder.remove(c);
                 return;
             }
         }
-
+        registerOrder.remove(c);
         List<ClientConnection> clientConnections = new ArrayList<>(playingConnectionForTwo.values());
         for(ClientConnection x: clientConnections){
             if(x.equals(c)){
