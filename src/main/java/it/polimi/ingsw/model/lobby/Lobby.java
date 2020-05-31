@@ -73,10 +73,10 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
     public boolean chooseColor(String info){
         Worker.Color chosenColor = InputConversion.colorConversion(info.toUpperCase());
         if (availableColors.contains(chosenColor)){
-            lobbyActualPlayer.color = chosenColor;  // Assegna il colore al giocatore
+            lobbyActualPlayer.color = chosenColor;
             updateAvailableColors(chosenColor);
             nextLobbyPlayer();
-            if (availableColors.size() == totalColors - numberOfLobbyPlayer) { // Finita la fase di scelta dei colori
+            if (availableColors.size() == totalColors - numberOfLobbyPlayer) {
                 stateOfTurn = StateOfTurn.CARD;
                 lobbyActualPlayer = lobbyPlayers.get(0);
                 switchState = true;
@@ -102,10 +102,10 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
         if (!isDeckChosen){
             for (Card c: completeDeck) {
                 if (chosenCard.toUpperCase().equals(c.getName())){
-                    completeDeck.remove(c);                        // Rimuovi la carta dal deck completo
-                    updateChosenDeck(c, Insert.ADD);               // Aggiungi la carta a quelle selezionate
+                    completeDeck.remove(c);
+                    updateChosenDeck(c, Insert.ADD);
                     if (chosenDeck.size() == lobbyPlayers.size()) {
-                        isDeckChosen = true;                       // Finita fase di scelta delle carte
+                        isDeckChosen = true;
                         nextLobbyPlayer();
                     }
                     notifyLobby(new LobbyToView(this.clone()));
@@ -160,7 +160,7 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
     /**Update the {@code LobbyActualPlayer}, who will be the next in order after the one playing now
      */
     protected void nextLobbyPlayer(){
-        if (lobbyActualPlayer.equals(lobbyPlayers.get(lobbyPlayers.size() - 1))){ // Se l'actualPlayer è l'ultimo della lista il nuovo actual player è il primo della lista
+        if (lobbyActualPlayer.equals(lobbyPlayers.get(lobbyPlayers.size() - 1))){
             lobbyActualPlayer = lobbyPlayers.get(0);
         }
         else
@@ -198,7 +198,7 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
 
     @Override
     public Lobby clone() {
-        try {
+
             final Lobby l;
             if (getNumberOfLobbyPlayer() == 2) {
                 l = new Lobby(this.lobbyPlayers.get(0).getNickname(), this.lobbyPlayers.get(1).getNickname());
@@ -218,14 +218,6 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
             l.availableColors.clear();
             l.availableColors.addAll(this.availableColors);
 
-            /*final Lobby l = (Lobby) super.clone();
-            l.lobbyActualPlayer = lobbyActualPlayer.clone();*/
-
             return l;
-
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

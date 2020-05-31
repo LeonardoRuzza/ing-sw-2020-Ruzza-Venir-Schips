@@ -121,7 +121,13 @@ public class Client {
      * @see #asyncWriteToSocket(Scanner, PrintWriter)
      */
     public void run() throws IOException {
-        Socket socket = new Socket(ip, port);
+        Socket socket;
+        try {
+            socket = new Socket(ip, port);
+        } catch (IOException e) {
+            System.out.println("Unable to open socket");
+            return;
+        }
         System.out.println("Connection established");
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream());

@@ -24,7 +24,7 @@ public class LobbyPlayer implements Cloneable{
     public Card getCard() { return card; }
 
     @Override
-    public LobbyPlayer clone() throws CloneNotSupportedException {
+    public LobbyPlayer clone() {
         LobbyPlayer temp = new LobbyPlayer(this.nickname);
         temp.color = this.color;
         if (card != null) {
