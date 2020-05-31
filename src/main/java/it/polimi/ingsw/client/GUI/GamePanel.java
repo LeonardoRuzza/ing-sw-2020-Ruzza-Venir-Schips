@@ -823,7 +823,7 @@ public class GamePanel extends JPanel {
          */
         private void updateNamePlayer(String name, String num){
             this.nickName = name;
-            playerName.setText(num + " " + name);
+            playerName.setText(name);
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             updateFrame(topFrame);
         }
