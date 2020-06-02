@@ -150,6 +150,11 @@ public class Server {
         return true;
     }
 
+    /**Check if the client is the first in the registerOrder List.
+     * <p>
+     * @param c {@code ClientConnection}
+     * @return {@code true} if the client is first in registerOrder, {@code false} otherwise
+     */
     public synchronized boolean isFirstPlayer(ClientConnection c){
         if(registerOrder.size() == 0){
             return false;
