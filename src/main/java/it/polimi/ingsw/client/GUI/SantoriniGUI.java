@@ -416,9 +416,10 @@ public class SantoriniGUI {
         try {
             img = ImageIO.read(new File(pathString));
         } catch (IOException e) {
-            pathString = pathString.substring(5,pathString.length()-(19+imageName.length())) + "classes/"+imageName+".png";
+            InputStream pathString1 = getClass().getClassLoader().getResourceAsStream(imageName + ".png");
+            //pathString = pathString.substring(5,pathString.length()-(19+imageName.length())) + "classes/"+imageName+".png";
             try {
-                img = ImageIO.read(new File(pathString));
+                img = ImageIO.read(pathString1);
             } catch (IOException eInt) {
                 eInt.printStackTrace();
             }
@@ -435,10 +436,12 @@ public class SantoriniGUI {
             bufferedIn = new BufferedInputStream(audioSrc);
             audioStream = AudioSystem.getAudioInputStream(bufferedIn);
         } catch (IOException | UnsupportedAudioFileException e) {
-            pathString = pathString.substring(5,pathString.length()-(19+6+soundName.length())) + "classes/sound/"+soundName+".wav";
+
+            //pathString = pathString.substring(5,pathString.length()-(19+6+soundName.length())) + "classes/sound/"+soundName+".wav";
             try {
-                audioSrc = new FileInputStream(pathString);
-                bufferedIn = new BufferedInputStream(audioSrc);
+                InputStream pathString1 = getClass().getClassLoader().getResourceAsStream("sound/"+soundName + ".wav");
+                //audioSrc = new FileInputStream(pathString);
+                bufferedIn = new BufferedInputStream(pathString1);
                 audioStream = AudioSystem.getAudioInputStream(bufferedIn);
             } catch (IOException | UnsupportedAudioFileException eInt) {
                 eInt.printStackTrace();

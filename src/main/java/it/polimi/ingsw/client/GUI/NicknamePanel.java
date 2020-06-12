@@ -25,7 +25,7 @@ public class NicknamePanel extends JPanel{
         this.gui = gui;
         imageBtnPlay = gui.loadImage("btn_play");
         imageLabelSys = gui.loadImage("sys_label_nickname");
-        imageTxtField = gui.loadImage("nickname_txtField");
+        imageTxtField = gui.loadImage("nickname_txtfield");
         this.setSize(new Dimension(1920,1080));
         this.setLayout(null);
         playButton = new JLabel(new ImageIcon(imageBtnPlay));
