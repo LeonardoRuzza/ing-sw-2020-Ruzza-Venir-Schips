@@ -126,10 +126,15 @@ public class ClientGUI {
                         santoriniGUI.updateGUILobby(masterChooseCard);
                         break;
                     }
-                    // TODO check if works
                     if(s.contains(GameMessage.chooseStartPlayer)){
                         MessageToGUI chooseStartPlayer = new MessageToGUI((StateOfGUI.CHOOSESTARTPLAYER));
-                        Scanner scanner = new Scanner(s);
+                        Scanner scanner;
+                        try {
+                            scanner = new Scanner(s);
+                        } catch (Exception e) {
+                            System.out.println("Error while opening a scanner");
+                            throw e;
+                        }
                         scanner.nextLine();
                         for (int i = 0; i<3; i++) {
                             if (scanner.hasNext()) {
@@ -148,7 +153,13 @@ public class ClientGUI {
                         MessageToGUI.PlayerSummary temp = summary.addPlayerSummary();
                         playersSummaries++;
                         temp.setPlayerNumber(playersSummaries);
-                        Scanner scanner = new Scanner(s);
+                        Scanner scanner;
+                        try {
+                            scanner = new Scanner(s);
+                        } catch (Exception e) {
+                            System.out.println("Error while opening a scanner");
+                            throw e;
+                        }
                         scanner.next();
                         scanner.next();
                         temp.setNickname(scanner.nextLine().substring(1));
@@ -327,7 +338,12 @@ public class ClientGUI {
      * @see #asyncWriteToSocket(PrintWriter)
      */
     public void run() throws IOException {
-        Socket socket = new Socket(ip, port);
+        Socket socket;
+        try {
+            socket = new Socket(ip, port);
+        } catch (IOException e) {
+            return;
+        }
         System.out.println("Connection established");
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream());

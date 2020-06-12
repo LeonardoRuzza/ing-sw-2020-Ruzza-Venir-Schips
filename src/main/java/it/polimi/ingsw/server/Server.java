@@ -150,6 +150,11 @@ public class Server {
         return true;
     }
 
+    /**Check if the client is the first in the registerOrder List.
+     * <p>
+     * @param c {@code ClientConnection}
+     * @return {@code true} if the client is first in registerOrder, {@code false} otherwise
+     */
     public synchronized boolean isFirstPlayer(ClientConnection c){
         if(registerOrder.size() == 0){
             return false;
@@ -157,9 +162,9 @@ public class Server {
         return (registerOrder.get(0)).equals(c);
     }
 
-    /**Check if there are enough clients in the waiting List to start a new game.
+    /**Check if there are enough clients in the waiting List to start a new game and in this case start it.
      * <p>
-     * @param numberOfPlayers  Parameter received by the master player
+     * @param numberOfPlayers  Parameter received by the master player (not master player pass only "-1" for default)
      * @return   {@code true} if there are enough player to start a game, {@code false} otherwise
      */
     public synchronized boolean manageLobby(int numberOfPlayers){
