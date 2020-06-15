@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.awt.*;
 import java.io.Serializable;
 
 public class Board implements Cloneable, Serializable {
