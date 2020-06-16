@@ -40,12 +40,12 @@ public class MatchTest {
     public void testAddPlayer(){
         match.players = new Player[]{null, null, null};
         match.addPlayer(testPlayer1);
-        Assert.assertTrue("Error add Player1", match.players[0].equals(testPlayer1));
+        Assert.assertEquals("Error add Player1", match.players[0], testPlayer1);
         match.addPlayer(player2);
-        Assert.assertTrue("Error add Player2", match.players[1].equals(player2));
+        Assert.assertEquals("Error add Player2", match.players[1], player2);
         if(match.getNumberOfPlayers() == 3){
             match.addPlayer(player3);
-            Assert.assertTrue("Error add Player3", match.players[2].equals(player3));
+            Assert.assertEquals("Error add Player3", match.players[2], player3);
         }
 
     }
@@ -100,7 +100,7 @@ public class MatchTest {
         match.forceMove(0,0, testPlayer1.selectedWorker);
         player2.setSelectedWorker(Worker.Gender.Male);
         match.forceMove(0,1, player2.selectedWorker);
-        Assert.assertTrue("Error checkMove on other worker", match.checkMove(0,1, testPlayer1.selectedWorker).equals(player2.selectedWorker));
+        Assert.assertEquals("Error checkMove on other worker", match.checkMove(0, 1, testPlayer1.selectedWorker), player2.selectedWorker);
         Assert.assertNull("Error checkMove out of the board", match.checkMove(-1,3, testPlayer1.selectedWorker));
         Assert.assertNull("Error checkMove worker move on same cell", match.checkMove(0,0, testPlayer1.selectedWorker));
         match.forceBuild(1,0,testPlayer1.selectedWorker);
@@ -109,7 +109,7 @@ public class MatchTest {
         match.forceBuild(1,0,testPlayer1.selectedWorker);
         match.forceBuild(1,0,testPlayer1.selectedWorker);
         Assert.assertNull("Error checkMove worker move on dorse", match.checkMove(1,0, testPlayer1.selectedWorker));
-        Assert.assertTrue("Error checkMove Success", match.checkMove(1,1, testPlayer1.selectedWorker).equals(testPlayer1.selectedWorker));
+        Assert.assertEquals("Error checkMove Success", match.checkMove(1, 1, testPlayer1.selectedWorker), testPlayer1.selectedWorker);
     }
 
     @Test
@@ -162,21 +162,16 @@ public class MatchTest {
 
     @Test
     public void testNextPlayer() {
-        Assert.assertTrue("Error nextPlayerAct1", match.nextPlayer().equals(player2));
-        Assert.assertTrue("Error nextPlayerAct2", match.nextPlayer().equals(player3));
-        Assert.assertTrue("Error nextPlayerAct3", match.nextPlayer().equals(testPlayer1));
+        Assert.assertEquals("Error nextPlayerAct1", match.nextPlayer(), player2);
+        Assert.assertEquals("Error nextPlayerAct2", match.nextPlayer(), player3);
+        Assert.assertEquals("Error nextPlayerAct3", match.nextPlayer(), testPlayer1);
     }
 
     @Test
     public void removePlayer(){
         match.removePlayer(match.players[0]);
-        if(numOfPlayers == 3){
-            match.removePlayer(match.players[0]);
-            Assert.assertTrue("Error remove Player", match.players[0].equals(player3));
-        }else{
-            match.removePlayer(match.players[0]);
-            Assert.assertTrue("Error remove Player", match.players[0].equals(player2));
-        }
+        match.removePlayer(match.players[0]);
+        Assert.assertEquals("Error remove Player", match.players[0], player3);
 
     }
 
@@ -191,7 +186,7 @@ public class MatchTest {
             }
         }
         Assert.assertEquals(match.towerCount(), 5*5);
-        match.getBoard().draw(player2); //manda player 2 solo perchè è necessario mandare un player come parametro
+        //match.getBoard().draw(player2); //manda player 2 solo perchè è necessario mandare un player come parametro
     }
 
     @Test
