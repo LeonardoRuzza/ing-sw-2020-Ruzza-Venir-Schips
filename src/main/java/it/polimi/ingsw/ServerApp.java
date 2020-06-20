@@ -9,6 +9,7 @@ public class ServerApp {
     public static void main(String[] args) {
         Server server;
         try {
+            System.out.println("Starting server...\n\n");
             server = new Server();
             server.run();
         } catch (
