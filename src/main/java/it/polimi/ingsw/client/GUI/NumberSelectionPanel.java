@@ -1,11 +1,8 @@
 package it.polimi.ingsw.client.GUI;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class NumberSelectionPanel extends JPanel {
@@ -43,11 +40,11 @@ public class NumberSelectionPanel extends JPanel {
         sysLabel.setBounds(651,188,619,207);
 
         button2.setBounds(752,503,208,105);
-        listenerTwo = new TwoPlayersButtonListner(gui,button3,button2,listenerThree);
+        listenerTwo = new TwoPlayersButtonListener(gui,button3,button2,listenerThree);
         button2.addMouseListener(listenerTwo);
 
         button3.setBounds(960,503,208,104);
-        listenerThree = new ThreePlayersButtonListner(gui,button3,button2,listenerTwo);
+        listenerThree = new ThreePlayersButtonListener(gui,button3,button2,listenerTwo);
         button3.addMouseListener(listenerThree);
 
         this.setOpaque(true);

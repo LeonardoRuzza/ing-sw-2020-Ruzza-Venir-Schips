@@ -1,32 +1,30 @@
 package it.polimi.ingsw.client.GUI;
 
-import it.polimi.ingsw.client.Client;
-
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class ThreePlayersButtonListner extends JFrame implements MouseListener {
+public class TwoPlayersButtonListener extends JFrame implements MouseListener {
+    private final int nPlayers = 2;
 
-    private final int nPlayers = 3;
     SantoriniGUI clientGUI;
     JLabel btnThree;
     JLabel btnTwo;
-    MouseListener listenerTwo;
+    MouseListener listenerThree;
 
-    public ThreePlayersButtonListner(SantoriniGUI gui, JLabel btnThree, JLabel btnTwo, MouseListener listenerTwo){
+    public TwoPlayersButtonListener(SantoriniGUI gui, JLabel btnThree, JLabel btnTwo, MouseListener listenerThree){
         this.btnThree = btnThree;
         this.clientGUI = gui;
         this.btnTwo = btnTwo;
-        this.listenerTwo = listenerTwo;
+        this.listenerThree = listenerThree;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if(clientGUI != null){
             clientGUI.sendNotification(Integer.toString(nPlayers));
-            btnThree.removeMouseListener(this);
-            btnTwo.removeMouseListener(listenerTwo);
+            btnTwo.removeMouseListener(this);
+            btnThree.removeMouseListener(listenerThree);
         }
     }
 
@@ -49,4 +47,6 @@ public class ThreePlayersButtonListner extends JFrame implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+
+
 }

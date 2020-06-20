@@ -21,7 +21,7 @@ public class SantoriniGUI {
     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     //GraphicsDevice gd = ge.getDefaultScreenDevice();
     public Clip soundThread;
-    private VolumeButtonListner volumeListener;
+    private VolumeButtonListener volumeListener;
     private JPanel settingsPanel;
     private JLabel quitButton;
 
@@ -161,11 +161,11 @@ public class SantoriniGUI {
         JLabel volume = new JLabel(new ImageIcon(volumeImage));
         assert muteImage != null;
         JLabel mute = new JLabel(new ImageIcon(muteImage));
-        volumeListener = new VolumeButtonListner(mute,volume,soundThread, frame);
+        volumeListener = new VolumeButtonListener(mute,volume,soundThread, frame);
 
         mute.addMouseListener(volumeListener);
         volume.addMouseListener(volumeListener);
-        quitButton.addMouseListener(new QuitListner(this, frame));
+        quitButton.addMouseListener(new QuitListener(this, frame));
         volume.setBounds(1773,81,101,89);
         volumePanel.add(volume,0);
         mute.setBounds(1773,81,101,89);
