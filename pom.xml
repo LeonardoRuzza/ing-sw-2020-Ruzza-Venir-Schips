@@ -58,20 +58,8 @@
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
           <configuration>
+            <classifier>server</classifier>
             <finalName>Santorini</finalName>
-            <archive>
-              <manifest>
-                <addClasspath>true</addClasspath>
-                <mainClass>it.polimi.ingsw.ClientApp</mainClass>
-              </manifest>
-            </archive>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.0.2</version>
-          <configuration>
-            <finalName>SantoriniServer</finalName>
             <archive>
               <manifest>
                 <addClasspath>true</addClasspath>
@@ -79,6 +67,23 @@
               </manifest>
             </archive>
           </configuration>
+          <executions>
+          <execution>
+            <id>client</id>
+            <goals><goal>jar</goal></goals>
+            <phase>package</phase>
+            <configuration>
+              <classifier>client</classifier>
+              <finalName>Santorini</finalName>
+              <archive>
+                <manifest>
+                  <addClasspath>true</addClasspath>
+                  <mainClass>it.polimi.ingsw.ClientApp</mainClass>
+                </manifest>
+              </archive>
+            </configuration>
+          </execution>
+          </executions>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
