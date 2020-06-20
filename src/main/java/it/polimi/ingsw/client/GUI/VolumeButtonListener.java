@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class VolumeButtonListner extends JFrame implements MouseListener {
+public class VolumeButtonListener extends JFrame implements MouseListener {
 
     JLabel mute;
     JLabel volume;
@@ -13,7 +13,7 @@ public class VolumeButtonListner extends JFrame implements MouseListener {
     JFrame frame;
     boolean active = true;
 
-    public VolumeButtonListner(JLabel mute, JLabel volume, Clip sound, JFrame frame){
+    public VolumeButtonListener(JLabel mute, JLabel volume, Clip sound, JFrame frame){
         this.mute = mute;
         this.volume = volume;
         this.sound = sound;
