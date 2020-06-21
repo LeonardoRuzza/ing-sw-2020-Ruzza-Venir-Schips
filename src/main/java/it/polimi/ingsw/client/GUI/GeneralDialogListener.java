@@ -6,8 +6,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 
 public class GeneralDialogListener extends JFrame implements MouseListener {
-    GamePanel panel;
-    String message;
+    private GamePanel panel;
+    private String message;
     public GeneralDialogListener(GamePanel panel, String message){
         this.panel = panel;
         this.message = message;

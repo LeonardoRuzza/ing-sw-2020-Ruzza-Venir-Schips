@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.List;
 
 public class FirstPlayerSelectionPanel extends JPanel {
-    SantoriniGUI gui;
+    private SantoriniGUI gui;
 
     /**
      * Implements a panel which shows the player cards and asks to select the first player

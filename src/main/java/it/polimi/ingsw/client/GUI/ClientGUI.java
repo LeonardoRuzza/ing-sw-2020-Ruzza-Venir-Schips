@@ -94,6 +94,10 @@ public class ClientGUI {
                     santoriniGUI.updateGUILobby(m1);
                     break;
 
+                case GameMessage.quitCloseConnection:
+                    santoriniGUI.updatePanelForQuitLobby();
+                    break;
+
 
                 default:
                     if (s.contains(GameMessage.chooseColor)) {

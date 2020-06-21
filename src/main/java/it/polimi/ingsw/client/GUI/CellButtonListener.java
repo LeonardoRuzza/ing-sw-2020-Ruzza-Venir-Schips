@@ -7,9 +7,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class CellButtonListener extends JFrame implements MouseListener {
-    SantoriniGUI gui;
-    String coordinates;
-    GamePanel gamePanel;
+    private SantoriniGUI gui;
+    private String coordinates;
+    private GamePanel gamePanel;
     public CellButtonListener(SantoriniGUI gui, GamePanel gamePanel, GamePanel.CellButton button){
         this.gui = gui;
         this.gamePanel = gamePanel;

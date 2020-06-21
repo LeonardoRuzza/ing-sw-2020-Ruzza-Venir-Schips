@@ -298,6 +298,50 @@ public class SantoriniGUI {
         gamePanel.updateServerMessage(message);
     }
 
+    protected void updatePanelForQuitLobby(){
+        JPanel screenPanel = new JPanel();
+        screenPanel.setLayout(null);
+        screenPanel.setBounds(0,0,1920,1080);
+        screenPanel.setOpaque(true);
+        screenPanel.setBackground(new java.awt.Color(0,0,0,0));
+
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(null);
+        infoPanel.setOpaque(true);
+        infoPanel.setBackground(new java.awt.Color(0,0,0,0));
+        Image backgroundImg = loadImage("general_dialog");
+        JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImg));
+        backgroundLabel.setBounds(0,0,775,380);
+
+        JLabel buttonOK = new JLabel("");
+        buttonOK.setBounds(180,260,416,105);
+        buttonOK.addMouseListener(new LobbyQuitListener(this));
+
+        JTextArea jTextArea = new JTextArea(GameMessage.quitCloseConnection);
+        jTextArea.setFont(new Font("ComicSansMS",Font.BOLD,40));
+        jTextArea.setForeground(java.awt.Color.white);
+        jTextArea.setEditable(false);
+        jTextArea.setSelectionColor(new java.awt.Color(0,0,0,0));
+        jTextArea.setHighlighter(null);
+        jTextArea.setLineWrap(true);
+        jTextArea.setWrapStyleWord(true);
+        jTextArea.setOpaque(true);
+        jTextArea.setBackground(new java.awt.Color(0,0,0,0));
+        jTextArea.setBounds(0,9,775,260);
+
+        infoPanel.setBounds(671,295,775,380);
+        infoPanel.add(buttonOK);
+        infoPanel.add(jTextArea);
+        infoPanel.add(backgroundLabel);
+        infoPanel.setBounds(671,295,775,380);
+        screenPanel.add(infoPanel);
+
+        screenPanel.setBounds(0,0,1920,1080);
+        frame.getContentPane().add(screenPanel,0);
+        frame.getContentPane().revalidate();
+        frame.getContentPane().repaint();
+    }
+
     /**
      * Update the current image of the Board to show to the User effect of his and other player's moves
      * @param board A cloned Board, with all relative informations
