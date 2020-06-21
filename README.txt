@@ -15,7 +15,7 @@ Coverage Report for package "Model":
 System requirements:
   -Have at least a screen resolution of 1920x1080 (for GUI).
   -Have installed Maven --https://maven.apache.org/
-                       --http://maven.apache.org/download.cgi
+                        --http://maven.apache.org/download.cgi
   -Java SDK (see: https://www.oracle.com/it/java/technologies/javase-downloads.html)
 
 How to create the .jar from command line?
@@ -29,9 +29,12 @@ How to create the .jar from command line?
 How to run JUnit tests?
   -Execute the phase from 1 to 4 (of "How to create the jar. etc") if you have didnt't do it previously or simply run: mvn test -f pom.xml
 
-How to run the Santorini.jar from command line?
-  1- CLI version: java -jar path/Santorini.jar cli
-  2- GUI version: java -jar path/Santorini.jar
+How to run the Santorini-client.jar from command line?
+  1- CLI version: java -jar path/Santorini-client.jar cli
+  2- GUI version: java -jar path/Santorini-client.jar
+
+How to run the Santorini-server.jar from command line?
+  - CLI version: java -jar path/Santorini.jar
 
 If you want to play with CLI please make sure tu use Linux or macOS beacuse Windows' CLI doesn't support colors.
 So if you have Windows please follow these steps (or if you prefer use simply a virtual machine with Unix):
