@@ -36,7 +36,7 @@ How to run the Santorini-client.jar from command line?
 How to run the Santorini-server.jar from command line?
   - CLI version: java -jar path/Santorini-server.jar
 
-If you want to play with CLI please make sure tu use Linux or macOS beacuse Windows' CLI doesn't support colors.
+If you want to play with CLI please make sure tu use Linux or macOS because Windows' CLI doesn't support colors.
 So if you have Windows please follow these steps (or if you prefer use simply a virtual machine with Unix):
   1-Open "Program and Features" in the Control Center.
   2-Click on "Turn Windows features on or off".
