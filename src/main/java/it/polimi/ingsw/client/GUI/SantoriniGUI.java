@@ -14,13 +14,12 @@ import java.io.*;
 import java.util.Objects;
 
 public class SantoriniGUI {
-    private  ClientGUI clientGUI;
+    private ClientGUI clientGUI;
     private StateOfGUI currentStateOfGUI;
     private JFrame frame = new JFrame("Santorini");
     private JPanel currentPanel;
-    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    //GraphicsDevice gd = ge.getDefaultScreenDevice();
-    public Clip soundThread;
+    private GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    private Clip soundThread;
     private VolumeButtonListener volumeListener;
     private JPanel settingsPanel;
     private JLabel quitButton;
@@ -94,9 +93,6 @@ public class SantoriniGUI {
         Clip sound = null;
         try {
             Clip clip = AudioSystem.getClip();
-            /*InputStream audioSrc = new FileInputStream("src/main/resources/sound/" + fileName);
-            InputStream bufferedIn = new BufferedInputStream(audioSrc);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);*/
             AudioInputStream audioStream = loadSound(fileName);
             if(audioStream==null){
                 return clip;
@@ -181,7 +177,7 @@ public class SantoriniGUI {
     /**
      * Add the setting panel to the main frame
      */
-    public void addSettingsPanel(){
+    private void addSettingsPanel(){
         settingsPanel.setBounds(0,0,1920,1080);
         frame.getContentPane().add(settingsPanel,0);
     }
@@ -189,7 +185,7 @@ public class SantoriniGUI {
     /**
      * Remove the setting panel from the framework
      */
-    public void removeSettingsPanel(){
+    private void removeSettingsPanel(){
         frame.getContentPane().remove(settingsPanel);
     }
 

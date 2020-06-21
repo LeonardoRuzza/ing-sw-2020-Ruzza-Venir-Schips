@@ -5,12 +5,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class TwoPlayersButtonListener extends JFrame implements MouseListener {
-    private final int nPlayers = 2;
 
-    SantoriniGUI clientGUI;
-    JLabel btnThree;
-    JLabel btnTwo;
-    MouseListener listenerThree;
+    private final int nPlayers = 2;
+    private SantoriniGUI clientGUI;
+    private JLabel btnThree;
+    private JLabel btnTwo;
+    private MouseListener listenerThree;
 
     public TwoPlayersButtonListener(SantoriniGUI gui, JLabel btnThree, JLabel btnTwo, MouseListener listenerThree){
         this.btnThree = btnThree;

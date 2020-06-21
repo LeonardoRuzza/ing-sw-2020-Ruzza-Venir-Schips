@@ -905,7 +905,7 @@ public class GamePanel extends JPanel {
 
             closeDescPanel.setBounds(1627,0,73,70);
             resultPanel.add(closeDescPanel);
-            godDescription.setBounds(474,171,1190,359);
+            godDescription.setBounds(474,195,1190,359);
             resultPanel.add(godDescription);
             nameGod.setBounds(613,33,482,79);
             resultPanel.add(nameGod);

@@ -122,7 +122,7 @@ public class CardListener implements MouseListener {
         cardInfo = new JPanel();
         cardInfo.setLayout(null);
         cardInfo.add(jTextArea,0);
-        cardInfo.setBounds(cardLabel.getBounds().x+100,cardLabel.getParent().getBounds().y+405,290,175);
+        cardInfo.setBounds(cardLabel.getBounds().x+100,cardLabel.getParent().getBounds().y+405,290,180);
         jTextArea.setBounds(0,0,cardInfo.getBounds().width,cardInfo.getBounds().height);
         cardContainer.add(cardInfo,0);
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(cardLabel);

@@ -7,10 +7,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class SuperPlayerActivateListener extends JFrame implements MouseListener {
-    boolean activate;
-    String superPower;
-    GamePanel boardPanel;
-    SantoriniGUI gui;
+
+    private boolean activate;
+    private String superPower;
+    private GamePanel boardPanel;
+    private SantoriniGUI gui;
 
     public SuperPlayerActivateListener(SantoriniGUI gui, GamePanel boardPanel, boolean activate, String superPower){
         this.boardPanel = boardPanel;
