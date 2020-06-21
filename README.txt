@@ -46,6 +46,6 @@ So if you have Windows please follow these steps (or if you prefer use simply a 
   6-Download "Ubuntu" from Microsoft Store and open it (or search for the Linux distribution that you want to install).
   7-Install Java from Ubuntu CLI.
   8-Exec the command "explorer.exe ." on the Ubuntu CLI.
-  9-Copy or move Santorini.jar (which you have previously created) in this directory or where you prefer in subdirectory.
+  9-Copy or move Santorini-client.jar (which you have previously created) in this directory or where you prefer in subdirectory.
 
 
