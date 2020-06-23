@@ -27,6 +27,7 @@ public class PlayerApollo extends Player {
                 }
                 return retValue1;
             }
+            else return false;
         }
         return true;
     }
