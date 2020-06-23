@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.utils.GameMessage;
 
 public class PlayerPrometheus extends Player {
-    private boolean justBuild=false; // mi dice se ha costruito o meno prima di muoversi
+    private boolean justBuild=false;
 
     protected PlayerPrometheus(String nickname, int number, Card card, Match match, Worker.Color color) {
         super(nickname, number, card, match, color);
@@ -41,7 +41,7 @@ public class PlayerPrometheus extends Player {
             return super.selectedWorkerMove(x,y);
         }
         else{
-            Worker tempWorker=new Worker(selectedWorker.getGender(),selectedWorker.getColor());  //copio i valori di selected worker in un worker temporaneo
+            Worker tempWorker=new Worker(selectedWorker.getGender(),selectedWorker.getColor());  //copy in a temporary worker
             tempWorker.move(selectedWorker.getCell());
             if(match.checkMove(x,y,tempWorker)!=null){
                 if(match.checkMove(x,y,tempWorker).equals(tempWorker)) {

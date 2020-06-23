@@ -24,7 +24,7 @@ public class PlayerMinotaur extends Player {
             y0=selectedWorker.getCell().getyCoord();
             xFinal=x-x0;
             yFinal=y-y0;
-            if(match.checkBuild(x+xFinal, y+yFinal, tempWorker)){     //ritorna true se non c'è sopra una cupola o un worker! Perfetto!
+            if(match.checkBuild(x+xFinal, y+yFinal, tempWorker)){     //return true if there isn't a dome or worker, what we need to know
                 return match.forceMove(x + xFinal, y + yFinal, tempWorker) && match.forceMove(x, y, selectedWorker);
             }
         }

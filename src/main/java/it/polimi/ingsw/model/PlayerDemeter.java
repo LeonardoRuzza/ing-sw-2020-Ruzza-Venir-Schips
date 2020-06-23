@@ -4,7 +4,7 @@ import it.polimi.ingsw.utils.GameMessage;
 
 public class PlayerDemeter extends Player {
     private boolean firstBuild=true;
-    private int firstX=-1, firstY=-1; //inferiscono valori diversi da x e y per forza (qui non è necesario ma alla fine di selectedWorker Move nell'ultimo if lo è
+    private int firstX=-1, firstY=-1; //here these assignments are not necessary but at the end of selectedWorkerMove in the last "if" is it.
 
     protected PlayerDemeter(String nickname, int number, Card card, Match match, Worker.Color color) {
         super(nickname, number, card, match, color);
@@ -27,7 +27,7 @@ public class PlayerDemeter extends Player {
      * @return {@code true} if was possible to build and performed; {@code false} otherwise
      */
     @Override
-    public boolean selectedWorkerBuild(int x, int y){  //questo metodo funzionerebbe solo se venisse chiamata sempre due volte la costruzione... funziona sempre solo se viene chiamato resetTurn quando Demeter costruisce una volta sola
+    public boolean selectedWorkerBuild(int x, int y){
         if(firstBuild){
             if(super.selectedWorkerBuild(x,y)){
                 firstBuild=false;

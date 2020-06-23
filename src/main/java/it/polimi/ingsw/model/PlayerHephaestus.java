@@ -40,8 +40,8 @@ public class PlayerHephaestus extends Player {
             else return false;
         }
         else {
-            if(x0 ==x && y0==y){                                 //verifico che vogli costruire sulla stessa cella precedente
-                if(super.selectedWorkerBuild(x,y)){              //costruisco indipendentemente se è una cupola perchè in questo caso la checkBuild seguente ritorna false e allora applicherei la removeBlock
+            if(x0 ==x && y0==y){
+                if(super.selectedWorkerBuild(x,y)){              //independent if is going to build a dome because the next checkBuild in this case will return false and then we'll call removeBlock
                     if(!(match.checkBuild(x,y,selectedWorker))){
                         match.removeBlock(x,y);
                         resetTurn();
@@ -52,7 +52,7 @@ public class PlayerHephaestus extends Player {
                         return true;
                     }
                 }
-            }                   //nel caso salti il primo if ritorna poi false per farsi dare un'ltra casella adeguata
+            }
         }
         return false;
     }
