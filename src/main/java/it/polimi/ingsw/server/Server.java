@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    private static final int PORT = 12345;
+    private final int PORT;
     private int numberOfPlayers = 0;
     private ServerSocket serverSocket;
     private ExecutorService executor = Executors.newFixedThreadPool(128);
@@ -24,7 +24,8 @@ public class Server {
     private Map<ClientConnection, ClientConnection> playingConnectionForTwo = new HashMap<>();
     private Map<ClientConnection, Map<ClientConnection,ClientConnection>> playingConnectionForThree = new HashMap<>();
 
-    public Server() throws IOException {
+    public Server(int port) throws IOException {
+        PORT = port;
         this.serverSocket = new ServerSocket(PORT);
     }
 
