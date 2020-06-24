@@ -226,7 +226,7 @@ public class Player implements Serializable {
                 Match tempMatch= match.clone();
                 match.removePlayer(this);
                 tempMatch.setPlayingNow(match.getPlayingNow());
-                return new ChoiceResponseMessage(tempMatch, this.clone(), GameMessage.turnMessageLose);
+                return new ChoiceResponseMessage(tempMatch, this.clone(), GameMessage.turnMessageLoserNoWorker);
             }
             if(setSelectedWorker(gender == Worker.Gender.Male ? workers[1].getGender() : workers[0].getGender())){
                 stateOfTurn++;

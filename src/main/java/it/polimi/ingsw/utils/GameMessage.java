@@ -64,7 +64,7 @@ public class GameMessage {
     public static final String turnMessageWaitAfterFirstAllocation = "Wait your turn.";
 
     public static final String turnMessageSelectYourWorker = "Select a worker specifying Male, Female or Worker coordinates X,Y";
-    public static final String turnMessageLoserNoWorker = "You lost, neither worker is selectable! ";
+    public static final String turnMessageLoserNoWorker = "You Lose. Neither worker is selectable! ";
     public static final String turnMessageOkWorkerSelection = "Worker successfully selected. ";
     public static final String turnMessageChooseCellMove = "Choose where to move. ";
     public static final String turnMessageUnselectableWorkerSwitch = "Worker was not selectable, the other was chosen automatically. " + turnMessageChooseCellMove;
