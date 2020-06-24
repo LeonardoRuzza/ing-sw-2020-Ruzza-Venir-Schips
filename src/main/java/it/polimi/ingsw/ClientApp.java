@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class ClientApp
 {
     public static void main(String[] args){
-        //130.25.241.32
+
         String IP = "127.0.0.1";
         int PORT = 12345;
 
