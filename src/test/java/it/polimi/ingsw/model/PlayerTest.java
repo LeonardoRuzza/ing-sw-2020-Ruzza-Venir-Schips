@@ -281,7 +281,7 @@ public class PlayerTest {
 
         player3.setSelectedWorker(Worker.Gender.Female);
         player3.match.forceMove(1,1,player3.selectedWorker);
-        Assert.assertEquals(player1.manageStateSelection(Worker.Gender.Male,-1,-1).getNextInstruction(), GameMessage.turnMessageLose);
+        Assert.assertEquals(player1.manageStateSelection(Worker.Gender.Male,-1,-1).getNextInstruction(), GameMessage.turnMessageLoserNoWorker);
     }
 
     @Test
@@ -375,7 +375,7 @@ public class PlayerTest {
         //Lose selection
         player3.match.forceMove(1,1,player3.selectedWorker);
         player1.stateOfTurn = 1;
-        Assert.assertEquals(player1.manageTurn(-1,-1, Worker.Gender.Male,"").getNextInstruction(), GameMessage.turnMessageLose);
+        Assert.assertEquals(player1.manageTurn(-1,-1, Worker.Gender.Male,"").getNextInstruction(), GameMessage.turnMessageLoserNoWorker);
         //All Correct (selection,move,build)
         Assert.assertEquals(match.getPlayingNow(),player2);
         Assert.assertEquals(player2.manageTurn(-1,-1, Worker.Gender.Female,"").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.turnMessageChooseCellMove);
