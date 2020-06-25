@@ -87,12 +87,12 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * */
     public boolean checkWin(@NotNull Worker w) {
         if (w.getOldLocation() == null || w.getCell() == null){
-            return checkSuperWin(false);
+            return checkSuperWin(false) && checkLimitWin(true);
         }
         if (w.getCell().getzCoord() == 2 && !(w.getCell().equals(w.getOldLocation())) && w.getOldLocation().getzCoord() != 2){
             return checkLimitWin(true);
         }
-        return checkSuperWin(false);
+        return checkSuperWin(false) && checkLimitWin(true);
     }
 
     /**
