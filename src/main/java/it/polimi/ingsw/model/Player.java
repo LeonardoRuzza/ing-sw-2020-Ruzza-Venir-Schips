@@ -200,8 +200,10 @@ public class Player implements Serializable {
         }
     }
 
-    /**Manage the operation of selection of the worker of the player in its turn. Check losing condition (checkLoserMove of Match) and if possible select the worker of the specified gender, otherwise try with the other worker (setSelectedWorker).
+    /**Manage the operation of selection of the worker of the player in its turn. Check losing condition (checkLoserMove of Match) and if possible select the worker of the specified gender (or located at the specified x and y coordinates, only if gender is null), otherwise try with the other worker (setSelectedWorker).
      *<p>
+     * @param x coordinate of actual cell position
+     * @param y coordinate of actual cell position
      * @param gender the gender of the worker to select
      * @return ChoiceResponseMessage the message to return to manageTurn and (modified or not) then to RemoteView. Specify the result of the tried operation.
      */

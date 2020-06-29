@@ -9,7 +9,12 @@ public class ViewToController {
     private LobbyPlayer lobbyPlayer;
     private LobbyRemoteView lobbyRemoteView;
 
-
+    /**Create the message passed from the LobbyRemoteView to Controller.
+     * <p>
+     * @param information a string with info received
+     * @param lobbyPlayer the LobbyPlayer who has sent the info
+     * @param lobbyRemoteView the LobbyRemoteView associated to the LobbyPlayer
+     */
     public ViewToController(String information, LobbyPlayer lobbyPlayer, LobbyRemoteView lobbyRemoteView) {
         this.information = information;
         this.lobbyPlayer = lobbyPlayer;

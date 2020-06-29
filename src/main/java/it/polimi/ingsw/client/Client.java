@@ -12,8 +12,8 @@ import java.util.Scanner;
 
 public class Client {
 
-    private String ip;
-    private int port;
+    private final String ip;
+    private final int port;
     private Player player;
 
     /**

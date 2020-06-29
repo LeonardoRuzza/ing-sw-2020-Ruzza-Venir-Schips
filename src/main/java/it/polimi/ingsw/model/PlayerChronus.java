@@ -20,6 +20,14 @@ public class PlayerChronus extends Player {
         return false;
     }
 
+    /**This method allow to integrate manageTurn adding controls of the victory case (of Chronus).
+     * <p>
+     * @param x first coordinate, when its value is relevant
+     * @param y second coordinate, when its value is relevant
+     * @param gender of the worker to select, when its value is needed
+     * @param optional a particular choice of the player, when its value is needed
+     * @return
+     */
     @Override
     public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
         if(checkSuperWin()){ return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageWin);}

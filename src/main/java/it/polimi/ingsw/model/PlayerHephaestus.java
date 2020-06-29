@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.client.GUI.GamePanel;
 import it.polimi.ingsw.utils.GameMessage;
 
 public class PlayerHephaestus extends Player {
@@ -108,7 +107,8 @@ public class PlayerHephaestus extends Player {
                     tempResponse = new ChoiceResponseMessage(match.clone(), tempResponse.getPlayer(), tempResponse.getNextInstruction());
                 }
                 return tempResponse;
-            default: return new ChoiceResponseMessage(match.clone(), this.clone(), "Errore nello stato del turno!"); //da valutare questo default
+            default:
+                throw new RuntimeException(); //not possible case
         }
     }
 

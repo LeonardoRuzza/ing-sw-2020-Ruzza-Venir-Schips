@@ -11,12 +11,11 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
     private int numberOfPlayers;
 
     private int numOfTurn = 0;
-    //private enum stateOfMatch{};
     private Player playingNow;
     protected Player[] players;
     private Board board;
 
-    public Match(int ID, int numberOfPlayers) {  // Da valutare quali parametri passare, per creazione partita
+    public Match(int ID, int numberOfPlayers) {
         this.ID = ID;
         this.numberOfPlayers = numberOfPlayers;
         players = new Player[numberOfPlayers];
@@ -80,7 +79,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
     }
 
     /**
-     * Returns true if the selected worker wins the match
+     * Check if the selected worker wins the match
      *
      * @param w Worker you want check if is winner
      * @return True if the Worker is winner; False otherwise
@@ -137,7 +136,6 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @return True if the Worker is loser; False otherwise
      *
      * */
-    //va fatta a inizio turno
     public boolean checkLoserMove(@NotNull Worker w) {
         for(int x = w.getCell().getxCoord()-1; x < w.getCell().getxCoord()+2; x++){
             if(x > 4 || x < 0){
@@ -183,7 +181,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
     }
 
     /**
-     * Returns true if the selected worker can no longer build
+     * Check if the selected worker can no longer build
      *
      * @param w Worker you want check if is loser
      * @return True if the Worker is loser; False otherwise
@@ -202,7 +200,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
                     continue;
                 }
                 if(board.getLastBusyCell(x, y).getBlock() != Block.DORSE){
-                    if((board.getLastBusyCell(x, y).getWorker()) == null){ // da modificare per carta speciale
+                    if((board.getLastBusyCell(x, y).getWorker()) == null){
                         return false;
                     }
                 }
@@ -212,7 +210,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
     }
 
     /**
-     * Check player worker can move into a selected cell
+     * Check if Player's worker can move into a selected cell
      * @param x coordinate of the cell in which to move
      * @param y coordinate of the cell in which to move
      * @param w Worker you want move
@@ -270,7 +268,6 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
             return false;
         }
         int[] distance = board.getDistance(buildToCell, w.getCell());
-        //cambiare zeta
         return distance[0] <= 1 && distance[1] <= 1;
     }
 
@@ -279,7 +276,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @return Player selected as actual playing
      */
     protected Player nextPlayer(){
-        if(players[numberOfPlayers-1].equals(playingNow) || playingNow == null){ // caso in cui il giocatore è l'ultimo caso in cui si inizia la partita
+        if(players[numberOfPlayers-1].equals(playingNow) || playingNow == null){ // case in which the player is the last, casein which start the match
             playingNow = players[0];
         }else{
             for (int x = 0; x < numberOfPlayers; x++){
@@ -308,7 +305,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
     }
 
     /**
-     * Check if there are cards that limit move
+     * Check if there are cards that limit movements
      * @param nextCell cell you want move into
      * @return True if you can move; False otherwise
      */
@@ -331,7 +328,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @param x coordinate of the cell in which to build
      * @param y coordinate of the cell in which to build
      * @param w worker you want build with
-     * @return True if builded; False otherwise
+     * @return True if worker has built; False otherwise
      */
     protected boolean forceBuild(int x, int y, Worker w){
         return ((board.forceBuild(board.getFirstBuildableCell(x, y))) != null);
@@ -341,7 +338,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @param x coordinate of the cell in which to build
      * @param y coordinate of the cell in which to build
      * @param w worker you want build with
-     * @return True if builded; False otherwise
+     * @return True if built; False otherwise
      */
     protected boolean forceBuildDorse(int x, int y, Worker w){
         return (board.forcebuildDorse(board.getFirstBuildableCell(x,y)));

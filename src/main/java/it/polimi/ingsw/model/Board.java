@@ -14,7 +14,7 @@ public class Board implements Cloneable, Serializable {
 
 // Builder
 
-    /**A board consist in <b>a tri-dimensional array </b> of cells; Dimesions of a cell are x,y,z.
+    /**A board consist in <b>a tri-dimensional array </b> of cells; Dimensions of a cell are x,y,z.
      * <p>
      * The {@code zCoord}represent the level of the cell.
      * <p>
@@ -188,7 +188,7 @@ public class Board implements Cloneable, Serializable {
     /**The "force" means that the function doesn't check if the move is allowed by the rules or not. These controls are made in match
      * @param c   Destination cell
      * @param w   Worker that need to be moved
-     * @return   {@code true} if the move was correclty performed; {@code false} otherwise
+     * @return   {@code true} if the move was correctly performed; {@code false} otherwise
      * @see Match
      */
     protected boolean forceMove(@NotNull Cell c, Worker w){

@@ -6,7 +6,7 @@ public class PlayerApollo extends Player {
         super(nickname, number, card, match, color);
     }
 
-    /**This method implement the power of Apollo allowing the movement of the selectedWorker of the Player on a cell occupied by an opponent's worker switching them (respecting the others rules of movement).
+    /**This method implement the power of Apollo allowing the movement of the selectedWorker of the Player on a cell occupied by an opponent's worker switching them (respecting the other standard rules of movement).
      * <p>
      * @param x first coordinate
      * @param y second coordinate

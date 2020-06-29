@@ -1,13 +1,12 @@
 package it.polimi.ingsw.server;
 
+
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.utils.ClosingConnectionParameter;
 import it.polimi.ingsw.utils.GameMessage;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class SocketClientConnection extends Observable<String> implements ClientConnection, Runnable {
@@ -99,13 +98,13 @@ public class SocketClientConnection extends Observable<String> implements Client
             send(GameMessage.insertName);
             String read = in.nextLine();
             name = read;
-            while(!server.addClient(this, name) || name.isEmpty()){
+            while(!server.addClient(this, name) || name.isEmpty()){   //try to register the new client/player with an available name
                 send(GameMessage.changeName);
                 read = in.nextLine();
                 name = read;
             }
             send(GameMessage.loadingMatch);
-            while(!readyToPlay){
+            while(!readyToPlay){      //this management with multiple threads is used to instantiate correctly more matches with the correct Master Player by the Server
                 synchronized (lock) {
                     if (server.isFirstPlayer(this)) {
                         boolean temp = false;
@@ -140,7 +139,6 @@ public class SocketClientConnection extends Observable<String> implements Client
                 }
             }
             server.manageLobby(numberOfPlayers);
-            //this.send(GameMessage.waitingPlayers);
             while (isActive()) {
                 read = in.nextLine();
                 if (read.toUpperCase().equals("QUIT")){
@@ -149,7 +147,7 @@ public class SocketClientConnection extends Observable<String> implements Client
                 }
                 notify(read);
             }
-        } catch (IOException | NoSuchElementException e) {
+        } catch (IOException | RuntimeException e) {
             if(isActive()){
                 System.err.println("Error!" + e.getMessage());
                 close(ClosingConnectionParameter.ALL);

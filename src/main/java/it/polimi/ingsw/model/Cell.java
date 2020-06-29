@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class Cell implements Cloneable, Serializable {
     
-    private int xCoord;
-    private int yCoord;
-    private int zCoord;
+    private final int xCoord;
+    private final int yCoord;
+    private final int zCoord;
     private Worker workerInCell = null;
     private Block blockInCell = null;
 

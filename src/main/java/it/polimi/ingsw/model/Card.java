@@ -88,7 +88,7 @@ public class Card implements Serializable {
     }
 
     /**
-     * Create a string formatted for print with card info
+     * Create a string formatted for print with card info (utility for testing only)
      * @return String contains card info
      */
     public String draw(){

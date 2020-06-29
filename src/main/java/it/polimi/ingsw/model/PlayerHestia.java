@@ -18,7 +18,7 @@ public class PlayerHestia extends Player {
         firstBuild=true;
     }
 
-    /**Integrate selectedWorkerBuild of Player with the power of Hestia which expect to build two times but not on a perimeter cell the second time (respecting others normal building rules).
+    /**Integrate selectedWorkerBuild of Player with the power of Hestia which expect to build two times but not on a perimeter cell the second time (respecting other standard building rules).
      * <p>
      * @param x first coordinate
      * @param y second coordinate
@@ -92,7 +92,8 @@ public class PlayerHestia extends Player {
                     return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageTurnEnd);
                 }
                 return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageErrorInSyntax+GameMessage.hestiaDemeterTurnMessageAskTwoBuild);
-            default: return new ChoiceResponseMessage(match.clone(), this.clone(), "Errore nello stato del turno!"); //da valutare questo default
+            default:
+                throw new RuntimeException(); //not possible case
         }
     }
 

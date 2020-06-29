@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+
 import it.polimi.ingsw.utils.GameMessage;
 
 public class PlayerAres extends Player {
@@ -57,7 +58,7 @@ public class PlayerAres extends Player {
             case 3:
                 tempResponse = manageStateBuild(x, y);
                 if(tempResponse.getNextInstruction().equals(GameMessage.turnMessageOkBuild)){
-                    stateOfTurn = 4; //sovrascrive quello che mette di default l'altro medoto maageStateBuild
+                    stateOfTurn = 4; //override the default value set by the standard manageStateBuild
                     tempResponse = new ChoiceResponseMessage(tempResponse.getMatch(), tempResponse.getPlayer(), tempResponse.getNextInstruction()+ GameMessage.aresTurnMessageAskRemoveBlok);
                     return tempResponse;
                 }
@@ -78,7 +79,7 @@ public class PlayerAres extends Player {
                 return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.aresTurnMessageFailRemoveBlokWNewCell);
 
             default:
-                return new ChoiceResponseMessage(match.clone(), this.clone(), "Errore nello stato del turno!"); //da valutare questo default
+                throw new RuntimeException(); //not possible case
         }
     }
 }

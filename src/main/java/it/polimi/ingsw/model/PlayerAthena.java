@@ -32,7 +32,7 @@ public class PlayerAthena extends Player {
         return returnValue;
     }
 
-    /**This method check if the movement specified by the Player (who is an opponent of the Player with Athena's power) is possible or not implementing the rule imposed by Athena power.
+    /**This method check if the movement specified by the Player (who is an opponent of the Player with Athena's power) is possible or not implementing the rule imposed by Athena's power.
      * <p>
      * @param nextCell where the opponent's selectedWorker want to move
      * @param opponent the opponent Player who is playing actually

@@ -29,7 +29,7 @@ public class Server {
         this.serverSocket = new ServerSocket(PORT);
     }
 
-    public static <T, E> T getKeyByValue(@NotNull Map<T, E> map, E value) {
+    private static <T, E> T getKeyByValue(@NotNull Map<T, E> map, E value) {
         for (Map.Entry<T, E> entry : map.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
                 return entry.getKey();
@@ -188,7 +188,6 @@ public class Server {
     }
 
 
-    //Wait for another player
     /**The function create a new Lobby for the players, creating the MVC components and starting the interaction with the players
      * <p>
      * @param numberOfPlayers   who will play this game. The number is choosen by the master player
@@ -225,7 +224,7 @@ public class Server {
             c2.setReadyToPlay(true);
             c2.release();
             if(cNext!=null){
-                cNext.release();
+                cNext.release(); //this is the next possible Master Player of a new match
             }
             this.numberOfPlayers = 0;
         }
