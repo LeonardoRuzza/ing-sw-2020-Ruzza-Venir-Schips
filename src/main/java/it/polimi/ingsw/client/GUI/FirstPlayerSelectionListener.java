@@ -7,7 +7,7 @@ import java.awt.event.WindowEvent;
 
 public class FirstPlayerSelectionListener implements MouseListener {
     private String pName;
-    private SantoriniGUI gui;
+    private final SantoriniGUI gui;
 
     public FirstPlayerSelectionListener(SantoriniGUI gui, String pName){
         this.gui = gui;

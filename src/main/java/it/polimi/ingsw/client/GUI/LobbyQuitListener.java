@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 
 public class LobbyQuitListener implements MouseListener {
-    SantoriniGUI gui;
+    private final SantoriniGUI gui;
 
     public LobbyQuitListener(SantoriniGUI gui) {
         this.gui = gui;

@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class CardLabel extends JLabel {
-    private SantoriniGUI santoriniGUI;
+    private final SantoriniGUI santoriniGUI;
     private final Card card;
     private JLabel selectionLabel;
     private JFrame topFrame;

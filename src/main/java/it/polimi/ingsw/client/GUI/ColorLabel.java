@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ColorLabel extends JLabel {
     private final Worker.Color color;
-    private SantoriniGUI santoriniGUI;
+    private final SantoriniGUI santoriniGUI;
 
     /**Create a new ColorLabel.
      * <p>

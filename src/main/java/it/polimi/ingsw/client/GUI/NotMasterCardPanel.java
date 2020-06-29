@@ -12,7 +12,7 @@ import java.util.List;
 public class NotMasterCardPanel extends JPanel {
     private final SantoriniGUI santoriniGUI;
     private List<Card> availableCards;
-    CardListener cardListener;
+    private CardListener cardListener;
 
     /**Create a new NotMasterCardPanel (a panel to show to a player who is not a master for the choose of his card).
      * <p>

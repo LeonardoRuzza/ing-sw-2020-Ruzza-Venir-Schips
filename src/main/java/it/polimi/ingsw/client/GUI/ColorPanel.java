@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ColorPanel extends JPanel {
     private ColorListener  colorListener;
-    private SantoriniGUI santoriniGUI;
+    private final SantoriniGUI santoriniGUI;
 
     public ColorPanel(SantoriniGUI santoriniGUI, List<Worker.Color> availableColors) {
         int x=0;

@@ -11,7 +11,7 @@ public class SuperPlayerActivateListener extends JFrame implements MouseListener
     private boolean activate;
     private String superPower;
     private GamePanel boardPanel;
-    private SantoriniGUI gui;
+    private final SantoriniGUI gui;
 
     public SuperPlayerActivateListener(SantoriniGUI gui, GamePanel boardPanel, boolean activate, String superPower){
         this.boardPanel = boardPanel;

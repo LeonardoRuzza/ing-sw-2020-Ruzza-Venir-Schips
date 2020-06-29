@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 public class ThreePlayersButtonListener extends JFrame implements MouseListener {
 
     private final int nPlayers = 3;
-    private SantoriniGUI clientGUI;
+    private final SantoriniGUI clientGUI;
     private JLabel btnThree;
     private JLabel btnTwo;
     private MouseListener listenerTwo;

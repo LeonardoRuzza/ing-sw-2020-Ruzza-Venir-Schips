@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 
 public class PlayButtonListener extends JFrame implements MouseListener {
 
-    private SantoriniGUI gui;
+    private final SantoriniGUI gui;
     private JTextField nicknameTxtField;
     private JLabel playBtn;
     private JFrame frame;
