@@ -457,8 +457,8 @@ public class SantoriniGUI {
             img = ImageIO.read(new File(pathString));
         } catch (IOException e) {
             InputStream pathString1 = getClass().getClassLoader().getResourceAsStream(imageName + ".png");
-            //pathString = pathString.substring(5,pathString.length()-(19+imageName.length())) + "classes/"+imageName+".png";
             try {
+                assert pathString1 != null;
                 img = ImageIO.read(pathString1);
             } catch (IOException eInt) {
                 eInt.printStackTrace();
@@ -477,10 +477,9 @@ public class SantoriniGUI {
             audioStream = AudioSystem.getAudioInputStream(bufferedIn);
         } catch (IOException | UnsupportedAudioFileException e) {
 
-            //pathString = pathString.substring(5,pathString.length()-(19+6+soundName.length())) + "classes/sound/"+soundName+".wav";
             try {
                 InputStream pathString1 = getClass().getClassLoader().getResourceAsStream("sound/"+soundName + ".wav");
-                //audioSrc = new FileInputStream(pathString);
+                assert pathString1 != null;
                 bufferedIn = new BufferedInputStream(pathString1);
                 audioStream = AudioSystem.getAudioInputStream(bufferedIn);
             } catch (IOException | UnsupportedAudioFileException eInt) {
