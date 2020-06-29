@@ -46,7 +46,8 @@ java -jar path/Santorini-client.jar cli
 java -jar path/Santorini-client.jar
 ```
 
-## How to run the Santorini-server.jar from command line?
+## How to run the Santorini-server.jar from command line?
+
 ```bash
 java -jar path/Santorini-server.jar
 ```
@@ -71,7 +72,7 @@ Note: insert the IP address instead of "IP" and the PORT's number instead of "PO
 
 # ONLY FOR WINDOWS' USERS
 If you want to play with CLI please make sure tu use Linux or macOS because Windows' CLI doesn't support colors.\
-So if you have Windows and you want to play with CLI please follow these steps (or if you prefer use simply a virtual machine with Unix):\
+So if you have Windows and you want to play with CLI please follow these steps (or if you prefer use simply a virtual machine with Unix):
 - Open "Program and Features" in the Control Center.
 - Click on "Turn Windows features on or off".
 - Check the Windows Subsystem for Linux option.
