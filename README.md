@@ -1,20 +1,20 @@
 # SANTORINI
 
 ## Requirements implemented:
-  -Complete rules\
-  -CLI\
-  -GUI\
-  -Socket\
-  -2 FA: multiple match, advanced gods (Ares, Chronus, Hera, Hestia, Hypnus)
+- Complete rules
+- CLI
+- GUI
+- Socket
+- 2 FA: multiple match, advanced gods (Ares, Chronus, Hera, Hestia, Hypnus)
 
 ## Coverage Report for package "Model":
-  -Class: 100%\
-  -Method: 94%\
-  -Line: 87%
+- Class: 100%
+- Method: 94%
+- Line: 87%
 
 ## System requirements:
  - Have at least a screen resolution of 1920x1080 (for GUI).
-- Have installed [Maven](https://maven.apache.org/), [Maven Download](http://maven.apache.org/download.cgi)\
+- Have installed [Maven](https://maven.apache.org/), [Maven Download](http://maven.apache.org/download.cgi)
 - Have installed [Java SDK](https://www.oracle.com/it/java/technologies/javase-downloads.html)
 
 # How to run JUnit tests?
