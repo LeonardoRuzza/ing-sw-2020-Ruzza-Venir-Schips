@@ -47,7 +47,6 @@ java -jar path/Santorini-client.jar
 ```
 
 ## How to run the Santorini-server.jar from command line?
-
 ```bash
 java -jar path/Santorini-server.jar
 ```
@@ -71,14 +70,14 @@ java -jar path/Santorini-server.jar PORT
 Note: insert the IP address instead of "IP" and the PORT's number instead of "PORT"!
 
 # ONLY FOR WINDOWS' USERS
-If you want to play with CLI please make sure tu use Linux or macOS because Windows' CLI doesn't support colors.
-So if you have Windows and you want to play with CLI please follow these steps (or if you prefer use simply a virtual machine with Unix):
-  1-Open "Program and Features" in the Control Center.
-  2-Click on "Turn Windows features on or off".
-  3-Check the Windows Subsystem for Linux option.
-  4-Click the OK button.
-  5-Click the Restart now button.
-  6-Download "Ubuntu" from Microsoft Store and open it (or search for the Linux distribution that you want to install).
-  7-Install Java from Ubuntu CLI.
-  8-Exec the command "explorer.exe ." on the Ubuntu CLI.
-  9-Copy or move Santorini-client.jar (which you have previously created) in this directory or where you prefer in subdirectory.
+If you want to play with CLI please make sure tu use Linux or macOS because Windows' CLI doesn't support colors.\
+So if you have Windows and you want to play with CLI please follow these steps (or if you prefer use simply a virtual machine with Unix):\
+- Open "Program and Features" in the Control Center.
+- Click on "Turn Windows features on or off".
+- Check the Windows Subsystem for Linux option.
+- Click the OK button.
+- Click the Restart now button.
+- Download "Ubuntu" from Microsoft Store and open it (or search for the Linux distribution that you want to install).
+- Install Java from Ubuntu CLI.
+- Exec the command "explorer.exe ." on the Ubuntu CLI.
+- Copy or move Santorini-client.jar (which you have previously created) in this directory or where you prefer in subdirectory.
