@@ -1,7 +1,7 @@
 # SANTORINI
 
 ## Requirements implemented:
-  -Complete rules
+  -Complete rules\
   -CLI
   -GUI
   -Socket
@@ -47,6 +47,7 @@ java -jar path/Santorini-client.jar
 ```
 
 ## How to run the Santorini-server.jar from command line?
+
 ```bash
 java -jar path/Santorini-server.jar
 ```
