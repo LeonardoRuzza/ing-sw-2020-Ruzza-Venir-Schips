@@ -84,7 +84,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @param w Worker you want check if is winner
      * @return True if the Worker is winner; False otherwise
      * */
-    public boolean checkWin(@NotNull Worker w) {
+    protected boolean checkWin(@NotNull Worker w) {
         if (w.getOldLocation() == null || w.getCell() == null){
             return checkSuperWin(false) && checkLimitWin(true);
         }
@@ -100,7 +100,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @param standardWin Says if worker wins with standard rules
      * @return True if the Worker is winner; False otherwise
      * */
-    public boolean checkSuperWin(boolean standardWin){
+    protected boolean checkSuperWin(boolean standardWin){
         boolean tempWin = false;
         if(playingNow.card == null){
             return false;
@@ -115,7 +115,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @param standardWin Say if worker wins with standard rules
      * @return True if the Worker is winner; False otherwise
      * */
-    public boolean checkLimitWin(boolean standardWin){
+    protected boolean checkLimitWin(boolean standardWin){
         boolean tempWin = standardWin;
         for(int x = 0; x < numberOfPlayers; x++) {
             Player p = players[x];
@@ -136,7 +136,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @return True if the Worker is loser; False otherwise
      *
      * */
-    public boolean checkLoserMove(@NotNull Worker w) {
+    protected boolean checkLoserMove(@NotNull Worker w) {
         for(int x = w.getCell().getxCoord()-1; x < w.getCell().getxCoord()+2; x++){
             if(x > 4 || x < 0){
                 continue;
@@ -187,7 +187,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
      * @return True if the Worker is loser; False otherwise
      *
      * */
-    public boolean checkLoserBuild(@NotNull Worker w) {
+    protected boolean checkLoserBuild(@NotNull Worker w) {
         for(int x = w.getCell().getxCoord()-1; x < w.getCell().getxCoord()+2; x++){
             if(x > 4 || x < 0){
                 continue;
@@ -475,7 +475,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         notify(new ChoiceResponseMessage(this.clone(),playingNow.clone(), GameMessage.turnMessageFIRSTALLOCATION));
     }
 
-    public boolean firstAllocation(int x, int y, Worker.Gender gender){
+    protected boolean firstAllocation(int x, int y, Worker.Gender gender){
        return playingNow.selectedWorkerMove(x,y);
     }
 

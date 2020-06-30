@@ -13,7 +13,7 @@ public class PlayerMinotaur extends Player {
      * @return {@code true} if the movement was possible and performed; {@code false} otherwise
      */
     @Override
-    public boolean selectedWorkerMove(int x, int y){
+    protected boolean selectedWorkerMove(int x, int y){
         Worker tempWorker;
         int x0, y0, xFinal, yFinal;
         if(super.selectedWorkerMove(x, y)){return true;}

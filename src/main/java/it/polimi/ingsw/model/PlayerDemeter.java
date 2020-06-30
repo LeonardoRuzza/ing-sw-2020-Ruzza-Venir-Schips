@@ -27,7 +27,7 @@ public class PlayerDemeter extends Player {
      * @return {@code true} if was possible to build and performed; {@code false} otherwise
      */
     @Override
-    public boolean selectedWorkerBuild(int x, int y){
+    protected boolean selectedWorkerBuild(int x, int y){
         if(firstBuild){
             if(super.selectedWorkerBuild(x,y)){
                 firstBuild=false;
@@ -57,7 +57,7 @@ public class PlayerDemeter extends Player {
      * @return ChoiceResponseMessage the message to notify to RemoteView
      */
     @Override
-    public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
+    protected ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
         ChoiceResponseMessage tempResponse;
         switch(stateOfTurn){
             case 1:

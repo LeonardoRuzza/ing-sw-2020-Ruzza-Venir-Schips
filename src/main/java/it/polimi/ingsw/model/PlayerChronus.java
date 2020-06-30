@@ -13,7 +13,7 @@ public class PlayerChronus extends Player {
      * @return {@code true} in case of win; {@code false} otherwise
      */
     @Override
-    public boolean checkSuperWin(){
+    protected boolean checkSuperWin(){
         if(match.towerCount() >= numOfWinTower ){
             return true;
         }
@@ -29,7 +29,7 @@ public class PlayerChronus extends Player {
      * @return
      */
     @Override
-    public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
+    protected ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
         if(checkSuperWin()){ return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageWin);}
         ChoiceResponseMessage response = super.manageTurn(x,y,gender,optional);
         if(checkSuperWin()){ return new ChoiceResponseMessage(match.clone(), this.clone(), GameMessage.turnMessageWin);}

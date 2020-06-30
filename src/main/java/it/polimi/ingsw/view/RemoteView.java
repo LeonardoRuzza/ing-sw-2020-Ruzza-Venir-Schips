@@ -2,7 +2,6 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.ChoiceResponseMessage;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerChoiceMessage;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;

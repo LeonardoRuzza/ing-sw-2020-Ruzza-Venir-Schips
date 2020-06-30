@@ -177,7 +177,7 @@ public class Controller implements Observer<PlayerChoiceMessage>, ObserverLobby<
     @Override
     public void updateLobby(ViewToController message) { handleLobbyInput(message);}
 
-    public void removeMe(View rv){
+    private void removeMe(View rv){
         match.removeObserver(rv);
     }
 }

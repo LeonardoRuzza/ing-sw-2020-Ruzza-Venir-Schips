@@ -24,7 +24,7 @@ public class PlayerPrometheus extends Player {
      * @return  {@code true} if was possible to build and performed; {@code false} otherwise
      */
     @Override
-    public boolean selectedWorkerBuild(int x, int y){
+    protected boolean selectedWorkerBuild(int x, int y){
         justBuild = true;
         return super.selectedWorkerBuild(x, y);
     }
@@ -36,7 +36,7 @@ public class PlayerPrometheus extends Player {
      * @return {@code true} if the movement was possible and performed; {@code false} otherwise
      */
     @Override
-    public boolean selectedWorkerMove(int x, int y){
+    protected boolean selectedWorkerMove(int x, int y){
         if(!justBuild){
             return super.selectedWorkerMove(x,y);
         }
@@ -85,7 +85,7 @@ public class PlayerPrometheus extends Player {
      * @return ChoiceResponseMessage the message to notify to RemoteView
      */
     @Override
-    public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
+    protected ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
         ChoiceResponseMessage tempResponse;
         if(!optional.equals(GameMessage.turnMessageBUILDBEFORE) && stateOfTurn == 2 && optional.equals("")){
             stateOfTurn++;

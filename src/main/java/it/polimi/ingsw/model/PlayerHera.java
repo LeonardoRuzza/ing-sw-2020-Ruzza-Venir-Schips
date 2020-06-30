@@ -12,7 +12,7 @@ public class PlayerHera extends Player {
      * @return {@code true} if the normal winning conditions is possible; {@code false} otherwise
      */
     @Override
-    public boolean checkLimitWin(Player opponent){
+    protected boolean checkLimitWin(Player opponent){
         if(opponent.equals(this)) return true;
         int x=opponent.selectedWorker.getCell().getxCoord();
         int y=opponent.selectedWorker.getCell().getyCoord();

@@ -13,7 +13,7 @@ public class PlayerHypnus extends Player {
      * @return {@code true} if the selection is possible; {@code false} otherwise
      */
     @Override
-    public boolean checkLimitSelection(Player opponent, Worker w){
+    protected boolean checkLimitSelection(Player opponent, Worker w){
         if(opponent.equals(this)) return true;
         if(opponent.workers[0].getCell() == null || opponent.workers[1].getCell() == null ) {return true;}
         return !isHigherWorker(opponent, w);

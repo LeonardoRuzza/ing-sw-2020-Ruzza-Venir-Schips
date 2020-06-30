@@ -11,7 +11,7 @@ public class PlayerPan extends Player {
      * @return {@code true} in case of win; {@code false} otherwise
      */
     @Override
-    public boolean checkSuperWin(){
+    protected boolean checkSuperWin(){
         int zOld,zFinal,groundFinal=-1;
         Block tempB;
         zOld=selectedWorker.getOldLocation().getzCoord();

@@ -200,7 +200,7 @@ public class Board implements Cloneable, Serializable {
      * @return   The block just added
      * @see Match
      */
-    protected Block forceBuild(@NotNull Cell c /*,Worker w*/){
+    protected Block forceBuild(@NotNull Cell c){
         return c.addBlock();
     }
 

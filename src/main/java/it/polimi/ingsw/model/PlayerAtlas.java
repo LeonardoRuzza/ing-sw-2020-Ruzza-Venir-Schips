@@ -14,7 +14,7 @@ public class PlayerAtlas extends Player {
      * @param y second coordinate
      * @return {@code true} if build dorse was possible and performed; {@code false} otherwise
      */
-    public boolean selectedWorkerBuildDorse(int x, int y){
+    protected boolean selectedWorkerBuildDorse(int x, int y){
         if(match.checkBuild(x, y, selectedWorker)){
             return match.forceBuildDorse(x, y, selectedWorker);
         }
@@ -30,7 +30,7 @@ public class PlayerAtlas extends Player {
      * @return ChoiceResponseMessage the message to notify to RemoteView
      */
     @Override
-    public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
+    protected ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional){
         ChoiceResponseMessage tempResponse;
         switch(stateOfTurn){
             case 1:

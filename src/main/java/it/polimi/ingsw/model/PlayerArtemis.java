@@ -13,7 +13,7 @@ public class PlayerArtemis extends Player {
      * @return {@code true} if the movement was possible and performed; {@code false} otherwise
      */
     @Override
-    public boolean selectedWorkerMove(int x, int y){
+    protected boolean selectedWorkerMove(int x, int y){
         Worker tempWorker1;
         Worker tempWorker2;
         Cell tempCell;

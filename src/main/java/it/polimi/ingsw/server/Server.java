@@ -156,7 +156,7 @@ public class Server {
      * @param c {@code ClientConnection}
      * @return {@code true} if the client is first in registerOrder, {@code false} otherwise
      */
-    public synchronized boolean isFirstPlayer(ClientConnection c){
+    protected synchronized boolean isFirstPlayer(ClientConnection c){
         if(registerOrder.size() == 0){
             return false;
         }
@@ -168,7 +168,7 @@ public class Server {
      * @param numberOfPlayers  Parameter received by the master player (not master player pass only "-1" for default)
      * @return   {@code true} if there are enough player to start a game, {@code false} otherwise
      */
-    public synchronized boolean manageLobby(int numberOfPlayers){
+    protected synchronized boolean manageLobby(int numberOfPlayers){
         if(numberOfPlayers == 2 || numberOfPlayers == 3){
             if (waitingConnection.size() >= numberOfPlayers) {
                 createGame(numberOfPlayers);
@@ -192,7 +192,7 @@ public class Server {
      * <p>
      * @param numberOfPlayers   who will play this game. The number is choosen by the master player
      */
-    public void createGame(int numberOfPlayers){
+    private void createGame(int numberOfPlayers){
         if(numberOfPlayers == 2){
             ClientConnection c1 = registerOrder.get(0);
             ClientConnection c2 = registerOrder.get(1);

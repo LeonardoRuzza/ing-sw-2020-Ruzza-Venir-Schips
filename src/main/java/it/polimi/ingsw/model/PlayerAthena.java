@@ -14,7 +14,7 @@ public class PlayerAthena extends Player {
      * @return {@code true} if the movement was possible and performed; {@code false} otherwise
      */
     @Override
-    public boolean selectedWorkerMove(int x, int y){
+    protected boolean selectedWorkerMove(int x, int y){
         boolean returnValue;
         if(selectedWorker.getCell() == null){
             return super.selectedWorkerMove(x, y);
@@ -39,7 +39,7 @@ public class PlayerAthena extends Player {
      * @return {@code true} if the opponent's movement is possible; {@code false} otherwise
      */
     @Override
-    public boolean checkLimitMove(Cell nextCell, Player opponent, Worker opponentWorker){
+    protected boolean checkLimitMove(Cell nextCell, Player opponent, Worker opponentWorker){
         if(this.selectedWorker==null || opponentWorker ==null){ return true; }
         if(this.selectedWorker.getOldLocation() == null || this.selectedWorker.getCell() == null){
             return true;

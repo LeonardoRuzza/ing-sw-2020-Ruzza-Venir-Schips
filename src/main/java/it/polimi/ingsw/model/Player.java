@@ -121,7 +121,7 @@ public class Player implements Serializable {
      * @param y second coordinate
      * @return {@code true} if the movement was possible and performed; {@code false} otherwise
      */
-    public boolean selectedWorkerMove(int x, int y){
+    protected boolean selectedWorkerMove(int x, int y){
         Worker tempWorker;
         tempWorker=match.checkMove(x,y,selectedWorker);
         if (tempWorker == null) return false;
@@ -137,7 +137,7 @@ public class Player implements Serializable {
      * @param y second coordinate
      * @return {@code true} if was possible to build and performed; {@code false} otherwise
      */
-    public boolean selectedWorkerBuild(int x, int y){
+    protected boolean selectedWorkerBuild(int x, int y){
         if(match.checkBuild(x,y,selectedWorker)){
             return match.forceBuild(x, y, selectedWorker);
         }
@@ -171,7 +171,7 @@ public class Player implements Serializable {
      * @param optional a particular choice of the player, when its value is needed
      * @return ChoiceResponseMessage the message to notify to RemoteView
      */
-    public ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
+    protected ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
         ChoiceResponseMessage tempResponse;
         switch(stateOfTurn){
             case 1:
@@ -310,7 +310,7 @@ public class Player implements Serializable {
      * @param y coordinate y
      * @return {@code false}
      */
-    public boolean selectedWorkerBuildDorse(int x, int y){
+    protected boolean selectedWorkerBuildDorse(int x, int y){
         return false;
     }
 
@@ -319,7 +319,7 @@ public class Player implements Serializable {
      * @param opponent the opponent Player to check if is subjected to a restriction.
      * @return {@code true}
      */
-    public boolean checkLimitWin(Player opponent){
+    protected boolean checkLimitWin(Player opponent){
         return true;
     }
 
@@ -327,7 +327,7 @@ public class Player implements Serializable {
      * <p>
      * @return {@code false}
      */
-    public boolean checkSuperWin(){
+    protected boolean checkSuperWin(){
         return false;
     }
 
@@ -338,7 +338,7 @@ public class Player implements Serializable {
      * @param worker the worker which the opponent want to move
      * @return {@code true}
      */
-    public boolean checkLimitMove(Cell nextCell, Player opponent, Worker worker){
+    protected boolean checkLimitMove(Cell nextCell, Player opponent, Worker worker){
         return true;
     }
 
@@ -353,7 +353,7 @@ public class Player implements Serializable {
      * @param w the worker which the actualPlayer want to select
      * @return {@code true}
      */
-    public boolean checkLimitSelection(Player actualPlayer, Worker w){return true;}
+    protected boolean checkLimitSelection(Player actualPlayer, Worker w){return true;}
 
     /**This method return false every time if not override in subclasses.
      * <p>

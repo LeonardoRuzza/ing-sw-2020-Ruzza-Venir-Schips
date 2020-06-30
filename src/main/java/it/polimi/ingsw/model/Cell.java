@@ -108,7 +108,7 @@ public class Cell implements Cloneable, Serializable {
      * <p>
      * @return  The Block just added in this cell
      */
-    public Block addBlock(){
+    protected Block addBlock(){
         switch (this.zCoord) {
             case 0:
                 this.blockInCell = Block.B1;
@@ -136,7 +136,7 @@ public class Cell implements Cloneable, Serializable {
      * @param w  The worker you want to move in {@code this} cell
      * @return   {@code true} if {@code w} != null ; {@code false} otherwise
      */
-    public Boolean moveWorkerInto(Worker w){
+    protected Boolean moveWorkerInto(Worker w){
         if(w != null){
             Cell c = w.move(this);
             if (c != null) {
