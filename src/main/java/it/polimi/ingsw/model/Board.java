@@ -25,7 +25,7 @@ public class Board implements Cloneable, Serializable {
      * because there is a Block B1 present.
      * <p>
      *     <b>IMPORTANT: At (x,y,0), it's possible to have a worker without a block, and so the worker is standing at level0. It's not like this
-     *        for cells at (x,y,z) with z>0; in this case it's only possible to have a block, or a worker and a block, since a worker cannot stand
+     *        for cells at (x,y,z) with z{@literal >}0; in this case it's only possible to have a block, or a worker and a block, since a worker cannot stand
      *        in an higher level if there is not a block under his feet.</b>
      */
     public Board() {
@@ -155,9 +155,9 @@ public class Board implements Cloneable, Serializable {
     /** Return the distance of various coord between 2 cells.
      * <p>
      * For the {@code xCoord} and {@code yCoord} it return the absolute value
-     * of distance, <b>that can only be >0</b>
+     * of distance, <b>that can only be {@literal >}0</b>
      * <p>
-     * For the {@code zCoord} it return the simple value of distance, <b>that can be <0 or >0</b>
+     * For the {@code zCoord} it return the simple value of distance, <b>that can be {@literal <}0 or {@literal >}0</b>
      * <p>
      * @param c1    First cell
      * @param c2    Second cell
