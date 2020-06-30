@@ -47,6 +47,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
 
     /**
      * Setter for the player which is playing now
+     * @param playingNow player you want set for playing now
      */
     protected void setPlayingNow(Player playingNow){this.playingNow=playingNow;}
 
@@ -307,6 +308,7 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
     /**
      * Check if there are cards that limit movements
      * @param nextCell cell you want move into
+     * @param worker worker you want move
      * @return True if you can move; False otherwise
      */
     protected  boolean forceMoveLimit(Cell nextCell, Worker worker){
@@ -495,8 +497,13 @@ public class Match extends Observable<ChoiceResponseMessage> implements Cloneabl
         }
         return totLocated == numberOfPlayers * 2;
     }
-    /**Ask the playing now player to do his move, if it is the first turn also check all worker have been located successfully
-     *
+
+    /**
+     * Ask the playing now player to do his move, if it is the first turn also check all worker have been located successfully
+     * @param x x of location
+     * @param y y of location
+     * @param gender gender of worker
+     * @param optional optional parameter from player
      */
     public void performPlay(int x, int y, Worker.Gender gender, String optional){
         ChoiceResponseMessage resp = playingNow.manageTurn(x, y,gender, optional);
