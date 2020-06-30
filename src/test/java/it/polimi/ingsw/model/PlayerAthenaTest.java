@@ -15,8 +15,12 @@ public class PlayerAthenaTest {
     private Worker testWorkerAthena;
     private int[] location = new int[]{4,4};
     private int[] build = new int[]{4,3};
+
+    /**
+     * Setup a match with three players
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         testPlayer1 = new PlayerAtlas("player1", 1, cardAtlas, match, Worker.Color.RED);
         testPlayer2 = new PlayerAthena("player2", 2, cardAthena, match, Worker.Color.GREEN);
         Player player3 = new Player("player3", 3, match);
@@ -25,10 +29,13 @@ public class PlayerAthenaTest {
         testWorkerAthena = testPlayer2.workers[0];
         testPlayer2.setSelectedWorker(testWorkerAthena);
         testPlayer1.setSelectedWorker(testWorkerAtlsas);
-        match.nextPlayer(); //turno p1;
-        match.nextPlayer(); //turno p2;
+        match.nextPlayer(); //round p1;
+        match.nextPlayer(); //round p2;
     }
 
+    /**
+     * Test if one of athena's worker go up other players' workers can't move up
+     */
     @Test
     public void testAthenaGoUp() {
         match.forceBuild(build[0], build[1], testWorkerAthena);

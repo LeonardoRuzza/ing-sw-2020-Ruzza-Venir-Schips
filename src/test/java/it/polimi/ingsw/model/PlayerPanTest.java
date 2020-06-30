@@ -10,8 +10,12 @@ public class PlayerPanTest {
     private Worker testWorker;
     private int[] location = new int[]{0,0};
     private int[] build = new int[]{1,1};
+
+    /**
+     * Setup a match with three players
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         testPlayer1 = new PlayerPan("player1", 1, cardPan, match, Worker.Color.GREEN);
         Player player2 = new Player("player2", 2, match);
         Player player3 = new Player("player3", 3, match);
@@ -22,6 +26,9 @@ public class PlayerPanTest {
         match.nextPlayer();
     }
 
+    /**
+     * Test check win allow pan to win in standard condition
+     */
     @Test
     public void winThreeToGround(){
         for(int x = 0; x < 3; x++){
@@ -36,6 +43,9 @@ public class PlayerPanTest {
         Assert.assertTrue("Error Check Win", match.checkWin(testPlayer1.workers[0]));
     }
 
+    /**
+     * Test check win allow pan to win using his super power (from 3rd level to 1st level)
+     */
     @Test
     public void winThreeToBlock(){
         for(int x = 0; x < 3; x++){

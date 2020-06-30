@@ -13,8 +13,12 @@ public class PlayerHeraTest {
     private Worker testWorker;
     private int[] location = new int[]{0,0};
     private int[] build = new int[]{1,1};
+
+    /**
+     * Setup a match with three players
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         testPlayer1 = new PlayerAtlas("player1", 2, cardAtlas, match, Worker.Color.RED);
         Player testPlayer2 = new PlayerHera("player2", 1, cardHera, match, Worker.Color.GREEN);
         Player player3 = new Player("player3", 3, match);
@@ -24,6 +28,9 @@ public class PlayerHeraTest {
         match.nextPlayer();
     }
 
+    /**
+     * Check if checkWin limit the win of testPlayer1 because of Hera(testPlayer2) super power
+     */
     @Test
     public void testLimitWinFalse() {
         for(int x = 0; x < 2; x++){
@@ -41,6 +48,9 @@ public class PlayerHeraTest {
         Assert.assertFalse("Error Check Win", match.checkWin(testWorker));
     }
 
+    /**
+     * Check if checkWin does not limit the win of testPlayer1 because of Hera(testPlayer2) super power
+     */
     @Test
     public void testLimitWinTrue() {
         for(int x = 0; x < 3; x++){

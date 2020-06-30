@@ -15,17 +15,24 @@ public class PlayerPrometheusTest {
     private Worker testWorkerProm;
     private int[] location = new int[]{0,0};
     private int[] build = new int[]{1,1};
+
+    /**
+     * Setup a match with three players
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         testPlayer1 = new PlayerPrometheus("player1", 1, cardProm, match, Worker.Color.RED);
         Player player2 = new Player("player2", 2, match);
         Player player3 = new Player("player3", 3, match);
         match.players = new Player[]{testPlayer1, player2, player3};
         testWorkerProm = testPlayer1.workers[0];
         testPlayer1.setSelectedWorker(testWorkerProm);
-        match.nextPlayer(); //turno p1;
+        match.nextPlayer(); //round p1;
     }
 
+    /**
+     * Make two build testing Prometheus super power
+     */
     @Test
     public void buildTwoTimeTest() {
         Assert.assertTrue("Error First Locate", testPlayer1.selectedWorkerMove(location[0],location[1]));
@@ -38,6 +45,9 @@ public class PlayerPrometheusTest {
         build[1] = 1;
     }
 
+    /**
+     * Test selectedWorkerMove does not allow Prometheus to go up after he choose to build two times
+     */
     @Test
     public void tryGoUpTest() {
         Assert.assertTrue("Error First Locate", testPlayer1.selectedWorkerMove(location[0],location[1]));
@@ -47,6 +57,10 @@ public class PlayerPrometheusTest {
         Assert.assertFalse("Error First Locate", testPlayer1.selectedWorkerMove(location[0],location[1]));
     }
 
+    /**
+     * Test override manage turn allow Prometheus to make a standard round.
+     * It is not needed to test if he can move up because of the called method to check move is the same of the previous test
+     */
     @Test
     public void testManageTurnBuildOneTime() {
         testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
@@ -55,6 +69,10 @@ public class PlayerPrometheusTest {
         Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement +  GameMessage.turnMessageChooseCellBuild);
         Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
     }
+
+    /**
+     * Test override manage turn allow Prometheus to build two times
+     */
     @Test
     public void testManageTurnBuildTwoTimeSuccess() {
         match.nextPlayer();

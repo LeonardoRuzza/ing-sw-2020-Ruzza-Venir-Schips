@@ -39,7 +39,7 @@ public class Card implements Serializable {
     }
     public Card(String cardName){
         for(int x=0; x<names.length; x++){
-            if(names[x].equals(cardName)){
+            if(names[x].equals(cardName.toUpperCase())){
                 this.number = x;
             }
         }

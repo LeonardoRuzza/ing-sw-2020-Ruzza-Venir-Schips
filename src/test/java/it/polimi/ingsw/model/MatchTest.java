@@ -11,7 +11,9 @@ public class MatchTest {
     Player player3;
     private Match match = new Match(1, numOfPlayers);
 
-
+    /**
+     * Create players and set the first player before each test
+     */
     @Before
     public void setUp(){
         match = new Match(1, numOfPlayers);
@@ -31,11 +33,17 @@ public class MatchTest {
         match.initializeGame();
     }
 
+    /**
+     * Test if number of players is correctly setted
+     */
     @Test
     public void testGetNumberOfPlayers(){
         Assert.assertEquals("error number of player", match.getNumberOfPlayers(), numOfPlayers);
     }
 
+    /**
+     * Test the method can correctly add players to match
+     */
     @Test
     public void testAddPlayer(){
         match.players = new Player[]{null, null, null};
@@ -50,6 +58,9 @@ public class MatchTest {
 
     }
 
+    /**
+     * Test if the method returns the expected value for victory in both cases: user is winner and user is loser
+     */
     @Test
     public void testCheckWin(){
         testPlayer1.setSelectedWorker(Worker.Gender.Male);
@@ -64,6 +75,9 @@ public class MatchTest {
         Assert.assertTrue("Error Check Win True", match.checkWin(testPlayer1.selectedWorker));
     }
 
+    /**
+     * Test if the method returns the expected value if a player can't move in both cases: user can move user can't move
+     */
     @Test
     public void testCheckLoserMove(){
         testPlayer1.setSelectedWorker(Worker.Gender.Male);
@@ -78,6 +92,9 @@ public class MatchTest {
         Assert.assertFalse("Error Player1 not loser for move", match.checkLoserMove(testPlayer1.selectedWorker));
     }
 
+    /**
+     * Test if the method returns the expected value if a player can't build in both cases: user can build user can't build
+     */
     @Test
     public void testCheckLoserBuild(){
         testPlayer1.setSelectedWorker(Worker.Gender.Male);
@@ -94,6 +111,15 @@ public class MatchTest {
         Assert.assertFalse("Error Player1 not loser for build Success", match.checkLoserBuild(testPlayer1.selectedWorker));
     }
 
+    /**
+     * Test if the method returns the expected value if a player tries to move on a selected cell in these cases:
+     * user want move on another worker
+     * user want move out of the bord's border
+     * user want move on the cell where he is actually located
+     * user want move on a too high cell
+     * user want move on a dorse
+     * user move success
+     */
     @Test
     public void testCheckMove(){
         testPlayer1.setSelectedWorker(Worker.Gender.Male);
@@ -112,6 +138,14 @@ public class MatchTest {
         Assert.assertEquals("Error checkMove Success", match.checkMove(1, 1, testPlayer1.selectedWorker), testPlayer1.selectedWorker);
     }
 
+    /**
+     + Test if the method returns the expected value if a player tries to build on a selected cell in these cases:
+     * user want build on another worker
+     * user want build out of the bord's border
+     * user want build on the cell where he is actually located
+     * user want build on a dorse
+     * user build success
+     */
     @Test
     public void testCheckBuild(){
         testPlayer1.setSelectedWorker(Worker.Gender.Male);
@@ -125,10 +159,13 @@ public class MatchTest {
         match.forceBuild(1,0,testPlayer1.selectedWorker);
         match.forceBuild(1,0,testPlayer1.selectedWorker);
         match.forceBuild(1,0,testPlayer1.selectedWorker);
-        Assert.assertFalse("Error checkBuild worker move on dorse", match.checkBuild(1,0, testPlayer1.selectedWorker));
+        Assert.assertFalse("Error checkBuild on dorse", match.checkBuild(1,0, testPlayer1.selectedWorker));
         Assert.assertTrue("Error checkBuild Success", match.checkBuild(1,1, testPlayer1.selectedWorker));
     }
 
+    /**
+     * Test if the method returns the expected value if a player tries to a move which is forbidden by another player's power
+     */
     @Test
     public void testForceMoveAndForceMoveLimit(){
         testPlayer1.setSelectedWorker(Worker.Gender.Male);
@@ -145,6 +182,9 @@ public class MatchTest {
         Assert.assertTrue("Error Player1 try to move Success", match.forceMove(1,1, testPlayer1.selectedWorker));
     }
 
+    /**
+     * Test if the method returns the expected value if a player tries build in a allowed cell
+     */
     @Test
     public void testForceBuild (){
         match.nextPlayer();
@@ -152,6 +192,9 @@ public class MatchTest {
         match.forceMove(0,1, player2.selectedWorker);
         Assert.assertTrue("Error Player2 try to build Success", match.forceBuild(0,2, player2.selectedWorker));
     }
+    /**
+     * Test if the method returns the expected value if a player tries build a dorse in a allowed cell
+     */
     @Test
     public void testForceBuildDorse (){
         match.nextPlayer();
@@ -159,14 +202,18 @@ public class MatchTest {
         match.forceMove(0,1, player2.selectedWorker);
         Assert.assertTrue("Error Player2 try to build Success", match.forceBuildDorse(0,2, player2.selectedWorker));
     }
-
+    /**
+     * Test if the method correctly select the right next player
+     */
     @Test
     public void testNextPlayer() {
         Assert.assertEquals("Error nextPlayerAct1", match.nextPlayer(), player2);
         Assert.assertEquals("Error nextPlayerAct2", match.nextPlayer(), player3);
         Assert.assertEquals("Error nextPlayerAct3", match.nextPlayer(), testPlayer1);
     }
-
+    /**
+     * Test if the method correctly remove the chosen player from the players list
+     */
     @Test
     public void removePlayer(){
         match.removePlayer(match.players[0]);
@@ -174,7 +221,9 @@ public class MatchTest {
         Assert.assertEquals("Error remove Player", match.players[0], player3);
 
     }
-
+    /**
+     * Test if the method correctly count the number of complete tower on the board
+     */
     @Test
     public void testTowerCount() {
         for(int x=0; x<match.getBoard().boardSide; x++){
@@ -186,15 +235,20 @@ public class MatchTest {
             }
         }
         Assert.assertEquals(match.towerCount(), 5*5);
-        //match.getBoard().draw(player2); //manda player 2 solo perchè è necessario mandare un player come parametro
     }
 
+    /**
+     * Test if the method can correctly locate the worker on the board
+     */
     @Test
     public void testFirstAllocation() {
         testPlayer1.setSelectedWorker(Worker.Gender.Male);
         Assert.assertTrue("Error First allocation worker", match.firstAllocation(3,3,testPlayer1.selectedWorker.getGender()));
     }
 
+    /**
+     * Test if the method correctly runs each branch of the method
+     */
     @Test
     public void testExecFirstAllocation() {
         match.execFirstAllocation(0,0, Worker.Gender.Male);

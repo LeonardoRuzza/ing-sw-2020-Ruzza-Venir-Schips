@@ -14,10 +14,12 @@ public class PlayerAtlasTest {
     private Match match = new Match(1, numOfPlayers);
     private Worker testWorker;
     private int[] location = new int[]{0,1};
-    private int[] build = new int[]{1,1};
 
+    /**
+     * Setup a match with three players
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         testPlayer1 = new PlayerAtlas("player1", 1, cardAtlas, match, Worker.Color.GREEN);
         Player player2 = new Player("player2", 2, match);
         Player player3 = new Player("player3", 3, match);
@@ -30,6 +32,7 @@ public class PlayerAtlasTest {
         match.nextPlayer();
     }
 
+
     @Test
     public void testSuperWin() {
         testPlayer1.selectedWorker = testWorker;
@@ -37,6 +40,9 @@ public class PlayerAtlasTest {
         Assert.assertEquals("No Dorse Builded", testWorker.getOldLocation().getBlock(), Block.DORSE);
     }
 
+    /**
+     * Test the override manage turn permit to atlas player to build a dorse instead of a block
+     */
     @Test
     public void testManageTurnBuildDorse() {
         testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
@@ -45,6 +51,10 @@ public class PlayerAtlasTest {
         Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement + GameMessage.atlasTurnMessageAskBuildDorse);
         Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, GameMessage.turnMessageDORSE).getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
     }
+
+    /**
+     * Test the override manage turn permit to atlas player also to build a normal block
+     */
     @Test
     public void testManageTurnBuildNormal() {
         testPlayer1.setSelectedWorker(testPlayer1.workers[0]);

@@ -3,6 +3,9 @@ package it.polimi.ingsw.model;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 
 public class BoardTest {
 
@@ -203,5 +206,34 @@ public class BoardTest {
         board.removeBlock(2,2);
         board.removeBlock(2,2);
         board.removeBlock(2,2);
+    }
+
+    @Test
+    public void testDraw(){
+        ByteArrayOutputStream printedBoard = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(printedBoard);
+        PrintStream old = System.out;
+        System.setOut(ps);
+
+        w2 = new Worker(Worker.Gender.Male, Worker.Color.GREEN);
+        Worker w3 = new Worker(Worker.Gender.Female, Worker.Color.GREEN);
+        Player p1 = new Player("ptest", 3, null, null, Worker.Color.RED);
+        p1.workers[0] = w2;
+        p1.workers[1] = w3;
+        board.setPlayingNow(p1);
+        board.cells[0][0][0].addBlock();
+        board.cells[0][0][1].addBlock();
+        board.cells[0][0][2].addBlock();
+        board.cells[0][0][3].addBlock();
+        board.cells[2][2][0].addBlock();
+        board.cells[2][2][1].addBlock();
+        board.cells[2][2][0].moveWorkerInto(p1.workers[0]);
+        board.cells[0][4][0].addBlock();
+        board.cells[0][4][0].moveWorkerInto(p1.workers[1]);
+        board.cells[3][3][0].moveWorkerInto(w1);
+        board.draw(p1);
+
+        System.out.flush();
+        System.setOut(old);
     }
 }

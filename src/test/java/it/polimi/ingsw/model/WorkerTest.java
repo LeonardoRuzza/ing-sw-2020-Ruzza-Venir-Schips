@@ -9,19 +9,22 @@ public class WorkerTest {
     Cell c1 = new Cell(2,2,1);
     Cell c2 = new Cell(1,1,0);
 
-
+    /**
+     * Test getter methods returns the expected values
+     */
     @Test
     public void testBuilderAndGetter() {
-
         Assert.assertNull(w1.getCell());
         Assert.assertNull(w1.getOldLocation());
         Assert.assertEquals(w1.getColor(), Worker.Color.GREEN);
         Assert.assertEquals(w1.getGender(), Worker.Gender.Male);
     }
 
+    /**
+     * Test the basic move method
+     */
     @Test
     public void testMove() {
-
         w1.move(c1);
         Assert.assertEquals(w1.getCell().getxCoord(), 2);
         Assert.assertEquals(w1.getCell().getyCoord(), 2);
