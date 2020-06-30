@@ -60,14 +60,14 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
         numberOfLobbyPlayer = 3;
     }
 
-    /** Gets from the controller the color choosen by the player. It checks if the color is still available, and then save the player choice.
+    /** Gets from the controller the color chosen by the player. It checks if the color is still available, and then save the player choice.
      * <p>
      * After that it checks if all player have choose their color; If this is true, it goes to the choose of Card phase.
      * <p>
      * At the end the method notify to the views the changes.
      * <p>
      * <b>The method take one choice at time, so it need to be called multiple times to perform all the choices</b>
-     * @param info   The color choosen by the player
+     * @param info   The color chosen by the player
      * @return   {@code true} if the color is available, {@code false} otherwise
      */
     public boolean chooseColor(String info){
@@ -95,7 +95,7 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
      * At the end the method notify to the views the changes.
      * <p>
      * <b>The method take one choice at time, so it need to be called multiple times to perform all the choices</b>
-     * @param chosenCard  The card choosen by the player
+     * @param chosenCard  The card chosen by the player
      * @return  {@code true} if the card is available, {@code false} otherwise
      */
     public boolean chooseCard(String chosenCard){
