@@ -58,4 +58,6 @@ ONLY FOR WINDOWS' USERS
     8-Exec the command "explorer.exe ." on the Ubuntu CLI.
     9-Copy or move Santorini-client.jar (which you have previously created) in this directory or where you prefer in subdirectory.
 
+  -If you want to run the Santorini-client.jar or Santorini-server.jar more quickly you can use provided batch files (simple double click it to run, or edit like you prefer to change default setting of launch like showed previously for the CLI).
+   Note: make sure batch files are in the same directory of the jar files.
 
