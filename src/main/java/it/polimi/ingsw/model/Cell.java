@@ -101,13 +101,13 @@ public class Cell implements Cloneable, Serializable {
 
     /**Add a new block in {@code this} cell; this is only based on the {@code zCoord} of the cell;
      * <p>
-     * {@code zCoord} = 0 ----> {@code Block} B1
+     * {@code zCoord} = 0 {@literal ---->} {@code Block} B1
      * <p>
-     * {@code zCoord} = 1 ----> {@code Block} B2
+     * {@code zCoord} = 1 {@literal ---->} {@code Block} B2
      * <p>
-     * {@code zCoord} = 2 ----> {@code Block} B3
+     * {@code zCoord} = 2 {@literal ---->} {@code Block} B3
      * <p>
-     * {@code zCoord} = 3 ----> {@code Block} DORSE
+     * {@code zCoord} = 3 {@literal ---->} {@code Block} DORSE
      * <p>
      * @return  The Block just added in this cell
      */

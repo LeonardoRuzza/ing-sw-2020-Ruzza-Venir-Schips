@@ -110,7 +110,7 @@ public class GamePanel extends JPanel {
 
     /**
      * Update message to show at the users
-     * @param message
+     * @param message message to show
      */
     protected void updateServerMessage(String message){
         if(messagePrinter!=null){
@@ -120,7 +120,7 @@ public class GamePanel extends JPanel {
 
     /**
      * Unzip board to show at the users and update the board situation
-     * @param board
+     * @param board board of the game
      */
     protected void updateGrid(Board board){
         for(int y = 0; y < gridSide; y++){
@@ -292,7 +292,7 @@ public class GamePanel extends JPanel {
 
     /**
      * Getter for superPower string if setted
-     * @return
+     * @return Super Power
      */
     public String getSuperPower() {
         return superPower;
@@ -820,6 +820,7 @@ public class GamePanel extends JPanel {
         /**
          * Show name Player
          * @param name player name
+         * @param num num of player
          */
         private void updateNamePlayer(String name, String num){
             this.nickName = name;
@@ -961,7 +962,7 @@ public class GamePanel extends JPanel {
 
         /**
          * Create the panel which will show the result of the match
-         * @param win
+         * @param win result of match
          */
         public EndOfGameDialog(boolean win){
             this.cardName = cardName;
