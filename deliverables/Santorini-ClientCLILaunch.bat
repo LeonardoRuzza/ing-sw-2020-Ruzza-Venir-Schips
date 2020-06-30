@@ -1,0 +1,1 @@
+java -jar Santorini-Client.jar cli
