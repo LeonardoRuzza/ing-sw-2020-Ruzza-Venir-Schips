@@ -205,6 +205,8 @@ public class Board implements Cloneable, Serializable {
     }
 
     /** It build a a DORSE, no matter what the level of cell is
+     * @param c the cell where to build the dorse
+     * @return boolean true
      * @see #forceBuild(Cell)
      * @see PlayerAtlas
      */

@@ -17,6 +17,7 @@ public class CardLabel extends JLabel {
     /**Create a new CardLabel.
      * <p>
      * @param card the card to associate to the label
+     * @param santoriniGUI the santoriniGUI associated
      */
     public CardLabel(Card card, SantoriniGUI santoriniGUI) {
         this.santoriniGUI = santoriniGUI;
@@ -36,6 +37,7 @@ public class CardLabel extends JLabel {
      * @param card the card to associate to the label
      * @param isSelected the condition of the selection
      * @param jFrame the JFrame
+     * @param santoriniGUI the associated santoriniGUI
      */
     public CardLabel(Card card, boolean isSelected,JFrame jFrame, SantoriniGUI santoriniGUI){
         this(card, santoriniGUI);

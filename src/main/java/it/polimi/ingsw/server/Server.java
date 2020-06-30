@@ -190,7 +190,7 @@ public class Server {
 
     /**The function create a new Lobby for the players, creating the MVC components and starting the interaction with the players
      * <p>
-     * @param numberOfPlayers   who will play this game. The number is choosen by the master player
+     * @param numberOfPlayers   who will play this game. The number is chosen by the master player
      */
     private void createGame(int numberOfPlayers){
         if(numberOfPlayers == 2){

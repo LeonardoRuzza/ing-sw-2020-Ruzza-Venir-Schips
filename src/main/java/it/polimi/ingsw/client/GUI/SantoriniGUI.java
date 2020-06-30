@@ -374,7 +374,7 @@ public class SantoriniGUI {
 
     /**
      * Show the various custom panels associated to the Cards, to let the User choose if use his card's Super Power or Not
-     * @param message Contains info to know card choosen by User in order to show the associated Panel
+     * @param message Contains info to know card chosen by User in order to show the associated Panel
      */
     protected void updateSuperPlayer(MessageToGUI message){
         GamePanel gamePanel = (GamePanel) currentPanel;

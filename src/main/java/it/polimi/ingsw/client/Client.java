@@ -53,7 +53,6 @@ public class Client {
      * <p>
      * Call the Board Draw method, to show changes in Board, if socketIn is a Board
      * <p>
-     * <p>
      *     <b>If an execption occur this thread will be killed</b>
      * </p>
      * @param socketIn An {@code ObjectInputStream} to receive from the Socket

@@ -15,6 +15,7 @@ public class ColorLabel extends JLabel {
     /**Create a new ColorLabel.
      * <p>
      * @param color the color associated to the label
+     * @param santoriniGUI the associated santoriniGUI
      */
     public ColorLabel(Worker.Color color, SantoriniGUI santoriniGUI) {
         this.santoriniGUI = santoriniGUI;

@@ -14,6 +14,9 @@ public class Cell implements Cloneable, Serializable {
 // Builder
 
     /**
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param z z coordinate
      * @see Board builder
      */
     public Cell(int x, int y, int z){
