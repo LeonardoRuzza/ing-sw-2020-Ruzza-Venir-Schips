@@ -92,7 +92,7 @@ public class Cell implements Cloneable, Serializable {
 
     /** Add a DORSE in this cell, no matter what the {@code zCoord} of {@code this} cell is.
      * <p>
-     *     This is intended to perform the effect of the <b>Card Atlas<b>
+     *     This is intended to perform the effect of the <b>Card Atlas</b>
      * @see PlayerAtlas
      */
     protected void addDorse(){
