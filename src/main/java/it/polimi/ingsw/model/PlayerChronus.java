@@ -26,7 +26,7 @@ public class PlayerChronus extends Player {
      * @param y second coordinate, when its value is relevant
      * @param gender of the worker to select, when its value is needed
      * @param optional a particular choice of the player, when its value is needed
-     * @return
+     * @return ChoiceResponseMessage the response message
      */
     @Override
     protected ChoiceResponseMessage manageTurn(int x, int y, Worker.Gender gender, String optional) {
