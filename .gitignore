@@ -5,9 +5,8 @@
 *.iml
 
 #folder
-*.target
+target
 *.idea
-deliverables/JavaDoc
 
 # Log file
 *.log
@@ -20,7 +19,6 @@ deliverables/JavaDoc
 
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
