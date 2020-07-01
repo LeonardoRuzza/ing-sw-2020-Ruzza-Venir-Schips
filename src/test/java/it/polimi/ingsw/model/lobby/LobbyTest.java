@@ -17,8 +17,17 @@ public class LobbyTest {
         l = new Lobby(edo, leo, vale);
     }
 
+    /**
+     * This test check that:
+     * <p>
+     * - Builder works fine, creating correctly the Lobbyplayers passed as parameter.
+     * <p>
+     * - Getter works fine.
+     * <p>
+     * - Variables are correctly initialized.
+     */
     @Test
-    public void builder() {
+    public void builderAndGetter() {
         setUp();
         Assert.assertEquals(l.getLobbyPlayers().get(0).getNickname(), edo);
         Assert.assertEquals(l.getLobbyPlayers().get(1).getNickname(), leo);
@@ -30,6 +39,11 @@ public class LobbyTest {
         Assert.assertTrue(l.getChosenDeck().isEmpty());
     }
 
+    /**
+     * This test check that:
+     * <p>
+     * - Method {@code nextLobbyPlayer} pass turn to the next player.
+     */
     @Test
     public void nextTurn() {
         setUp();
@@ -41,6 +55,17 @@ public class LobbyTest {
         Assert.assertTrue(l.isLobbyPlayerTurn(l.getLobbyPlayers().get(0)));
     }
 
+    /**
+     * This test check:
+     * <p>
+     * - Method {@code updateChosenDeck}
+     * <p>
+     * - Method {@code getChosenDeck}
+     * <p>
+     * This test if focused on <b>Insert and Remove Cards</b> from deck.
+     * <p>
+     * It tries to add and remove cards and then check with the getter if the deck has been updated.
+     */
     @Test
     public void updateChosenDeck() {
         setUp();
@@ -60,10 +85,23 @@ public class LobbyTest {
         Assert.assertTrue(l.getChosenDeck().contains(c3));
     }
 
-
+    /**
+     * This test mainly check:
+     * <p>
+     * - Method {@code chooseColor}
+     * <p>
+     * - Method {@code getAvailableColors}
+     * <p>
+     * - Method {@code getStateOfTurn}
+     * <p>
+     * This test if focused on <b>Player's choose of color</b>.
+     * <p>
+     * It tries to simulate the phase of color's choose in the lobby. It checks that list of available colors is correctly updated.
+     * Moreover it checks that after every player has choose his color the Lobby's {@code StateOfTurn} pass to {@code StateOfTurn.CARD}.
+     */
     @Test
     public void chooseColor() {
-        // Turno del player 1
+        // Player's 1 turn
         String color = "green";
         Assert.assertTrue(l.chooseColor(color));
         Assert.assertFalse(l.getAvailableColors().contains(color));
@@ -87,12 +125,26 @@ public class LobbyTest {
     }
 
 
+    /**
+     * This test mainly check:
+     * <p>
+     * - Method {@code chooseCard}
+     * <p>
+     * - Method {@code isDeckChosen}
+     * <p>
+     * - Method {@code getStateOfTurn}
+     * <p>
+     * This test if focused on <b>Player's choose of card</b>.
+     * <p>
+     * It tries to simulate the phase of cards's choose in the lobby. It checks that list of available cards is correctly updated.
+     * Moreover it checks that after every player has choose his card the Lobby's {@code StateOfTurn} pass to {@code StateOfTurn.CHOOSESTARTPLAYER}.
+     */
     @Test
     public void chooseCard() {
         setUp();
         chooseColor();
 
-        //Fase di scelta del deck da parte del master Player
+        //Master player is choosing the deck
         Assert.assertTrue(l.chooseCard("Apollo"));
         Assert.assertFalse(l.isDeckChosen());
         Assert.assertTrue(l.isLobbyPlayerTurn(l.getLobbyPlayers().get(0)));
@@ -105,7 +157,7 @@ public class LobbyTest {
         Assert.assertTrue(l.isDeckChosen());
         Assert.assertTrue(l.isLobbyPlayerTurn(l.getLobbyPlayers().get(1)));
 
-        // Fase di scelta delle carte da parte dei giocatori
+        // Player's are choosing their cards
         Assert.assertFalse(l.chooseCard("Pan"));
         Assert.assertTrue(l.chooseCard("Apollo"));
         Assert.assertEquals(l.getStateOfTurn(), StateOfTurn.CARD);
@@ -119,6 +171,17 @@ public class LobbyTest {
 
     }
 
+    /**
+     * This test check:
+     * <p>
+     * - Method {@code chooseStartPlayer}
+     * <p>
+     * - Method {@code getPlayingNow}
+     * <p>
+     * This test if focused on <b>Master Player choose of starting player</b>.
+     * <p>
+     * Check that player's chosen by the Master is the one who is marked as playing now.
+     */
     @Test
     public void chooseStartPlayer() {
         setUp();

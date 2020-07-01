@@ -19,8 +19,7 @@ public class BoardTest {
      * <p>
      * - Builder works fine, creating correctly the various cells.
      * <p>
-     * - Method {@code getDistance} returns correct value
-     *
+     * - Method {@code getDistance} returns correct value.
      */
     @Test
     public void testBuilderAndDistanceFromCells() {
@@ -54,14 +53,14 @@ public class BoardTest {
 
     /**
      * This test mainly check :
-     * <p> Method {@code addBlock}
-     * -
+     * <p>
+     * - Method {@code addBlock}
      * <p>
      * - Method {@code blockInCell}
      * <p>
-     * This test if focused on <b>Building block</b>
+     * This test if focused on <b>Building block</b>.
      * <p>
-     * It tries to build some block form B1 to DORSE on a cell and then check that they are on the board for real
+     * It tries to build some block form B1 to DORSE on a cell and then check that they are on the board for real.
      */
     @Test
     public void testBlockInCell() {
@@ -95,7 +94,7 @@ public class BoardTest {
      * <p>
      * - Method {@code getOldLocation}
      * <p>
-     * This test if focused on the Worker's movement
+     * This test if focused on <b>the Worker's movement</b>.
      * <p>
      * It tries to make a worker perform various movements in the board; at the same time builds some blocks and check if worker can effectively move respecting game rules.
      * It also checks that oldLocation is the correct one, that the oldLocation is now empty and that the worker has effectively move.
@@ -146,9 +145,9 @@ public class BoardTest {
      * <p>
      * - Method {@code getFirstBuildableCell}
      * <p>
-     * This test if focused on <b>Check when is possible to build on a cell only in presence of Blocks</b>
+     * This test if focused on <b>Check when is possible to build on a cell only in presence of Blocks</b>.
      * <p>
-     * It check that after building a block the level is 'marked' as busy, and which level is the first 'available' one
+     * It check that after building a block the level is 'marked' as busy, and which level is the first 'available' one.
      */
     @Test
     public void testGetLastBusyCell() {
@@ -182,7 +181,7 @@ public class BoardTest {
      * <p>
      * - Method {@code getFirstBuildableCell}
      * <p>
-     * This test if focused on <b>Check when is possible to build on a cell in presence of Blocks and workers</b>
+     * This test if focused on <b>Check when is possible to build on a cell in presence of Blocks and workers</b>.
      * <p>
      * It check that after building a block or move a worker in a cell, the level is 'marked' as busy, and which level is the first 'available' one.
      */
@@ -205,7 +204,7 @@ public class BoardTest {
      * <p>
      * - Method {@code removeWorker}
      * <p>
-     * This test if focused on <b>Removing workers from the Board</b>
+     * This test if focused on <b>Removing workers from the Board</b>.
      * <p>
      * It check that the cell is effectively empty after the worker has been removed.
      */
@@ -224,9 +223,9 @@ public class BoardTest {
      * <p>
      * - Method {@code removeBlock}
      * <p>
-     * This test if focused on <b>Removing blocks from the Board</b>
+     * This test if focused on <b>Removing blocks from the Board</b>.
      * <p>
-     * It check that the highest block(and only that block) is effectively removed from a cell after calling the method removeBlock
+     * It check that the highest block(and only that block) is effectively removed from a cell after calling the method removeBlock.
      */
     @Test
     public void testRemoveBlock() {
@@ -269,9 +268,9 @@ public class BoardTest {
      * <p>
      * - Method {@code removeBlock}
      * <p>
-     * This test if focused on <b>Removing a Block from the Board when no Block is present</b>
+     * This test if focused on <b>Removing a Block from the Board when no Block is present</b>.
      * <p>
-     * It check that removeBlock does nothing if no Block is present on a cell
+     * It check that removeBlock does nothing if no Block is present on a cell.
      */
     @Test
     public void testRemoveUnrealBlock() {
