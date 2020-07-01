@@ -71,7 +71,7 @@ public class PlayerPrometheusTest {
     }
 
     /**
-     * Test override manage turn allow Prometheus to build two times
+     * Test override manage turn allow Prometheus to build two times.
      */
     @Test
     public void testManageTurnBuildTwoTimeSuccess() {
@@ -79,10 +79,10 @@ public class PlayerPrometheusTest {
         match.nextPlayer();
         testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
         testPlayer1.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.prometheusTurnMessageAskBuildBefore);
-        Assert.assertEquals("Errore Prima Costruzione worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, GameMessage.turnMessageBUILDBEFORE).getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageChooseCellMove);
-        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement +  GameMessage.turnMessageChooseCellBuild);
-        Assert.assertEquals("Errore Prima Costruzione worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
+        Assert.assertEquals("Error selection worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.prometheusTurnMessageAskBuildBefore);
+        Assert.assertEquals("Error first building worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, GameMessage.turnMessageBUILDBEFORE).getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageChooseCellMove);
+        Assert.assertEquals("Error movement worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement +  GameMessage.turnMessageChooseCellBuild);
+        Assert.assertEquals("Error second building worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
     }
 
 }

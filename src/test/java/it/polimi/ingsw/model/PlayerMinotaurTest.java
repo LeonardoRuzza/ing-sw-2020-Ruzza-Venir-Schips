@@ -25,7 +25,7 @@ public class PlayerMinotaurTest {
      * trying to move on an occupied space in a possible case (same levels);
      * trying to move on an occupied space in a possible case (different levels);
      * normal movements;
-     * trying to move on an occupied space where is other PlayerMinotaur's worker (not possible);
+     * trying to move on an occupied space where is other PlayerMinotaur's worker (not possible).
      */
     @Test
     public void testSelectedWorkerMove() {

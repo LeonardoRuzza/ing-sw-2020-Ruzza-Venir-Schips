@@ -23,7 +23,7 @@ public class PlayerArtemisTest {
      * Test the correct working of the override method selectedWorkerMove in these cases:
      * trying to move on the actual position (also not possible for none);
      * trying to move on a not reachable position;
-     * trying some possible double movement;
+     * trying some possible double movement.
      *
      */
     @Test
