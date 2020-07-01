@@ -7,7 +7,7 @@
 #folder
 *.target
 *.idea
-*.uml
+deliverables/JavaDoc
 
 # Log file
 *.log
@@ -24,7 +24,6 @@
 *.war
 *.nar
 *.ear
-*.zip
 *.tar.gz
 *.rar
 
