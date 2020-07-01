@@ -1,0 +1,429 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Board</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Board (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Board</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97,5%
+  </span>
+  <span class="absValue">
+    (117/ 120)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Board$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/ 15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97,5%
+  </span>
+  <span class="absValue">
+    (118/ 121)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.jetbrains.annotations.NotNull;
+<i>4</i>&nbsp;import java.io.Serializable;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;public class Board implements Cloneable, Serializable {
+<i>7</i>&nbsp;
+<b class="fc"><i>8</i>&nbsp;    final int levelHeight = 4;</b>
+<b class="fc"><i>9</i>&nbsp;    final int boardSide = 5;</b>
+<i>10</i>&nbsp;    protected Cell[][][] cells;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    private Player playingNow;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;// Builder
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**A board consist in &lt;b&gt;a tri-dimensional array &lt;/b&gt; of cells; Dimensions of a cell are x,y,z.
+<i>18</i>&nbsp;     * &lt;p&gt;
+<i>19</i>&nbsp;     * The {@code zCoord}represent the level of the cell.
+<i>20</i>&nbsp;     * &lt;p&gt;
+<i>21</i>&nbsp;     * It&#39;s possible to build a block also in cell at {@code zCoord} = 0
+<i>22</i>&nbsp;     * On a cell at a certain level we can have both a worker and a block(of course following game&#39;s rules).
+<i>23</i>&nbsp;     * &lt;p&gt;
+<i>24</i>&nbsp;     * So, for example, if we have a worker and a block at (x,y,0), it means there is a worker at level1,
+<i>25</i>&nbsp;     * because there is a Block B1 present.
+<i>26</i>&nbsp;     * &lt;p&gt;
+<i>27</i>&nbsp;     *     &lt;b&gt;IMPORTANT: At (x,y,0), it&#39;s possible to have a worker without a block, and so the worker is standing at level0. It&#39;s not like this
+<i>28</i>&nbsp;     *        for cells at (x,y,z) with z{@literal &gt;}0; in this case it&#39;s only possible to have a block, or a worker and a block, since a worker cannot stand
+<i>29</i>&nbsp;     *        in an higher level if there is not a block under his feet.&lt;/b&gt;
+<i>30</i>&nbsp;     */
+<b class="fc"><i>31</i>&nbsp;    public Board() {</b>
+<b class="fc"><i>32</i>&nbsp;       cells = new Cell[boardSide][boardSide][levelHeight];</b>
+<b class="fc"><i>33</i>&nbsp;       for(int z = 0; z &lt; levelHeight; z++){</b>
+<b class="fc"><i>34</i>&nbsp;           for(int y = 0; y &lt; boardSide; y++){</b>
+<b class="fc"><i>35</i>&nbsp;               for(int x = 0; x &lt; boardSide; x++){</b>
+<b class="fc"><i>36</i>&nbsp;                    cells[x][y][z] = new Cell(x, y, z);</b>
+<i>37</i>&nbsp;               }
+<i>38</i>&nbsp;           }
+<i>39</i>&nbsp;       }
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    public void setPlayingNow(Player playingNow) {
+<b class="fc"><i>43</i>&nbsp;        this.playingNow = playingNow;</b>
+<b class="fc"><i>44</i>&nbsp;    }</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;// Observers
+<i>47</i>&nbsp;    /**The function return the highest block built in the cell at (x,y)
+<i>48</i>&nbsp;     * &lt;p&gt;
+<i>49</i>&nbsp;     * @param x  {@code xCoord} of the cell that need to be checked
+<i>50</i>&nbsp;     * @param y  {@code yCoord} of the cell that need to be checked
+<i>51</i>&nbsp;     * @return  &lt;b&gt;The last Block built in the cell at (x,y)&lt;/b&gt;; {@code null} if no block is detected
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    public Block blockInCell(int x, int y) {
+<b class="fc"><i>54</i>&nbsp;        Block lastBlock = null;</b>
+<b class="fc"><i>55</i>&nbsp;        for(int z = 0; z &lt; levelHeight; z++){</b>
+<b class="fc"><i>56</i>&nbsp;            if (this.cells[x][y][z].getBlock() == null) {break;}</b>
+<b class="fc"><i>57</i>&nbsp;            switch (this.cells[x][y][z].getBlock()) {</b>
+<i>58</i>&nbsp;                case B1:
+<b class="fc"><i>59</i>&nbsp;                    lastBlock = Block.B1;</b>
+<b class="fc"><i>60</i>&nbsp;                    break;</b>
+<i>61</i>&nbsp;                case B2:
+<b class="fc"><i>62</i>&nbsp;                    lastBlock = Block.B2;</b>
+<b class="fc"><i>63</i>&nbsp;                    break;</b>
+<i>64</i>&nbsp;                case B3:
+<b class="fc"><i>65</i>&nbsp;                    lastBlock = Block.B3;</b>
+<b class="fc"><i>66</i>&nbsp;                    break;</b>
+<i>67</i>&nbsp;                case DORSE:
+<b class="fc"><i>68</i>&nbsp;                    lastBlock = Block.DORSE;</b>
+<b class="fc"><i>69</i>&nbsp;                    break;</b>
+<i>70</i>&nbsp;                default:
+<i>71</i>&nbsp;                    break;
+<i>72</i>&nbsp;            }
+<i>73</i>&nbsp;        }
+<b class="fc"><i>74</i>&nbsp;        return lastBlock;</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    /** The function return the only worker present in the cell at (x,y), checking every level.
+<i>78</i>&nbsp;     * &lt;p&gt;
+<i>79</i>&nbsp;     * @param x    {@code xCoord} of the cell that need to be checked
+<i>80</i>&nbsp;     * @param y    {@code yCoord} of the cell that need to be checked
+<i>81</i>&nbsp;     * @return     &lt;b&gt;The Worker who stand on the cell at (x,y)&lt;/b&gt;; {@code null} if no worker is detected
+<i>82</i>&nbsp;     */
+<i>83</i>&nbsp;    public Worker workerInCell(int x, int y) {
+<i>84</i>&nbsp;        Worker foundWorker;
+<b class="fc"><i>85</i>&nbsp;        for(int z = 0; z &lt; levelHeight; z++) {</b>
+<b class="fc"><i>86</i>&nbsp;            foundWorker = cells[x][y][z].getWorker();</b>
+<b class="fc"><i>87</i>&nbsp;            if (foundWorker != null)</b>
+<b class="fc"><i>88</i>&nbsp;                return foundWorker;</b>
+<i>89</i>&nbsp;            else
+<b class="fc"><i>90</i>&nbsp;                if(cells[x][y][z].getBlock() == null){</b>
+<b class="fc"><i>91</i>&nbsp;                    break;</b>
+<i>92</i>&nbsp;                }
+<i>93</i>&nbsp;        }
+<b class="fc"><i>94</i>&nbsp;        return null;</b>
+<i>95</i>&nbsp;    }
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;// Getters
+<i>99</i>&nbsp;    /** Check the last &quot;busy&quot; level for the cell at (x,y).
+<i>100</i>&nbsp;     * &lt;p&gt;
+<i>101</i>&nbsp;     * A level is busy when is occupied by: a block, a worker, or both of them
+<i>102</i>&nbsp;     * &lt;p&gt;
+<i>103</i>&nbsp;     * @param x   {@code xCoord} of the cell that need to be checked
+<i>104</i>&nbsp;     * @param y   {@code yCoord} of the cell that need to be checked
+<i>105</i>&nbsp;     * @return     &lt;b&gt;The last busy cell at (x,y)&lt;/b&gt;;   {@code null} if no worker or block is detected
+<i>106</i>&nbsp;     * @see      #Board()
+<i>107</i>&nbsp;     */
+<i>108</i>&nbsp;    public Cell getLastBusyCell(int x, int y){
+<b class="fc"><i>109</i>&nbsp;        Block b = blockInCell(x,y);</b>
+<b class="fc"><i>110</i>&nbsp;        Worker w = workerInCell(x,y);</b>
+<i>111</i>&nbsp;
+<b class="fc"><i>112</i>&nbsp;        if (b == null &amp;&amp; w == null)</b>
+<b class="fc"><i>113</i>&nbsp;            return cells[x][y][0];</b>
+<i>114</i>&nbsp;
+<b class="fc"><i>115</i>&nbsp;        for(int z = 0; z &lt; levelHeight; z++){</b>
+<b class="fc"><i>116</i>&nbsp;            Block tempBlock = cells[x][y][z].getBlock();</b>
+<b class="fc"><i>117</i>&nbsp;            Worker tempWorker = cells[x][y][z].getWorker();</b>
+<b class="fc"><i>118</i>&nbsp;            if (tempBlock != null) {</b>
+<b class="fc"><i>119</i>&nbsp;                if (tempBlock.equals(b))</b>
+<b class="fc"><i>120</i>&nbsp;                    return cells[x][y][z];</b>
+<i>121</i>&nbsp;            }
+<b class="fc"><i>122</i>&nbsp;            if (tempWorker != null) {</b>
+<b class="fc"><i>123</i>&nbsp;                if (tempWorker.equals(w))</b>
+<b class="fc"><i>124</i>&nbsp;                    return cells[x][y][z];</b>
+<i>125</i>&nbsp;            }
+<i>126</i>&nbsp;        }
+<b class="nc"><i>127</i>&nbsp;        return null;</b>
+<i>128</i>&nbsp;    }
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    /** Return the first level at (x,y), where is possible to build a new block. Typically returns {@code  getLastBusyCell} +1
+<i>131</i>&nbsp;     * &lt;p&gt;
+<i>132</i>&nbsp;     * If there is only a worker at level0, so no block is present at(x,y) at any level, it returns cell[x][y][0].
+<i>133</i>&nbsp;     * &lt;p&gt;
+<i>134</i>&nbsp;     * @param x    {@code xCoord} of the cell that need to be checked
+<i>135</i>&nbsp;     * @param y    {@code yCoord} of the cell that need to be checked
+<i>136</i>&nbsp;     * @return      &lt;b&gt;The first buildable cell at (x,y)&lt;/b&gt;;
+<i>137</i>&nbsp;     *              &lt;p&gt;
+<i>138</i>&nbsp;     *             {@code null} if there is a block(DORSE) built at level3, and
+<i>139</i>&nbsp;     *              so it&#39;s not possible build anymore at (x,y)
+<i>140</i>&nbsp;     * @see      #getLastBusyCell(int x, int y)
+<i>141</i>&nbsp;     */
+<i>142</i>&nbsp;    public Cell getFirstBuildableCell(int x, int y) {
+<b class="fc"><i>143</i>&nbsp;        Cell busyCell = getLastBusyCell(x, y);</b>
+<i>144</i>&nbsp;
+<b class="fc"><i>145</i>&nbsp;        if (busyCell.getBlock() != null) {</b>
+<b class="fc"><i>146</i>&nbsp;            if (busyCell.getzCoord() == 3)</b>
+<b class="fc"><i>147</i>&nbsp;                return null;</b>
+<b class="fc"><i>148</i>&nbsp;            return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord() + 1];</b>
+<i>149</i>&nbsp;        }
+<i>150</i>&nbsp;        else
+<b class="fc"><i>151</i>&nbsp;            return cells[busyCell.getxCoord()][busyCell.getyCoord()][busyCell.getzCoord()];</b>
+<i>152</i>&nbsp;    }
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;    /** Return the distance of various coord between 2 cells.
+<i>156</i>&nbsp;     * &lt;p&gt;
+<i>157</i>&nbsp;     * For the {@code xCoord} and {@code yCoord} it return the absolute value
+<i>158</i>&nbsp;     * of distance, &lt;b&gt;that can only be {@literal &gt;}0&lt;/b&gt;
+<i>159</i>&nbsp;     * &lt;p&gt;
+<i>160</i>&nbsp;     * For the {@code zCoord} it return the simple value of distance, &lt;b&gt;that can be {@literal &lt;}0 or {@literal &gt;}0&lt;/b&gt;
+<i>161</i>&nbsp;     * &lt;p&gt;
+<i>162</i>&nbsp;     * @param c1    First cell
+<i>163</i>&nbsp;     * @param c2    Second cell
+<i>164</i>&nbsp;     * @return      An array with 3 position:
+<i>165</i>&nbsp;     *              &lt;p&gt;
+<i>166</i>&nbsp;     *              &lt;b&gt;array[0]&lt;/b&gt; = &lt;p&gt; |{@code c1.xCoord} - {@code c2.xCoord}|  note the absolute value &lt;/p&gt;
+<i>167</i>&nbsp;     *              &lt;p&gt;
+<i>168</i>&nbsp;     *              &lt;b&gt;array[1]&lt;/b&gt; = &lt;p&gt; |{@code c1.yCoord} - {@code c2.yCoord}|  note the absolute value &lt;/p&gt;
+<i>169</i>&nbsp;     *              &lt;p&gt;
+<i>170</i>&nbsp;     *              &lt;b&gt;array[2]&lt;/b&gt; = &lt;p&gt;{@code c1.zCoord} - {@code c2.zCoord}&lt;/p&gt;
+<i>171</i>&nbsp;     *
+<i>172</i>&nbsp;     */
+<i>173</i>&nbsp;    public int[] getDistance(Cell c1, Cell c2){
+<b class="fc"><i>174</i>&nbsp;        int[] temp = new int[3];</b>
+<i>175</i>&nbsp;
+<b class="fc"><i>176</i>&nbsp;        if (c1 != null &amp;&amp; c2 != null) {</b>
+<b class="fc"><i>177</i>&nbsp;            temp[0] = Math.abs(c1.getxCoord() - c2.getxCoord());</b>
+<b class="fc"><i>178</i>&nbsp;            temp[1] = Math.abs(c1.getyCoord() - c2.getyCoord());</b>
+<b class="fc"><i>179</i>&nbsp;            temp[2] = c1.getzCoord() - c2.getzCoord();</b>
+<b class="fc"><i>180</i>&nbsp;            return temp;</b>
+<i>181</i>&nbsp;        }
+<i>182</i>&nbsp;        else
+<b class="nc"><i>183</i>&nbsp;            return null;</b>
+<i>184</i>&nbsp;    }
+<i>185</i>&nbsp;
+<i>186</i>&nbsp;
+<i>187</i>&nbsp;//Generic Methods
+<i>188</i>&nbsp;    /**The &quot;force&quot; means that the function doesn&#39;t check if the move is allowed by the rules or not. These controls are made in match
+<i>189</i>&nbsp;     * @param c   Destination cell
+<i>190</i>&nbsp;     * @param w   Worker that need to be moved
+<i>191</i>&nbsp;     * @return   {@code true} if the move was correctly performed; {@code false} otherwise
+<i>192</i>&nbsp;     * @see Match
+<i>193</i>&nbsp;     */
+<i>194</i>&nbsp;    protected boolean forceMove(@NotNull Cell c, Worker w){
+<b class="fc"><i>195</i>&nbsp;        return c.moveWorkerInto(w);</b>
+<i>196</i>&nbsp;    }
+<i>197</i>&nbsp;
+<i>198</i>&nbsp;    /** The &quot;force&quot; means that the function doesn&#39;t check if the move is allowed by the rules or not. These controls are made in match
+<i>199</i>&nbsp;     * @param c  Cell where a new block will be built
+<i>200</i>&nbsp;     * @return   The block just added
+<i>201</i>&nbsp;     * @see Match
+<i>202</i>&nbsp;     */
+<i>203</i>&nbsp;    protected Block forceBuild(@NotNull Cell c){
+<b class="fc"><i>204</i>&nbsp;        return c.addBlock();</b>
+<i>205</i>&nbsp;    }
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;    /** It build a a DORSE, no matter what the level of cell is
+<i>208</i>&nbsp;     * @param c the cell where to build the dorse
+<i>209</i>&nbsp;     * @return boolean true
+<i>210</i>&nbsp;     * @see #forceBuild(Cell)
+<i>211</i>&nbsp;     * @see PlayerAtlas
+<i>212</i>&nbsp;     */
+<i>213</i>&nbsp;    protected boolean forcebuildDorse(@NotNull Cell c){
+<b class="fc"><i>214</i>&nbsp;        c.addDorse();</b>
+<b class="fc"><i>215</i>&nbsp;        return true;</b>
+<i>216</i>&nbsp;    }
+<i>217</i>&nbsp;
+<i>218</i>&nbsp;    protected void removeWorker(@NotNull Worker w) {
+<b class="fc"><i>219</i>&nbsp;        Cell c = w.getCell();</b>
+<b class="fc"><i>220</i>&nbsp;        c.setWorkerNull();</b>
+<b class="fc"><i>221</i>&nbsp;    }</b>
+<i>222</i>&nbsp;
+<i>223</i>&nbsp;    /**Remove the highest block built at (x,y)
+<i>224</i>&nbsp;     * @param x   {@code xCoord} of the cell
+<i>225</i>&nbsp;     * @param y   {@code yCoord} of the cell
+<i>226</i>&nbsp;     * @see PlayerAres
+<i>227</i>&nbsp;     */
+<i>228</i>&nbsp;    protected void removeBlock(int x, int y){
+<b class="fc"><i>229</i>&nbsp;        Block blockToRemove = blockInCell(x, y);</b>
+<b class="fc"><i>230</i>&nbsp;        if (blockToRemove == null)</b>
+<b class="fc"><i>231</i>&nbsp;            return;</b>
+<b class="fc"><i>232</i>&nbsp;        for(int z = 0; z &lt; levelHeight; z++){</b>
+<b class="fc"><i>233</i>&nbsp;            Block tempBlock = cells[x][y][z].getBlock();</b>
+<b class="fc"><i>234</i>&nbsp;            if (tempBlock.equals(blockToRemove)) {</b>
+<b class="fc"><i>235</i>&nbsp;                cells[x][y][z].setBlockNull();</b>
+<b class="fc"><i>236</i>&nbsp;                return;</b>
+<i>237</i>&nbsp;            }
+<i>238</i>&nbsp;        }
+<b class="nc"><i>239</i>&nbsp;    }</b>
+<i>240</i>&nbsp;
+<i>241</i>&nbsp;    @Override
+<i>242</i>&nbsp;    protected Board clone() {
+<b class="fc"><i>243</i>&nbsp;        final Board result = new Board();</b>
+<b class="fc"><i>244</i>&nbsp;        for(int z = 0; z &lt; levelHeight; z++) {</b>
+<b class="fc"><i>245</i>&nbsp;            for (int y = 0; y &lt; boardSide; y++) {</b>
+<b class="fc"><i>246</i>&nbsp;                for (int x = 0; x &lt; boardSide; x++) {</b>
+<b class="fc"><i>247</i>&nbsp;                    result.cells[x][y][z] = this.cells[x][y][z].clone();</b>
+<i>248</i>&nbsp;                }
+<i>249</i>&nbsp;            }
+<i>250</i>&nbsp;        }
+<b class="fc"><i>251</i>&nbsp;        result.playingNow = this.playingNow.clone();</b>
+<b class="fc"><i>252</i>&nbsp;        return result;</b>
+<i>253</i>&nbsp;    }
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;    /**Function to print a &quot;screenshot&quot; of the board to the player in the CLI
+<i>256</i>&nbsp;     * &lt;p&gt;
+<i>257</i>&nbsp;     * @param myPlayer  The player to whom the board will be printed
+<i>258</i>&nbsp;     */
+<i>259</i>&nbsp;    public void draw(Player myPlayer){
+<b class="fc"><i>260</i>&nbsp;        boolean linePrint = true;</b>
+<b class="fc"><i>261</i>&nbsp;        System.out.print(&quot;It&#39;s &quot; + playingNow.workers[0].getColor().getColorString() + playingNow.getNickname() + Worker.Color.RED.getANSI_RESET() + &quot; turn\n&quot;);</b>
+<b class="fc"><i>262</i>&nbsp;        for(int y = 0; y &lt; boardSide*2+1; y++){</b>
+<b class="fc"><i>263</i>&nbsp;            int realY = y/2;</b>
+<b class="fc"><i>264</i>&nbsp;            if(y == 0){</b>
+<b class="fc"><i>265</i>&nbsp;                System.out.print(&quot;    &quot;);</b>
+<b class="fc"><i>266</i>&nbsp;                for(int x = 0; x &lt; boardSide; x++){</b>
+<b class="fc"><i>267</i>&nbsp;                    System.out.print(&quot;  &quot; + x + &quot;   &quot;);</b>
+<i>268</i>&nbsp;                }
+<b class="fc"><i>269</i>&nbsp;                System.out.println(&quot;&quot;);</b>
+<i>270</i>&nbsp;            }
+<b class="fc"><i>271</i>&nbsp;            for(int x = 0; x &lt; boardSide; x++){</b>
+<i>272</i>&nbsp;
+<b class="fc"><i>273</i>&nbsp;                int realX = x;</b>
+<b class="fc"><i>274</i>&nbsp;                if(linePrint){</b>
+<b class="fc"><i>275</i>&nbsp;                    if(x == 0){</b>
+<b class="fc"><i>276</i>&nbsp;                        System.out.print(&quot;    _____&quot;);</b>
+<i>277</i>&nbsp;                    }else {
+<b class="fc"><i>278</i>&nbsp;                        System.out.print(&quot;_____&quot;);</b>
+<i>279</i>&nbsp;                    }
+<i>280</i>&nbsp;                }else{
+<b class="fc"><i>281</i>&nbsp;                    if(x==0){</b>
+<b class="fc"><i>282</i>&nbsp;                        System.out.print(&quot; &quot;+ realY +&quot; | &quot;);</b>
+<i>283</i>&nbsp;                    }else{
+<b class="fc"><i>284</i>&nbsp;                        System.out.print(&quot;| &quot;);</b>
+<i>285</i>&nbsp;                    }
+<b class="fc"><i>286</i>&nbsp;                    if (getLastBusyCell(realX,realY).getBlock()!=null){</b>
+<b class="fc"><i>287</i>&nbsp;                        if(getLastBusyCell(realX,realY).getBlock() == Block.DORSE){</b>
+<b class="fc"><i>288</i>&nbsp;                            System.out.print(&quot;\u001B[34m&quot; + &quot;D&quot; + Worker.Color.RED.getANSI_RESET());</b>
+<i>289</i>&nbsp;                        }else{
+<b class="fc"><i>290</i>&nbsp;                            System.out.print(getLastBusyCell(realX,realY).getzCoord()+1);</b>
+<i>291</i>&nbsp;                        }
+<i>292</i>&nbsp;                    }else{
+<b class="fc"><i>293</i>&nbsp;                        System.out.print(&quot; &quot;);</b>
+<i>294</i>&nbsp;                    }
+<b class="fc"><i>295</i>&nbsp;                    System.out.print(&quot; &quot;);</b>
+<b class="fc"><i>296</i>&nbsp;                    Worker actW = getLastBusyCell(realX,realY).getWorker();</b>
+<b class="fc"><i>297</i>&nbsp;                    if(actW!=null){</b>
+<b class="fc"><i>298</i>&nbsp;                        if(actW.getGender() == myPlayer.workers[0].getGender() &amp;&amp; actW.getColor() == myPlayer.workers[0].getColor()){</b>
+<b class="fc"><i>299</i>&nbsp;                            System.out.print(actW.getColor().getColorString() + &quot;M&quot;+&quot; &quot; + Worker.Color.RED.getANSI_RESET());</b>
+<b class="fc"><i>300</i>&nbsp;                        }else if(actW.getGender() == myPlayer.workers[1].getGender() &amp;&amp; actW.getColor() == myPlayer.workers[1].getColor()){</b>
+<b class="fc"><i>301</i>&nbsp;                            System.out.print(actW.getColor().getColorString() + &quot;F&quot;+&quot; &quot; + Worker.Color.RED.getANSI_RESET());</b>
+<i>302</i>&nbsp;                        }else{
+<b class="fc"><i>303</i>&nbsp;                            System.out.print(actW.getColor().getColorString() + &quot;w&quot;+&quot; &quot; + Worker.Color.RED.getANSI_RESET());</b>
+<i>304</i>&nbsp;                        }
+<i>305</i>&nbsp;                    }else{
+<b class="fc"><i>306</i>&nbsp;                        System.out.print(&quot;  &quot;);</b>
+<i>307</i>&nbsp;                    }
+<i>308</i>&nbsp;                }
+<i>309</i>&nbsp;            }
+<b class="fc"><i>310</i>&nbsp;            if(!linePrint){</b>
+<b class="fc"><i>311</i>&nbsp;                System.out.print(&quot;|&quot;);</b>
+<i>312</i>&nbsp;            }else{
+<b class="fc"><i>313</i>&nbsp;                System.out.print(&quot;____&quot;);</b>
+<i>314</i>&nbsp;            }
+<b class="fc"><i>315</i>&nbsp;            System.out.println(&quot;&quot;);</b>
+<b class="fc"><i>316</i>&nbsp;            linePrint = !linePrint;</b>
+<i>317</i>&nbsp;        }
+<b class="fc"><i>318</i>&nbsp;        System.out.println(&quot;&quot;);</b>
+<b class="fc"><i>319</i>&nbsp;    }</b>
+<i>320</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-01 18:29</div>
+</div>
+</body>
+</html>

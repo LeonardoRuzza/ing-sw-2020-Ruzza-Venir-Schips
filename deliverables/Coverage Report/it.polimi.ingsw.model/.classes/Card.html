@@ -1,0 +1,206 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Card</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Card (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Card</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (21/ 21)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Card$activationPeriod</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (22/ 22)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.io.Serializable;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;public class Card implements Serializable {
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;
+<b class="fc"><i>8</i>&nbsp;    public enum activationPeriod{YOURMOVE, YOURBUILD, YOURTURN, FOETURN, ENDYOURTURN, STARTFOETURN, SUPERWINCOND, LIMITWINCOND}</b>
+<i>9</i>&nbsp;    private static final int cardNumb = 14;
+<i>10</i>&nbsp;    private int number;
+<b class="fc"><i>11</i>&nbsp;    static final String[] names = {&quot;APOLLO&quot;,&quot;ARTEMIS&quot;,&quot;ATHENA&quot;,&quot;ATLAS&quot;,&quot;DEMETER&quot;,&quot;HEPHAESTUS&quot;,&quot;MINOTAUR&quot;,&quot;PAN&quot;,&quot;PROMETHEUS&quot;,&quot;ARES&quot;,&quot;CHRONUS&quot;,&quot;HERA&quot;,&quot;HESTIA&quot;,&quot;HYPNUS&quot;};</b>
+<i>12</i>&nbsp;
+<b class="fc"><i>13</i>&nbsp;    static final String[] descriptions = {</b>
+<i>14</i>&nbsp;            &quot;Your Move: Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.&quot;,
+<i>15</i>&nbsp;            &quot;Your Move: Your Worker may move one additional time, but not back to its initial space.&quot;,
+<i>16</i>&nbsp;            &quot;Opponent’s Turn: If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.&quot;,
+<i>17</i>&nbsp;            &quot;Your Build: Your Worker may build a dome at any level.&quot;,
+<i>18</i>&nbsp;            &quot;Your Build: Your Worker may build one additional time, but not on the same space.&quot;,
+<i>19</i>&nbsp;            &quot;Your Build: Your Worker may build one additional block (not dome) on top of your first block.&quot;,
+<i>20</i>&nbsp;            &quot;Your Move: Your Worker may move into an opponent Worker’s space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.&quot;,
+<i>21</i>&nbsp;            &quot;Win Condition: You also win if your Worker moves down two or more levels.&quot;,
+<i>22</i>&nbsp;            &quot;Your Turn: If your Worker does not move up, it may build both before and after moving.&quot;,
+<i>23</i>&nbsp;            &quot;End of Your Turn: You may remove an unoccupied block (not dome) neighboring your unmoved Worker. You also remove any Tokens on the block.&quot;,
+<i>24</i>&nbsp;            &quot;Win Condition: You also win when there are at least five Complete Towers on the board.&quot;,
+<i>25</i>&nbsp;            &quot;Opponent’s Turn: An opponent cannot win by moving into a perimeter space.&quot;,
+<i>26</i>&nbsp;            &quot;Your Build: Your Worker may build one additional time, but this cannot be on a perimeter space.&quot;,
+<i>27</i>&nbsp;            &quot;Start of Opponent’s Turn: If one of your opponent’s Workers is higher than all of their others, it cannot move.&quot;};
+<i>28</i>&nbsp;
+<b class="fc"><i>29</i>&nbsp;    static final activationPeriod[] actPeriods = {activationPeriod.YOURMOVE, activationPeriod.YOURMOVE, activationPeriod.FOETURN,</b>
+<i>30</i>&nbsp;            activationPeriod.YOURBUILD, activationPeriod.YOURBUILD, activationPeriod.YOURBUILD,
+<i>31</i>&nbsp;            activationPeriod.YOURMOVE, activationPeriod.SUPERWINCOND, activationPeriod.YOURTURN,
+<i>32</i>&nbsp;            activationPeriod.ENDYOURTURN, activationPeriod.SUPERWINCOND, activationPeriod.LIMITWINCOND,
+<i>33</i>&nbsp;            activationPeriod.YOURBUILD, activationPeriod.STARTFOETURN};
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;
+<b class="fc"><i>37</i>&nbsp;    public Card(int cardNum){</b>
+<b class="fc"><i>38</i>&nbsp;        this.number = cardNum;</b>
+<b class="fc"><i>39</i>&nbsp;    }</b>
+<b class="fc"><i>40</i>&nbsp;    public Card(String cardName){</b>
+<b class="fc"><i>41</i>&nbsp;        for(int x=0; x&lt;names.length; x++){</b>
+<b class="fc"><i>42</i>&nbsp;            if(names[x].equals(cardName.toUpperCase())){</b>
+<b class="fc"><i>43</i>&nbsp;                this.number = x;</b>
+<i>44</i>&nbsp;            }
+<i>45</i>&nbsp;        }
+<b class="fc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * Getter for the total number of cards
+<i>50</i>&nbsp;     * @return number of cards
+<i>51</i>&nbsp;     */
+<b class="fc"><i>52</i>&nbsp;    public static int getCardNumb() { return cardNumb; }</b>
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * Getter for the number associated at the card
+<i>55</i>&nbsp;     * @return number of the card
+<i>56</i>&nbsp;     */
+<b class="fc"><i>57</i>&nbsp;    public int getNumber() { return number; }</b>
+<i>58</i>&nbsp;    /**
+<i>59</i>&nbsp;     * Getter for the name associated at the card
+<i>60</i>&nbsp;     * @return name of the card
+<i>61</i>&nbsp;     */
+<i>62</i>&nbsp;    public String getName(){
+<b class="fc"><i>63</i>&nbsp;        return names[this.number];</b>
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;    /**
+<i>66</i>&nbsp;     * Getter for the description associated at the card
+<i>67</i>&nbsp;     * @return description of the card
+<i>68</i>&nbsp;     */
+<i>69</i>&nbsp;    public String getDesc(){
+<b class="fc"><i>70</i>&nbsp;        return descriptions[this.number];</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;    /**
+<i>73</i>&nbsp;     * Getter for the activation time associated at the card
+<i>74</i>&nbsp;     * @return activation time of the card
+<i>75</i>&nbsp;     */
+<b class="fc"><i>76</i>&nbsp;    public activationPeriod getActivationPeriod(){ return actPeriods[this.number]; }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * Create a String with all card info already formatted for print
+<i>80</i>&nbsp;     * @return String contains all card info
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;    public static String drawAll(){
+<b class="fc"><i>83</i>&nbsp;        StringBuilder result = new StringBuilder();</b>
+<b class="fc"><i>84</i>&nbsp;        for(int i=0; i&lt;cardNumb; i++ ){</b>
+<b class="fc"><i>85</i>&nbsp;            result.append(&quot;\n&quot;).append(Worker.Color.RED.getColorString()).append(names[i]).append(Worker.Color.RED.getANSI_RESET()).append(&quot;\n&quot;).append(descriptions[i]).append(&quot;\n&quot;);</b>
+<i>86</i>&nbsp;        }
+<b class="fc"><i>87</i>&nbsp;        return result.toString();</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    /**
+<i>91</i>&nbsp;     * Create a string formatted for print with card info (utility for testing only)
+<i>92</i>&nbsp;     * @return String contains card info
+<i>93</i>&nbsp;     */
+<i>94</i>&nbsp;    public String draw(){
+<b class="fc"><i>95</i>&nbsp;        return &quot;\n&quot; + Worker.Color.RED.getColorString() + names[number] + Worker.Color.RED.getANSI_RESET() + &quot;\n&quot; + descriptions[number] + &quot;\n&quot;;</b>
+<i>96</i>&nbsp;    }
+<i>97</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-01 18:29</div>
+</div>
+</body>
+</html>

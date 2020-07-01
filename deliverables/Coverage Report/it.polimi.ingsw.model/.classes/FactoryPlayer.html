@@ -1,0 +1,131 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: FactoryPlayer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: FactoryPlayer (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FactoryPlayer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,1%
+  </span>
+  <span class="absValue">
+    (16/ 17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model;
+<i>2</i>&nbsp;
+<b class="fc"><i>3</i>&nbsp;public class FactoryPlayer {</b>
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;    /**Create and return a particular type of player associated with the right cardNum.
+<i>6</i>&nbsp;     * &lt;p&gt;
+<i>7</i>&nbsp;     * @param nickname of the player to create
+<i>8</i>&nbsp;     * @param number of the player in the match
+<i>9</i>&nbsp;     * @param match the match to associate to the player
+<i>10</i>&nbsp;     * @param color the color choose by the player
+<i>11</i>&nbsp;     * @param cardNum the card choose by the player
+<i>12</i>&nbsp;     * @return {@code Player} the created player
+<i>13</i>&nbsp;     */
+<i>14</i>&nbsp;    public static Player getPlayer(String nickname, int number, Match match, Worker.Color color, int cardNum){
+<b class="fc"><i>15</i>&nbsp;        switch(cardNum){</b>
+<i>16</i>&nbsp;            case 0:
+<b class="fc"><i>17</i>&nbsp;                return new PlayerApollo(nickname,number,new Card(cardNum),match,color);</b>
+<i>18</i>&nbsp;            case 1:
+<b class="fc"><i>19</i>&nbsp;                return new PlayerArtemis(nickname,number,new Card(cardNum),match,color);</b>
+<i>20</i>&nbsp;            case 2:
+<b class="fc"><i>21</i>&nbsp;                return new PlayerAthena(nickname,number,new Card(cardNum),match,color);</b>
+<i>22</i>&nbsp;            case 3:
+<b class="fc"><i>23</i>&nbsp;                return new PlayerAtlas(nickname,number,new Card(cardNum),match,color);</b>
+<i>24</i>&nbsp;            case 4:
+<b class="fc"><i>25</i>&nbsp;                return new PlayerDemeter(nickname,number,new Card(cardNum),match,color);</b>
+<i>26</i>&nbsp;            case 5:
+<b class="fc"><i>27</i>&nbsp;                return new PlayerHephaestus(nickname,number,new Card(cardNum),match,color);</b>
+<i>28</i>&nbsp;            case 6:
+<b class="fc"><i>29</i>&nbsp;                return new PlayerMinotaur(nickname,number,new Card(cardNum),match,color);</b>
+<i>30</i>&nbsp;            case 7:
+<b class="fc"><i>31</i>&nbsp;                return new PlayerPan(nickname,number,new Card(cardNum),match,color);</b>
+<i>32</i>&nbsp;            case 8:
+<b class="fc"><i>33</i>&nbsp;                return new PlayerPrometheus(nickname,number,new Card(cardNum),match,color);</b>
+<i>34</i>&nbsp;            case 9:
+<b class="fc"><i>35</i>&nbsp;                return new PlayerAres(nickname,number,new Card(cardNum),match,color);</b>
+<i>36</i>&nbsp;            case 10:
+<b class="fc"><i>37</i>&nbsp;                return new PlayerChronus(nickname,number,new Card(cardNum),match,color);</b>
+<i>38</i>&nbsp;            case 11:
+<b class="fc"><i>39</i>&nbsp;                return new PlayerHera(nickname,number,new Card(cardNum),match,color);</b>
+<i>40</i>&nbsp;            case 12:
+<b class="fc"><i>41</i>&nbsp;                return new PlayerHestia(nickname,number,new Card(cardNum),match,color);</b>
+<i>42</i>&nbsp;            case 13:
+<b class="fc"><i>43</i>&nbsp;                return new PlayerHypnus(nickname,number,new Card(cardNum),match,color);</b>
+<i>44</i>&nbsp;            default:
+<b class="nc"><i>45</i>&nbsp;                return new Player(nickname,number,null,match,color);</b>
+<i>46</i>&nbsp;        }
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-01 18:29</div>
+</div>
+</body>
+</html>

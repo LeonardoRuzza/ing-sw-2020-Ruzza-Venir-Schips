@@ -1,0 +1,338 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Lobby</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model.lobby</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Lobby (it.polimi.ingsw.model.lobby)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Lobby</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,7%
+  </span>
+  <span class="absValue">
+    (18/ 19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95,2%
+  </span>
+  <span class="absValue">
+    (99/ 104)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Lobby$Insert</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    95%
+  </span>
+  <span class="absValue">
+    (19/ 20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95,2%
+  </span>
+  <span class="absValue">
+    (100/ 105)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model.lobby;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.Card;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.Worker;
+<i>5</i>&nbsp;import it.polimi.ingsw.observer.ObservableLobby;
+<i>6</i>&nbsp;import it.polimi.ingsw.utils.InputConversion;
+<i>7</i>&nbsp;import java.util.ArrayList;
+<i>8</i>&nbsp;import java.util.Arrays;
+<i>9</i>&nbsp;import java.util.List;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;public class Lobby extends ObservableLobby&lt;LobbyToView&gt; implements Cloneable {
+<i>12</i>&nbsp;
+<b class="fc"><i>13</i>&nbsp;    protected StateOfTurn stateOfTurn = StateOfTurn.COLOR;</b>
+<b class="fc"><i>14</i>&nbsp;    private boolean switchState = false;</b>
+<b class="fc"><i>15</i>&nbsp;    private boolean isDeckChosen = false;</b>
+<b class="fc"><i>16</i>&nbsp;    protected enum Insert {ADD,REMOVE}</b>
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;    private List&lt;Card&gt; chosenDeck = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>19</i>&nbsp;    private List&lt;Card&gt; completeDeck = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>20</i>&nbsp;    private List&lt;LobbyPlayer&gt; lobbyPlayers = new ArrayList&lt;&gt;();</b>
+<i>21</i>&nbsp;    private int numberOfLobbyPlayer;
+<i>22</i>&nbsp;    private LobbyPlayer lobbyActualPlayer;
+<b class="fc"><i>23</i>&nbsp;    private List&lt;Worker.Color&gt; availableColors = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>24</i>&nbsp;    private final int totalColors = Worker.Color.values().length;</b>
+<i>25</i>&nbsp;    private int playingNow;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * &lt;b&gt;2 PLAYERS GAME&lt;/b&gt;
+<i>30</i>&nbsp;     * &lt;p&gt;
+<i>31</i>&nbsp;     * Lobby is where players go after the choose of name in {@code Server};
+<i>32</i>&nbsp;     * &lt;p&gt;
+<i>33</i>&nbsp;     * It&#39;s created by the Server to allocate players passed as parameters in a game
+<i>34</i>&nbsp;     * &lt;p&gt;
+<i>35</i>&nbsp;     * Here we have all the logic to support Choose of Colors and Cards by players; After that we are ready to start a Real Game, and so the &lt;b&gt;Lobby Phase&lt;/b&gt; is over
+<i>36</i>&nbsp;     * @param name1 Name of &lt;b&gt;first&lt;/b&gt; player
+<i>37</i>&nbsp;     * @param name2 Name of &lt;b&gt;second&lt;/b&gt; player
+<i>38</i>&nbsp;     * @see it.polimi.ingsw.server.Server
+<i>39</i>&nbsp;     */
+<b class="fc"><i>40</i>&nbsp;    public Lobby(String name1, String name2) {</b>
+<b class="fc"><i>41</i>&nbsp;        addLobbyPlayer(new LobbyPlayer(name1));</b>
+<b class="fc"><i>42</i>&nbsp;        lobbyActualPlayer = lobbyPlayers.get(0);</b>
+<b class="fc"><i>43</i>&nbsp;        addLobbyPlayer(new LobbyPlayer(name2));</b>
+<b class="fc"><i>44</i>&nbsp;        numberOfLobbyPlayer = 2;</b>
+<b class="fc"><i>45</i>&nbsp;        availableColors.addAll(Arrays.asList(Worker.Color.values()));</b>
+<b class="fc"><i>46</i>&nbsp;        for (int i=0; i&lt;Card.getCardNumb(); i++)</b>
+<b class="fc"><i>47</i>&nbsp;            completeDeck.add(new Card(i));</b>
+<b class="fc"><i>48</i>&nbsp;    }</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    /**
+<i>51</i>&nbsp;     * Same as for 2 players, but this create a game for 3 players
+<i>52</i>&nbsp;     * @param name1 Name of &lt;b&gt;first&lt;/b&gt; player
+<i>53</i>&nbsp;     * @param name2 Name of &lt;b&gt;second&lt;/b&gt; player
+<i>54</i>&nbsp;     * @param name3 Name of &lt;b&gt;third&lt;/b&gt; player
+<i>55</i>&nbsp;     * @see #Lobby(String, String)
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    public Lobby(String name1, String name2, String name3) {
+<b class="fc"><i>58</i>&nbsp;        this(name1, name2);</b>
+<b class="fc"><i>59</i>&nbsp;        addLobbyPlayer(new LobbyPlayer(name3));</b>
+<b class="fc"><i>60</i>&nbsp;        numberOfLobbyPlayer = 3;</b>
+<b class="fc"><i>61</i>&nbsp;    }</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /** Gets from the controller the color chosen by the player. It checks if the color is still available, and then save the player choice.
+<i>64</i>&nbsp;     * &lt;p&gt;
+<i>65</i>&nbsp;     * After that it checks if all player have choose their color; If this is true, it goes to the choose of Card phase.
+<i>66</i>&nbsp;     * &lt;p&gt;
+<i>67</i>&nbsp;     * At the end the method notify to the views the changes.
+<i>68</i>&nbsp;     * &lt;p&gt;
+<i>69</i>&nbsp;     * &lt;b&gt;The method take one choice at time, so it need to be called multiple times to perform all the choices&lt;/b&gt;
+<i>70</i>&nbsp;     * @param info   The color chosen by the player
+<i>71</i>&nbsp;     * @return   {@code true} if the color is available, {@code false} otherwise
+<i>72</i>&nbsp;     */
+<i>73</i>&nbsp;    public boolean chooseColor(String info){
+<b class="fc"><i>74</i>&nbsp;        Worker.Color chosenColor = InputConversion.colorConversion(info.toUpperCase());</b>
+<b class="fc"><i>75</i>&nbsp;        if (availableColors.contains(chosenColor)){</b>
+<b class="fc"><i>76</i>&nbsp;            lobbyActualPlayer.color = chosenColor;</b>
+<b class="fc"><i>77</i>&nbsp;            updateAvailableColors(chosenColor);</b>
+<b class="fc"><i>78</i>&nbsp;            nextLobbyPlayer();</b>
+<b class="fc"><i>79</i>&nbsp;            if (availableColors.size() == totalColors - numberOfLobbyPlayer) {</b>
+<b class="fc"><i>80</i>&nbsp;                stateOfTurn = StateOfTurn.CARD;</b>
+<b class="fc"><i>81</i>&nbsp;                lobbyActualPlayer = lobbyPlayers.get(0);</b>
+<b class="fc"><i>82</i>&nbsp;                switchState = true;</b>
+<i>83</i>&nbsp;            }
+<b class="fc"><i>84</i>&nbsp;            notifyLobby(new LobbyToView(this.clone()));</b>
+<b class="fc"><i>85</i>&nbsp;            switchState = false;</b>
+<b class="fc"><i>86</i>&nbsp;            return true;</b>
+<i>87</i>&nbsp;        }
+<b class="fc"><i>88</i>&nbsp;        return false;</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    /**Gets from the MasterPlayer the cards with which the players will play.
+<i>92</i>&nbsp;     * &lt;p&gt;
+<i>93</i>&nbsp;     * After that it gets the card selected by the Otherplayers and save their choices.
+<i>94</i>&nbsp;     * &lt;p&gt;
+<i>95</i>&nbsp;     * At the end the method notify to the views the changes.
+<i>96</i>&nbsp;     * &lt;p&gt;
+<i>97</i>&nbsp;     * &lt;b&gt;The method take one choice at time, so it need to be called multiple times to perform all the choices&lt;/b&gt;
+<i>98</i>&nbsp;     * @param chosenCard  The card chosen by the player
+<i>99</i>&nbsp;     * @return  {@code true} if the card is available, {@code false} otherwise
+<i>100</i>&nbsp;     */
+<i>101</i>&nbsp;    public boolean chooseCard(String chosenCard){
+<b class="fc"><i>102</i>&nbsp;        if (!isDeckChosen){</b>
+<b class="fc"><i>103</i>&nbsp;            for (Card c: completeDeck) {</b>
+<b class="fc"><i>104</i>&nbsp;                if (chosenCard.toUpperCase().equals(c.getName())){</b>
+<b class="fc"><i>105</i>&nbsp;                    completeDeck.remove(c);</b>
+<b class="fc"><i>106</i>&nbsp;                    updateChosenDeck(c, Insert.ADD);</b>
+<b class="fc"><i>107</i>&nbsp;                    if (chosenDeck.size() == lobbyPlayers.size()) {</b>
+<b class="fc"><i>108</i>&nbsp;                        isDeckChosen = true;</b>
+<b class="fc"><i>109</i>&nbsp;                        nextLobbyPlayer();</b>
+<i>110</i>&nbsp;                    }
+<b class="fc"><i>111</i>&nbsp;                    notifyLobby(new LobbyToView(this.clone()));</b>
+<b class="fc"><i>112</i>&nbsp;                    return true;</b>
+<i>113</i>&nbsp;                }
+<b class="fc"><i>114</i>&nbsp;            }</b>
+<b class="nc"><i>115</i>&nbsp;            return false;</b>
+<i>116</i>&nbsp;        }
+<i>117</i>&nbsp;        else
+<b class="fc"><i>118</i>&nbsp;            for (Card c: chosenDeck){</b>
+<b class="fc"><i>119</i>&nbsp;                if (chosenCard.toUpperCase().equals(c.getName())){</b>
+<b class="fc"><i>120</i>&nbsp;                    updateChosenDeck(c, Insert.REMOVE);</b>
+<b class="fc"><i>121</i>&nbsp;                    lobbyActualPlayer.card = c;</b>
+<b class="fc"><i>122</i>&nbsp;                    nextLobbyPlayer();</b>
+<b class="fc"><i>123</i>&nbsp;                    if (chosenDeck.size() == 1){</b>
+<b class="fc"><i>124</i>&nbsp;                        lobbyActualPlayer.card = chosenDeck.get(0);</b>
+<b class="fc"><i>125</i>&nbsp;                        stateOfTurn = StateOfTurn.CHOOSESTARTPLAYER;</b>
+<i>126</i>&nbsp;                    }
+<b class="fc"><i>127</i>&nbsp;                    notifyLobby(new LobbyToView(this.clone()));</b>
+<b class="fc"><i>128</i>&nbsp;                    return true;</b>
+<i>129</i>&nbsp;                }
+<b class="fc"><i>130</i>&nbsp;            }</b>
+<b class="fc"><i>131</i>&nbsp;            return false;</b>
+<i>132</i>&nbsp;    }
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    /**
+<i>135</i>&nbsp;     * Set the player who need to start the game, chosen by the MASTER PLAYER
+<i>136</i>&nbsp;     * @param playersName Player choose by the master
+<i>137</i>&nbsp;     * @return {@code true} if the player exist, false otherwise
+<i>138</i>&nbsp;     */
+<i>139</i>&nbsp;    public boolean chooseStartPlayer(String playersName){
+<b class="fc"><i>140</i>&nbsp;        for (LobbyPlayer l: lobbyPlayers) {</b>
+<b class="fc"><i>141</i>&nbsp;            if(l.getNickname().toUpperCase().equals(playersName.toUpperCase())){</b>
+<b class="fc"><i>142</i>&nbsp;                playingNow = lobbyPlayers.indexOf(l);</b>
+<b class="fc"><i>143</i>&nbsp;                stateOfTurn = StateOfTurn.READYTOSTART;</b>
+<b class="fc"><i>144</i>&nbsp;                notifyLobby(new LobbyToView(this.clone()));</b>
+<b class="fc"><i>145</i>&nbsp;                return true;</b>
+<i>146</i>&nbsp;            }
+<b class="fc"><i>147</i>&nbsp;        }</b>
+<b class="fc"><i>148</i>&nbsp;        return false;</b>
+<i>149</i>&nbsp;    }
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;    /**
+<i>152</i>&nbsp;     * Add or remove a card from the chosen Deck, after a player&#39;s choice
+<i>153</i>&nbsp;     * @param chosenCard Card chosen by the player
+<i>154</i>&nbsp;     * @param insert To disguise ADD from REMOVE
+<i>155</i>&nbsp;     */
+<i>156</i>&nbsp;    protected void updateChosenDeck(Card chosenCard, Insert insert){
+<b class="fc"><i>157</i>&nbsp;        if (insert == Insert.ADD) {</b>
+<b class="fc"><i>158</i>&nbsp;            chosenDeck.add(chosenCard);</b>
+<i>159</i>&nbsp;        }
+<i>160</i>&nbsp;        else {
+<b class="fc"><i>161</i>&nbsp;            chosenDeck.remove(chosenCard);</b>
+<i>162</i>&nbsp;        }
+<b class="fc"><i>163</i>&nbsp;    }</b>
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;    /**
+<i>166</i>&nbsp;     * Update the {@code LobbyActualPlayer}, who will be the next in order after the one playing now
+<i>167</i>&nbsp;     */
+<i>168</i>&nbsp;    protected void nextLobbyPlayer(){
+<b class="fc"><i>169</i>&nbsp;        if (lobbyActualPlayer.equals(lobbyPlayers.get(lobbyPlayers.size() - 1))){</b>
+<b class="fc"><i>170</i>&nbsp;            lobbyActualPlayer = lobbyPlayers.get(0);</b>
+<i>171</i>&nbsp;        }
+<i>172</i>&nbsp;        else
+<b class="fc"><i>173</i>&nbsp;            lobbyActualPlayer = lobbyPlayers.get(lobbyPlayers.indexOf(lobbyActualPlayer) + 1);</b>
+<i>174</i>&nbsp;
+<b class="fc"><i>175</i>&nbsp;    }</b>
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;    /**The method check in which phase of the Lobby we are. Possible phase are choose of color or choose of card.
+<i>178</i>&nbsp;     * @return  {@code StateofTurn}
+<i>179</i>&nbsp;     */
+<b class="fc"><i>180</i>&nbsp;    public StateOfTurn getStateOfTurn() { return stateOfTurn; }</b>
+<i>181</i>&nbsp;
+<i>182</i>&nbsp;    /**
+<i>183</i>&nbsp;     * @return Player choose by the master, who will start the game
+<i>184</i>&nbsp;     */
+<b class="fc"><i>185</i>&nbsp;    public int getPlayingNow() { return playingNow; }</b>
+<i>186</i>&nbsp;
+<i>187</i>&nbsp;    public List&lt;String&gt; getAvailableColors() {
+<b class="fc"><i>188</i>&nbsp;        List&lt;String&gt; temp = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>189</i>&nbsp;        for (Worker.Color c: availableColors)</b>
+<b class="fc"><i>190</i>&nbsp;            temp.add(c.toString());</b>
+<b class="fc"><i>191</i>&nbsp;        return temp;</b>
+<i>192</i>&nbsp;    }
+<i>193</i>&nbsp;    public List&lt;Card&gt; getChosenDeck() {
+<b class="fc"><i>194</i>&nbsp;        return chosenDeck;</b>
+<i>195</i>&nbsp;    }
+<b class="fc"><i>196</i>&nbsp;    public boolean isDeckChosen() { return isDeckChosen; }</b>
+<b class="fc"><i>197</i>&nbsp;    public int getNumberOfLobbyPlayer() { return numberOfLobbyPlayer; }</b>
+<b class="nc"><i>198</i>&nbsp;    public boolean getSwitchState() { return switchState; }</b>
+<b class="fc"><i>199</i>&nbsp;    private void updateAvailableColors(Worker.Color c) { this.availableColors.remove(c); }</b>
+<b class="fc"><i>200</i>&nbsp;    public boolean isLobbyPlayerTurn(LobbyPlayer lobbyPlayer){ return (lobbyActualPlayer.getNickname().equals(lobbyPlayer.getNickname())); }</b>
+<b class="fc"><i>201</i>&nbsp;    public List&lt;LobbyPlayer&gt; getLobbyPlayers() { return lobbyPlayers; }</b>
+<b class="fc"><i>202</i>&nbsp;    private void addLobbyPlayer(LobbyPlayer lobbyPlayer) { this.lobbyPlayers.add(lobbyPlayer); }</b>
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;    @Override
+<i>206</i>&nbsp;    public Lobby clone() {
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;            final Lobby l;
+<b class="fc"><i>209</i>&nbsp;            if (getNumberOfLobbyPlayer() == 2) {</b>
+<b class="nc"><i>210</i>&nbsp;                l = new Lobby(this.lobbyPlayers.get(0).getNickname(), this.lobbyPlayers.get(1).getNickname());</b>
+<b class="nc"><i>211</i>&nbsp;                l.lobbyPlayers.set(0, this.lobbyPlayers.get(0).clone());</b>
+<b class="nc"><i>212</i>&nbsp;                l.lobbyPlayers.set(1, this.lobbyPlayers.get(1).clone());</b>
+<i>213</i>&nbsp;            } else {
+<b class="fc"><i>214</i>&nbsp;                l = new Lobby(this.lobbyPlayers.get(0).getNickname(), this.lobbyPlayers.get(1).getNickname(), this.lobbyPlayers.get(2).getNickname());</b>
+<b class="fc"><i>215</i>&nbsp;                l.lobbyPlayers.set(0, this.lobbyPlayers.get(0).clone());</b>
+<b class="fc"><i>216</i>&nbsp;                l.lobbyPlayers.set(1, this.lobbyPlayers.get(1).clone());</b>
+<b class="fc"><i>217</i>&nbsp;                l.lobbyPlayers.set(2, this.lobbyPlayers.get(2).clone());</b>
+<i>218</i>&nbsp;            }
+<b class="fc"><i>219</i>&nbsp;            l.lobbyActualPlayer = this.lobbyActualPlayer.clone();</b>
+<b class="fc"><i>220</i>&nbsp;            l.switchState = this.switchState;</b>
+<b class="fc"><i>221</i>&nbsp;            l.isDeckChosen = this.isDeckChosen;</b>
+<b class="fc"><i>222</i>&nbsp;            l.stateOfTurn = this.stateOfTurn;</b>
+<b class="fc"><i>223</i>&nbsp;            l.chosenDeck.addAll(this.chosenDeck);</b>
+<b class="fc"><i>224</i>&nbsp;            l.availableColors.clear();</b>
+<b class="fc"><i>225</i>&nbsp;            l.availableColors.addAll(this.availableColors);</b>
+<i>226</i>&nbsp;
+<b class="fc"><i>227</i>&nbsp;            return l;</b>
+<i>228</i>&nbsp;    }
+<i>229</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-01 18:29</div>
+</div>
+</body>
+</html>
