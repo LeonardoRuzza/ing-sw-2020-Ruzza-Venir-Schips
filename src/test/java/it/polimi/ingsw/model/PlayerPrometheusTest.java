@@ -17,7 +17,7 @@ public class PlayerPrometheusTest {
     private int[] build = new int[]{1,1};
 
     /**
-     * Setup a match with three players
+     * Setup a match with three players where one of these is a PlayerPrometheus.
      */
     @Before
     public void setUp() {
@@ -31,7 +31,7 @@ public class PlayerPrometheusTest {
     }
 
     /**
-     * Make two build testing Prometheus super power
+     * Make two build testing Prometheus super power.
      */
     @Test
     public void buildTwoTimeTest() {
@@ -46,7 +46,7 @@ public class PlayerPrometheusTest {
     }
 
     /**
-     * Test selectedWorkerMove does not allow Prometheus to go up after he choose to build two times
+     * Test selectedWorkerMove does not allow Prometheus to go up after he choose to build two times.
      */
     @Test
     public void tryGoUpTest() {
@@ -59,15 +59,15 @@ public class PlayerPrometheusTest {
 
     /**
      * Test override manage turn allow Prometheus to make a standard round.
-     * It is not needed to test if he can move up because of the called method to check move is the same of the previous test
+     * It is not needed to test if he can move up because of the called method to check move is the same of the previous test.
      */
     @Test
     public void testManageTurnBuildOneTime() {
         testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
         testPlayer1.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.prometheusTurnMessageAskBuildBefore);
-        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement +  GameMessage.turnMessageChooseCellBuild);
-        Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
+        Assert.assertEquals("Error selection worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.prometheusTurnMessageAskBuildBefore);
+        Assert.assertEquals("Error movement worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement +  GameMessage.turnMessageChooseCellBuild);
+        Assert.assertEquals("Error single building worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
     }
 
     /**

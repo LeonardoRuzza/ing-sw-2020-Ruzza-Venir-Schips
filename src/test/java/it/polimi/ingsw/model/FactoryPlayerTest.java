@@ -4,9 +4,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class FactoryPlayerTest {
-
+    /**
+     * Test the correct creation of the right type of "Super Player" by getPlayer method of FactoryPlayer.
+     */
     @Test
-    public void getPlayer() throws Exception {
+    public void getPlayer() {
         Match match = new Match(1, 2);
         FactoryPlayer factory = new FactoryPlayer();
         for(int x = 0; x < Card.getCardNumb(); x++ ){

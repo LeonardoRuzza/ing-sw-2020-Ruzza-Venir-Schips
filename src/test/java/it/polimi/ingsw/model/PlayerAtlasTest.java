@@ -32,35 +32,37 @@ public class PlayerAtlasTest {
         match.nextPlayer();
     }
 
-
+    /**
+     * Test simply the correct working of the method to build a dorse of PlayerAtlas.
+     */
     @Test
     public void testSuperWin() {
         testPlayer1.selectedWorker = testWorker;
         Assert.assertTrue("Error Build Dorse", testPlayer1.selectedWorkerBuildDorse(0,1));
-        Assert.assertEquals("No Dorse Builded", testWorker.getOldLocation().getBlock(), Block.DORSE);
+        Assert.assertEquals("No Dorse built", testWorker.getOldLocation().getBlock(), Block.DORSE);
     }
 
     /**
-     * Test the override manage turn permit to atlas player to build a dorse instead of a block
+     * Test the override manage turn permit to atlas player to build a dorse instead of a block.
      */
     @Test
     public void testManageTurnBuildDorse() {
         testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
         testPlayer1.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.turnMessageChooseCellMove);
-        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement + GameMessage.atlasTurnMessageAskBuildDorse);
-        Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, GameMessage.turnMessageDORSE).getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
+        Assert.assertEquals("Error selection worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.turnMessageChooseCellMove);
+        Assert.assertEquals("Error movement worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement + GameMessage.atlasTurnMessageAskBuildDorse);
+        Assert.assertEquals("Error single building worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, GameMessage.turnMessageDORSE).getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
     }
 
     /**
-     * Test the override manage turn permit to atlas player also to build a normal block
+     * Test the override manage turn permit to atlas player also to build a normal block.
      */
     @Test
     public void testManageTurnBuildNormal() {
         testPlayer1.setSelectedWorker(testPlayer1.workers[0]);
         testPlayer1.selectedWorkerMove(0,0);
-        Assert.assertEquals("Errore Selezione worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.turnMessageChooseCellMove);
-        Assert.assertEquals("Errore Movimento worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement + GameMessage.atlasTurnMessageAskBuildDorse);
-        Assert.assertEquals("Errore Costruzione Singola worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
+        Assert.assertEquals("Error selection worker", testPlayer1.manageTurn(0,0, Worker.Gender.Male, "").getNextInstruction(), GameMessage.turnMessageOkWorkerSelection + GameMessage.turnMessageChooseCellMove);
+        Assert.assertEquals("Error movement worker", testPlayer1.manageTurn(1,1, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkMovement + GameMessage.atlasTurnMessageAskBuildDorse);
+        Assert.assertEquals("Error single building worker", testPlayer1.manageTurn(1,0, Worker.Gender.Male, "").getNextInstruction(),  GameMessage.turnMessageOkBuild +  GameMessage.turnMessageTurnEnd);
     }
 }

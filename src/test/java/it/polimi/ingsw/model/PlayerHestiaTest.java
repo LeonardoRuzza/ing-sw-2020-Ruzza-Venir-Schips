@@ -8,8 +8,11 @@ public class PlayerHestiaTest {
     private static PlayerHestia hestia;
     private static Player player2Generic;
 
+    /**
+     * Set up a match with 2 players where one of these is a PlayerHestia.
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         match=new Match(1,2);
         hestia=new PlayerHestia("leo",2,new Card(12),match, Worker.Color.GREEN);
         player2Generic=new Player("edo",1,new Card(1),match,Worker.Color.RED);
@@ -18,15 +21,24 @@ public class PlayerHestiaTest {
 
     }
 
+    /**
+     * Make null some properties of this test class.
+     */
     @AfterClass
-    public static void afterClass() throws Exception {
+    public static void afterClass() {
         match=null;
         hestia=null;
         player2Generic=null;
 
     }
 
-
+    /**
+     * Test the override methods selectedWorkerBuild and resetTurn in these cases:
+     * build one time;
+     * trying to build the second time on the same space (possible);
+     * trying to build with and without perimeter space one/two times;
+     * trying to build too far(not possible).
+     */
     @Test
     public void testSelectedWorkerBuildAndResetTurn() {
         Assert.assertTrue(player2Generic.setSelectedWorker(Worker.Gender.Male));
@@ -41,19 +53,19 @@ public class PlayerHestiaTest {
 
         Assert.assertTrue(hestia.setSelectedWorker(Worker.Gender.Female));
         Assert.assertTrue(hestia.selectedWorkerMove(3,0));
-        Assert.assertTrue(hestia.selectedWorkerBuild(3,1));             //costruisce la prima volta con la super
-        Assert.assertTrue(hestia.selectedWorkerBuild(3,1));            //costruisce la seconda volta sulla stessa casella
+        Assert.assertTrue(hestia.selectedWorkerBuild(3,1));             //building first time with super.
+        Assert.assertTrue(hestia.selectedWorkerBuild(3,1));            //building the second time on the same space
 
-        Assert.assertTrue(hestia.selectedWorkerBuild(4,0));             //costruisce la prima volta con la super su una casella permimetrale
+        Assert.assertTrue(hestia.selectedWorkerBuild(4,0));             //build the first time on a perimeter cell
         //hestia.resetTurn();
-        //Assert.assertTrue(hestia.selectedWorkerBuild(4,0));          //per verificare che resetTurn funzioni
-        Assert.assertFalse(hestia.selectedWorkerBuild(4,0));            //prova a costruire la seconda volta sulla stessa casella ma è perimetrale
+        //Assert.assertTrue(hestia.selectedWorkerBuild(4,0));          //to check correct working of resetTurn
+        Assert.assertFalse(hestia.selectedWorkerBuild(4,0));            //trying to build the second time o a perimeter space (not possible)
         hestia.resetTurn();
 
-        Assert.assertTrue(hestia.selectedWorkerBuild(3,1));     //costruisce 2 volte senza caselle perimetrali di mezzo
+        Assert.assertTrue(hestia.selectedWorkerBuild(3,1));     //building two times correctly
         Assert.assertTrue(hestia.selectedWorkerBuild(3,1));
 
-        Assert.assertFalse(hestia.selectedWorkerBuild(3,2));    //verifico che non possa costruire troppo lontano sia alla prima costruzione che alla seconda
+        Assert.assertFalse(hestia.selectedWorkerBuild(3,2));    //trying to build on not reachable space (not possible)
         Assert.assertTrue(hestia.selectedWorkerBuild(2,1));
         Assert.assertFalse(hestia.selectedWorkerBuild(3,2));
 

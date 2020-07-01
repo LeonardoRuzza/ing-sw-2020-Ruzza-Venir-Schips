@@ -15,7 +15,7 @@ public class PlayerHeraTest {
     private int[] build = new int[]{1,1};
 
     /**
-     * Setup a match with three players
+     * Setup a match with three players where one of these is a PlayerHera.
      */
     @Before
     public void setUp() {
@@ -29,7 +29,7 @@ public class PlayerHeraTest {
     }
 
     /**
-     * Check if checkWin limit the win of testPlayer1 because of Hera(testPlayer2) super power
+     * Check if checkWin limit the win of testPlayer1 because of Hera(testPlayer2) super power.
      */
     @Test
     public void testLimitWinFalse() {
@@ -49,7 +49,7 @@ public class PlayerHeraTest {
     }
 
     /**
-     * Check if checkWin does not limit the win of testPlayer1 because of Hera(testPlayer2) super power
+     * Check if checkWin does not limit the win of testPlayer1 because of Hera(testPlayer2) super power.
      */
     @Test
     public void testLimitWinTrue() {

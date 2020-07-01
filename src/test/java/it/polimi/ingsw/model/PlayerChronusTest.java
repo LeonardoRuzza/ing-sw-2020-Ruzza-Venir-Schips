@@ -13,7 +13,7 @@ public class PlayerChronusTest {
     private int[] build = new int[]{1,1};
 
     /**
-     * Setup a match with three players
+     * Setup a match with three players where one of these in a PlayerChronus.
      */
     @Before
     public void setUp() {
@@ -28,7 +28,7 @@ public class PlayerChronusTest {
     }
 
     /**
-     * Check if match check win return false for Chronus player with less than five tower on the board
+     * Check if match check win return false for Chronus player with less than five tower on the board.
      */
     @Test
     public void testNoWin() {
@@ -41,7 +41,7 @@ public class PlayerChronusTest {
     }
 
     /**
-     * Check if manage turn does not return you win message for Chronus player with less than 5 complete tower on the board
+     * Check if manage turn does not return you win message for Chronus player with less than 5 complete tower on the board.
      */
     @Test
     public void testManageTurnNoWin(){
@@ -54,7 +54,7 @@ public class PlayerChronusTest {
     }
 
     /**
-     * Check if match check win return true for Chronus player with 5 complete tower on the board
+     * Check if match check win return true for Chronus player with 5 complete tower on the board.
      */
     @Test
     public void testSuperWin() {
@@ -67,7 +67,7 @@ public class PlayerChronusTest {
     }
 
     /**
-     * Check if manage turn return you win message for Chronus player with 5 complete tower on the board
+     * Check if manage turn return you win message for Chronus player with 5 complete tower on the board.
      */
     @Test
     public void testManageTurn(){

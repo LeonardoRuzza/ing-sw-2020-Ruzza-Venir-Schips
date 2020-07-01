@@ -12,7 +12,7 @@ public class PlayerPanTest {
     private int[] build = new int[]{1,1};
 
     /**
-     * Setup a match with three players
+     * Setup a match with three players where one of these is a PlayerPan.
      */
     @Before
     public void setUp() {
@@ -27,7 +27,7 @@ public class PlayerPanTest {
     }
 
     /**
-     * Test check win allow pan to win in standard condition
+     * Test check win allow pan to win in standard condition.
      */
     @Test
     public void winThreeToGround(){
@@ -44,7 +44,7 @@ public class PlayerPanTest {
     }
 
     /**
-     * Test check win allow pan to win using his super power (from 3rd level to 1st level)
+     * Test check win allow pan to win using his super power (from 3rd level to 1st level).
      */
     @Test
     public void winThreeToBlock(){

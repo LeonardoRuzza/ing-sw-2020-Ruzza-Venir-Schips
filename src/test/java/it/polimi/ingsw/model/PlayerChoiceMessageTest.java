@@ -8,7 +8,7 @@ public class PlayerChoiceMessageTest {
     PlayerChoiceMessage playerChoiceMessage = new PlayerChoiceMessage(player,1,1,null,"",Worker.Gender.Male);
 
     /**
-     * Test the PlayerChoiceMessageTest contains the expected value
+     * Test the PlayerChoiceMessageTest contains the expected value (testing builder and getters).
      */
     @Test
     public void testGetters(){

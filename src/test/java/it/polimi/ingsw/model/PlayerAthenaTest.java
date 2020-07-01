@@ -11,13 +11,13 @@ public class PlayerAthenaTest {
     private Player testPlayer1;
     private Player testPlayer2;
     private Match match = new Match(1, numOfPlayers);
-    private Worker testWorkerAtlsas;
+    private Worker testWorkerAtlas;
     private Worker testWorkerAthena;
     private int[] location = new int[]{4,4};
     private int[] build = new int[]{4,3};
 
     /**
-     * Setup a match with three players
+     * Setup a match with three players.
      */
     @Before
     public void setUp() {
@@ -25,16 +25,16 @@ public class PlayerAthenaTest {
         testPlayer2 = new PlayerAthena("player2", 2, cardAthena, match, Worker.Color.GREEN);
         Player player3 = new Player("player3", 3, match);
         match.players = new Player[]{testPlayer1, testPlayer2, player3};
-        testWorkerAtlsas = testPlayer1.workers[0];
+        testWorkerAtlas = testPlayer1.workers[0];
         testWorkerAthena = testPlayer2.workers[0];
         testPlayer2.setSelectedWorker(testWorkerAthena);
-        testPlayer1.setSelectedWorker(testWorkerAtlsas);
+        testPlayer1.setSelectedWorker(testWorkerAtlas);
         match.nextPlayer(); //round p1;
         match.nextPlayer(); //round p2;
     }
 
     /**
-     * Test if one of athena's worker go up other players' workers can't move up
+     * Test if one of athena's worker go up other players' workers can't move up.
      */
     @Test
     public void testAthenaGoUp() {
@@ -47,13 +47,13 @@ public class PlayerAthenaTest {
         match.nextPlayer();
         build[0] = 1;
         build[1] = 1;
-        match.forceBuild(build[0], build[1], testWorkerAtlsas);
+        match.forceBuild(build[0], build[1], testWorkerAtlas);
         location[0] = 0;
         location[1] = 0;
-        match.forceMove(location[0],location[1],testWorkerAtlsas);
+        match.forceMove(location[0],location[1], testWorkerAtlas);
         location[0] = 1;
         location[1] = 1;
-        match.checkMove(location[0],location[1],testWorkerAtlsas);
-        Assert.assertFalse("Error Check Limit Move", match.forceMove(location[0],location[1],testWorkerAtlsas));
+        match.checkMove(location[0],location[1], testWorkerAtlas);
+        Assert.assertFalse("Error Check Limit Move", match.forceMove(location[0],location[1], testWorkerAtlas));
     }
 }

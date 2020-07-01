@@ -7,30 +7,25 @@ public class PlayerArtemisTest {
     private static PlayerArtemis artemis;
     private static Player player2Generic;
 
+    /**
+     *Instantiate a match whit 2 players where one of these is a PlayerArtemis.
+     */
     @BeforeClass
-    public static void beforeClass() throws Exception {
+    public static void beforeClass() {
         match=new Match(1,2);
-        artemis=new PlayerArtemis("ruzzolino",2,new Card(9),match, Worker.Color.RED);
+        artemis=new PlayerArtemis("leo",2,new Card(9),match, Worker.Color.RED);
         player2Generic=new Player("edo",1,new Card(1),match,Worker.Color.GREEN);
         match.players[1] = artemis;
         match.players[0] = player2Generic;
     }
 
-    @AfterClass
-    public static void afterClass() throws Exception {
-
-    }
-
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
+    /**
+     * Test the correct working of the override method selectedWorkerMove in these cases:
+     * trying to move on the actual position (also not possible for none);
+     * trying to move on a not reachable position;
+     * trying some possible double movement;
+     *
+     */
     @Test
     public void testSelectedWorkerMove() {
         Assert.assertTrue(player2Generic.setSelectedWorker(Worker.Gender.Male));
@@ -48,12 +43,12 @@ public class PlayerArtemisTest {
         Assert.assertTrue(player2Generic.selectedWorkerBuild(2,3));
 
         Assert.assertTrue(artemis.setSelectedWorker(Worker.Gender.Male));
-        Assert.assertFalse(artemis.selectedWorkerMove(1,3));              //non deve poter rimanere sulla stessa casella facendo avanti e indietro nemmeno (regola generale in reltà)
-        Assert.assertFalse(artemis.selectedWorkerMove(4,3));              //non deve raggiungerla perchè troppo lontana
-        Assert.assertTrue(artemis.selectedWorkerMove(3,3));               //si sposta effettivamente due volte
-        Assert.assertTrue(artemis.selectedWorkerMove(2,1));               //si sposta effettivamente due volte di nuovo
-        Assert.assertFalse(artemis.selectedWorkerMove(0,2));              //provo a spostarla a ci sono 2 worker che impediscono in movimento
-        Assert.assertTrue(artemis.selectedWorkerMove(0,1));               //simile a prima ma ora ci riesce tramite un solo percorso possibile
+        Assert.assertFalse(artemis.selectedWorkerMove(1,3));              //trying to stay on same position
+        Assert.assertFalse(artemis.selectedWorkerMove(4,3));              //trying to move on a not reachable position
+        Assert.assertTrue(artemis.selectedWorkerMove(3,3));               //trying a possible double movement
+        Assert.assertTrue(artemis.selectedWorkerMove(2,1));               //trying another possible double movement
+        Assert.assertFalse(artemis.selectedWorkerMove(0,2));              //trying to move but there are 2 workers that make it not possible
+        Assert.assertTrue(artemis.selectedWorkerMove(0,1));               //trying like before but now is possible with a way
 
         Assert.assertTrue(player2Generic.setSelectedWorker(Worker.Gender.Male));
         Assert.assertTrue(player2Generic.selectedWorkerBuild(2,2));
@@ -62,7 +57,7 @@ public class PlayerArtemisTest {
         Assert.assertTrue(player2Generic.selectedWorkerBuild(2,1));
 
         Assert.assertTrue(artemis.setSelectedWorker(Worker.Gender.Female));
-        Assert.assertTrue(artemis.selectedWorkerMove(2,2));               //si sposta di 2 salendo gradualmente da liv 0 a liv2 errore: nelle iterazioni si esce dal tabellone se i for iterano attorno fuori dal tabellone stesso!
+        Assert.assertTrue(artemis.selectedWorkerMove(2,2));               //trying to go up using a way with different levels
 
 
     }

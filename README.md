@@ -9,8 +9,8 @@
 
 ## Coverage Report for package "Model":
 - Class: 100%
-- Method: 94%
-- Line: 87%
+- Method: 95%
+- Line: 91%
 
 ## System requirements:
  - Have at least a screen resolution of 1920x1080 (for GUI).
