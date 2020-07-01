@@ -95,7 +95,7 @@ public class Server {
     }
 
     /**
-     * <b>This is called when we need to deregister a player. For the <b>QUIT</b> case
+     * <b>This is called when we need to deregister a player. For the QUIT case
      * </b> see {@code deregisterConnection}
      * <p>
      * The function deregister a single client, and check if he was playing a 2 or 3 playerGame

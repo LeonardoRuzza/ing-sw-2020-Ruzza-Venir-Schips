@@ -11,7 +11,7 @@ public class PlayerHestia extends Player {
     }
 
     /**Reset parameters of the turn of the Player with Hestia's power.
-     * <p>
+     *
      */
     @Override
     protected void resetTurn(){

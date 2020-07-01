@@ -54,7 +54,7 @@ public class CardLabel extends JLabel {
     }
 
     /**Add to the CardLabel a new label (selectionLabel) to show that is now selected.
-     * <p>
+     *
      */
     public void selectCard(){
         Image buttonIcon;
@@ -75,7 +75,7 @@ public class CardLabel extends JLabel {
     }
 
     /**Remove to the card (if present) the added label (selectionLabel) that show the card is not yet selected.
-     * <p>
+     *
      */
     public void deselectCard(){
         if(selectionLabel != null){

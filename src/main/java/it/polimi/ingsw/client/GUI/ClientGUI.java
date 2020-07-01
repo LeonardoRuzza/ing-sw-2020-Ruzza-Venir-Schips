@@ -271,7 +271,6 @@ public class ClientGUI {
      * <p>
      * Call the {@link #santoriniGUI} update method, to show changes in Board
      * <p>
-     * <p>
      *     <b>If an execption occur this thread will be killed</b>
      * </p>
      * @param socketIn An {@code ObjectInputStream} to receive from the Socket

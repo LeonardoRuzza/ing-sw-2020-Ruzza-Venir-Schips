@@ -343,7 +343,7 @@ public class Player implements Serializable {
     }
 
     /**This method do nothing id not override in subclasses.
-     * <p>
+     *
      */
     protected void resetTurn(){}
 
