@@ -21,13 +21,16 @@ public class PlayerApollo extends Player {
             if(!tempWorker.getColor().equals(selectedWorker.getColor())){
                 int xOld = selectedWorker.getCell().getxCoord();
                 int yOld = selectedWorker.getCell().getyCoord();
-                boolean retValue1 = match.forceMove(x, y, selectedWorker) && match.forceMove(xOld, yOld, tempWorker);
-                if(retValue1){
-                    match.getBoard().cells[x][y][selectedWorker.getCell().getzCoord()].setWorkerInCell(selectedWorker);
+                int zOld = selectedWorker.getCell().getzCoord();
+                Cell oldCell = match.getBoard().cells[xOld][yOld][zOld];
+                if(match.forceMove(x, y, selectedWorker)){
+                    tempWorker.move(oldCell);
+                    oldCell.setWorkerInCell(tempWorker);
+                    selectedWorker.getCell().setWorkerInCell(selectedWorker);
+                    return true;
                 }
-                return retValue1;
             }
-            else return false;
+            return false;
         }
         return true;
     }

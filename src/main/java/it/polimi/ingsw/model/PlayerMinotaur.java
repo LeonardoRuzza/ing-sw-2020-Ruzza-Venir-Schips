@@ -25,7 +25,12 @@ public class PlayerMinotaur extends Player {
             xFinal=x-x0;
             yFinal=y-y0;
             if(match.checkBuild(x+xFinal, y+yFinal, tempWorker)){     //return true if there isn't a dome or worker, what we need to know
-                return match.forceMove(x + xFinal, y + yFinal, tempWorker) && match.forceMove(x, y, selectedWorker);
+                if(match.forceMove(x, y, selectedWorker)){
+                    Cell tempCell = match.getBoard().getFirstBuildableCell(x + xFinal, y + yFinal);
+                    tempWorker.move(tempCell);
+                    tempCell.setWorkerInCell(tempWorker);
+                    return true;
+                }
             }
         }
         return false;
