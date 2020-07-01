@@ -148,6 +148,11 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
         return false;
     }
 
+    /**
+     * Add or remove a card from the chosen Deck, after a player's choice
+     * @param chosenCard Card chosen by the player
+     * @param insert To disguise ADD from REMOVE
+     */
     protected void updateChosenDeck(Card chosenCard, Insert insert){
         if (insert == Insert.ADD) {
             chosenDeck.add(chosenCard);
@@ -157,7 +162,8 @@ public class Lobby extends ObservableLobby<LobbyToView> implements Cloneable {
         }
     }
 
-    /**Update the {@code LobbyActualPlayer}, who will be the next in order after the one playing now
+    /**
+     * Update the {@code LobbyActualPlayer}, who will be the next in order after the one playing now
      */
     protected void nextLobbyPlayer(){
         if (lobbyActualPlayer.equals(lobbyPlayers.get(lobbyPlayers.size() - 1))){
