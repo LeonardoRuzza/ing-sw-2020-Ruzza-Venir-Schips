@@ -40,7 +40,8 @@ public class PlayerAthena extends Player {
      */
     @Override
     protected boolean checkLimitMove(Cell nextCell, Player opponent, Worker opponentWorker){
-        if(this.selectedWorker==null || opponentWorker ==null){ return true; }
+
+        if(this.selectedWorker==null || opponentWorker ==null || opponent.equals(this)){ return true; }
         if(this.selectedWorker.getOldLocation() == null || this.selectedWorker.getCell() == null){
             return true;
         }
