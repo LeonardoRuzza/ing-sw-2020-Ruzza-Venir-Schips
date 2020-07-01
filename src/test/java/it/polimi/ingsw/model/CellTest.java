@@ -2,6 +2,9 @@ package it.polimi.ingsw.model;
 
 import org.junit.*;
 
+/**
+ * <b>Method in this class are used in other classes like board and match. See these classes for more specific tests</b>
+ */
 public class CellTest {
 
     private Cell cell = new Cell(3, 4, 3);
@@ -15,6 +18,11 @@ public class CellTest {
     private Worker w4 = new Worker(Worker.Gender.Female, Worker.Color.WHITE);*/
 
 
+    /**
+     * This test mainly check that:
+     * <p>
+     * - Builder works fine, creating a cell with right coordinates and with no blocks or worker present.
+     */
     @Test
     public void testBuilder() {
 
@@ -23,10 +31,21 @@ public class CellTest {
         Assert.assertNull(cell.getWorker());
     }
 
+    /**
+     * This test mainly check :
+     * <p> Method {@code addBlock}
+     * -
+     * <p>
+     * - Method {@code getBlock}
+     * <p>
+     * This test if focused on <b>Building block</b>>
+     * <p>
+     * It tries to build some blocks checking that the correct block is associate to the right cell's level
+     */
     @Test
-    public void testAddBlock() { // Verifico che venga costruito il blocco giusto in base all'altezza della cella
+    public void testAddBlock() {
 
-        Assert.assertNull(c1.getBlock()); // Non è presente ancora nessun blocco sulla cella c1
+        Assert.assertNull(c1.getBlock());
         c1.addBlock();
         c2.addBlock();
         c3.addBlock();
@@ -42,49 +61,72 @@ public class CellTest {
         Assert.assertNotEquals(cell.getBlock(), Block.B3);
         Assert.assertEquals(cell.getBlock(), Block.DORSE);
 
-        Assert.assertEquals(cell.addBlock(), Block.DORSE);  // Provo a ricostruire sulla stessa cella
+        Assert.assertEquals(cell.addBlock(), Block.DORSE);
     }
 
+    /**
+     * This test only checks the method {@code addDorse}, to see if it's possible to build a DORSE at any level
+     */
     @Test
     public void testAddDorse() {
         c1.addDorse();
         Assert.assertEquals(c1.getBlock(), Block.DORSE);
+
+        c2.addDorse();
+        Assert.assertEquals(c1.getBlock(), Block.DORSE);
     }
 
+    /**
+     * This test mainly check :
+     * <p>
+     * - Method {@code moveWorkerInto}
+     * <p>
+     * - Method {@code getOldLocation}
+     * <p>
+     * This test if focused on the Worker's movement
+     * <p>
+     * It tries to make a worker perform some movements, also not respecting game rules.
+     */
     @Test
     public void testMoveWorkerInto() {
 
-        // w1 si sposta in cell
-        Assert.assertTrue(cell.moveWorkerInto(w1));              // Conferma che ho spostato w1 in cell
-        Assert.assertEquals(cell.getWorker(), w1);               // Controlla che in cell ci sia effetivamente w1
-        Assert.assertEquals(w1.getCell(), cell);                 // Controlla che w1 sia effettivamente in cell
+        Assert.assertTrue(cell.moveWorkerInto(w1));
+        Assert.assertEquals(cell.getWorker(), w1);
+        Assert.assertEquals(w1.getCell(), cell);
 
-
-        // w1 si sposta in c1 da cell
-        Assert.assertTrue(c1.moveWorkerInto(w1));                     // Conferma che ho spostato w1 in c1
-        Assert.assertEquals(c1.getWorker(), w1);                      // Controlla che in c1 ci sia effetivamente w1
-        Assert.assertEquals(w1.getCell(), c1);                        // Controlla che w1 sia effettivamente in c1
-        Assert.assertEquals(w1.getOldLocation(), cell);               // Controlla che la old location di w1 sia cell
-        Assert.assertNull(cell.getWorker());                          // Controlla che la vecchia cella occupata(cell) sia ora libera
+        Assert.assertTrue(c1.moveWorkerInto(w1));
+        Assert.assertEquals(c1.getWorker(), w1);
+        Assert.assertEquals(w1.getCell(), c1);
+        Assert.assertEquals(w1.getOldLocation(), cell);
+        Assert.assertNull(cell.getWorker());
     }
 
+    /**
+     * This test mainly check :
+     * <p>
+     * - Method {@code removeBlock}
+     * <p>
+     * This test if focused on <b>Removing blocks from the cells</b>
+     * <p>
+     * It check that the highest block(and only that block) is effectively removed from a cell after calling the method removeBlock
+     */
     @Test
     public void testRemoveBlock() {
 
-        c1.addBlock(); // Aggiungo dei blocchi
+        c1.addBlock();
         c2.addBlock();
         c3.addBlock();
 
-        c3.setBlockNull(); // Rimuovo B3
+        c3.setBlockNull();
         Assert.assertEquals(c1.getBlock(), Block.B1);
         Assert.assertEquals(c2.getBlock(), Block.B2);
         Assert.assertNull(c3.getBlock());
         Assert.assertNull(c4.getBlock());
 
-        c2.setBlockNull(); // Rimuovo B2
+        c2.setBlockNull();
         Assert.assertNull(c2.getBlock());
 
-        c1.setBlockNull(); // Rimuovo B1
+        c1.setBlockNull();
         Assert.assertNull(c1.getBlock());
     }
 }
