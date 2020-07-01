@@ -38,7 +38,7 @@ public class CellTest {
      * <p>
      * - Method {@code getBlock}
      * <p>
-     * This test if focused on <b>Building block</b>>
+     * This test if focused on <b>Building block</b>
      * <p>
      * It tries to build some blocks checking that the correct block is associate to the right cell's level
      */

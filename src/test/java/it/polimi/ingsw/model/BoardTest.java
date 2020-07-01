@@ -59,7 +59,7 @@ public class BoardTest {
      * <p>
      * - Method {@code blockInCell}
      * <p>
-     * This test if focused on <b>Building block</b>>
+     * This test if focused on <b>Building block</b>
      * <p>
      * It tries to build some block form B1 to DORSE on a cell and then check that they are on the board for real
      */
