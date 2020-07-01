@@ -3,6 +3,9 @@ package it.polimi.ingsw.model;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * <b>Method in this class are used in other classes like board and match. See these classes for more specific tests</b>
+ */
 public class WorkerTest {
 
     Worker w1 = new Worker(Worker.Gender.Male, Worker.Color.GREEN);
@@ -10,7 +13,9 @@ public class WorkerTest {
     Cell c2 = new Cell(1,1,0);
 
     /**
-     * Test getter methods returns the expected values
+     * This test only check that:
+     * <p>
+     * - Builder and getter works fine.
      */
     @Test
     public void testBuilderAndGetter() {
@@ -21,7 +26,13 @@ public class WorkerTest {
     }
 
     /**
-     * Test the basic move method
+     * This test mainly check :
+     * <p>
+     * - Method {@code move}
+     * <p>
+     * This test if focused on the Worker's movement
+     * <p>
+     * It tries to make a worker perform some movements, checking his getter return correct values after the move
      */
     @Test
     public void testMove() {
