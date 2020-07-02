@@ -83,8 +83,8 @@ So if you have Windows and you want to play with CLI please follow these steps (
 - Download "Ubuntu" from Microsoft Store and open it (or search for the Linux distribution that you want to install).
 - Install Java from Ubuntu CLI.
 - Exec the command "explorer.exe ." on the Ubuntu CLI.
-- Copy or move Santorini-client.jar (which you have previously created) in this directory or where you prefer in subdirectory.
-###Run Santorini quickly
+- Copy or move Santorini-client.jar (which you have previously created) in this directory or where you prefer in subdirectory.\
+### Run Santorini quickly
 If you want to run the Santorini-client.jar or Santorini-server.jar more quickly you can use provided batch files (simple double click it to run, or edit like you prefer to change default setting of launch like showed previously for the CLI).
 
  Note: make sure batch files are in the same directory of the jar files.
