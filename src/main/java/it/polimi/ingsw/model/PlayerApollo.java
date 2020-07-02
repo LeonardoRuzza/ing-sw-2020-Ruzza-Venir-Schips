@@ -26,7 +26,6 @@ public class PlayerApollo extends Player {
                 if(match.forceMove(x, y, selectedWorker)){
                     tempWorker.move(oldCell);
                     oldCell.setWorkerInCell(tempWorker);
-                    selectedWorker.getCell().setWorkerInCell(selectedWorker);
                     return true;
                 }
             }
