@@ -1,5 +1,10 @@
 # SANTORINI
 
+## Authors
+- Edoardo Venir
+- Leonardo Ruzza
+- Valerio Schips
+
 ## Requirements implemented:
 - Complete rules
 - CLI
